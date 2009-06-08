@@ -1,0 +1,275 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  notifications_ui.pages.inc,v 1.1.2.3 2009/04/15 16:08:14 jareyero
+#  notifications_ui.module,v 1.3.2.8.2.19.2.2 2009/04/20 15:19:04 jareyero
+#  notifications_ui.install,v 1.1.2.4.2.2 2009/04/30 11:22:37 jareyero
+#  notifications_ui.info,v 1.1.4.1 2008/04/13 18:02:39 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:88
+msgid "Global settings"
+msgstr "Opciones globales"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:38
+msgid "Visible subscription types"
+msgstr "Tipos de suscripción visibles"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:41
+msgid ""
+"Check the subscription types the UI module should show. If not checked "
+"no options for this subscription type will be displayed at all."
+msgstr ""
+"Marque los tipos de suscripción que el módulo de UI debe mostrar. Si "
+"no se marca, ninguna opción será mostrada."
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:45
+msgid ""
+"<strong>Tab</strong>. A full tab for some subscription types will be "
+"displayed for each enabled subscription type when available."
+msgstr ""
+"<strong>Pestaña</strong>. Se mostrará una pestaña entera para "
+"algunos tipos de suscripción cuando esté disponible."
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:46
+msgid ""
+"<strong>Create</strong>. A create link and a custom page for adding "
+"subscriptions will be available for each enabled subscription type."
+msgstr ""
+"<strong>Crear</strong>. Se mostrará un enlace y una nueva página "
+"para crear subscripciones de los tipos seleccionados."
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:51
+msgid "User account pages"
+msgstr "Páginas de usuario"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:54
+msgid "Check elements to display on user account pages"
+msgstr "Marcar elementos a mostrar en las páginas de la cuenta de usuario"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:58
+msgid "Manage own subscriptions"
+msgstr "Administrar las suscripciones propias"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:61
+msgid ""
+"Check elements to display on user account tabs for site users to "
+"manage their own subscriptions"
+msgstr ""
+"Seleccione los elementos para mostrar en las pestañas de la cuenta de "
+"usuario para que los usuarios gestionen sus propias suscripciones"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:64
+msgid "Subscribe to other users"
+msgstr "Suscribirse a otros usuarios"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:68
+msgid ""
+"Check elements to display on user account tabs for other users to "
+"subscribe to them"
+msgstr ""
+"Seleccione los elementos a mostrar en las páginas del perfil de "
+"usuarios para que otros usuarios se suscriban a ellos"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:74
+msgid "Subscribe to content"
+msgstr "Suscribirse al contenido"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:76
+msgid ""
+"You can use the global settings here or set different options for each "
+"content type. On this second case these will be the defaults for new "
+"content types."
+msgstr ""
+"Puede utilizar las opciones globales en esta página o establecer "
+"diferentes opciones para tipo de contenido. En este último caso estas "
+"serán las opciones por defecto para los nuevos tipos de contenido "
+"creados."
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:91
+msgid ""
+"Check elements to display on each node for users to subscribe / "
+"unsubscribe."
+msgstr ""
+"Seleccione los elementos para mostrar en cada nodo para que los "
+"usuarios puedan suscribirse /des-suscribirse."
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:102
+msgid "Show user account page"
+msgstr "Mostrar página en la cuenta de usuario"
+
+#: notifications/notifications_ui/notifications_ui.pages.inc:102
+msgid "Show create subscription page"
+msgstr "Mostrar página para crear suscripción"
+
+#: notifications/notifications_ui/notifications_ui.module:14
+msgid ""
+"These are UI settings only and will define which options will be "
+"visible for end users and how they'll be displayed. Which options will "
+"be finally available will be determined by:"
+msgstr ""
+"Estas son solamente opciones de UI y definirán que elementos son "
+"visibles para los usuarios y cómo se mostrarán. Las opciones "
+"disponibles finalmente vendrán dadas por:"
+
+#: notifications/notifications_ui/notifications_ui.module:16
+msgid "Enabled subscription types on the other Notifications settings pages"
+msgstr ""
+"Los tipos de suscripción habilitados en las otras páginas de "
+"opciones de Notificaciones"
+
+#: notifications/notifications_ui/notifications_ui.module:17
+msgid ""
+"Permissions that you can configure on <a "
+"href=\"@administer-permissions\">Administer permissions</a>."
+msgstr ""
+"Permisos que se pueden configurar en <a "
+"href=\"@administer-permissions\">Administrar permisos</a>."
+
+#: notifications/notifications_ui/notifications_ui.module:18
+msgid "The enabled options on this page."
+msgstr "Las opciones habilitadas en esta página."
+
+#: notifications/notifications_ui/notifications_ui.module:166
+msgid "Subscriptions UI"
+msgstr "UI de Subscripciones"
+
+#: notifications/notifications_ui/notifications_ui.module:169
+msgid ""
+"Enable different display options for subscriptions to this content "
+"type."
+msgstr ""
+"Habilitar diferentes opciones de interfaz para las suscripciones a "
+"este tipo de contenido."
+
+#: notifications/notifications_ui/notifications_ui.module:173
+msgid ""
+"To enable these options check the <a "
+"href=\"@notifications-ui-settings\">Notifications UI settings</a>"
+msgstr ""
+"Para habilitar estas opciones compruebe la página de <a "
+"href=\"@notifications-ui-settings\">configuración de UI de "
+"Notificaciones</a>"
+
+#: notifications/notifications_ui/notifications_ui.module:196
+msgid "or create a new subscription"
+msgstr "o crear una nueva suscripción"
+
+#: notifications/notifications_ui/notifications_ui.module:251
+msgid "Subscriptions (%number)"
+msgstr "Subscripciones (%number)"
+
+#: notifications/notifications_ui/notifications_ui.module:358
+msgid "Unsubscribe from: !name"
+msgstr "Des-suscribirse de: !name"
+
+#: notifications/notifications_ui/notifications_ui.module:363
+msgid "Subscribe to: !name"
+msgstr "Suscribirse a: !name"
+
+#: notifications/notifications_ui/notifications_ui.module:627
+msgid ""
+"<strong>In node form</strong>. A subscriptions subform will be "
+"available when creating or editing nodes."
+msgstr ""
+"<strong>En el formulario de nodo</strong>. Un subformulario de "
+"suscripciones será mostrado cuando se creen o editen nodos."
+
+#: notifications/notifications_ui/notifications_ui.module:628
+msgid ""
+"<strong>In comment form</strong>. A subscriptions subform will be "
+"available when posting comments."
+msgstr ""
+"<strong>En el formulario de comentarios</strong>. Un subformulario de "
+"suscripciones será mostrado cuando se envíen comentarios."
+
+#: notifications/notifications_ui/notifications_ui.module:629
+msgid ""
+"<strong>Full node links</strong>. Subscription links will be displayed "
+"for full node pages."
+msgstr ""
+"<strong>Enlaces en nodos</strong>. Enlaces de suscripción serán "
+"mostrados en las páginas de nodo completo."
+
+#: notifications/notifications_ui/notifications_ui.module:630
+msgid ""
+"<strong>Teaser node links</strong>. Subscription links will be "
+"displayed for node teasers."
+msgstr ""
+"<strong>Enlaces en listados</strong>. Los enlaces de suscripción "
+"serán mostrados en las páginas de listado de nodos."
+
+#: notifications/notifications_ui/notifications_ui.module:631
+msgid ""
+"<strong>Form on node pages</strong>. A collapsible subscriptions form "
+"will be displayed for full node pages."
+msgstr ""
+"<strong>Formulario en nodos</strong>. Se mostrará un subformulario "
+"expandible en las páginas de nodo completo."
+
+#: notifications/notifications_ui/notifications_ui.module:632
+msgid ""
+"<strong>In block</strong>. Options will be displayed on the "
+"Subscriptions block when viewing a node."
+msgstr ""
+"<strong>En bloque</strong>. Las opciones se mostrarán en el bloque de "
+"Subscripciones cuando se muestre el nodo."
+
+#: notifications/notifications_ui/notifications_ui.module:642
+msgid "Links on user account tab"
+msgstr "Enlaces en la cuenta de usuario"
+
+#: notifications/notifications_ui/notifications_ui.module:643
+msgid "Display in block"
+msgstr "Mostrar en bloque"
+
+#: notifications/notifications_ui/notifications_ui.module:320
+msgid "A subscription has been created"
+msgid_plural "@count subscriptions have been created"
+msgstr[0] "Una suscripción ha sido creada"
+msgstr[1] "@count suscripciones han sido creadas"
+
+#: notifications/notifications_ui/notifications_ui.module:323
+msgid "A subscription has been deleted"
+msgid_plural "@count subscriptions have been deleted"
+msgstr[0] "Una suscripción ha sido eliminada"
+msgstr[1] "@count suscripciones han sido eliminadas"
+
+#: notifications/notifications_ui/notifications_ui.module:29
+msgid "User interface"
+msgstr "Interfaz de usuario"
+
+#: notifications/notifications_ui/notifications_ui.module:30
+msgid "Enables site settings for user subscriptions."
+msgstr "Activa opciones del sitio para suscripciones de usuarios."
+
+#: notifications/notifications_ui/notifications_ui.module:0
+msgid "notifications_ui"
+msgstr "notifications_ui"
+
+#: notifications/notifications_ui/notifications_ui.install:39
+msgid ""
+"Please, check all your Notifications UI settings and note the new "
+"options."
+msgstr ""
+"Por favor, compruebe todas las opciones de UI de Notificaciones y "
+"revise las nuevas opciones."
+
+#: notifications/notifications_ui/notifications_ui.info:0
+msgid "Notifications UI"
+msgstr "UI de Notificaciones"
+
+#: notifications/notifications_ui/notifications_ui.info:0
+msgid "Provides an UI to notifications"
+msgstr "Proporciona una interfaz de usuario para notificaciones"
+

@@ -1,0 +1,5 @@
+; $Id: admin.info,v 1.1.2.1 2009/06/07 07:03:52 yhahn Exp $
+name = "Admin"
+description = "Drupal administration UI helpers. Includes: admin menu, contextual administration links, admin theme."
+package = "Administration"
+core = 6.x

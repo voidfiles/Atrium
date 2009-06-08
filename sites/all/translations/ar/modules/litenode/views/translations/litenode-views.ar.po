@@ -1,0 +1,37 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from file: gravlax_base/litenode/views/litenode_plugin_style_litenode.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: litenode/views/litenode_plugin_style_litenode.inc:38
+msgid "Modules"
+msgstr "الوحدات"
+
+#: litenode/views/litenode_plugin_style_litenode.inc:39
+msgid "Enable support for the following modules"
+msgstr ""
+
+#: litenode/views/litenode_plugin_style_litenode.inc:64
+msgid "Full view"
+msgstr ""
+
+#: litenode/views/litenode_plugin_style_litenode.inc:70
+msgid "Cullen query"
+msgstr ""
+
+#: litenode/views/litenode_plugin_style_litenode.inc:71
+msgid ""
+"Use the Cullen subselect method for improving query performance. (May "
+"break your view! Test thoroughly.)"
+msgstr ""
+

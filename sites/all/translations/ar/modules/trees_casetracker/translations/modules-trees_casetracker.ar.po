@@ -1,0 +1,150 @@
+# Arabic translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.module: n/a
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.info: n/a
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.defaults.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: modules/trees_casetracker/trees_casetracker.module:328
+msgid "Last updated"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:18
+msgid "Tips for adding & editing cases:"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:20
+msgid "Choose the project that your case applies to."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:21
+msgid "Fill in a descriptive title and summary of the issue."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:22
+msgid ""
+"Choose a status, priority and type for the case. Assign the case to a "
+"user and consider notifying any others who might be interested in the "
+"case."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:26
+msgid ""
+"Projects can be used to organize cases and collect resources and "
+"documentations about ongoing work. You can organize <strong>book "
+"pages</strong> in a hierarchy under each project and view all of the "
+"cases that belong to a certain project in the casetracker."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:34
+msgid ""
+"The casetracker gives you a way to track progress on your "
+"<strong>projects</strong> and assign <strong>cases</strong> to "
+"yourself and others."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:36
+msgid "!add_projects to keep your cases organized."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:36
+msgid "Add projects"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:37
+msgid ""
+"!add_cases to assign tasks or assignments to yourself and others for "
+"completion."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:37
+msgid "Add cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:38
+msgid ""
+"Cases can be <strong>reassigned</strong>, <strong>postponed</strong>, "
+"and <strong>closed</strong> amongst other actions."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:39
+msgid ""
+"The history of a case - who it's been assigned to, its status and its "
+"priority - can be tracked viewing its comment thread."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:175
+msgid "Trees: Casetracker filter"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:176
+msgid "Trees: Casetracker book"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:265
+msgid "Filter results"
+msgstr "فلترالنتائج"
+
+#: modules/trees_casetracker/trees_casetracker.module:312
+msgid "assigned to !user"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:0
+msgid "trees_casetracker"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.info:0
+msgid "Provides a casetracker for 8 Trees."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1231
+msgid "No cases found."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1232
+msgid "My cases"
+msgstr "حالاتى"
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1233
+msgid "There are no cases assigned to you."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1234
+msgid "Project cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1235
+msgid "Project cases (newest)"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1236
+msgid "Newest cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1456
+msgid "No projects found."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1457
+msgid "Projects"
+msgstr "المشاريع"
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1459
+msgid "Archived projects"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1460
+msgid "No archived projects found."
+msgstr ""
+

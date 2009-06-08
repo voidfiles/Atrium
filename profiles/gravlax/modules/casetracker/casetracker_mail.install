@@ -1,0 +1,59 @@
+<?php
+// $Id: casetracker_mail.install,v 1.2.2.1 2009/03/16 03:41:26 jmiccolis Exp $
+
+/**
+ * @file
+ * The install file for casetracker_mail
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function casetracker_mail_install() {
+  drupal_install_schema('casetracker_mail');
+}
+
+/**
+ * Implementation of hook_schema().
+ *   casetracker_mail:
+ *     msg_id: the message ID of an outgoing mail notification.
+ *     nid: the node ID to which this outgoing mail refers.
+ *     cid: the comment ID to which this outgoing mail refers.
+ */
+
+function casetracker_mail_schema() {
+  $schema['casetracker_mail'] = array(
+    'fields' => array(
+      'msg_id' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'cid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('msg_id'),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function casetracker_mail_uninstall() {
+  drupal_uninstall_schema('casetracker_mail');
+  variable_del('casetracker_mail_address');
+  variable_del('casetracker_mail_subject');
+  variable_del('casetracker_mail_case_message');
+  variable_del('casetracker_mail_comment_message');
+}

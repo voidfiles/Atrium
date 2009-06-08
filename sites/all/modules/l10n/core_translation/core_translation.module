@@ -1,0 +1,62 @@
+<?php
+// $Id: core_translation.module,v 1.1 2008/11/03 01:01:59 nedjo Exp $
+
+/**
+ * @file
+ * Automates import of translations for Drupal core modules and themes.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function core_translation_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#core_translation':
+      $output = '<p>'. t('The core translation module enables the importing of module and theme translations for Drupal core. To use:
+  <ul>
+    <li>Create a directory, "translations", in one of the following places (in order of precedence--the site directory will be used before the sites/all one, and so on):
+    <ul>
+      <li>Your site directory, e.g., "sites/default".</li>
+      <li>Your "sites/all" directory.</li>
+      <li>Your profile\'s directory, e.g., "profiles/default".</li>
+      <li>The root directory of your Drupal installation directory.
+    </ul>
+    </li>
+    <li>For each language you wish to enable for Drupal core:
+    <ul>
+      <li>Download the translation</li>
+      <li>Create a subdirectory named for the new language\'s code in the "tranlsations" directory created above. For example, if you downloaded the translations for French, create a directory "fr".</li>
+      <li>Extract the translations you downloaded into that new directory.</li>
+    </ul>
+    </li>
+  </ul>') .'</p>';
+      $output .= '<p>' . t('Now, when you enable a new core module, the translations will be imported automatically.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implementation of hook_form_form_id_alter().
+ */
+function core_translation_form_locale_languages_predefined_form_alter(&$form, $form_state) {
+  module_load_include('inc', 'core_translation');
+  $form['#submit'][] = 'core_translation_locale_languages_predefined_form_submit';
+}
+
+/**
+ * Implementation of hook_form_form_id_alter().
+ */
+function core_translation_form_system_modules_alter(&$form, $form_state) {
+  module_load_include('inc', 'core_translation');
+  $form['#submit'][] = 'core_translation_system_modules_submit';
+}
+
+/**
+ * Implementation of hook_form_form_id_alter().
+ */
+function core_translation_form_system_themes_form_alter(&$form, $form_state) {
+  module_load_include('inc', 'core_translation');
+  $form['#validate'][] =  'core_translation_system_themes_form_validate';
+  $form['#submit'][] =  'core_translation_system_themes_form_submit';
+}
+

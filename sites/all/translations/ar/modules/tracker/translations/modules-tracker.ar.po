@@ -1,0 +1,87 @@
+# translation of modules-tracker.po to Arabic
+# Abdel Rahman Ghareeb <king_abdo@yahoo.com>, 2004.
+# Sameh Sabry <samehsabry@linuxmail.org>, 2004.
+# Manal Hassan <manal@manalaa.net>, 2004.
+# Amr Gharbeia <amr@gharbeia.net>, 2005, 2006, 2007.
+# Khaled Hosny <khaledhosny@eglug.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: modules-tracker\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-14 11:04+0200\n"
+"PO-Revision-Date: 2008-08-08 23:27+0300\n"
+"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==1 ? 0 : n==0 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: modules/tracker/tracker.pages.inc:57
+msgid "!time ago"
+msgstr "منذ !time"
+
+#: modules/tracker/tracker.pages.inc:65
+msgid "Post"
+msgstr "المحتوى"
+
+#: modules/tracker/tracker.pages.inc:65
+msgid "Last updated"
+msgstr "آخر تحديث"
+
+#: modules/tracker/tracker.module:15
+msgid ""
+"The tracker module displays the most recently added or updated content on "
+"your site, and provides user-level tracking to follow the contributions of "
+"particular authors."
+msgstr ""
+"تعرض وحدة المتتبع آخر المحتويات التي تمت إضافتها أو تعديلها في الموقع، مما "
+"يسمح للمستخدمين بالتعرف على آخر المساهمات، كما توفر تتبعا على مستوى "
+"المستخدمين الراغبين يرغبون في تتبع إسهامات مؤلفين بعينهم."
+
+#: modules/tracker/tracker.module:16
+msgid ""
+"The <em>Recent posts</em> page is available via a link in the navigation "
+"menu block and displays new and recently-updated content (including the "
+"content type, the title, the author's name, number of comments, and time of "
+"last update) in reverse chronological order. Posts are marked updated when "
+"changes occur in the text, or when new comments are added. To use the "
+"tracker module to follow a specific user's contributions, select the "
+"<em>Track</em> tab from the user's profile page."
+msgstr ""
+"صفحة <em>أحدث المحتويات</em> متوفرة عبر رابط في صندوق قائمة الإبحار. تحتوي "
+"الصفحة على قائمة زمنية عكسية  بالمحتويات الجديدة و المحدثة. يعرض  الجدول نوع "
+"المحتوى، و عنوانه، و اسم المؤلف، و عدد التعليقات، بالإضافة إلى تاريخ آخر "
+"تحديث له. التحديثات تشمل أي تعديل على النص، سواء قام به المؤلف الأصلي أو أي "
+"شخص آخر، كما تشمل أي تعليقات على المادة. لمتابعة المحتويات التي حدثها مستخدم "
+"محدد، يمكن الذهاب إلى ملف المستخدم، وهناك انقر على لسان <em>تتبع</em>."
+
+#: modules/tracker/tracker.module:17
+msgid ""
+"For more information, see the online handbook entry for <a href=\"@tracker"
+"\">Tracker module</a>."
+msgstr ""
+"لمزيد من المعلومات، من فضلك طالع  <a href=\"@tracker\">صفحة المتتبع</a>في "
+"دليل الاستخدام."
+
+#: modules/tracker/tracker.module:27
+msgid "Recent posts"
+msgstr "محتوى حديث"
+
+#: modules/tracker/tracker.module:34
+msgid "All recent posts"
+msgstr "كل المحتوى الحديث"
+
+#: modules/tracker/tracker.module:38
+msgid "My recent posts"
+msgstr "المحتوى الحديث الذي نشرته أنا"
+
+#: modules/tracker/tracker.module:55
+msgid "Track posts"
+msgstr "تتبع المحتوى"
+
+#: modules/tracker/tracker.module:0
+msgid "tracker"
+msgstr "متتبع"

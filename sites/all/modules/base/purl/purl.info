@@ -1,0 +1,4 @@
+; $Id: purl.info,v 1.1.2.2 2009/05/14 03:58:13 yhahn Exp $
+name = Persistent URL
+description = "Provides tools for using persistant URL pieces"
+core = 6.x

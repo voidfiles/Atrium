@@ -1,0 +1,11 @@
+; $Id: core_translation.info,v 1.1 2008/11/03 01:01:59 nedjo Exp $
+name = Core translation import
+description = Automatically import translations for Drupal core modules and themes.
+core = 6.x
+
+; Information added by drupal.org packaging script on 2008-11-03
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "core_translation"
+datestamp = "1225713782"
+

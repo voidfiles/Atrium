@@ -1,0 +1,57 @@
+<?php
+
+include_once('trees_blog.features.inc');
+
+/**
+ * Implementation of hook_help().
+ */
+function trees_blog_help($path) {
+  // Central help page content.
+  if ($path == 'help#trees_blog') {
+    $output = '<p>'. t("The blog lets your team communicate, by posting updates and discussing issues. It is great place for sharing progress, discussing challenges and exploring ideas.") . '</p>';
+    $output = '<p>' .t("To start a conversation navigate to the blog and click the \"Add blog post\" button. You will need to at least enter a title and some body content to your post, then click \"Save\".") .'</p>';
+    return $output;
+  }
+
+  // Contextual help content.
+  if (context_isset('spaces', 'feature', 'blog')) {
+    if ($path == 'node/add/blog') {
+      return '<p>'. t("Post an entry to the blog of this group. The post will be shared will all team members on the team blog and they will be able to reply to it. You can optionally notify other group members by checking their name in the notifications field.") .'</p>';
+    }
+    // return '<p>'. t("The blog lets your team communicate, by posting updates and discussing issues. It is great place for sharing progress, discussing challenges and exploring ideas. ") . l(t('More help'), 'help/trees_blog') .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function trees_blog_strongarm() {
+  $conf = array();
+
+  $conf['node_options_blog'] = array('status', 'revision');
+  $conf["notifications_content_type_blog"] = array('thread');
+  $conf['upload_blog'] = TRUE;
+
+  // Comments
+  $conf['comment_blog'] = COMMENT_NODE_READ_WRITE;
+  $conf['comment_default_mode_blog'] = COMMENT_MODE_THREADED_EXPANDED;
+  $conf['comment_default_order_blog'] = COMMENT_ORDER_OLDEST_FIRST;
+  $conf['comment_default_per_page_blog'] = 200;
+  $conf['comment_controls_blog'] = COMMENT_CONTROLS_HIDDEN;
+  $conf['comment_subject_field_blog'] = 1;
+  $conf['comment_preview_blog'] = COMMENT_PREVIEW_OPTIONAL;
+  $conf['comment_form_location_blog'] = COMMENT_FORM_BELOW;
+  $conf['comment_upload_blog'] = TRUE;
+
+  // FeedAPI
+  $conf['feedapi_settings_blog'] = array('enabled' => FALSE);
+
+  // Disable Diff button
+  $conf["show_preview_changes_blog"] = FALSE;
+  $conf["show_diff_inline_blog"] = FALSE;
+
+  // Enable for recent activity views
+  $conf['trees_update_type_blog'] = TRUE;
+
+  return $conf;
+}

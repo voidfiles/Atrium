@@ -1,0 +1,762 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  notifications.manage.inc,v 1.1.2.3.2.3 2009/04/24 17:19:40 jareyero
+#  notifications.module,v 1.6.2.9.2.50.2.8 2009/04/29 16:24:08 jareyero
+#  notifications.pages.inc,v 1.1.2.8.2.4 2009/04/22 14:58:18 jareyero
+#  notifications.admin.inc,v 1.5.2.6.2.19.2.5 2009/04/29 16:24:08 jareyero
+#  notifications.node.inc,v 1.1.2.2.2.1 2009/04/28 10:22:01 jareyero
+#  notifications.cron.inc,v 1.6.2.6.2.20.2.6 2009/04/29 16:24:08 jareyero
+#  notifications.info,v 1.1.4.1 2008/04/13 18:02:39 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: 2009-05-29 09:25+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: notifications/notifications.manage.inc:75
+msgid "Update options"
+msgstr "Actualizar opciones"
+
+#: notifications/notifications.manage.inc:309
+msgid "The update has been performed."
+msgstr "Se ejecutó la actualización."
+
+#: notifications/notifications.module:146,51
+msgid "Overview"
+msgstr "General"
+
+#: notifications/notifications.manage.inc:219
+msgid "type"
+msgstr "tipo"
+
+#: notifications/notifications.manage.inc:388
+msgid "Show only items where"
+msgstr "Mostrar sólo los elementos en los que"
+
+#: notifications/notifications.manage.inc:395
+msgid "<strong>%a</strong> is <strong>%b</strong>"
+msgstr "<strong>%a</strong> es <strong>%b</strong>"
+
+#: notifications/notifications.manage.inc:422,404
+msgid "Refine"
+msgstr "Refinar"
+
+#: notifications/notifications.manage.inc:434,406
+msgid "Undo"
+msgstr "Deshacer"
+
+#: notifications/notifications.manage.inc:141
+msgid "No items selected."
+msgstr "No hay ítems seleccionados."
+
+#: notifications/notifications.manage.inc:345
+msgid "Are you sure you want to delete these items?"
+msgstr "¿Está seguro de que quiere eliminar estos elementos?"
+
+#: notifications/notifications.manage.inc:347
+msgid "Delete all"
+msgstr "Borrar todo"
+
+#: notifications/notifications.module:58
+msgid "Administer"
+msgstr "Administrar"
+
+#: notifications/notifications.module:1410
+msgid "Daily"
+msgstr "Diariamente"
+
+#: notifications/notifications.module:1411
+msgid "Weekly"
+msgstr "Semanalmente"
+
+#: notifications/notifications.module:1455
+msgid "blocked"
+msgstr "bloqueado"
+
+#: notifications/notifications.module:1454
+msgid "active"
+msgstr "activo"
+
+#: notifications/notifications.pages.inc:530
+msgid "Field type"
+msgstr "Tipo de campo"
+
+#: notifications/notifications.admin.inc:330,307,291
+msgid "Number"
+msgstr "Número"
+
+#: notifications/notifications.module:1392
+msgid "Long"
+msgstr "Largo"
+
+#: notifications/notifications.module:1386
+msgid "Short"
+msgstr "Corto"
+
+#: notifications/notifications.module:99
+msgid "Events"
+msgstr "Eventos"
+
+#: notifications/notifications.admin.inc:48
+msgid "Default settings"
+msgstr "Opciones por defecto"
+
+#: notifications/notifications.node.inc:64,20
+msgid "Not found"
+msgstr "No encontrado"
+
+#: notifications/notifications.admin.inc:15
+msgid "Notify poster of own posts"
+msgstr "Notificar al usuario de sus propios envíos"
+
+#: notifications/notifications.admin.inc:17
+msgid ""
+"Notifies a node poster about their own posts.  Useful principally "
+"during testing.  Default is OFF."
+msgstr ""
+"Notifica al usuario que envía contenido de sus propios envíos. Útil "
+"principalmente para pruebas. Deshabilitado por defecto."
+
+#: notifications/notifications.admin.inc:20
+msgid "Immediate sending"
+msgstr "Envío inmediato"
+
+#: notifications/notifications.admin.inc:23
+msgid ""
+"Notifications are usually queued to be sent on cron process later. "
+"Checking this option will cause immediate notifications to be sent "
+"right away, instead of being queued. This will produce more timely "
+"notifications for sites with a small number of users. Not recommended "
+"for sites with a large number of users. This may not work for AJAX "
+"forms and notifications will be queued anyway."
+msgstr ""
+"Normalmente, las notificaciones se colocan en cola para ser enviadas "
+"durante el proceso de <i>cron</i>. Marcar esta opción provocará que "
+"las notificaciones inmediatas sean enviadas en el momento, en lugar de "
+"ser puestas en cola. Esto producirá notificaciones más rápidas para "
+"sitios con un pequeño número de usuarios. No se recomienda para "
+"sitios con muchos usuarios. Esta opción puede no funcionar con "
+"formularios AJAX y las notificaciones serán puestas en cola de todas "
+"formas."
+
+#: notifications/notifications.admin.inc:26
+msgid "Notifications Sender"
+msgstr "Remitente de la Notificación"
+
+#: notifications/notifications.admin.inc:29
+msgid "No one (All notifications will appear as coming from the web site)"
+msgstr ""
+"Nadie (Todas las notificaciones aparecerán como enviadas por el sitio "
+"web)"
+
+#: notifications/notifications.admin.inc:30
+msgid "User name, site data (Only the user name will be used)"
+msgstr ""
+"Nombre del usuario, datos del sitio (Sólo se usará el nombre del "
+"usuario)"
+
+#: notifications/notifications.admin.inc:31
+msgid "Full user data (User name and available user information)"
+msgstr ""
+"Datos del usuario completos (Nombre del usuario y otra información "
+"disponible)"
+
+#: notifications/notifications.admin.inc:34
+msgid ""
+"Use the site information as the sender for notification messages or "
+"use account data from the user causing the event. WARNING: Selecting "
+"the last option (Full user data) may undisclose private information to "
+"subscribers like the user e-mail address."
+msgstr ""
+"Utilizar la información del sitio como el remitente de los mensajes "
+"de notificaciones o utilizar la información del usuario. ADVERTENCIA: "
+"Seleccionar la última opción (Datos del usuario completos) puede "
+"revelar informacioń privada a los suscriptores, tal como el correo "
+"electrónico del usuario."
+
+#: notifications/notifications.admin.inc:43
+msgid ""
+"If enabled all notifications will be logged and kept for the specified "
+"time after they're processed."
+msgstr ""
+"Si se habilita todas las notificaciones serán registradas y guardadas "
+"durante el tiempo especificado después de ser procesadas."
+
+#: notifications/notifications.admin.inc:67
+msgid "Number of rows"
+msgstr "Número de filas"
+
+#: notifications/notifications.admin.inc:100
+msgid "Digest formats"
+msgstr "Formatos de resumen"
+
+#: notifications/notifications.admin.inc:102
+msgid "These are the digest formats available for each interval."
+msgstr "Estos son los formatos de resumen disponibles para cada intervalo."
+
+#: notifications/notifications.admin.inc:113
+msgid "Minutes"
+msgstr "Minutos"
+
+#: notifications/notifications.admin.inc:114
+msgid "Hours"
+msgstr "Horas"
+
+#: notifications/notifications.admin.inc:115
+msgid "Days"
+msgstr "Días"
+
+#: notifications/notifications.admin.inc:119
+msgid "Send intervals"
+msgstr "Intervalos de envío"
+
+#: notifications/notifications.admin.inc:122
+msgid ""
+"To delete an interval, set the time unit and the name empty. If the "
+"time is negative, notifications will never be sent."
+msgstr ""
+"Para borrar cualquier intervalo, deje en blanco la unidad de tiempo y "
+"el nombre. Si el tiempo es negativo, las notificaciones no serán "
+"enviadas."
+
+#: notifications/notifications.admin.inc:201
+msgid "The time intervals for your subscriptions have been updated"
+msgstr "Los intervalos de tiempo para sus subscripciones han sido actualizados"
+
+#: notifications/notifications.admin.inc:209
+msgid "Display name"
+msgstr "Nombre a mostrar"
+
+#: notifications/notifications.admin.inc:209
+msgid "Digest"
+msgstr "Resumen"
+
+#: notifications/notifications.admin.inc:235
+msgid "Enabled events"
+msgstr "Eventos habilitados"
+
+#: notifications/notifications.admin.inc:238
+msgid "Check the events for which notifications should be triggered."
+msgstr "Marque los eventos que deberían provocar una notificación."
+
+#: notifications/notifications.admin.inc:251
+msgid "You need to enable some plug-ins to provide notifications events."
+msgstr ""
+"Necesita activar algúnos módulos más que definan eventos para "
+"notificaciones."
+
+#: notifications/notifications.admin.inc:339,303
+msgid "Total: %number"
+msgstr "Total: %number"
+
+#: notifications/notifications.admin.inc:304
+msgid "Subscriptions by type"
+msgstr "Subscripciones por tipo"
+
+#: notifications/notifications.admin.inc:316
+msgid "Subscriptions by send method"
+msgstr "Subscripciones por método de envío"
+
+#: notifications/notifications.admin.inc:340
+msgid "Notifications in queue"
+msgstr "Notificaciones en cola"
+
+#: notifications/notifications.admin.inc:355
+msgid "Process log"
+msgstr "Registro del proceso"
+
+#: notifications/notifications.admin.inc:407
+msgid "Run process"
+msgstr "Ejecutar proceso"
+
+#: notifications/notifications.admin.inc:408
+msgid "Run normal queue processing, same as cron run."
+msgstr "Ejecutar el proceso normal de cola, igual que al ejecutar <i>cron</i>."
+
+#: notifications/notifications.admin.inc:413
+msgid "Process immediate"
+msgstr "Proceso inmediato"
+
+#: notifications/notifications.admin.inc:414
+msgid "Process only rows marked for immediate sending."
+msgstr "Procesar sólamente las filas marcadas para envío inmediato."
+
+#: notifications/notifications.admin.inc:419
+msgid "Clean queue"
+msgstr "Limpiar la cola"
+
+#: notifications/notifications.admin.inc:420
+msgid "Delete all logs, processed rows and related data in queue."
+msgstr ""
+"Borrar todos los registros, filas procesadas y datos relacionados de "
+"la cola."
+
+#: notifications/notifications.admin.inc:425
+msgid "Reset queue"
+msgstr "Reiniciar cola"
+
+#: notifications/notifications.admin.inc:426
+msgid "Delete all notifications in queue."
+msgstr "Borrar todas las notificaciones en cola."
+
+#: notifications/notifications.admin.inc:431
+msgid "Run test"
+msgstr "Ejecutar test"
+
+#: notifications/notifications.admin.inc:432
+msgid "Test run queue processing, without updating nor sending messages."
+msgstr "Proceso de prueba, sin actualizar ni enviar mensajes."
+
+#: notifications/notifications.admin.inc:448
+msgid "The queue has been reset."
+msgstr "La cola ha sido reiniciada."
+
+#: notifications/notifications.admin.inc:482
+msgid "No elements"
+msgstr "No hay elementos"
+
+#: notifications/notifications.cron.inc:168
+msgid "Reached processing limit on queue processing: %name = %value"
+msgstr "Se ha alcanzado el límite durante el proceso de cola: %name = %value"
+
+#: notifications/notifications.manage.inc:122
+msgid "drop"
+msgstr "eliminar"
+
+#: notifications/notifications.manage.inc:144
+msgid "You don't have permissions to manage these subscriptions"
+msgstr "No tiene permisos para administrar estas subscripciones"
+
+#: notifications/notifications.manage.inc:224
+msgid "method"
+msgstr "método"
+
+#: notifications/notifications.manage.inc:229
+msgid "interval"
+msgstr "intervalo"
+
+#: notifications/notifications.manage.inc:250
+msgid "Deactivate"
+msgstr "Desactivar"
+
+#: notifications/notifications.manage.inc:268
+msgid "Change send method to"
+msgstr "Cambiar el método de envío a"
+
+#: notifications/notifications.manage.inc:277
+msgid "Change send interval to"
+msgstr "Cambiar intervalo de envío a"
+
+#: notifications/notifications.manage.inc:350
+msgid ""
+"Validation error. You don't have permission to delete some of these "
+"subscriptions"
+msgstr ""
+"Error de validación. No tiene permisos para borrar algunas de estas "
+"subscripciones."
+
+#: notifications/notifications.manage.inc:360
+msgid "You don't have permission to manage all these subscriptions"
+msgstr "No tiene permisos para administrar todas estas subscripciones"
+
+#: notifications/notifications.manage.inc:372
+msgid "The subscriptions have been deleted."
+msgstr "Las subscripciones han sido borradas"
+
+#: notifications/notifications.manage.inc:488
+msgid "No subscriptions available."
+msgstr "No hay subscripciones disponibles."
+
+#: notifications/notifications.node.inc:37
+msgid "Node title mismatch. Please check your selection."
+msgstr "El título del nodo no concuerda. Por favor, compruebe su selección."
+
+#: notifications/notifications.node.inc:49
+msgid "Found no valid post with that title: %title"
+msgstr "No se ha encontrado contenido válido con ese título: %title"
+
+#: notifications/notifications.pages.inc:22
+msgid "You have %count @status subscriptions."
+msgstr "Tiene %count subscripciones @status"
+
+#: notifications/notifications.pages.inc:25
+msgid "You don't have any subscriptions yet."
+msgstr "No tiene ninguna subscripción todavía."
+
+#: notifications/notifications.pages.inc:31
+msgid "Your default sending method for new subscriptions is @send_method"
+msgstr ""
+"Su método de envío por defecto para nuevas subscripciones es "
+"@send_method"
+
+#: notifications/notifications.pages.inc:36
+msgid "Your default sending interval for new subscriptions is @send_interval"
+msgstr ""
+"Su intervalo de envío por defecto para nuevas subscripciones es "
+"@send_interval"
+
+#: notifications/notifications.pages.inc:39
+msgid "Current status"
+msgstr "Estado actual"
+
+#: notifications/notifications.pages.inc:43
+msgid "Administer your subscriptions"
+msgstr "Administre sus subscripciones"
+
+#: notifications/notifications.pages.inc:45
+msgid "Edit your notifications settings"
+msgstr "Cambie sus opciones de notificación"
+
+#: notifications/notifications.pages.inc:50
+msgid "Temporarily disable all your subscriptions"
+msgstr "Deshabilite temporalmente todas sus subscripciones"
+
+#: notifications/notifications.pages.inc:53
+msgid "Enable all your subscriptions"
+msgstr "Habilite todas sus subscripciones"
+
+#: notifications/notifications.pages.inc:57
+msgid "Cancel all your subscriptions"
+msgstr "Cancele todas sus subscripciones"
+
+#: notifications/notifications.pages.inc:60
+msgid "You can"
+msgstr "Puede"
+
+#: notifications/notifications.pages.inc:77
+msgid "Create @type subscription"
+msgstr "Crear subscripción de @type"
+
+#: notifications/notifications.pages.inc:95
+msgid ""
+"How often and by which channel do you want to get notifications for "
+"this subscription."
+msgstr ""
+"Con qué frecuencia y por qué canal quiere recibir notificaciones "
+"para esta subscripción."
+
+#: notifications/notifications.pages.inc:153,112
+msgid "Create subscription"
+msgstr "Crear subscripción"
+
+#: notifications/notifications.pages.inc:135
+msgid "You must set a value for this field."
+msgstr "Debe introducir un valor en este campo."
+
+#: notifications/notifications.pages.inc:144
+msgid "You must provide valid values for all fields."
+msgstr "Debe proporcionar valores válidos para todos los campos."
+
+#: notifications/notifications.pages.inc:163
+msgid "Your subscription has been created."
+msgstr "Su subscripcióń ha sido creada."
+
+#: notifications/notifications.pages.inc:165
+msgid "Your subscription cannot be created."
+msgstr "Su subscripción no ha podido ser creada."
+
+#: notifications/notifications.pages.inc:252,196
+msgid "Your subscription was activated."
+msgstr "Su subscripción ha sido activada."
+
+#: notifications/notifications.pages.inc:201
+msgid "Confirm your subscription"
+msgstr "Confirme su subscripción"
+
+#: notifications/notifications.pages.inc:206
+msgid "Subscription type or parameters not allowed"
+msgstr "Tipo de subscripción o parámetros no permitidos"
+
+#: notifications/notifications.pages.inc:250,239
+msgid "Subscribe"
+msgstr "Subscribirse"
+
+#: notifications/notifications.pages.inc:256
+msgid "Your subscription was cancelled"
+msgstr "Su subscripción ha sido cancelada"
+
+#: notifications/notifications.pages.inc:361,302
+msgid "Your subscription has been removed."
+msgstr "Su subscripción ha sido eliminada."
+
+#: notifications/notifications.pages.inc:365,306
+msgid "All your subscriptions have been removed."
+msgstr "Todas sus subscripciones han sido eliminadas."
+
+#: notifications/notifications.pages.inc:311
+msgid "You don't have any subscription on this site."
+msgstr "No tiene ninguna subscripción en este sitio."
+
+#: notifications/notifications.pages.inc:334
+msgid "Are you sure you want to delete this subscription?"
+msgstr "¿Está seguro de que desea cancelar esta subscripción?"
+
+#: notifications/notifications.pages.inc:339
+msgid "Are you sure you want to remove all your subscriptions on this site?"
+msgstr ""
+"¿Está seguro de que desea cancelar todas sus susbcripciones en este "
+"sitio?"
+
+#: notifications/notifications.pages.inc:358,346
+msgid "Unsubscribe"
+msgstr "Des-subscribirse"
+
+#: notifications/notifications.pages.inc:407
+msgid ""
+"You can temporarily disable this subscription for not getting "
+"notifications."
+msgstr ""
+"Puede deshabilitar temporalmente esta subscripción para no recibir "
+"notificaciones."
+
+#: notifications/notifications.pages.inc:432
+msgid "Are you sure you want to enable all your subscriptions?"
+msgstr "¿Está seguro de que quiere habilitar todas sus subscripciones?"
+
+#: notifications/notifications.pages.inc:433
+msgid "You will get notifications again for all of them."
+msgstr "Recibirá de nuevo notificaciones para todas ellas."
+
+#: notifications/notifications.pages.inc:438
+msgid "Are you sure you want to disable all your subscriptions?"
+msgstr "¿Está seguro de que desea deshabilitar todas sus subscripciones?"
+
+#: notifications/notifications.pages.inc:439
+msgid "You will stop getting notifications until you enable them again."
+msgstr "Dejará de recibir notificaciones hasta que las habilite de nuevo."
+
+#: notifications/notifications.pages.inc:454
+msgid "All your subscriptions have been enabled."
+msgstr "Todas sus subscripciones han sido habilitadas."
+
+#: notifications/notifications.pages.inc:459
+msgid "All your subscriptions have been disabled."
+msgstr "Todas sus subscripciones han sido deshabilitadas."
+
+#: notifications/notifications.pages.inc:517
+msgid "!type subscription"
+msgstr "subscripción de !type"
+
+#: notifications/notifications.module:319
+msgid "Messaging and Notifications settings"
+msgstr "Opciones de Mensajería y Notificaciones"
+
+#: notifications/notifications.module:327
+msgid "Default send interval for subscriptions."
+msgstr "Intervalo de envío por defecto para subscripciones."
+
+#: notifications/notifications.module:1084
+msgid "Messages coming from user subscriptions and system events"
+msgstr ""
+"Mensajes que provienen de las subscripciones del usuario y eventos del "
+"sistema."
+
+#: notifications/notifications.module:1091
+msgid "Notifications event"
+msgstr "Evento de Notificaciones"
+
+#: notifications/notifications.module:1092
+msgid ""
+"Common parts for all Notifications messages for a single event. This "
+"is useful for defining a common header and/or footer for all these "
+"messages."
+msgstr ""
+"Partes comunes para todos los mensajes de Notificaciones para un sólo "
+"evento. Esto es útil para definir un encabezado y pie común para "
+"todos estos mensajes."
+
+#: notifications/notifications.module:1096
+msgid "Notifications digest"
+msgstr "Resumen de Notificaciones"
+
+#: notifications/notifications.module:1097
+msgid ""
+"Depending on your settings for each Send interval, Notifications may "
+"be digested, this is grouped and summarized in a single message. These "
+"are the common parts for Notifications digests."
+msgstr ""
+"Dependiendo de su configuración para cada Intervalo de Envío, las "
+"Notificaciones pueden ser condensadas, es decir, resumidas y agrupadas "
+"en un solo mensaje. Estas son las partes comunes para las "
+"Notificaciones resumidas."
+
+#: notifications/notifications.module:1115
+msgid "Line for digested events"
+msgstr "Línea para eventos resumidos"
+
+#: notifications/notifications.module:1116
+msgid "Group closing"
+msgstr "Cierre de grupo"
+
+#: notifications/notifications.module:1126
+msgid "Event notification for [user] from [site-name]"
+msgstr "Notificación para [user] de [site-name]"
+
+#: notifications/notifications.module:1127
+msgid "Greetings [user],"
+msgstr "Saludos [user],"
+
+#: notifications/notifications.module:1128
+msgid "A item to which you are subscribed has been updated"
+msgstr "Un elemento al que está suscrito ha sido actualizado"
+
+#: notifications/notifications.module:1132
+msgid "You can unsubscribe at [unsubscribe-url]"
+msgstr "Puede des-suscribirse en [unsubscribe-url]"
+
+#: notifications/notifications.module:1139
+msgid "[site-name] subscription update for [user]"
+msgstr "[site-name] actualización de subscripciones para [user]"
+
+#: notifications/notifications.module:1140
+msgid ""
+"Greetings, [user].\n"
+"\n"
+"These are your messages"
+msgstr "Saludos, [user].  Estos son sus mensajes"
+
+#: notifications/notifications.module:1141
+msgid ""
+"A [type] has been updated: [title]\n"
+"\n"
+"[event_list]"
+msgstr ""
+"Un [type] ha sido actualizado: [title]\r\n"
+"\r\n"
+"[event_list]"
+
+#: notifications/notifications.module:1202
+msgid "The url for the current user to manage subscriptions."
+msgstr "La URL para que el usuario gestione sus subscripciones."
+
+#: notifications/notifications.module:1203
+msgid "The url to allow a user to delete all their subscriptions."
+msgstr "La URL Para permitir que el usuario borre todas sus subscripciones."
+
+#: notifications/notifications.module:1206
+msgid "The url for disabling a specific subscription."
+msgstr "La URL para deshabilitar una subscripción determinada."
+
+#: notifications/notifications.module:1209
+msgid "List of events for message digests"
+msgstr "Lista de eventos para resumen de mensajes"
+
+#: notifications/notifications.module:1210
+msgid "Detailed information for event"
+msgstr "Información detallada para el evento"
+
+#: notifications/notifications.module:1387
+msgid "Produces one line per event, grouped by object"
+msgstr "Produce una línea por cada evento, agrupadas por cada objeto"
+
+#: notifications/notifications.module:1393
+msgid "Adds full information for each event"
+msgstr "Añade la información completa para cada evento"
+
+#: notifications/notifications.module:1407
+msgid "Immediately"
+msgstr "Inmediatamente"
+
+#: notifications/notifications.module:1408
+msgid "Every hour"
+msgstr "Cada hora"
+
+#: notifications/notifications.module:1409
+msgid "Twice a day"
+msgstr "Dos veces al día"
+
+#: notifications/notifications.module:1456
+msgid "inactive"
+msgstr "inactivo"
+
+#: notifications/notifications.module:1734
+msgid "@type: !values"
+msgstr "@type: !values"
+
+#: notifications/notifications.module:1736
+msgid "Subscription %id of type %type to: !values"
+msgstr "Subscripcion %id de tipo %type a: !values"
+
+#: notifications/notifications.module:1756
+msgid "Not available"
+msgstr "No disponible"
+
+#: notifications/notifications.module:274
+msgid "administer notifications"
+msgstr "administrar notificaciones"
+
+#: notifications/notifications.module:274
+msgid "maintain own subscriptions"
+msgstr "mantener subscripciones propias"
+
+#: notifications/notifications.module:274
+msgid "manage own subscriptions"
+msgstr "administrar subscripciones propias"
+
+#: notifications/notifications.module:274
+msgid "manage all subscriptions"
+msgstr "administrar todas las subscripciones"
+
+#: notifications/notifications.module:38
+msgid "Administer and configure messaging and notifications"
+msgstr "Administrar y configurar mensajería y notificaciones"
+
+#: notifications/notifications.module:44
+msgid "Manage subscriptions"
+msgstr "Gestionar subscripciones"
+
+#: notifications/notifications.module:45
+msgid "Manage existing subscriptions and queue."
+msgstr "Administrar subscripciones existentes y la cola de envíos."
+
+#: notifications/notifications.module:52
+msgid "Subscriptions overview."
+msgstr "Resumen de subscripciones."
+
+#: notifications/notifications.module:59
+msgid "Administer subscriptions."
+msgstr "Administrar subscripciones."
+
+#: notifications/notifications.module:67
+msgid "Queue"
+msgstr "Cola"
+
+#: notifications/notifications.module:68
+msgid "Notifications queue."
+msgstr "Cola de Notificaciones."
+
+#: notifications/notifications.module:77
+msgid "Notifications Settings"
+msgstr "Opciones de Notificaciones"
+
+#: notifications/notifications.module:78
+msgid "Site settings for user notifications."
+msgstr "Configuración de notificationes de usuarios."
+
+#: notifications/notifications.module:91
+msgid "Intervals"
+msgstr "Intervalos"
+
+#: notifications/notifications.module:126
+msgid "Edit subscription"
+msgstr "Editar subscripción"
+
+#: notifications/notifications.module:160
+msgid "Update subscriptions"
+msgstr "Actualizar subscripciones"
+
+#: notifications/notifications.module:177,169
+msgid "Node title autocomplete"
+msgstr "Título de nodo autocompletable"
+
+#: notifications/notifications.info:0
+msgid "The basic notifications framework"
+msgstr "El sistema básico de notificaciones"
+

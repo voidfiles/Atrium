@@ -1,0 +1,37 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  messaging_mail.module,v 1.2.2.4.2.8 2009/04/01 11:54:50 jareyero
+#  messaging_mail.info,v 1.1.4.1 2008/04/12 18:40:14 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: messaging/messaging_mail/messaging_mail.module:29
+msgid "Mail"
+msgstr "البريد"
+
+#: messaging/messaging_mail/messaging_mail.module:35
+msgid "Send e-mails using the default Drupal mail library."
+msgstr ""
+
+#: messaging/messaging_mail/messaging_mail.module:0
+msgid "messaging_mail"
+msgstr ""
+
+#: messaging/messaging_mail/messaging_mail.info:0
+msgid "Simple Mail"
+msgstr ""
+
+#: messaging/messaging_mail/messaging_mail.info:0
+msgid "Mail Sending Method: Integration with Drupal mail API"
+msgstr ""
+

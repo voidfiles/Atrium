@@ -1,0 +1,145 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  purl.admin.inc,v 1.1.2.2 2009/05/14 03:58:13 yhahn
+#  purl.module,v 1.1.2.9 2009/05/14 03:58:13 yhahn
+#  purl.install,v 1.1.2.1 2009/03/09 17:18:33 yhahn
+#  purl.info,v 1.1.2.2 2009/05/14 03:58:13 yhahn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: purl/purl.admin.inc:140,48
+msgid "Provider"
+msgstr ""
+
+#: purl/purl.admin.inc:48
+msgid "Modifier"
+msgstr ""
+
+#: purl/purl.admin.inc:52
+msgid "No persistent urls have been registered."
+msgstr ""
+
+#: purl/purl.admin.inc:91
+msgid "Key"
+msgstr "Tecla"
+
+#: purl/purl.admin.inc:104
+msgid "Default domain"
+msgstr ""
+
+#: purl/purl.admin.inc:105
+msgid "Enter the default domain if you are using domain modifiers."
+msgstr ""
+
+#: purl/purl.admin.inc:140
+msgid "Modifier type"
+msgstr ""
+
+#: purl/purl.admin.inc:156
+msgid "Enabled URL modification types."
+msgstr ""
+
+#: purl/purl.module:30
+msgid "Settings for persistent url."
+msgstr ""
+
+#: purl/purl.module:50
+msgid "Modifiers"
+msgstr ""
+
+#: purl/purl.module:587
+msgid "Path value"
+msgstr "Valor del path"
+
+#: purl/purl.module:615
+msgid ""
+"There was an error registering the value \"@value\". It is either "
+"invalid or is already taken. Please choose another."
+msgstr ""
+
+#: purl/purl.module:640
+msgid "Keyed pair"
+msgstr ""
+
+#: purl/purl.module:641
+msgid "Full domain"
+msgstr ""
+
+#: purl/purl.module:642
+msgid "Subdomain"
+msgstr ""
+
+#: purl/purl.module:643
+msgid "File extension"
+msgstr ""
+
+#: purl/purl.module:820
+msgid ""
+"Choose a value path. May contain only lowercase letters, numbers, "
+"dashes and underscores. e.g. \"my-value\""
+msgstr ""
+
+#: purl/purl.module:955
+msgid ""
+"Enter a domain registered for this context, such as "
+"\"www.example.com\".  Do not include http://"
+msgstr ""
+
+#: purl/purl.module:1000
+msgid ""
+"Enter a sub-domain for this context, such as \"mygroup\".  Do not "
+"include http://"
+msgstr ""
+
+#: purl/purl.module:1056
+msgid "Enter a extension for this context, such as \"csv\"."
+msgstr ""
+
+#: purl/purl.module:0
+msgid "purl"
+msgstr ""
+
+#: purl/purl.install:24
+msgid "purl."
+msgstr ""
+
+#: purl/purl.install:27
+msgid ""
+"The string to detect from incoming URLs and to use when rewriting "
+"outgoing URLs."
+msgstr ""
+
+#: purl/purl.install:34
+msgid "The provider (usually a module's name) of the prefix/id pair."
+msgstr ""
+
+#: purl/purl.install:41
+msgid ""
+"The ID given by the provider to associate with a corresponding prefix. "
+"This might be a group_nid (og), a language code (i18n) or some other "
+"unique identifier that the provider is interested in associating with "
+"the URL prefix."
+msgstr ""
+
+#: purl/purl.info:0
+msgid "Provides tools for using persistant URL pieces"
+msgstr ""
+
+#: purl/purl.module:644
+msgid "User agent"
+msgstr ""
+
+#: purl/purl.module:1116
+msgid "Enter a user agent for this context, such as \"iPhone\"."
+msgstr ""
+

@@ -1,0 +1,369 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  notifications_content.module,v 1.4.2.9.2.36.2.8 2009/04/28 10:22:01 jareyero
+#  notifications_content.pages.inc,v 1.1.2.3.2.1 2009/04/30 11:22:37 jareyero
+#  notifications_content.install,v 1.1.2.4.2.2 2009/04/30 11:22:37 jareyero
+#  notifications_content.info,v 1.1.4.1 2008/04/13 18:02:39 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: notifications/notifications_content/notifications_content.module:40,215
+msgid "Content type"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:473
+msgid "Digest line"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:529,504,492
+msgid "Read more [node-url]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:15
+msgid "Enabled subscription types"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:18
+msgid ""
+"Check the subscription types that will be enabled. You can use the "
+"global settings here or set different options for each content type. "
+"On this second case these will be the defaults for new content types."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:30
+msgid "Global options"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:33
+msgid "Define the available subscription types that will be enabled globally"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:84
+msgid "You are not currently subscribed to any active threads"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:87
+msgid "You are currently subscribed to the following threads:"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:110
+msgid "There are no active content types."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:142
+msgid "There are no active author subscriptions."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.pages.inc:238
+msgid "Your subscriptions have been updated."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:81
+msgid ""
+"Content subscriptions are subscriptions to nodes that will produce "
+"notifications when a node is posted or updated or when a comment is "
+"posted for that nodes. Notifications will be sent only for published "
+"content so if you need to be notified of unpublished content waiting "
+"for approval you better use Triggers and Actions or some other module "
+"for that."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:82
+msgid ""
+"On this page you can set which of the available subscription types are "
+"allowed. Alternatively you can select the <i>Set up for each content "
+"type</i> option and use the <a "
+"href=\"@content-type-settings\">Administer Content types</a> page. "
+"These settings will be combined with permissions and other options "
+"(See user interface options if enabled) to determine which "
+"subscriptions will be finally available for users."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:89
+msgid ""
+"This is the format for each digest group. A message may consist on one "
+"or many of these groups:"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:93,92
+msgid "Digest line."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:125
+msgid "Subscription settings"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:131
+msgid "Allowed subscription types"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:134
+msgid "Enable different subscription options for this content type."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:139
+msgid ""
+"To enable these options check the <a "
+"href=\"@notifications-settings\">Notifications content settings</a>"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:164
+msgid "Do not send notifications for this update."
+msgstr "لا ترسل اشعارات لهذا التحديث."
+
+#: notifications/notifications_content/notifications_content.module:192
+msgid "Content type: @type"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:195
+msgid "Author: @name"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:198
+msgid "Thread: @title"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:211
+msgid "Subscribe to all changes and comments for a thread."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:220
+msgid "Subscribe to all content of a given type."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:229
+msgid "Subscribe to all content submitted by a user."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:234
+msgid "Content type and Author"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:238
+msgid "Subscribe to all content of a given type submitted by a user."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:533,327
+msgid "New content of type [type-name] has been submitted"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:328
+msgid "[type-name] [title] by [author-name]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:330
+msgid "Node creation"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:347,339
+msgid "[type-name]: [title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:340
+msgid "The [type-name] has been updated"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:342
+msgid "Node update"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:348
+msgid "New comment by [comment-author-name]: [comment-title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:350
+msgid "Node comment"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:405
+msgid "User name not found."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:415
+msgid ""
+"The <em>Header</em> and <em>Footer</em> will be taken from "
+"Notification events."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:416
+msgid ""
+"The <em>Digest line</em> will be used when composing Short digests on "
+"which each event will be just a line."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:420
+msgid "Notifications for node events"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:421
+msgid "Defaults for all notifications related to node events."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:427
+msgid "Notifications for node creation"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:428
+msgid "Notifications produced when a new node is created."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:434
+msgid "Notifications for node updates"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:435
+msgid "Notifications produced when a node is updated."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:441
+msgid "Notifications for node comments"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:442
+msgid "Notifications produced when a comment is posted to a node."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:449
+msgid "Groups digests per node"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:450
+msgid "Group of events digested for each node."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:455
+msgid "Groups digests per node type"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:456
+msgid "Group of events digested for each node type."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:489
+msgid "Update for [type-name]: [title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:501
+msgid "New [type-name]: [title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:513
+msgid "Comment for [type-name]: [title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:515
+msgid "Comment by [comment-author-name]: [comment-title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:521,517
+msgid "Read more [comment-url]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:520
+msgid "New Comment on [title] by [comment-author-name] titled [comment-title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:528
+msgid "Updates for [type-name]: [title]"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:573
+msgid "This post"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:581
+msgid "Posts of type @type"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:589
+msgid "Posts by @name"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:611
+msgid "All posts by @name"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:618
+msgid "@type posts by @name"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:801
+msgid "The node teaser."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:802
+msgid "The node body."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:803
+msgid "The node view url for read more links."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:804
+msgid "Unfiltered node teaser. WARNING - raw user input."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:805
+msgid "Unfiltered node body. WARNING - raw user input."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:808
+msgid "The comment view url."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:809
+msgid "The comment reply url."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:73
+msgid "subscribe to content"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:73
+msgid "subscribe to content type"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:73
+msgid "subscribe to author"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:73
+msgid "skip notifications"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:19
+msgid "Content subscriptions"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.module:0
+msgid "notifications_content"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.install:26
+msgid "Content notifications uninstallation script complete."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.install:42
+msgid ""
+"Please, check all your Notifications content settings and note the new "
+"options."
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.info:0
+msgid "Content Notifications"
+msgstr ""
+
+#: notifications/notifications_content/notifications_content.info:0
+msgid "Allows users to subscribe to content related events."
+msgstr ""
+

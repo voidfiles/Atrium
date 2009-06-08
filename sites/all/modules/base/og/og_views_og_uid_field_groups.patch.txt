@@ -1,0 +1,103 @@
+? og_views_og_uid_field_groups.patch.txt
+Index: modules/og_views/og_views.views.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/og/modules/og_views/og_views.views.inc,v
+retrieving revision 1.12
+diff -u -p -r1.12 og_views.views.inc
+--- modules/og_views/og_views.views.inc	31 Dec 2008 13:49:32 -0000	1.12
++++ modules/og_views/og_views.views.inc	2 Mar 2009 20:44:20 -0000
+@@ -1,5 +1,5 @@
+ <?php
+-// $Id: og_views.views.inc,v 1.12 2008/12/31 13:49:32 weitzman Exp $
++// $Id: og_views.views.inc,v 1.11 2008/12/31 05:41:47 weitzman Exp $
+ 
+ /**
+  * Implementation of hook_views_handlers().
+@@ -66,6 +66,9 @@ function og_views_views_handlers() {
+       'og_views_handler_field_og_managelinkmy' => array(
+         'parent' => 'views_handler_field',
+       ),
++      'og_views_handler_field_og_uid_groups' => array(
++        'parent' => 'views_handler_field_prerender_list',
++      ),
+       // argument
+       'og_views_handler_argument_og_group_nid' => array(
+         'parent' => 'views_handler_argument_numeric',
+@@ -264,6 +267,7 @@ function og_views_data_og_ancestry() {
+       'field' => 'nid',
+     ),
+   );
++
+   $data['og_ancestry']['group_nid'] = array(
+     'title' => t('Groups'),
+     'help' => t('The groups for a post.'),
+@@ -356,6 +360,15 @@ function og_views_data_og_uid() {
+       'help' => t('<strong>Members</strong> are filtered for a specific group.'),
+     ),
+   ); 
++  $data['og_uid']['groups'] = array(
++    'title' => t('User\'s groups'),
++    'help' => t('Groups that a member belongs to.'),
++    'field' => array(
++      'field' => 'uid',
++      'handler' => 'og_views_handler_field_og_uid_groups',
++      'help' => t("OG: List of user's groups"),
++    ),
++  );
+   $data['og_uid']['uid'] = array(
+     'title' => t('Group member'),
+     // 'help' => t('foo')
+Index: modules/og_views/includes/og_views_handler_field_og_uid_groups.inc
+===================================================================
+RCS file: modules/og_views/includes/og_views_handler_field_og_uid_groups.inc
+diff -N modules/og_views/includes/og_views_handler_field_og_uid_groups.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ modules/og_views/includes/og_views_handler_field_og_uid_groups.inc	2 Mar 2009 20:44:20 -0000
+@@ -0,0 +1,47 @@
++<?php
++/**
++ * Field handler for displaying a list of groups for a user.
++ */
++class og_views_handler_field_og_uid_groups extends views_handler_field_prerender_list {
++  /**
++   * Fake the field alias -- we don't want to actually join.
++   */
++  function init(&$view, $options) {
++    parent::init($view, $options);
++    switch ($view->base_table) {
++      case 'node':
++        $this->additional_fields['users_uid'] = array('table' => 'users', 'field' => 'uid');
++        $this->field_alias = 'users_uid';
++        break;
++      case 'user':
++        $this->field_alias = 'uid';
++        break;
++    }
++  }
++
++  /**
++   * Add this term to the query
++   */
++  function query() {
++    $this->add_additional_fields();
++  }
++
++  /**
++   * Query in pre_render to grab what we need.
++   */
++  function pre_render($values) {
++    $uids = array();
++    foreach ($values as $row) {
++      if (!empty($row->{$this->field_alias})) {
++        $uids[] = $row->{$this->field_alias};
++      }
++    }
++    if (!empty($uids)) {
++      $placeholders = db_placeholders($uids, 'int');
++      $result = db_query(db_rewrite_sql("SELECT n.nid, n.title, ogu.uid FROM {node} n JOIN {og_uid} ogu ON ogu.nid = n.nid WHERE ogu.uid IN ($placeholders) AND n.status = 1"), $uids);
++      while ($row = db_fetch_object($result)) {
++        $this->items[$row->uid][$row->nid] = l($row->title, "node/{$row->nid}");
++      }
++    }
++  }
++}

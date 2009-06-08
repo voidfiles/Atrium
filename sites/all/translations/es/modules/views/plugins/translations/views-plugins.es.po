@@ -1,0 +1,991 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  views_plugin_display_page.inc,v 1.5 2009/01/27 18:40:31 merlinofchaos
+#  views_plugin_display.inc,v 1.20 2009/04/07 22:48:04 merlinofchaos
+#  views_plugin_access_none.inc,v 1.1 2008/09/08 22:50:17 merlinofchaos
+#  views_plugin_access_perm.inc,v 1.3 2009/01/07 23:31:13 merlinofchaos
+#  views_plugin_access_role.inc,v 1.2 2009/01/07 23:31:13 merlinofchaos
+#  views_plugin_argument_default.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_argument_default_php.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_argument_validate.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_argument_validate_php.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_display_attachment.inc,v 1.3 2009/01/06 04:45:39 merlinofchaos
+#  views_plugin_display_block.inc,v 1.2 2008/11/19 19:50:54 merlinofchaos
+#  views_plugin_display_feed.inc,v 1.3 2008/09/30 18:52:15 merlinofchaos
+#  views_plugin_row_fields.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_style.inc,v 1.5 2009/03/24 22:22:11 merlinofchaos
+#  views_plugin_style_grid.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_style_list.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_style_rss.inc,v 1.2 2008/12/02 00:02:06 merlinofchaos
+#  views_plugin_style_summary.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_style_summary_unformatted.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_style_table.inc,v 1.5 2008/10/15 22:25:36 merlinofchaos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: views/plugins/views_plugin_display_page.inc:236,319
+msgid "Menu"
+msgstr "Menú"
+
+#: views/plugins/views_plugin_display.inc:653
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+#: views/plugins/views_plugin_display.inc:606
+msgid "Style"
+msgstr ""
+
+#: views/plugins/views_plugin_access_none.inc:9
+msgid "Unrestricted"
+msgstr ""
+
+#: views/plugins/views_plugin_access_perm.inc:37
+msgid ""
+"Only users with the selected permission flag will be able to access "
+"this display. Note that users with \"access all views\" can see any "
+"view, regardless of other permissions."
+msgstr ""
+
+#: views/plugins/views_plugin_access_role.inc:21
+msgid "No role(s) selected"
+msgstr ""
+
+#: views/plugins/views_plugin_access_role.inc:24
+msgid "Multiple roles"
+msgstr ""
+
+#: views/plugins/views_plugin_access_role.inc:43
+msgid ""
+"Only the checked roles will be able to access this display. Note that "
+"users with \"access all views\" can see any view, regardless of role."
+msgstr ""
+
+#: views/plugins/views_plugin_access_role.inc:49
+msgid "You must select at least one role if type is \"by role\""
+msgstr ""
+
+#: views/plugins/views_plugin_argument_default.inc:32
+msgid "Default argument"
+msgstr ""
+
+#: views/plugins/views_plugin_argument_default.inc:54
+msgid ""
+"Note: you do not have permission to modify this. If you change the "
+"default argument type, this setting will be lost and you will NOT be "
+"able to get it back."
+msgstr ""
+
+#: views/plugins/views_plugin_argument_default_php.inc:17
+msgid "PHP argument code"
+msgstr ""
+
+#: views/plugins/views_plugin_argument_default_php.inc:20
+msgid ""
+"Enter PHP code that returns a value to use for this argument. Do not "
+"use &lt;?php ?&gt;. You must return only a single value for just this "
+"argument."
+msgstr ""
+
+#: views/plugins/views_plugin_argument_validate.inc:43
+msgid ""
+"Note: you do not have permission to modify this. If you change the "
+"validator, this setting will be lost and you will NOT be able to get "
+"it back."
+msgstr ""
+
+#: views/plugins/views_plugin_argument_validate_php.inc:19
+msgid "PHP validate code"
+msgstr ""
+
+#: views/plugins/views_plugin_argument_validate_php.inc:21
+msgid ""
+"Enter PHP code that returns TRUE or FALSE. No return is the same as "
+"FALSE, so be SURE to return something if you do not want to declare "
+"the argument invalid. Do not use &lt;?php ?&gt;. The argument to "
+"validate will be \"$argument\" and the view will be \"$view\". You may "
+"change the argument by setting \"$handler->argument\"."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:560
+msgid "Broken field"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:577
+msgid "Basic settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:584
+msgid "Change the name of this display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:596
+msgid "Change the title that this display will use."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:608
+msgid "Change the style plugin."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:622
+msgid "Row style"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:624
+msgid "Change the row plugin."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:634
+msgid "Use AJAX"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:636
+msgid "Change whether or not this display will use AJAX."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:643
+msgid "Use pager"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:644
+msgid "Mini"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:645
+msgid "Change this display's pager setting."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:824,652
+msgid "Items per page"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:654
+msgid "Change how many items to display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:660
+msgid "More link"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:662
+msgid "Specify whether this display will provide a \"more\" link."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:851,668
+msgid "Distinct"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:848,670
+msgid "Display only distinct items, without duplicates."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:683
+msgid "Access"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:685
+msgid "Specify access control type for this display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:689
+msgid "Change settings for this access type."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:709
+msgid "Link display"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:711
+msgid "Specify which display this display will link to."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:718
+msgid "Exposed form in block"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:720
+msgid "Allow the exposed form to appear in a block instead of the view."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:931,723
+msgid "Empty text"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:739
+msgid "Unknown/missing format"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:747
+msgid "Change this display's !name."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:753
+msgid "Theme"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:754
+msgid "Information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:755
+msgid "Get information on how to theme this display"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:781
+msgid "The name of this display"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:784
+msgid ""
+"This title will appear only in the administrative interface for the "
+"View."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:789
+msgid "The title of this view"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:792
+msgid ""
+"This title will be displayed with the view, wherever titles are "
+"normally displayed; i.e, as the page title, block title, etc."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:797
+msgid "Use AJAX when available to load this view"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:801
+msgid ""
+"If set, this view will use an AJAX mechanism for paging, table sorting "
+"and exposed filters. This means the entire page will not refresh. It "
+"is not recommended that you use this if this view is the main content "
+"of the page as it will prevent deep linking to specific pages, but it "
+"is very useful for side content."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:810
+msgid "Use a pager for this view"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:813
+msgid "Full pager"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:813
+msgid "Mini pager"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:818
+msgid "Pager element"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:819
+msgid ""
+"Unless you're experiencing problems with pagers related to this view, "
+"you should leave this at 0. If using multiple pagers on one page you "
+"may need to set this number to a higher value so as not to conflict "
+"within the ?page= array. Large values will add a lot of commas to your "
+"URLs, so avoid if possible."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:828
+msgid "The number of items to display per page. Enter 0 for no limit."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:833
+msgid "Offset"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:834
+msgid ""
+"The number of items to skip. For example, if this field is 3, the "
+"first 3 items will be skipped and not displayed. Offset can not be "
+"used if items to display is 0; instead use a very large number there."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:839
+msgid "Add a more link to the bottom of the display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:842
+msgid "Create more link"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:843
+msgid ""
+"This will add a more link to the bottom of this view, which will link "
+"to the page view. If you have more than one page view, the link will "
+"point to the display specified in 'Link display' above."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:852
+msgid ""
+"This will make the view display only distinct items. If there are "
+"multiple identical items, each will be displayed only once. You can "
+"use this to try and remove duplicates from a view, though it does not "
+"always work. Note that this can slow queries down, so use it with "
+"caution."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:857
+msgid "Access restrictions"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:956,876
+msgid ""
+"You may also adjust the !settings for the currently selected style by "
+"clicking on the icon."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1001,956,876
+msgid "settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:884
+msgid "Access options"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:918,902
+msgid "Display even if view has no result"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:909
+msgid ""
+"Text to display at the top of the view. May contain an explanation or "
+"links or whatever you like. Optional."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:925
+msgid ""
+"Text to display beneath the view. May contain an explanation or links "
+"or whatever you like. Optional."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:936
+msgid "Text to display if the view has no results. Optional."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:942
+msgid "How should this view be styled"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:948
+msgid ""
+"If the style you choose has settings, be sure to click the settings "
+"button that will appear next to it in the View summary."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:962
+msgid "Style options"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:973
+msgid "Row style options"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:988
+msgid "How should each row in this view be styled"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1001
+msgid ""
+"You may also adjust the !settings for the currently selected row style "
+"by clicking on the icon."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1007
+msgid "Which display to use for path"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1016
+msgid ""
+"Which display to use to get this display's path for things like "
+"summary links, rss feed links, more links, etc."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1021
+msgid "Theming information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1029
+msgid "Display output"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1033
+msgid "Alternative display output"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1040
+msgid "Style output"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1044
+msgid "Alternative style"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1051
+msgid "Row style output"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1055
+msgid "Alternative row style"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1063
+msgid "Field @field (ID: @id)"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1071
+msgid ""
+"This section lists all possible templates for the display plugin and "
+"for the style plugins, ordered roughly from the least specific to the "
+"most specific. The active template for each plugin -- which is the "
+"most specific template found on the system -- is highlighted in bold."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1086
+msgid "Rescan template files"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1092
+msgid ""
+"<strong>Important!</strong> When adding, removing, or renaming "
+"template files, it is necessary to make Drupal aware of the changes by "
+"making it rescan the files on your system. By clicking this button you "
+"clear Drupal's theme registry and thereby trigger this rescanning "
+"process. The highlighted templates above will then reflect the new "
+"state of your system."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1098
+msgid "Theming information (display)"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1184,1155,1126,1099
+msgid "Back to !info."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1184,1155,1126,1099
+msgid "theming information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1102
+msgid "This display has no theming information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1105
+msgid "This is the default theme template used for this display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1111
+msgid "This is an alternative template for this display."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1125
+msgid "Theming information (style)"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1131
+msgid "This display has no style theming information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1134
+msgid "This is the default theme template used for this style."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1140
+msgid "This is an alternative template for this style."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1183,1154
+msgid "Theming information (row style)"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1160
+msgid "This display has no row style theming information"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1186,1163
+msgid "This is the default theme template used for this row style."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1169
+msgid "This is an alternative template for this row style."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1201
+msgid "Put the exposed form in a block"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1205
+msgid ""
+"If set, any exposed widgets will not appear with this view. Instead, a "
+"block will be made available to the Drupal block administration "
+"system, and the exposed form will appear there. Note that this block "
+"must be enabled manually, Views will not enable it for you."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1240
+msgid "File found in folder @template-path"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1244
+msgid "(File not found, in folder @template-path)"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1406
+msgid "Status: using default values."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1410
+msgid "Update default display"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1415
+msgid "Use default"
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1420
+msgid "Status: using overridden values."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1641
+msgid ""
+"Display \"@display\" uses fields but there are none defined for it or "
+"all are excluded."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1646
+msgid "Display \"@display\" uses a path but the path is undefined."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1652
+msgid "Display \"@display\" has an invalid style plugin."
+msgstr ""
+
+#: views/plugins/views_plugin_display.inc:1684
+msgid "Exposed form: @view-@display_id"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:35
+msgid "Before"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:36
+msgid "After"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:37
+msgid "Both"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:57
+msgid "Attachment settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:62,109
+msgid "Inherit arguments"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:68,118
+msgid "Inherit exposed filters"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:74,127
+msgid "Position"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:112,121
+msgid "Inherit"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:113
+msgid ""
+"Should this display inherit its arguments from the parent display to "
+"which it is attached?"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:122
+msgid ""
+"Should this display inherit its exposed filter values from the parent "
+"display to which it is attached?"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:130
+msgid "Attach before or after the parent display?"
+msgstr ""
+
+#: views/plugins/views_plugin_display_attachment.inc:145
+msgid "Select which display or displays this should attach to."
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:34
+msgid "@view: @display"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:68
+msgid "Block settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:82
+msgid "Admin"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:106
+msgid "Do not cache"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:107
+msgid "Cache once for everything (global)"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:108
+msgid "Per page"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:109
+msgid "Per role"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:110
+msgid "Per role per page"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:111
+msgid "Per user"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:112
+msgid "Per user per page"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:137
+msgid "Block admin description"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:140
+msgid ""
+"This will appear as the name of this block in administer >> site "
+"building >> blocks."
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:145
+msgid "Block caching type"
+msgstr ""
+
+#: views/plugins/views_plugin_display_block.inc:149
+msgid ""
+"This sets the default status for Drupal's built-in block caching "
+"method; this requires that caching be turned on in block "
+"administration, and be careful because you have little control over "
+"when this cache is flushed."
+msgstr ""
+
+#: views/plugins/views_plugin_display_feed.inc:86
+msgid "Feed settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display_feed.inc:90
+msgid "Using the site name"
+msgstr ""
+
+#: views/plugins/views_plugin_display_feed.inc:132
+msgid "Use the site name for the title"
+msgstr ""
+
+#: views/plugins/views_plugin_display_feed.inc:149
+msgid "The feed icon will be available only to the selected displays."
+msgstr ""
+
+#: views/plugins/views_plugin_display_feed.inc:155
+msgid ""
+"This view will be displayed by visiting this path on your site. It is "
+"recommended that the path be something like \"path/%/%/feed\" or "
+"\"path/%/%/rss.xml\", putting one % in the path for each argument you "
+"have defined in the view."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:194
+msgid "Page settings"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:219
+msgid "No menu"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:222
+msgid "Normal: @title"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:226
+msgid "Tab: @title"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:242
+msgid "Change settings for the parent menu"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:255
+msgid "The menu path or URL of this view"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:259
+msgid ""
+"This view will be displayed by visiting this path on your site. You "
+"may use \"%\" in your URL to represent values that will be used for "
+"arguments: For example, \"node/%/feed\"."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:265
+msgid "Menu item entry"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:282
+msgid "No menu entry"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:283
+msgid "Normal menu entry"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:284,370
+msgid "Menu tab"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:285
+msgid "Default menu tab"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:294
+msgid "If set to normal or tab, enter the text to use for the menu item."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:302
+msgid ""
+"If set to normal or tab, enter the text to use for the menu item's "
+"description."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:309
+msgid ""
+"Warning: Changing this item's menu will not work reliably in Drupal "
+"6.4 or earlier. Please upgrade your copy of Drupal at !url."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:323
+msgid "Insert item into an available menu."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:334
+msgid "Menu selection requires the activation of menu module."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:342
+msgid "The lower the weight the higher/further left it will appear."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:348
+msgid "Default tab options"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:357
+msgid ""
+"When providing a menu item as a tab, Drupal needs to know what the "
+"parent menu item of that tab will be. Sometimes the parent will "
+"already exist, but other times you will need to have one created. The "
+"path of a parent item will always be the same path with the last part "
+"left off. i.e, if the path to this view is <em>foo/bar/baz</em>, the "
+"parent path would be <em>foo/bar</em>."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:368
+msgid "Parent menu item"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:370
+msgid "Already exists"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:370
+msgid "Normal menu item"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:378
+msgid "If creating a parent menu item, enter the title of the item."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:386
+msgid "If creating a parent menu item, enter the description of the item."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:392
+msgid "Tab weight"
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:396
+msgid ""
+"If the parent menu item is a tab, enter the weight of the tab. The "
+"lower the number, the more to the left it will be."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:410
+msgid "\"$arg\" is no longer supported. Use % instead."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:414
+msgid "\"%\" may not be used for the first segment of a path."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:424
+msgid "Views cannot create normal menu items for paths with a % in them."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:431
+msgid "A display whose path ends with a % cannot be a tab."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:436
+msgid "Title is required for this menu type."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:467
+msgid "Display @display is set to use a menu but the menu title is not set."
+msgstr ""
+
+#: views/plugins/views_plugin_display_page.inc:473
+msgid ""
+"Display @display is set to use a parent menu but the parent menu title "
+"is not set."
+msgstr ""
+
+#: views/plugins/views_plugin_row_fields.inc:40
+msgid "Inline fields"
+msgstr ""
+
+#: views/plugins/views_plugin_row_fields.inc:43
+msgid ""
+"Inline fields will be displayed next to each other rather than one "
+"after another."
+msgstr ""
+
+#: views/plugins/views_plugin_row_fields.inc:51
+msgid ""
+"The separator may be placed between inline fields to keep them from "
+"squishing up next to each other. You can use HTML in this field."
+msgstr ""
+
+#: views/plugins/views_plugin_style.inc:91
+msgid "Grouping field"
+msgstr ""
+
+#: views/plugins/views_plugin_style.inc:94
+msgid ""
+"You may optionally specify a field by which to group the records. "
+"Leave blank to not group."
+msgstr ""
+
+#: views/plugins/views_plugin_style.inc:191
+msgid "Style @style requires a row style but the row plugin is invalid."
+msgstr ""
+
+#: views/plugins/views_plugin_style_grid.inc:33
+msgid "Number of columns"
+msgstr ""
+
+#: views/plugins/views_plugin_style_grid.inc:38
+msgid "Alignment"
+msgstr ""
+
+#: views/plugins/views_plugin_style_grid.inc:39
+msgid "Horizontal"
+msgstr ""
+
+#: views/plugins/views_plugin_style_grid.inc:39
+msgid "Vertical"
+msgstr ""
+
+#: views/plugins/views_plugin_style_grid.inc:41
+msgid ""
+"Horizontal alignment will place items starting in the upper left and "
+"moving right. Vertical alignment will place items starting in the "
+"upper left and moving down."
+msgstr ""
+
+#: views/plugins/views_plugin_style_list.inc:32
+msgid "List type"
+msgstr ""
+
+#: views/plugins/views_plugin_style_rss.inc:56
+msgid "Use the site mission for the description"
+msgstr ""
+
+#: views/plugins/views_plugin_style_rss.inc:60
+msgid "RSS description"
+msgstr ""
+
+#: views/plugins/views_plugin_style_rss.inc:62
+msgid "This will appear in the RSS feed itself."
+msgstr ""
+
+#: views/plugins/views_plugin_style_summary.inc:34
+msgid "Display record count with link"
+msgstr ""
+
+#: views/plugins/views_plugin_style_summary.inc:39
+msgid "Override number of items to display"
+msgstr ""
+
+#: views/plugins/views_plugin_style_summary_unformatted.inc:26
+msgid "Display items inline"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:126
+msgid ""
+"You need at least one field before you can configure your table "
+"settings"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:135
+msgid "Override normal sorting if click sorting is used"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:141
+msgid "Enable Drupal style \"sticky\" table headers (Javascript)"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:143
+msgid ""
+"(Sticky header effects will not be active for preview below, only on "
+"live output.)"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:148
+msgid "Default sort order"
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:151
+msgid ""
+"If a default sort order is selected, what order should it use by "
+"default."
+msgstr ""
+
+#: views/plugins/views_plugin_style_table.inc:237
+msgid ""
+"Place fields into columns; you may combine multiple fields into the "
+"same column. If you do, the separator in the column specified will be "
+"used to separate the fields. Check the sortable box to make that "
+"column click sortable, and check the default sort radio to determine "
+"which column will be sorted by default, if any. You may control column "
+"order and field labels in the fields section."
+msgstr ""
+

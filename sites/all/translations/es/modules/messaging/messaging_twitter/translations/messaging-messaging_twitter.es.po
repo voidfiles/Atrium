@@ -1,0 +1,67 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  messaging_twitter.module,v 1.1.2.5 2009/04/02 10:23:06 jareyero
+#  messaging_twitter.info,v 1.1.2.1 2009/01/15 18:29:12 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: messaging/messaging_twitter/messaging_twitter.module:142
+msgid "Username"
+msgstr "Usuario"
+
+#: messaging/messaging_twitter/messaging_twitter.module:150
+msgid "Password"
+msgstr "Contraseña"
+
+#: messaging/messaging_twitter/messaging_twitter.module:20,19
+msgid "Twitter Direct Message"
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:24
+msgid "Send as a Twitter direct message."
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:32,31
+msgid "Twitter @ Message"
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:36
+msgid "Send as a Twitter @ message."
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:166
+msgid ""
+"Twitter authentication failed. Please check your username and "
+"password."
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:107
+msgid "Twitter"
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:108
+msgid "Configure the Twitter ID information for the site."
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.module:0
+msgid "messaging_twitter"
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.info:0
+msgid "Twitter Messaging"
+msgstr ""
+
+#: messaging/messaging_twitter/messaging_twitter.info:0
+msgid "Sending method for messaging that uses Twitter"
+msgstr ""
+

@@ -1,0 +1,125 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  views_handler_argument_term_node_tid_depth.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_handler_argument_vocabulary_vid.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_handler_field_taxonomy.inc,v 1.3 2009/01/30 00:01:42 merlinofchaos
+#  views_handler_field_term_node_tid.inc,v 1.3 2009/04/07 22:02:40 merlinofchaos
+#  views_handler_filter_term_node_tid.inc,v 1.8 2009/04/07 23:21:01 merlinofchaos
+#  views_plugin_argument_validate_taxonomy_term.inc,v 1.4 2009/04/08 05:10:07 merlinofchaos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: views/modules/taxonomy/views_handler_argument_term_node_tid_depth.inc:26
+msgid ""
+"The depth will match nodes tagged with terms in the hierarchy. For "
+"example, if you have the term \"fruit\" and a child term \"apple\", "
+"with a depth of 1 (or higher) then filtering for the term \"fruit\" "
+"will get nodes that are tagged with \"apple\" as well as \"fruit\". If "
+"negative, the reverse is true; searching for \"apple\" will also pick "
+"up nodes tagged with \"fruit\" if depth is -1 (or lower)."
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_argument_term_node_tid_depth.inc:31
+msgid "Allow multiple terms per argument"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_argument_term_node_tid_depth.inc:32
+msgid ""
+"If selected, users can enter multiple arguments in the form of 1+2+3. "
+"Due to the number of JOINs it would require, AND will be treated as OR "
+"with this argument."
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_argument_vocabulary_vid.inc:15
+msgid "No vocabulary"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_field_taxonomy.inc:33
+msgid "Link this field to its taxonomy term page"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_field_term_node_tid.inc:34
+msgid "Link this field to its term page"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_field_term_node_tid.inc:41
+msgid "Limit terms by vocabulary"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:41
+msgid "Select which vocabulary to show terms for in the regular options."
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:52
+msgid "Selection type"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:53
+msgid "Dropdown"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:53
+msgid "Autocomplete"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:59
+msgid "Show hierarchy in dropdown"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:76
+msgid "An invalid vocabulary is selected. Please change it in the options."
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:158,94
+msgid "Select terms from vocabulary @voc"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:158,94
+msgid "Select terms"
+msgstr ""
+
+#: views/modules/taxonomy/views_handler_filter_term_node_tid.inc:273
+msgid "Unable to find term: @terms"
+msgid_plural "Unable to find terms: @terms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:26
+msgid ""
+"If you wish to validate for specific vocabularies, check them; if none "
+"are checked, all terms will pass."
+msgstr ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:36
+msgid "Term IDs separated by , or +"
+msgstr ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:37
+msgid "Term name or synonym"
+msgstr ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:38
+msgid "Term name/synonym converted to Term ID"
+msgstr ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:41
+msgid ""
+"Select the form of this argument; if using term name, it is generally "
+"more efficient to convert it to a term ID and use Taxonomy: Term ID "
+"rather than Taxonomy: Term Name\" as an argument."
+msgstr ""
+
+#: views/modules/taxonomy/views_plugin_argument_validate_taxonomy_term.inc:48
+msgid "Transform dashes in URL to spaces in term name arguments"
+msgstr ""
+

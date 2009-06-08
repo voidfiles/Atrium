@@ -1,0 +1,120 @@
+# translation of general.po to Arabic
+# Abdel Rahman Ghareeb <king_abdo@yahoo.com>, 2004.
+# Sameh Sabry <samehsabry@linuxmail.org>, 2004.
+# Manal Hassan <manal@manalaa.net>, 2004.
+# Amr Gharbeia <amr@gharbeia.net>, 2005, 2006, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: general\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-14 11:04+0200\n"
+"PO-Revision-Date: 2007.08.06 14:05+0300\n"
+"Last-Translator: Amr Gharbeia <amr@gharbeia.net>\n"
+"Language-Team: Arabic <general@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==1 ? 0 : n==0 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: modules/color/color.module:10
+msgid ""
+"The color module allows a site administrator to quickly and easily change "
+"the color scheme of certain themes. Although not all themes support color "
+"module, both Garland (the default theme) and Minnelli were designed to take "
+"advantage of its features. By using color module with a compatible theme, "
+"you can easily change the color of links, backgrounds, text, and other theme "
+"elements. Color module requires that your <a href=\"@url\">file download "
+"method</a> be set to public."
+msgstr ""
+
+#: modules/color/color.module:11
+msgid ""
+"It is important to remember that color module saves a modified copy of the "
+"theme's specified stylesheets in the files directory. This means that if you "
+"make any manual changes to your theme's stylesheet, you must save your color "
+"settings again, even if they haven't changed. This causes the color module "
+"generated version of the stylesheets in the files directory to be recreated "
+"using the new version of the original file."
+msgstr ""
+
+#: modules/color/color.module:12
+msgid ""
+"To change the color settings for a compatible theme, select the \"configure"
+"\" link for the theme on the <a href=\"@themes\">themes administration page</"
+"a>."
+msgstr ""
+
+#: modules/color/color.module:38
+msgid ""
+"The color picker only works if the <a href=\"@url\">download method</a> is "
+"set to public."
+msgstr ""
+
+#: modules/color/color.module:43
+msgid "Color scheme"
+msgstr "خطة الألوان"
+
+#: modules/color/color.module:171
+msgid "Custom"
+msgstr "مُطَوَّع"
+
+#: modules/color/color.module:174
+msgid "Color set"
+msgstr "مجموعة الألوان"
+
+#: modules/color/color.module:182
+msgid "Base color"
+msgstr "اللون الأساسي"
+
+#: modules/color/color.module:183
+msgid "Link color"
+msgstr "لون الروابط"
+
+#: modules/color/color.module:184
+msgid "Header top"
+msgstr "قمة الترويسة"
+
+#: modules/color/color.module:185
+msgid "Header bottom"
+msgstr "أسفل الترويسة"
+
+#: modules/color/color.module:186
+msgid "Text color"
+msgstr "لون النص"
+
+#: modules/color/color.module:271
+msgid ""
+"There is not enough memory available to PHP to change this theme's color "
+"scheme. You need at least %size more. Check the <a href=\"@url\">PHP "
+"documentation</a> for more information."
+msgstr ""
+"لا توجد ذاكرة كافية ليغير بي.إتش.بي خطة الألوان هذه. تحتاج على الأقل إلى %"
+"size مزيد. راجع <a href=\"@url\">توثيق بي.إتش.بي</a> لمزيد من المعلومات."
+
+#: modules/color/color.install:21
+msgid ""
+"The GD library for PHP is enabled, but was compiled without PNG support. "
+"Please check the <a href=\"@url\">PHP image documentation</a> for "
+"information on how to correct this."
+msgstr ""
+"مكتبة جي.دي في بي.إتش.بي مفعلة، لكنه جُمٍِّع بدون دعم بي.إن.جي. من فضلك راجع <a "
+"href=\"@url\">توثيق بي.إتش.بي للصور</a> من أجل معلومات عن كيفية تصحيح هذا "
+"الأمر."
+
+#: modules/color/color.install:26
+msgid "Not installed"
+msgstr "غير مركب"
+
+#: modules/color/color.install:28
+msgid ""
+"The GD library for PHP is missing or outdated. Please check the <a href="
+"\"@url\">PHP image documentation</a> for information on how to correct this."
+msgstr ""
+"مكتبة جي.دي لبي.إتش.بي إما قديمة أو غير موجودة. من فضلك راجع <a href=\"@url"
+"\">توثيق بي.إتش.بي للصور</a> من أجل معلومات عن كيفية تصحيح هذا الأمر."
+
+#: modules/color/color.install:31
+msgid "GD library"
+msgstr "مكتبة جي.دي"

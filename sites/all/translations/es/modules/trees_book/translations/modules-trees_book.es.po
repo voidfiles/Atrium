@@ -1,0 +1,133 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_book/trees_book.module: n/a
+#  gravlax_profile/modules/trees_book/trees_book.defaults.inc: n/a
+#  gravlax_profile/modules/trees_book/trees_book.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/trees_book/trees_book.module:141,131
+msgid "Pages"
+msgstr "Páginas"
+
+#: modules/trees_book/trees_book.defaults.inc:70
+msgid "Book page"
+msgstr "Página del libro"
+
+#: modules/trees_book/trees_book.defaults.inc:72
+msgid ""
+"A <em>book page</em> is a page of content, organized into a collection "
+"of related entries collectively known as a <em>book</em>. A <em>book "
+"page</em> automatically displays links to adjacent pages, providing a "
+"simple navigation system for organizing and reviewing structured "
+"content."
+msgstr ""
+"Una <em>página de libro</em> es una página de contenido organizada "
+"en una colección de entradas relacionadas entre sí, que se conocen "
+"como <em>libro</em>. Una <em>página de libro</em> muestra "
+"automáticamente enlaces a páginas adyacentes, proporcionando un "
+"sistema simple de organizar y revisar contenido de forma estructurada."
+
+#: modules/trees_book/trees_book.module:15
+msgid "Tips for adding & editing book pages:"
+msgstr "Notas para añadir y editar páginas de libro:"
+
+#: modules/trees_book/trees_book.module:17
+msgid "Create a new book or choose an existing one for your page."
+msgstr ""
+"Cree un nuevo libro o seleccione uno existente para colocar su "
+"página."
+
+#: modules/trees_book/trees_book.module:18
+msgid ""
+"Select a position for your page in the book's hierarchy and "
+"<strong>weight</strong> your page higher or lower if you would like to "
+"move it before or after other pages around it."
+msgstr ""
+"Seleccione el lugar para su página en la jerarquía del libro y "
+"asigne un <strong>peso</strong> a la página mayor o menor si quiere "
+"que aparezca antes o después que las demás páginas."
+
+#: modules/trees_book/trees_book.module:27
+msgid ""
+"The documents section provides a way for you to capture and share "
+"knowledge with your group members. With the book feature you can:"
+msgstr ""
+"La sección de documentos proporciona una manera de almacenar y "
+"compartir el conocimiento con los miembros de su equipo. Con el libro "
+"puede:"
+
+#: modules/trees_book/trees_book.module:29
+msgid "!add_book_pages and organize them hierarchically into different books."
+msgstr "!add_book_pages y organizarlas jerárquicamente en diferentes libros."
+
+#: modules/trees_book/trees_book.module:29
+msgid "Add book pages"
+msgstr "Añadir páginas de libro"
+
+#: modules/trees_book/trees_book.module:30
+msgid "Attach files to pages to share them with others."
+msgstr "Adjuntar archivos a las páginas para compartiros con otros."
+
+#: modules/trees_book/trees_book.module:31
+msgid "Track changes that others have made and revert changes as necessary."
+msgstr ""
+"Hacer un seguimiento de los cambios que otros puedan haber hecho y "
+"deshacer los cambios si es necesario."
+
+#: modules/trees_book/trees_book.module:32
+msgid ""
+"!archive books that are no longer of interest to the group. Archived "
+"books can be reactivated later if needed."
+msgstr ""
+"!archive libros que ya no son de interés para el libro. Los libros "
+"archivados pueden ser reactivados más adelante si es necesario."
+
+#: modules/trees_book/trees_book.module:131
+msgid "Recent updates"
+msgstr "Cambios recientes"
+
+#: modules/trees_book/trees_book.module:147
+msgid "Overview page"
+msgstr "Página resumen"
+
+#: modules/trees_book/trees_book.module:149
+msgid "Choose the page to display when a user first views this feature."
+msgstr ""
+"Seleccione la página a mostrar cuando un usuario ve por primera vez "
+"esta funcionalidad."
+
+#: modules/trees_book/trees_book.module:0
+msgid "trees_book"
+msgstr ""
+
+#: modules/trees_book/trees_book.info:0
+msgid "Provides a documents feature for 8 Trees."
+msgstr ""
+
+#: modules/trees_book/trees_book.defaults.inc:543
+msgid "Latest changes"
+msgstr ""
+
+#: modules/trees_book/trees_book.defaults.inc:544
+msgid "Page: Latest changes"
+msgstr ""
+
+#: modules/trees_book/trees_book.defaults.inc:545
+msgid "Page: Archived books"
+msgstr ""
+
+#: modules/trees_book/trees_book.defaults.inc:546
+msgid "No archived books found."
+msgstr ""
+

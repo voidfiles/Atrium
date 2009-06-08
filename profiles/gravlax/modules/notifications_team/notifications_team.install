@@ -1,0 +1,9 @@
+<?php
+// $Id: notifications_team.install,v 1.1.2.1 2009/04/17 18:09:17 jmiccolis Exp $
+
+/**
+ * Implementation of hook_install()
+ */
+function notifications_team_install() {
+  db_query("UPDATE {system} SET weight = -25 WHERE name = 'notifications_team'");
+}

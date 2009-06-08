@@ -1,0 +1,67 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_base/openidadmin/openidadmin.module: n/a
+#  gravlax_base/openidadmin/openidadmin.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: openidadmin/openidadmin.module:20
+msgid "OpenID identities"
+msgstr "Identidades OpenID"
+
+#: openidadmin/openidadmin.module:51
+msgid ""
+"You may add a list op OpenID's for this user account. These identities "
+"will skip any authentication and will be just linked to this account."
+msgstr ""
+
+#: openidadmin/openidadmin.module:69
+msgid "List of OpenIDs"
+msgstr ""
+
+#: openidadmin/openidadmin.module:71
+msgid "Add a list of OpenIDs for this account, one per line."
+msgstr ""
+
+#: openidadmin/openidadmin.module:86
+msgid ""
+"The OpenID %identity is already in use on this site for the user "
+"!name."
+msgstr ""
+
+#: openidadmin/openidadmin.module:100
+msgid "One OpenID has been added."
+msgid_plural "@count OpenIDs have been added."
+msgstr[0] ""
+msgstr[1] ""
+
+#: openidadmin/openidadmin.module:59
+msgid "add list of open ids"
+msgstr ""
+
+#: openidadmin/openidadmin.module:25
+msgid "Add list"
+msgstr ""
+
+#: openidadmin/openidadmin.module:0
+msgid "openidadmin"
+msgstr ""
+
+#: openidadmin/openidadmin.info:0
+msgid "OpenID Admin"
+msgstr ""
+
+#: openidadmin/openidadmin.info:0
+msgid "Allows bulk operations for OpenID administration."
+msgstr ""
+

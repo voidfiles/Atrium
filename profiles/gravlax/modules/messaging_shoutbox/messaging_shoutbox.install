@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * Implementation of hook_enable().
+ */
+function messaging_shoutbox_enable() {
+  // Upgrade from spaces_shoutbox.
+  $upgrade = db_result(db_query("SELECT count(*) FROM {node} WHERE type = 'shout'"));
+  $upgrade = $upgrade && db_result(db_query("SELECT count(*) FROM {system} WHERE name = 'spaces_shoutbox'"));
+  if ($upgrade) {
+    _messaging_shoutbox_update_spaces_shoutbox();
+    db_query("DELETE FROM {system} WHERE name = 'spaces_shoutbox'");
+  }
+}
+
+/**
+ * Update script 1: Populate usernames for previously created shouts
+ */
+function messaging_shoutbox_update_1() {
+  $ret = array();
+  $usernames = array();
+  $result = db_query("SELECT c.cid, c.uid, u.name FROM {comments} c JOIN {node} n ON c.nid = n.nid JOIN {users} u ON u.uid = c.uid WHERE n.type = 'shoutbox'");
+  while ($row = db_fetch_object($result)) {
+    if (!isset($usernames[$row->uid])) {
+      $usernames[$row->uid] = $row->name;
+    }
+  }
+  foreach ($usernames as $uid => $name) {
+    $ret[] = update_sql("UPDATE {comments} SET name = '{$name}' WHERE uid = {$uid}");
+  }
+  return $ret;
+}
+
+/**
+ * Upgrade script to convert spaces_shoutbox "shout" nodes to comments on shoutboxes.
+ */
+function _messaging_shoutbox_update_spaces_shoutbox() {
+  // Rebuild node types cache.
+  node_types_rebuild();
+
+  // Make sure shoutbox is considered a group post during this process.
+  global $conf;
+  $conf['og_content_type_usage_shoutbox'] = 'group_post_standard';
+
+  // ASSUMPTION: assume that the only space type ever using the shoutbox was spaces_og.
+  $result = db_query("SELECT sid, value FROM {spaces_features} WHERE type = 'og' AND id = 'shoutbox' AND value != 0");
+  $spaces = array();
+  while ($row = db_fetch_object($result)) {
+    $spaces[$row->sid] = $row->value;
+  }
+  $result = db_query("SELECT DISTINCT(sid) FROM {spaces_features} WHERE type = 'og'");
+  while ($row = db_fetch_object($result)) {
+    if (!isset($spaces[$row->sid])) {
+      $test = db_result(db_query("SELECT count(n.nid) FROM {node} n JOIN {og_ancestry} og ON n.nid = og.nid WHERE og.group_nid = %d AND n.type = 'shout'", $gid));
+      if ($test) {
+        $spaces[$row->sid] = 1; // Assume private for now
+      }
+    }
+  }
+  foreach ($spaces as $gid => $value) {
+    if ($group = node_load($gid)) {
+      $nid = db_result(db_query("SELECT n.nid FROM {node} n JOIN {og_ancestry} og ON n.nid = og.nid WHERE og.group_nid = %d AND n.type = 'shoutbox'", $gid));
+      if (!$nid) {
+        // Create a shoutbox per group
+        $shoutbox = (object) array(
+          'title' => $group->title .' '. t('shoutbox'),
+          'type' => 'shoutbox',
+          'status' => 1,
+          'uid' => $group->uid,
+          'og_groups' => array($gid => $gid),
+          'og_public' => ($value == 1) ? 0 : 1,
+        );
+        node_save($shoutbox);
+        $nid = $shoutbox->nid;
+      }      
+      if ($nid) {
+        $result = db_query("SELECT n.nid, n.uid, n.title, n.created FROM {node} n JOIN {og_ancestry} og ON n.nid = og.nid WHERE og.group_nid = %d AND n.type = 'shout' AND n.status = 1", $gid);
+        while ($row = db_fetch_object($result)) {
+          $shout = array(
+            'text' => check_plain($row->title),
+            'uid' => $row->uid,
+            'timestamp' => $row->created,
+          );
+          messaging_shoutbox_shout($nid, $shout);
+          node_delete($row->nid);
+        }
+      }
+    }
+  }
+}

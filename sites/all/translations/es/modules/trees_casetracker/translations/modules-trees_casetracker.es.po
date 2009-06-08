@@ -1,0 +1,165 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.module: n/a
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.info: n/a
+#  gravlax_profile/modules/trees_casetracker/trees_casetracker.defaults.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: 2009-05-30 19:53+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/trees_casetracker/trees_casetracker.module:328
+msgid "Last updated"
+msgstr "Última actualización"
+
+#: modules/trees_casetracker/trees_casetracker.module:18
+msgid "Tips for adding & editing cases:"
+msgstr "Notas para añadir y editar incidencias:"
+
+#: modules/trees_casetracker/trees_casetracker.module:20
+msgid "Choose the project that your case applies to."
+msgstr "Seleccione el proyecto al que pertenece la incidencia."
+
+#: modules/trees_casetracker/trees_casetracker.module:21
+msgid "Fill in a descriptive title and summary of the issue."
+msgstr "Introduzca un título y un resumen descriptivos de la incidencia."
+
+#: modules/trees_casetracker/trees_casetracker.module:22
+msgid ""
+"Choose a status, priority and type for the case. Assign the case to a "
+"user and consider notifying any others who might be interested in the "
+"case."
+msgstr ""
+"Elija un estado, prioridad y tipo para la incidencia. Asigne la "
+"incidencia a un usuario y considere notificar a otros que puedan estar "
+"interesados."
+
+#: modules/trees_casetracker/trees_casetracker.module:26
+msgid ""
+"Projects can be used to organize cases and collect resources and "
+"documentations about ongoing work. You can organize <strong>book "
+"pages</strong> in a hierarchy under each project and view all of the "
+"cases that belong to a certain project in the casetracker."
+msgstr ""
+"Los proyectos pueden ser utilizados para organizar las incidencias y "
+"agrupar recursos y documentación sobre el trabajo en curso. Puede "
+"organizar las <strong>páginas de libro</strong> en una jerarquía "
+"bajo cada proyecto y ver todas las incidencias que pertenenecen a un "
+"proyecto en el gestor de incidencias."
+
+#: modules/trees_casetracker/trees_casetracker.module:34
+msgid ""
+"The casetracker gives you a way to track progress on your "
+"<strong>projects</strong> and assign <strong>cases</strong> to "
+"yourself and others."
+msgstr ""
+"El gestor de incidencias le proporciona un modo de realizar el "
+"seguimiento de sus <strong>proyectos</strong> y asignar "
+"<strong>incidencias</strong> a sí mismo y a otros."
+
+#: modules/trees_casetracker/trees_casetracker.module:36
+msgid "!add_projects to keep your cases organized."
+msgstr "!add_projects para organizar sus incidencias."
+
+#: modules/trees_casetracker/trees_casetracker.module:36
+msgid "Add projects"
+msgstr "Añadir proyectos"
+
+#: modules/trees_casetracker/trees_casetracker.module:37
+msgid ""
+"!add_cases to assign tasks or assignments to yourself and others for "
+"completion."
+msgstr "!add_cases para asignar tareas a sí mismo y a otros."
+
+#: modules/trees_casetracker/trees_casetracker.module:37
+msgid "Add cases"
+msgstr "Añadir incidencias"
+
+#: modules/trees_casetracker/trees_casetracker.module:38
+msgid ""
+"Cases can be <strong>reassigned</strong>, <strong>postponed</strong>, "
+"and <strong>closed</strong> amongst other actions."
+msgstr ""
+"Las incidencias pueden ser <strong>reasignadas</strong> y "
+"<strong>cerradas</strong>, entre otras acciones."
+
+#: modules/trees_casetracker/trees_casetracker.module:39
+msgid ""
+"The history of a case - who it's been assigned to, its status and its "
+"priority - can be tracked viewing its comment thread."
+msgstr ""
+"La historia de una incidencia - a quién ha sido asignada, su estado y "
+"su prioridad- puede ser seguida viendo el hilo de los comentarios."
+
+#: modules/trees_casetracker/trees_casetracker.module:175
+msgid "Trees: Casetracker filter"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:176
+msgid "Trees: Casetracker book"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.module:265
+msgid "Filter results"
+msgstr "Filtrar resultados"
+
+#: modules/trees_casetracker/trees_casetracker.module:312
+msgid "assigned to !user"
+msgstr "asignado a !user"
+
+#: modules/trees_casetracker/trees_casetracker.module:0
+msgid "trees_casetracker"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.info:0
+msgid "Provides a casetracker for 8 Trees."
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1231
+msgid "No cases found."
+msgstr "No se han encontrado casos"
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1232
+msgid "My cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1233
+msgid "There are no cases assigned to you."
+msgstr "No tiene ningún caso asignado."
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1234
+msgid "Project cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1235
+msgid "Project cases (newest)"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1236
+msgid "Newest cases"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1456
+msgid "No projects found."
+msgstr "No se han encontrado proyectos"
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1457
+msgid "Projects"
+msgstr "Proyectos"
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1459
+msgid "Archived projects"
+msgstr ""
+
+#: modules/trees_casetracker/trees_casetracker.defaults.inc:1460
+msgid "No archived projects found."
+msgstr ""
+

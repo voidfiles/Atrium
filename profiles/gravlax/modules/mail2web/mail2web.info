@@ -1,0 +1,14 @@
+; $Id: mail2web.info,v 1.2 2008/08/08 17:59:01 jareyero Exp $
+name = Mail to Web
+description = Gateway module for responding to posts via mail
+package = "Notifications"
+dependencies[] = notifications
+dependencies[] = mailhandler
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-02-01
+version = "6.x-1.0-beta2"
+core = "6.x"
+project = "mail2web"
+datestamp = "1233504042"
+

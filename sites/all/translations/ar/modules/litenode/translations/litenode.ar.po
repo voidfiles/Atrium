@@ -1,0 +1,40 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_base/litenode/litenode.views.inc: n/a
+#  gravlax_base/litenode/litenode.module: n/a
+#  gravlax_base/litenode/litenode.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: litenode/litenode.views.inc:11
+msgid "Lighter, faster version of the node style."
+msgstr ""
+
+#: litenode/litenode.module:376
+msgid "Organic Groups"
+msgstr ""
+
+#: litenode/litenode.module:0
+msgid "litenode"
+msgstr ""
+
+#: litenode/litenode.info:0
+msgid ""
+"Provides a lighter alternative to Drupal's standard node_load() / "
+"node_view() stack."
+msgstr ""
+
+#: litenode/litenode.info:0
+msgid "Views bonus pack"
+msgstr ""
+

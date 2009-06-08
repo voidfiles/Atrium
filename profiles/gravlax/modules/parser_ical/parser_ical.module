@@ -1,0 +1,156 @@
+<?php
+// $Id: parser_ical.module,v 1.1.2.2 2008/12/08 19:06:08 ekes Exp $
+
+/**
+ * @file
+ * Parse the incoming URL with date_api_ical 
+ * 
+ * TODO Figure out how to incorporate VVENUE information into the parser.  
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function parser_ical_help($path, $arg) {
+  switch ($path) {
+    case 'admin/modules#description':
+      return t('Provide a common iCal parser for FeedAPI-compatible modules.');
+    case 'feedapi/full_name':
+      return t('iCal Parser');
+  }
+}
+
+/**
+ * Implementation of hook_feedapi_feed().
+ */
+function parser_ical_feedapi_feed($op) {
+  $args = func_get_args();
+  switch ($op) {
+    case 'type':
+      return array('iCal feed');
+
+    case 'compatible':
+      $url = is_object($args[1]) ? $args[1] : FALSE;      
+      $ical_array = _parser_ical_feedapi_parse($url, FALSE);
+      if ($ical_array !== FALSE) {
+        return 'iCal feed';
+      }
+      else {
+        return FALSE;
+      }
+    
+    case 'parse':
+      $feed = is_object($args[1]) ? $args[1] : FALSE;
+      $cache = isset($args[2]) ? $args[2] : FALSE;
+      return _parser_ical_feedapi_parse($feed, $cache);
+  }
+}
+
+/**
+ * Parse the feed into a data structure
+ *
+ * @param $url
+ *  The feed's url
+ * @param $cache
+ *  If the results can be cached or not
+ * @return stdClass
+ *  The structured datas extracted from the feed
+ */
+function _parser_ical_feedapi_parse($feed, $cache = FALSE) {
+  $url = $feed->url;
+  // Substitute webcal with http.
+  if (stripos($url, 'webcal') === 0) {
+    $url = 'http'. substr($url, 6);
+  }
+  $downloaded_string = _parser_ical_download($url);
+
+  if ($downloaded_string === FALSE || empty($downloaded_string)) {
+    return $downloaded_string;
+  }
+  
+  return _parser_ical_parse($downloaded_string);
+}
+
+/**
+ * Parse iCal feeds.
+ *
+ * Uses patched ical_upload.
+ */
+function _parser_ical_parse($feed_content) {
+  include_once(drupal_get_path('module', 'date_api') .'/date_api_ical.inc');
+  $feed_folded = explode("\n", $feed_content);
+  $ical_parsed = date_ical_parse($feed_folded);
+  
+  // TODO, should we change this to a foreach() instead of just picking 
+  // out the first one in case there is more than one CALENDAR grouping 
+  // in a feed? Not sure that ever actually happens. 
+  
+  $ical = $ical_parsed[0]; // Pick out the first CALENDAR group.
+  
+  // Any or all of these items could be missing, so always use isset() to test.
+  $parsed_source = new stdClass();
+  // Detect the title
+  $parsed_source->title = isset($ical['X-WR-CALNAME']) ? $ical['X-WR-CALNAME'] : ''; 
+  // Detect the description
+  $parsed_source->description = isset($ical['X-WR-CALDESC']) ? $ical['X-WR-CALDESC'] : '';
+  $parsed_source->options = new stdClass();
+  $parsed_source->options->calscale = isset($ical['CALSCALE']) ? $ical['CALSCALE'] : '';
+  $parsed_source->options->timezone = isset($ical['X-WR-TIMEZONE']) ? $ical['X-WR-TIMEZONE'] : '';
+  $parsed_source->items = array();
+  
+  foreach ($ical['VEVENT'] as $event) {
+    $item = new stdClass();
+    $item->title = $event['SUMMARY'];
+    $item->description = isset($event['DESCRIPTION']) ? $event['DESCRIPTION'] : '';
+    
+    $item->options = new stdClass();
+    $item->options->original_author = '';
+    $item->options->location = isset($event['URL']) ? $event['URL'] : '';
+    $item->options->original_url = $item->options->location;
+    
+    // Make sure a valid timestamp is created.
+    $item->options->timestamp = time();
+    if (isset($event['DTSTAMP'])) {
+      $date = date_ical_date($event['DTSTAMP']);
+      if (date_is_valid($date, DATE_OBJECT)) {
+        $item->options->timestamp = date_format($date, 'U');
+      }
+    }
+
+    $item->options->guid = isset($event['UID']) ? $event['UID'] : ''; // intention
+    $item->options->tags = isset($event['CATEGORIES']) ? explode(',', $event['CATEGORIES']) : array();
+
+    // Keep iCal timezone information in the feed item so we can create the right date value.
+    $date_info = array('DTSTART', 'DTEND', 'RDATE', 'EXDATE', 'DURATION', 'RRULE');
+    foreach ($date_info as $key) {
+      if (isset($event[$key])) {
+        $item->options->VEVENT['DATE'][$key] = $event[$key];
+        unset($event[$key]);
+      }
+    }
+    foreach ($event as $key => $value) {
+      $item->options->VEVENT[$key] = $value;
+    }
+
+    $parsed_source->items[] = $item;
+  }
+  
+  return $parsed_source;
+}
+
+/**
+ * Copied from _parser_common_syndication_download().
+ * 
+ * Changed to allow passing of $allowed_mine array().
+ */
+function _parser_ical_download($url) {
+  $method = 'GET';
+  $follow = 3;
+  $data = NULL;
+  $headers = array();
+  if (!empty($username)) {
+    $headers['Authorization'] = 'Basic '. base64_encode("$username:$password");
+  }
+  $result = drupal_http_request($url, $headers, $method, $data, $follow);
+  return $result->data;
+}

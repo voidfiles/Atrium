@@ -1,0 +1,13 @@
+; $Id: casetracker_basic.info,v 1.2 2009/02/09 23:22:58 jmiccolis Exp $
+name = CT Basic
+description = Enables a basic project node type for use with Case Tracker.
+core = 6.x
+package = "Case Tracker"
+dependencies[] = casetracker
+
+; Information added by drupal.org packaging script on 2009-04-02
+version = "6.x-1.0-beta1"
+core = "6.x"
+project = "casetracker"
+datestamp = "1238631330"
+

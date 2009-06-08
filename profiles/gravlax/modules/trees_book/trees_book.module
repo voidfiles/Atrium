@@ -1,0 +1,164 @@
+<?php
+
+include_once('trees_book.features.inc');
+
+/**
+ * Implementation of hook_help().
+ */
+function trees_book_help($path, $arg) {
+  if (($path == 'help#trees_book') || (context_get('spaces', 'feature') == 'book')) {
+    switch ($path) {
+      case 'node/add/book':
+      case 'node/%/edit':
+        $help = '';
+        $help .= '<h3>'. t('Trees Book') .'</h3>';
+        $help .= '<p>'. t('Tips for adding & editing book pages:') .'</p>';
+        $help .= '<ul>';
+        $help .= '<li>'. t('Create a new book or choose an existing one for your page.') .'</li>';
+        $help .= '<li>'. t('Select a position for your page in the book\'s hierarchy and <strong>weight</strong> your page higher or lower if you would like to move it before or after other pages around it.') .'</li>';
+        $help .= '<li>'. t('Consider adding a <strong>log message</strong> when editing existing pages so others can get a quick summary of changes you have made.') .'</li>';
+        $help .= '</ul>';
+        return $help;
+
+      case 'help#trees_book':
+      default:
+        $help = '';
+        $help .= '<h3>'. t('Trees Book') .'</h3>';
+        $help .= '<p>'. t('The documents section provides a way for you to capture and share knowledge with your group members. With the book feature you can:') .'</p>';
+        $help .= '<ul>';
+        $help .= '<li>'. t('!add_book_pages and organize them hierarchically into different books.', array('!add_book_pages' => l(t('Add book pages'), 'node/add/book'))) .'</li>';
+        $help .= '<li>'. t('Attach files to pages to share them with others.') .'</li>';
+        $help .= '<li>'. t('Track changes that others have made and revert changes as necessary.') .'</li>';
+        $help .= '<li>'. t('!archive books that are no longer of interest to the group. Archived books can be reactivated later if needed.', array('!archive' => l(t('Archive'), 'documents/archived'))) .'</li>';
+        $help .= '</ul>';
+        return $help;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function trees_book_strongarm() {
+  // Book
+  $conf['book_allowed_types'] = array('book');
+
+  $conf['node_options_book'] = array('status', 'revision');
+  $conf["notifications_content_type_book"] = array('thread');
+  $conf['upload_book'] = TRUE;
+
+  // Comments
+  $conf['comment_book'] = COMMENT_NODE_DISABLED;
+
+  // FeedAPI
+  $conf['feedapi_settings_book'] = array('enabled' => FALSE);
+
+  // Disable Diff button
+  $conf["show_preview_changes_book"] = FALSE;
+  $conf["show_diff_inline_book"] = TRUE;
+
+  // Make archivable
+  $conf['trees_archivable'] = array('book');
+
+  // Enable for recent activity views
+  $conf['trees_update_type_book'] = TRUE;
+
+  return $conf;
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function trees_book_menu() {
+  $items = array();
+  $items['documents'] = array(
+    'title' => 'Documents',
+    'page callback' => 'trees_book_overview',
+    'page arguments' => array(),
+    'access callback' => 'spaces_feature_access',
+    'access arguments' => array('trees_book'),
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'features'
+  );
+  $items['documents/overview'] = array(
+    'title' => 'Overview',
+    'page callback' => 'trees_book_overview',
+    'page arguments' => array(),
+    'access callback' => 'spaces_feature_access',
+    'access arguments' => array('trees_book'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  return $items;
+}
+
+/**
+ * Page callback for book feature.
+ */
+function trees_book_overview() {
+  context_set('spaces', 'feature', 'book');
+  $space = spaces_get_space();
+  if (!empty($space->settings['book'])) {
+    $nid = $space->settings['book'];
+    if (is_numeric($nid) && $node = node_load($nid)) {
+      menu_set_active_item("node/{$node->nid}");
+      return node_view($node, FALSE, TRUE, TRUE);
+    }
+  }
+  return views_embed_view('trees_book', 'page_1');
+}
+
+/**
+ * Implementation of hook_spaces_settings().
+ */
+function trees_book_spaces_settings() {
+  return array('book' => 'trees_book_space_setting');
+}
+
+/**
+ * Implementation of space_setting.
+ */
+if (function_exists('spaces_menu')) {
+  class trees_book_space_setting implements space_setting {
+    var $id;
+
+    function __construct($id = NULL) {
+      $this->id = 'book';
+    }
+
+    function form($space, $value = array()) {
+      $form = array('#tree' => TRUE);
+      $options = array(0 => t('Recent updates'), t('Pages') => array());
+
+      if ($view = views_get_view('trees_book_current')) {
+        $view->set_display();
+        $view->set_items_per_page(0);
+        $view->execute();
+
+        // Collect books in this space into an array
+        if (is_array($view->result) && count($view->result)) {
+          foreach($view->result as $row) {
+            $options[t('Pages')][$row->nid] = $row->node_title;
+          }
+        }
+      }
+
+      $form = array(
+        '#title' => t('Overview page'),
+        '#type' => 'select',
+        '#description' => t('Choose the page to display when a user first views this feature.'),
+        '#options' => $options,
+        '#default_value' => !empty($value) ? $value : 0,
+      );
+
+      return $form;
+    }
+
+    function validate($space, $value) {
+    }
+
+    function submit($space, $value) {
+      return $value;
+    }
+  }
+}

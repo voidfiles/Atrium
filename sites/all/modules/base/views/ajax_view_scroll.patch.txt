@@ -1,0 +1,20 @@
+? ajax_view_scroll.patch.txt
+Index: js/ajax_view.js
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/js/ajax_view.js,v
+retrieving revision 1.15
+diff -u -p -r1.15 ajax_view.js
+--- js/ajax_view.js	8 Jan 2009 00:10:08 -0000	1.15
++++ js/ajax_view.js	24 Feb 2009 03:21:36 -0000
+@@ -132,7 +132,10 @@ Drupal.behaviors.ViewsAjaxView = functio
+                     // to browse newly loaded content after e.g. clicking a pager
+                     // link.
+                     var offset = $(target).offset();
+-                    window.scrollTo(0, offset.top - 10);
++                    // Only scroll upward
++                    if (offset.top - 10 < $(window).scrollTop()) {
++                      $('html,body').animate({scrollTop: (offset.top - 10)}, 500);
++                    }
+                     // Call all callbacks.
+                     if (response.__callbacks) {
+                       $.each(response.__callbacks, function(i, callback) {

@@ -1,0 +1,45 @@
+# Arabic translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  feedapi_node.views.inc,v 1.1.2.4 2009/01/23 13:47:10 alexb
+#  feedapi_node.views_default.inc,v 1.1.2.2 2009/01/23 13:47:10 alexb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:62,15
+msgid "FeedAPI Item"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:24
+msgid "The original URL of this feed item"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:34
+msgid "The date of item publish"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:47
+msgid "Arrived"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:48
+msgid "The date the item was imported"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views.inc:74,71
+msgid "Parent feed"
+msgstr ""
+
+#: modules/feedapi/feedapi_node/views/feedapi_node.views_default.inc:15
+msgid "Show a listing of all feed items for a feed"
+msgstr ""
+

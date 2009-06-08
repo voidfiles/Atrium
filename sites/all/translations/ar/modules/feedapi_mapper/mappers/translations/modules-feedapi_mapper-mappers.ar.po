@@ -1,0 +1,77 @@
+# Arabic translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  feedapi_mapper_content.inc,v 1.1.2.4.2.4 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_date.inc,v 1.1.2.3.2.6 2009/04/30 19:36:07 alexb
+#  feedapi_mapper_emimage.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_emvideo.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_link.inc,v 1.1.2.4.2.4 2009/04/20 16:01:34 alexb
+#  feedapi_mapper_location.inc,v 1.1.2.3 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_node.inc,v 1.1.2.4 2009/04/20 13:31:04 alexb
+#  feedapi_mapper_taxonomy.inc,v 1.1.4.4 2009/04/20 13:31:04 alexb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_content.inc:12
+msgid "Maps a string or a number to this CCK field."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_date.inc:13
+msgid "Maps a date to a date CCK field."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_emimage.inc:13
+msgid ""
+"Maps a link to a image to the Embedded Media Image CCK field. Use the "
+"original_url element for mapping to this field."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_emvideo.inc:13
+msgid ""
+"Maps a link to a video to the Embedded Media Video CCK field. Use the "
+"original_url element for mapping to this field."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_link.inc:12
+msgid "Maps a URL to this link CCK field."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_location.inc:11
+msgid "Maps pairs of geographic coordinates to the location of a node."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_location.inc:14
+msgid "Latitude"
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_location.inc:14
+msgid "Longitude"
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_node.inc:17
+msgid ""
+"Maps a feed element to a title, created date or a body of a node. Note "
+"that standard field mapping by FeedAPI still applies. For example if "
+"there is no feed element mapped to the node body you will still find "
+"the description in node body because that is how FeedAPI stores nodes."
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_node.inc:20
+msgid "Published date"
+msgstr ""
+
+#: modules/feedapi_mapper/mappers/feedapi_mapper_taxonomy.inc:11
+msgid ""
+"Maps a string or an array of strings to taxonomy terms. Chose a "
+"vocabulary from sub options."
+msgstr ""
+

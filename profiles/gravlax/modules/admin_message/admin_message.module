@@ -1,0 +1,228 @@
+<?php
+// $Id: admin_message.module,v 1.2 2009/03/06 03:02:41 ultimateboy Exp $
+
+/**
+ * @file
+ * Module to display messages that can be individually closed by logged in users.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function admin_message_menu() {
+ $items = array();
+
+ $items['admin_message/close/%'] = array(
+    'page callback' => 'admin_message_close',
+    'page arguments' => array(2),
+    'access arguments' => array('close admin messages'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  return $items;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function admin_message_nodeapi(&$node, $op, $teaser, $page) {
+  switch ($op) {
+    case 'load':
+      if ($node->type == 'admin_message') {
+        $object = db_fetch_object(db_query('SELECT keep_new FROM {admin_message} WHERE nid = %d', $node->nid));
+        return array('admin_message_keep_new' => $object->keep_new);
+      }
+      break;
+
+    case 'insert':
+      if ($node->type == 'admin_message') {
+        db_query("INSERT INTO {admin_message} (nid, keep_new, php_visibility) VALUES (%d, %d, '%s')", $node->nid, $node->admin_message_keep_new, trim($node->php_visibility));
+      }
+      break;
+
+    case 'update':
+      if ($node->type == 'admin_message') {
+        db_query('DELETE FROM {admin_message} WHERE nid = %d', $node->nid);
+        db_query("INSERT INTO {admin_message} (nid, keep_new, php_visibility) VALUES (%d, %d, '%s')", $node->nid, $node->admin_message_keep_new, trim($node->php_visibility));
+      }
+      break;
+
+    case 'delete':
+      if ($node->type == 'admin_message') {
+        db_query('DELETE FROM {admin_message} WHERE nid = %d', $node->nid);
+        db_query('DELETE FROM {admin_message_close} WHERE nid = %d', $node->nid);
+      }
+      break;
+
+    case 'view':
+      break;
+  }
+}
+
+function admin_message_close($nid) {
+  global $user;
+  db_query('DELETE FROM {admin_message_close} WHERE nid = %d AND uid = %d', $nid, $user->uid);
+  db_query('INSERT INTO {admin_message_close} (nid, uid) VALUES (%d, %d)', $nid, $user->uid);
+  drupal_goto();
+}
+
+/**
+ * Implementation of hook_user.
+ */
+function admin_message_user($op, &$edit, &$user) {
+  if ($op == 'delete') {
+    db_query('DELETE FROM {admin_message_close} WHERE uid = %d', $user->uid);
+  }
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * op: admin_message 
+ * 
+ */
+function admin_message_block($op = 'list', $delta = 0) {
+  switch ($op) {
+    case 'list':
+      $blocks['admin_message']['info'] = t('Admin messages');
+      return $blocks;
+
+    case 'view':
+      switch ($delta) {
+        case 'admin_message':
+          $block['subject'] = '';
+          $block['content'] = admin_message_list_messages();
+          break;
+      }
+      return $block;
+  }
+}
+
+/**
+ * Generates a themed list of admin messages which is passed to hook_block().
+ */
+function admin_message_list_messages() {
+  global $user;
+  $output = '';
+  $result = db_query(db_rewrite_sql("SELECT n.nid, n.created, a.keep_new, a.php_visibility FROM {node} n LEFT JOIN {admin_message} a ON n.nid = a.nid WHERE n.sticky = 1 AND n.status = 1 AND n.type = 'admin_message' ORDER BY n.created DESC"));
+  $messages = FALSE;
+  while ($item = db_fetch_object($result)) {
+    $php_visibility = empty($item->php_visibility) ? TRUE : drupal_eval($item->php_visibility);
+    $closed_by_user = db_fetch_object(db_query("SELECT a.nid FROM {admin_message_close} a WHERE a.nid = %d AND a.uid = %d", $item->nid, $user->uid));
+
+    if (empty($closed_by_user) && ($item->created >= $user->created || $item->keep_new) && $php_visibility) {
+      $node = node_build_content(node_load($item->nid));
+      $output .= theme('admin_message_message', $node);
+    }
+
+    $messages = TRUE;
+  }
+
+  if ($messages) {
+    // Insert JavaScript and CSS if messages are displayed.
+    drupal_add_js(drupal_get_path('module', 'admin_message') .'/admin_message.js', 'module');
+    drupal_add_css(drupal_get_path('module', 'admin_message') .'/admin_message.css', 'module');
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function admin_message_form_alter(&$form, &$form_state, $form_id) {
+  if ('admin_message_node_form' == $form_id) {
+    $form['admin_message'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Message visibility'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+    // "Hijack" the sticky option.
+    $sticky_field = $form['options']['sticky'];
+    unset($form['options']['sticky']);
+    $form['admin_message']['sticky'] =  $sticky_field;
+    $form['admin_message']['sticky']['#title'] = t('Show message (sticky)');
+
+    // Keep new.
+    $form['admin_message']['admin_message_keep_new'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Always show this message to new users'),
+      '#default_value' => isset($form['#node']->admin_message_keep_new) ? $form['#node']->admin_message_keep_new : variable_get('admin_message_keep_new_'. $type, 0),
+      '#prefix' => '<div id="admin-message-toggle">',
+    );
+
+    // PHP visibility form.
+    $result = db_fetch_object(db_query('SELECT php_visibility FROM {admin_message} WHERE nid = %d', $form['nid']['#value']));
+    $php_visibility_code = $result->php_visibility;
+    if (user_access('use PHP for block visibility')) {
+      $form['admin_message']['php_visibility'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Show if the following PHP code returns <code>true</code> (PHP-mode, experts only)'),
+        '#description' => t('Enter PHP code between %php. Note that executing incorrect PHP-code can break your Drupal site.', array('%php' => '<?php ?>')),
+        '#default_value' => $php_visibility_code,
+        '#suffix' => '</div>',
+     );
+    }
+    else {
+      $form['admin_message']['admin_message_keep_new']['#suffix'] = '</div>';
+    }
+
+    drupal_add_js(drupal_get_path('module', 'admin_message') .'/admin_message_form.js', 'module');
+  }
+}
+
+function admin_message_theme() {
+  return array(
+    'admin_message_message' => array(
+      'arguments' => array('node' => NULL),
+      'template' => 'admin-message-node',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_node_info().
+ */
+function admin_message_node_info() {
+  $items = array(
+    "admin_message" => array(
+      "name" => t("Admin message"),
+      "module" => "admin_message",
+      "description" => t("Use admin messages to display messages, usually status messages or similar to logged in users."),
+      "has_title" => "1",
+      "title_label" => t("Title"),
+      "has_body" => "1",
+      "body_label" => t("Message"),
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_access().
+ */
+function admin_message_access($op, $node, $account) {
+  return node_content_access($op, $node, $account);
+}
+
+/**
+ * Implementation of hook_form().
+ */
+function admin_message_form($node, $form_state) {
+  return node_content_form($node, $form_state);
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function admin_message_perm() {
+  $name = 'admin_message';
+  $perms = array();
+  $perms[] = 'create '. $name .' content';
+  $perms[] = 'delete own '. $name .' content';
+  $perms[] = 'delete any '. $name .' content';
+  $perms[] = 'edit own '. $name .' content';
+  $perms[] = 'edit any '. $name .' content';
+  $perms[] = 'close admin messages';
+  return $perms;
+}

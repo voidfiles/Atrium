@@ -1,0 +1,283 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  spaces.module,v 1.25.4.33.2.16 2009/05/14 03:58:56 yhahn
+#  gravlax_base/spaces/spaces.theme.inc: n/a
+#  gravlax_base/spaces/spaces_admin.inc: n/a
+#  spaces.install,v 1.1.4.6.2.3 2009/04/14 19:45:32 yhahn
+#  spaces.info,v 1.1.4.2.2.1 2009/04/06 18:59:21 yhahn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: spaces/spaces.module:126
+msgid "Access denied"
+msgstr "الوصول ممنوع"
+
+#: spaces/spaces.module:510
+msgid "Homepage"
+msgstr "الصفحة الأولى"
+
+#: spaces/spaces.theme.inc:150
+msgid "Locked"
+msgstr ""
+
+#: spaces/spaces_admin.inc:503
+msgid "Customize"
+msgstr "تخصيص"
+
+#: spaces/spaces.theme.inc:30
+msgid "There are no options available for this region."
+msgstr "لا توجد خيارات متاحة لهذه المنطقة."
+
+#: spaces/spaces.theme.inc:120
+msgid "Add preset"
+msgstr ""
+
+#: spaces/spaces_admin.inc:66
+msgid "Save defaults"
+msgstr ""
+
+#: spaces/spaces_admin.inc:71
+msgid "Clear defaults"
+msgstr ""
+
+#: spaces/spaces_admin.inc:93
+msgid "Spaces preset defaults were saved successfully."
+msgstr ""
+
+#: spaces/spaces_admin.inc:101
+msgid "Spaces preset defaults were cleared successfully."
+msgstr ""
+
+#: spaces/spaces_admin.inc:123
+msgid "Add spaces preset"
+msgstr ""
+
+#: spaces/spaces_admin.inc:127
+msgid "Edit preset: !presetname"
+msgstr ""
+
+#: spaces/spaces_admin.inc:146
+msgid "Preset id"
+msgstr ""
+
+#: spaces/spaces_admin.inc:149
+msgid ""
+"Enter an id for your preset. It may only contain lowercase letters, "
+"numbers, and underscores or dashes. <strong>Example:</strong> "
+"private_space"
+msgstr ""
+
+#: spaces/spaces_admin.inc:153
+msgid "Preset name"
+msgstr ""
+
+#: spaces/spaces_admin.inc:156
+msgid ""
+"Enter a name for your preset. It will be displayed to users in forms "
+"and messages."
+msgstr ""
+
+#: spaces/spaces_admin.inc:161
+msgid ""
+"Enter a description for your preset. It should help users understand "
+"what the preset provides."
+msgstr ""
+
+#: spaces/spaces_admin.inc:223
+msgid ""
+"The preset name may only contain lowercase letters, numbers, "
+"underscores or dashes."
+msgstr ""
+
+#: spaces/spaces_admin.inc:318
+msgid "The preset !preset was saved successfully."
+msgstr ""
+
+#: spaces/spaces_admin.inc:321
+msgid "There was an error saving the preset !preset."
+msgstr ""
+
+#: spaces/spaces_admin.inc:339
+msgid "An error occurred while trying to load !preset."
+msgstr ""
+
+#: spaces/spaces_admin.inc:346
+msgid "The preset !preset was deleted successfully."
+msgstr ""
+
+#: spaces/spaces_admin.inc:346
+msgid "An error occurred while trying to delete !preset."
+msgstr ""
+
+#: spaces/spaces_admin.inc:401
+msgid "Are you sure you want to delete !preset?"
+msgstr ""
+
+#: spaces/spaces_admin.inc:402
+msgid "Any spaces using this preset will need to reset."
+msgstr ""
+
+#: spaces/spaces_admin.inc:624
+msgid "You must enable at least 1 feature for this space."
+msgstr ""
+
+#: spaces/spaces_admin.inc:663
+msgid "The space configuration has been saved successfully."
+msgstr ""
+
+#: spaces/spaces_admin.inc:699
+msgid "Customize: !feature"
+msgstr ""
+
+#: spaces/spaces_admin.inc:742
+msgid "This feature does not have any customizations or settings available."
+msgstr ""
+
+#: spaces/spaces_admin.inc:793
+msgid "Customizations saved for space !title."
+msgstr ""
+
+#: spaces/spaces.module:53
+msgid "Sets a spaces context."
+msgstr ""
+
+#: spaces/spaces.module:80
+msgid "Spaces presets"
+msgstr ""
+
+#: spaces/spaces.module:81
+msgid "Create and configure spaces for your site."
+msgstr ""
+
+#: spaces/spaces.module:87
+msgid "Presets"
+msgstr ""
+
+#: spaces/spaces.module:103
+msgid "Export preset"
+msgstr ""
+
+#: spaces/spaces.module:127
+msgid "Page callback for early-stack spaces router access denied."
+msgstr ""
+
+#: spaces/spaces.module:227
+msgid ""
+"You can use exported presets in your modules by returning an array of "
+"presets in <code>hook_spaces_presets()</code>."
+msgstr ""
+
+#: spaces/spaces.module:318
+msgid "Spaces type"
+msgstr ""
+
+#: spaces/spaces.module:321
+msgid "Set this context when the selected space types are active."
+msgstr ""
+
+#: spaces/spaces.module:511
+msgid "The default page for this space."
+msgstr "الصفحة االأصلية لهذا الفضاء."
+
+#: spaces/spaces.module:1481
+msgid "Preset"
+msgstr ""
+
+#: spaces/spaces.module:42
+msgid "administer spaces"
+msgstr ""
+
+#: spaces/spaces.module:42
+msgid "configure spaces features"
+msgstr ""
+
+#: spaces/spaces.module:0
+msgid "spaces"
+msgstr ""
+
+#: spaces/spaces.install:40
+msgid "spaces."
+msgstr ""
+
+#: spaces/spaces.install:143,111,43
+msgid "The space id."
+msgstr ""
+
+#: spaces/spaces.install:150,118,50
+msgid "The space type."
+msgstr ""
+
+#: spaces/spaces.install:56
+msgid "The space preset."
+msgstr ""
+
+#: spaces/spaces.install:62
+msgid "The spaces customizer stored as a serialized array."
+msgstr ""
+
+#: spaces/spaces.install:72
+msgid "spaces presets."
+msgstr ""
+
+#: spaces/spaces.install:75
+msgid "The space type for which this preset applies."
+msgstr ""
+
+#: spaces/spaces.install:81
+msgid "The preset string identifier."
+msgstr ""
+
+#: spaces/spaces.install:87
+msgid "The human-readable name for this preset."
+msgstr ""
+
+#: spaces/spaces.install:93
+msgid "The description for this preset."
+msgstr ""
+
+#: spaces/spaces.install:98
+msgid "A serialized array that represents this preset's definition."
+msgstr ""
+
+#: spaces/spaces.install:108
+msgid "spaces settings."
+msgstr ""
+
+#: spaces/spaces.install:124
+msgid "The spaces setting identifer."
+msgstr ""
+
+#: spaces/spaces.install:130
+msgid "A serialized array that represents this setting's custom value(s)."
+msgstr ""
+
+#: spaces/spaces.install:140
+msgid "spaces features."
+msgstr ""
+
+#: spaces/spaces.install:156
+msgid "The spaces feature identifer."
+msgstr ""
+
+#: spaces/spaces.install:161
+msgid "A serialized array that represents this feature's custom value(s)."
+msgstr ""
+
+#: spaces/spaces.install:166
+msgid "A weight value for this feature."
+msgstr ""
+
+#: spaces/spaces.info:0
+msgid "Provides a customizable spaces layer on top of Drupal."
+msgstr ""
+

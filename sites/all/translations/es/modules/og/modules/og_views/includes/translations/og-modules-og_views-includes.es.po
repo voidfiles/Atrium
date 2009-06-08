@@ -1,0 +1,73 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_is_active.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_is_admin.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelink.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_is_admin.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_type.inc: n/a
+#  gravlax_base/og/modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: og/modules/og_views/includes/og_views_handler_field_og_is_active.inc:11
+msgid "approval needed"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_field_og_is_admin.inc:12
+msgid "admin"
+msgstr "admr."
+
+#: og/modules/og_views/includes/og_views_handler_field_og_managelink.inc:30
+msgid "Remove membership"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_field_og_managelink.inc:37
+msgid ""
+"Request: <a href=\"@approve\">approve</a> or <a "
+"href=\"@deny\">deny</a>."
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc:30
+msgid "Admin: Remove"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc:36
+msgid "Admin: Create"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc:10
+msgid "Edit membership"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_filter_og_is_admin.inc:5
+msgid "Member types"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_filter_og_is_admin.inc:6
+msgid "Group administrators"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_filter_og_type.inc:6
+msgid "Group node type"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:15
+msgid "Node ID's separated by , or +"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc:24
+msgid "Validate current user is a member of a specified group"
+msgstr ""
+

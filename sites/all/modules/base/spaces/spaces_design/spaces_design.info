@@ -1,0 +1,8 @@
+; $Id: spaces_design.info,v 1.1.2.1 2009/04/06 20:26:25 yhahn Exp $
+name = "Spaces Design"
+description = "Provides design customization options for spaces"
+package = "Spaces"
+dependencies[] = spaces
+dependencies[] = imagecache
+dependencies[] = color
+core = "6.x"

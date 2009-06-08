@@ -1,0 +1,69 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  spaces_design.module,v 1.1.2.4 2009/05/12 03:40:58 yhahn
+#  spaces_design.info,v 1.1.2.1 2009/04/06 20:26:25 yhahn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: 2009-05-30 19:54+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: spaces/spaces_design/spaces_design.module:66
+msgid "Logo"
+msgstr "Logo"
+
+#: spaces/spaces_design/spaces_design.module:67
+msgid ""
+"Upload a logo image for this space. The image will be resized to "
+"better fit the design of this site."
+msgstr ""
+"Suba una imagen para usar como logo de este espacio. La imagen será "
+"redimensionada para encajar con el diseño del sitio."
+
+#: spaces/spaces_design/spaces_design.module:81
+msgid "Delete current logo"
+msgstr ""
+
+#: spaces/spaces_design/spaces_design.module:87
+msgid "Upload logo"
+msgstr "Subir logo"
+
+#: spaces/spaces_design/spaces_design.module:89
+msgid "Upload a new logo for this space."
+msgstr "Añada un logo nuevo para este espacio."
+
+#: spaces/spaces_design/spaces_design.module:199
+msgid "Colors"
+msgstr "Colores"
+
+#: spaces/spaces_design/spaces_design.module:200
+msgid ""
+"Enter an RGB hexidecimal value like <strong>#ffffff</strong>. Leave "
+"blank to use the default colors for this space."
+msgstr ""
+"Introduzca un valor RGB hexadecimal como <strong>#ffffff</strong>. "
+"Déjelo vacío para usar los colores predeterminados."
+
+#: spaces/spaces_design/spaces_design.module:269
+msgid "Choose color"
+msgstr "Elegir color"
+
+#: spaces/spaces_design/spaces_design.module:0
+msgid "spaces_design"
+msgstr ""
+
+#: spaces/spaces_design/spaces_design.info:0
+msgid "Spaces Design"
+msgstr ""
+
+#: spaces/spaces_design/spaces_design.info:0
+msgid "Provides design customization options for spaces"
+msgstr ""
+

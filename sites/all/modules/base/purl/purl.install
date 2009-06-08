@@ -1,0 +1,78 @@
+<?php
+// $Id: purl.install,v 1.1.2.1 2009/03/09 17:18:33 yhahn Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function purl_install() {
+  drupal_install_schema('purl');
+  db_query("UPDATE {system} SET weight = -20 WHERE name = 'purl'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function purl_uninstall() {
+  drupal_uninstall_schema('purl');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function purl_schema() {
+  $schema['purl'] = array(
+    'description' => t('purl.'),
+    'fields' => array(
+      'value' => array(
+        'description' => t('The string to detect from incoming URLs and to use when rewriting outgoing URLs.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'provider' => array(
+        'description' => t('The provider (usually a module\'s name) of the prefix/id pair.'),
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'id' => array(
+        'description' => t('The ID given by the provider to associate with a corresponding prefix. This might be a group_nid (og), a language code (i18n) or some other unique identifier that the provider is interested in associating with the URL prefix.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('value'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function purl_enable() {
+  $count = db_result(db_query("SELECT count(*) FROM {purl}"));
+  if (db_table_exists('context_prefix') && empty($count)) {
+    _purl_migrate();
+  }
+}
+
+/**
+ * Migrate any modifiers from context_prefix tables to PURL.
+ */
+function _purl_migrate() {
+  drupal_get_schema(NULL, TRUE);
+  $result = db_query("SELECT * FROM {context_prefix}");
+  while ($row = db_fetch_object($result)) {
+    $modifier = array(
+      'value' => $row->prefix,
+      'provider' => $row->provider,
+      'id' => $row->id,
+    );
+    drupal_write_record('purl', $modifier);
+  }
+}

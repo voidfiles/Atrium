@@ -1,0 +1,113 @@
+? LICENSE.txt
+? admin_message-hook_node_info.patch.txt
+Index: admin_message.install
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/admin_message/admin_message.install,v
+retrieving revision 1.2
+diff -u -p -r1.2 admin_message.install
+--- admin_message.install	6 Mar 2009 03:02:41 -0000	1.2
++++ admin_message.install	15 Mar 2009 01:26:27 -0000
+@@ -59,38 +59,18 @@ function admin_message_schema() {
+   return $schema;
+ }
+ 
++/**
++ * Implementation of hook_install().
++ */
+ function admin_message_install() {
+-
+   drupal_install_schema('admin_message');
+ 
+-  
+-  // Create default content type
+-  $type = array(
+-    'type' => 'admin_message',
+-    'name' => t('Admin message'),
+-    'module' => 'node',
+-    'description' => t('Use admin messages to display messages, usually status messages or similar to logged in users.'),
+-    'body_label' => t('Message'),
+-    'custom' => TRUE,
+-    'modified' => TRUE,
+-    'locked' => FALSE,
+-    );
+-  $type = (object) _node_type_set_defaults($type);
+-  $status = node_type_save($type);
+   // Set to published and sticky as default for content type.
+-  variable_set('node_options_'. $type->type , array('status', 'sticky'));
++  variable_set('node_options_admin_message' , array('status', 'sticky'));
+   // Disable comments for this content type.
+-  variable_set('comment_'. $type->type, '0');
++  variable_set('comment_admin_message', '0');
+ 
+   drupal_set_message(t('<em>Admin message</em> was installed. Enable the block "Admin messages" to display messages to users.'));
+-
+-  if ($status == SAVED_UPDATED) {
+-    drupal_set_message(t('The content type %name has been updated.', array('%name' => $type->name)));
+-  }
+-  elseif ($status == SAVED_NEW) {
+-    drupal_set_message(t('The content type %name has been added - use it to create messages.', array('%name' => $type->name)));
+-  }  
+-
+ }
+ 
+ /**
+Index: admin_message.module
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/admin_message/admin_message.module,v
+retrieving revision 1.2
+diff -u -p -r1.2 admin_message.module
+--- admin_message.module	6 Mar 2009 03:02:41 -0000	1.2
++++ admin_message.module	15 Mar 2009 01:26:27 -0000
+@@ -178,4 +178,50 @@ function admin_message_theme() {
+       'template' => 'admin-message-node',
+     ),
+   );
+-}
+\ No newline at end of file
++}
++
++/**
++ * Implementation of hook_node_info().
++ */
++function admin_message_node_info() {
++  $items = array(
++    "admin_message" => array(
++      "name" => t("Admin message"),
++      "module" => "admin_message",
++      "description" => t("Use admin messages to display messages, usually status messages or similar to logged in users."),
++      "has_title" => "1",
++      "title_label" => t("Title"),
++      "has_body" => "1",
++      "body_label" => t("Message"),
++    ),
++  );
++  return $items;
++}
++
++/**
++ * Implementation of hook_access().
++ */
++function admin_message_access($op, $node, $account) {
++  return node_content_access($op, $node, $account);
++}
++
++/**
++ * Implementation of hook_form().
++ */
++function admin_message_form($node, $form_state) {
++  return node_content_form($node, $form_state);
++}
++
++/**
++ * Implementation of hook_perm().
++ */
++function admin_message_perm() {
++  $name = 'admin_message';
++  $perms = array();
++  $perms[] = 'create '. $name .' content';
++  $perms[] = 'delete own '. $name .' content';
++  $perms[] = 'delete any '. $name .' content';
++  $perms[] = 'edit own '. $name .' content';
++  $perms[] = 'edit any '. $name .' content';
++  return $perms;
++}

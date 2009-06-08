@@ -1,0 +1,12 @@
+; $Id: admin.theme.info,v 1.1 2009/06/03 06:50:54 yhahn Exp $
+name = "Admin"
+description = "Stealth admin theme. Provided/managed by the admin module."
+version = "0.1"
+core = "6.x"
+engine = "phptemplate"
+
+stylesheets[screen][] = "reset.css"
+stylesheets[print][] = "style.css"
+stylesheets[screen][] = "ie6.css"
+
+scripts[] = "theme.js"

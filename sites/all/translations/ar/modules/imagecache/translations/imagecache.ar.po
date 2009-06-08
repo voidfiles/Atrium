@@ -1,0 +1,500 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  imagecache_actions.inc,v 1.21 2009/04/17 02:57:25 drewish
+#  imagecache_ui.pages.inc,v 1.2 2009/04/14 00:01:21 drewish
+#  imagecache.module,v 1.100 2009/04/14 00:01:21 drewish
+#  imagecache_ui.module,v 1.30 2009/03/31 03:11:26 drewish
+#  imagecache.install,v 1.25 2009/01/06 19:48:59 drewish
+#  imagecache.info,v 1.5 2008/05/30 15:46:59 dopry
+#  imagecache_ui.info,v 1.5 2008/08/08 17:05:12 drewish
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: imagecache/imagecache_actions.inc:12
+msgid "Allow Upscaling"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:13
+msgid "Let scale make images larger than their original size"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:64
+msgid ""
+"<strong>Inside dimensions</strong>: Final dimensions will be less than "
+"or equal to the entered width and height. Useful for ensuring a "
+"maximum height and/or width."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:65
+msgid ""
+"<strong>Outside dimensions</strong>: Final dimensions will be greater "
+"than or equal to the entered width and height. Ideal for cropping the "
+"result to a square."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:70
+msgid "Scale to fit"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:93,71
+msgid "Inside dimensions"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:93,71
+msgid "Outside dimensions"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:140
+msgid "X offset"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:142
+msgid ""
+"Enter an offset in pixels or use a keyword: <em>left</em>, "
+"<em>center</em>, or <em>right</em>."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:146
+msgid "Y offset"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:148
+msgid ""
+"Enter an offset in pixels or use a keyword: <em>top</em>, "
+"<em>center</em>, or <em>bottom</em>."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:196
+msgid "Rotation angle"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:197
+msgid ""
+"The number of degrees the image should be rotated. Positive numbers "
+"are clockwise, negative are counter-clockwise."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:202
+msgid "Randomize"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:203
+msgid ""
+"Randomize the rotation angle for each image. The angle specified above "
+"is used as a maximum."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:208
+msgid "Background color"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:209
+msgid ""
+"The background color to use for exposed areas of the image. Use "
+"web-style hex colors (#FFFFFF for white, #000000 for black). An empty "
+"value will cause images that support transparency to have transparent "
+"backgrounds, otherwise it will be white."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:215
+msgid "degrees:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:216
+msgid "randomize:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:217
+msgid "background:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:217
+msgid "Transparent/white"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:254
+msgid ""
+"<strong>NOTE:</strong> The sigma parameter below is currently "
+"<em>only</em> used when the Imagemagick toolkit is active."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:259
+msgid "Radius"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:260
+msgid ""
+"The radius of the gaussian, in pixels, not counting the center pixel. "
+"If you're using Imagemagick, you can set this to 0 to let Imagemagick "
+"select a suitable radius. Typically 0.5 to 1 for screen resolutions. "
+"(default 0.5)"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:265
+msgid "Sigma"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:266
+msgid ""
+"The standard deviation of the gaussian, in pixels. General rule of "
+"thumb: if radius < 1 then sigma = radius, else sigma = sqrt(radius). "
+"(default 0.5)"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:271
+msgid "Amount"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:272
+msgid ""
+"The percentage of the difference between the original and the blur "
+"image that is added back into the original. Typically 50 to 200. "
+"(default 100)."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:277
+msgid "Threshold"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:278
+msgid ""
+"The threshold, as a fraction of max RGB levels, needed to apply the "
+"difference amount.  Typically 0 to 0.2. (default 0.05)."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:284
+msgid "radius:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:285
+msgid "sigma:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:286
+msgid "amount:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:287
+msgid "threshold:"
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:29
+msgid "imagecache_scale_image failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:50
+msgid "imagecache_scale_and_crop failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:108
+msgid "imagecache_deprecated_scale failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:160
+msgid "imagecache_crop failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:181
+msgid "imagecache_desaturate failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:243
+msgid "imagecache_rotate_image failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_actions.inc:299
+msgid "imagecache_sharpen_image failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:8
+msgid "Preset Name"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:127,32,25,19
+msgid "Flush"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:201,192,49
+msgid "Preset Namespace"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:51
+msgid ""
+"The namespace is used in URLs for images to tell imagecache how to "
+"process an image. Please only use alphanumeric characters, underscores "
+"(_), and hyphens (-) for preset names."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:56
+msgid "Create New Preset"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:66
+msgid "The namespace you have chosen is already in use."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:73
+msgid ""
+"Please only use alphanumeric characters, underscores (_), and hyphens "
+"(-) for preset names."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:80
+msgid "Preset %name (ID: @id) was created."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:144,114,87
+msgid "The specified preset was not found"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:95
+msgid "Are you sure you want to delete the preset %preset?"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:107
+msgid "Preset %name (ID: @id) was deleted."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:122
+msgid "Are you sure you want to flush the preset %preset?"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:134
+msgid "Preset %name (ID: @id) was flushed."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:177
+msgid "The specified preset was not found."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:203
+msgid ""
+"The namespace is used in URL's for images to tell imagecache how to "
+"process an image. Please only use alphanumeric characters, underscores "
+"(_), and hyphens (-) for preset names."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:270
+msgid "New Actions"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:282
+msgid "Add !action"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:323
+msgid "Override Defaults"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:323
+msgid "Update Preset"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:369
+msgid "Action"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:462,416
+msgid "Unknown Action."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:466,421
+msgid "Unknown Preset."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:441
+msgid "Update Action"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:450
+msgid "The action was succesfully updated."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:454
+msgid "Unknown Action: @action_id"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:474
+msgid ""
+"Are you sure you want to delete the !action action from preset "
+"!preset?"
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:486
+msgid "The action has been deleted."
+msgstr ""
+
+#: imagecache/imagecache_ui.pages.inc:513
+msgid "Add Action"
+msgstr ""
+
+#: imagecache/imagecache.module:608
+msgid "@preset image"
+msgstr ""
+
+#: imagecache/imagecache.module:612
+msgid "@preset image linked to node"
+msgstr ""
+
+#: imagecache/imagecache.module:616
+msgid "@preset image linked to image"
+msgstr ""
+
+#: imagecache/imagecache.module:620
+msgid "@preset file path"
+msgstr ""
+
+#: imagecache/imagecache.module:624
+msgid "@preset URL"
+msgstr ""
+
+#: imagecache/imagecache.module:412
+msgid "ImageCache already generating: %dst, Lock file: %tmp."
+msgstr ""
+
+#: imagecache/imagecache.module:429
+msgid ""
+"Failed generating an image from %image using imagecache preset "
+"%preset."
+msgstr ""
+
+#: imagecache/imagecache.module:454
+msgid "non-existant action %action"
+msgstr ""
+
+#: imagecache/imagecache.module:526
+msgid "Failed to create imagecache directory: %dir"
+msgstr ""
+
+#: imagecache/imagecache.module:553
+msgid "action(id:%id): %action failed for %src"
+msgstr ""
+
+#: imagecache/imagecache.module:560
+msgid ""
+"Cached image file %dst already exists. There may be an issue with your "
+"rewrite configuration."
+msgstr ""
+
+#: imagecache/imagecache.module:760
+msgid "Unknown file type(%path) stat: %stat "
+msgstr ""
+
+#: imagecache/imagecache.module:808
+msgid "imagecache_resize_image failed. image: %image, data: %data."
+msgstr ""
+
+#: imagecache/imagecache.module:57
+msgid "administer imagecache"
+msgstr ""
+
+#: imagecache/imagecache.module:57
+msgid "flush imagecache"
+msgstr ""
+
+#: imagecache/imagecache.module:59
+msgid "view imagecache "
+msgstr ""
+
+#: imagecache/imagecache.module:59
+msgid "presetname"
+msgstr ""
+
+#: imagecache/imagecache_ui.module:15
+msgid "Manage ImageCache presets."
+msgstr ""
+
+#: imagecache/imagecache_ui.module:17
+msgid ""
+"Place the following snippet in your module as part of "
+"<code>hook_imagecache_default_presets()</code>."
+msgstr ""
+
+#: imagecache/imagecache_ui.module:29
+msgid "Administer imagecache presets and actions."
+msgstr ""
+
+#: imagecache/imagecache_ui.module:40
+msgid "Add new preset"
+msgstr ""
+
+#: imagecache/imagecache_ui.module:0
+msgid "imagecache_ui"
+msgstr ""
+
+#: imagecache/imagecache.install:261,73,52
+msgid "The primary identifier for an imagecache_preset."
+msgstr ""
+
+#: imagecache/imagecache.install:57
+msgid "The primary identifier for a node."
+msgstr ""
+
+#: imagecache/imagecache.install:272,68
+msgid "The primary identifier for an imagecache_action."
+msgstr ""
+
+#: imagecache/imagecache.install:79
+msgid "The weight of the action in the preset."
+msgstr ""
+
+#: imagecache/imagecache.install:278,85
+msgid "The module that defined the action."
+msgstr ""
+
+#: imagecache/imagecache.install:90
+msgid "The unique ID of the action to be executed."
+msgstr ""
+
+#: imagecache/imagecache.install:95
+msgid "The configuration data for the action."
+msgstr ""
+
+#: imagecache/imagecache.install:29,22,15
+msgid "ImageCache Directory"
+msgstr ""
+
+#: imagecache/imagecache.install:16
+msgid "%p does not a directory or is not readable by the webserver."
+msgstr ""
+
+#: imagecache/imagecache.install:40,23
+msgid "%p is not writeable by the webserver."
+msgstr ""
+
+#: imagecache/imagecache.install:30
+msgid "An unknown error occured."
+msgstr ""
+
+#: imagecache/imagecache.install:31
+msgid ""
+"An unknown error occured trying to verify %p is a directory and is "
+"writable."
+msgstr ""
+
+#: imagecache/imagecache.install:39
+msgid "ImageCache Temp Directory"
+msgstr ""
+
+#: imagecache/imagecache.info:0
+msgid "Dynamic image manipulator and cache."
+msgstr ""
+
+#: imagecache/imagecache_ui.info:0
+msgid "ImageCache UI"
+msgstr ""
+
+#: imagecache/imagecache_ui.info:0
+msgid "ImageCache User Interface."
+msgstr ""
+

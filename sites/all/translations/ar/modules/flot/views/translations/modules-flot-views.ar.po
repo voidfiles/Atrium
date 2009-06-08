@@ -1,0 +1,79 @@
+# Arabic translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_profile/modules/flot/views/flot.views.inc: n/a
+#  gravlax_profile/modules/flot/views/flot_views_plugin_summary_style.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: modules/flot/views/flot.views.inc:12
+msgid "Displays the default summary as a flot graph."
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:24
+msgid "Graph type"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:25
+msgid "Line"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:25
+msgid "Bar"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:25
+msgid "Point"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:26
+msgid "Choose the type of chart you would like to display."
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:33
+msgid ""
+"Enter the dimensions for the chart. Format: WIDTHxHEIGHT (e.g. "
+"200x100)"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:39
+msgid "Auto generate"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:40
+msgid "Endpoints only"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:43
+msgid "Granularity: !count ticks"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:48
+msgid "X Axis"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:55
+msgid "Y Axis"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:61
+msgid "Reverse data series"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:67
+msgid "Pad Y axis"
+msgstr ""
+
+#: modules/flot/views/flot_views_plugin_summary_style.inc:68
+msgid "Add some breathing room to Y Axis and bottom out baseline at 0"
+msgstr ""
+

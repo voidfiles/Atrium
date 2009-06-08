@@ -1,0 +1,128 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_intranet/trees_intranet.module: n/a
+#  gravlax_profile/modules/trees_intranet/trees_intranet.info: n/a
+#  gravlax_profile/modules/trees_intranet/trees_intranet.defaults.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: 2009-05-30 19:52+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/trees_intranet/trees_intranet.module:454
+msgid "Reply"
+msgstr "Responder"
+
+#: modules/trees_intranet/trees_intranet.module:192
+msgid "User account"
+msgstr "Cuenta de usuario"
+
+#: modules/trees_intranet/trees_intranet.module:62
+msgid "&copy; 2009 !devseed"
+msgstr "© 2009 !devseed"
+
+#: modules/trees_intranet/trees_intranet.module:62
+msgid "Development Seed"
+msgstr "Development Seed"
+
+#: modules/trees_intranet/trees_intranet.module:218
+msgid "A simple private group with a blog, document library and dashboard."
+msgstr ""
+"Un grupo privado simple con un blog, biblioteca de documentos y un "
+"panel."
+
+#: modules/trees_intranet/trees_intranet.module:248
+msgid "A simple public group with a blog, document library and dashboard."
+msgstr ""
+"Un grupo público simple con un blog, biblioteca de documentos y un "
+"panel."
+
+#: modules/trees_intranet/trees_intranet.module:278
+msgid "A simple profile with a blog, calendar and dashboard."
+msgstr "Un perfil simple con un blog, calendario y panel."
+
+#: modules/trees_intranet/trees_intranet.module:306
+msgid "A basic intranet hub setup."
+msgstr "Una configuración de hub básico de intranet."
+
+#: modules/trees_intranet/trees_intranet.module:492
+msgid "Show all members"
+msgstr "Mostrar todos los miembros"
+
+#: modules/trees_intranet/trees_intranet.module:492
+msgid "Show only members in current user's groups"
+msgstr "Mostrar solamente los miembros de los grupos del usuario actual"
+
+#: modules/trees_intranet/trees_intranet.module:494
+msgid "Members"
+msgstr "Miembros"
+
+#: modules/trees_intranet/trees_intranet.module:496
+msgid ""
+"Choose the display mode for normal users when viewing the member "
+"directory. Administrators and managers will still be able to see all "
+"members in administrative views."
+msgstr ""
+"Elija el modo de visualización para usuarios normales cuando se ve el "
+"directorio de miembros. Los administradores y los managers podrán ver "
+"todos los miembros en las páginas de administración."
+
+#: modules/trees_intranet/trees_intranet.module:0
+msgid "trees_intranet"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.info:0
+msgid "Trees Intranet"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.info:0
+msgid "Installer and distro module for the Trees Intranet package."
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1427
+msgid "My groups"
+msgstr "Mis grupos"
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:609
+msgid "Messages & alerts"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:610
+msgid "No messages found."
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:769
+msgid "Content stats"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1430
+msgid "Directory"
+msgstr "Directorio"
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1431
+msgid "Archived groups"
+msgstr "Grupos archivados"
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1432
+msgid "No archived groups found."
+msgstr "No hay grupos archivados."
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1877
+msgid "Active users"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1878
+msgid "Blocked users"
+msgstr ""
+
+#: modules/trees_intranet/trees_intranet.defaults.inc:1879
+msgid "Member directory"
+msgstr ""
+

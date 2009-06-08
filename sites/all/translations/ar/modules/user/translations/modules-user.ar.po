@@ -1,0 +1,1217 @@
+# translation of general.po to Arabic
+# Abdel Rahman Ghareeb <king_abdo@yahoo.com>, 2004.
+# Sameh Sabry <samehsabry@linuxmail.org>, 2004.
+# Manal Hassan <manal@manalaa.net>, 2004.
+# Amr Gharbeia <amr@gharbeia.net>, 2005, 2006, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: general\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-14 11:04+0200\n"
+"PO-Revision-Date: 2007.08.06 14:05+0300\n"
+"Last-Translator: Amr Gharbeia <amr@gharbeia.net>\n"
+"Language-Team: Arabic <general@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==1 ? 0 : n==0 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: modules/user/user.admin.inc:13 modules/user/user.module:667;2445;911
+msgid "Create new account"
+msgstr "أنشئ حسابا جديدا"
+
+#: modules/user/user.admin.inc:43
+msgid "Show only users where"
+msgstr "لا تعرض إلا المستخدمين الذين"
+
+#: modules/user/user.admin.inc:52
+msgid ""
+"<em>and</em> where <strong>%property</strong> is <strong>%value</strong>"
+msgstr ""
+
+#: modules/user/user.admin.inc:55
+msgid "<strong>%property</strong> is <strong>%value</strong>"
+msgstr ""
+
+#: modules/user/user.admin.inc:137;910 modules/user/user.module:621
+msgid "Member for"
+msgstr "عضو منذ"
+
+#: modules/user/user.admin.inc:138;911
+msgid "Last access"
+msgstr "آخر وصول"
+
+#: modules/user/user.admin.inc:169 modules/user/user.module:1977
+msgid "blocked"
+msgstr "ممنوع"
+
+#: modules/user/user.admin.inc:169 modules/user/user.module:1977
+msgid "active"
+msgstr "نشط"
+
+#: modules/user/user.admin.inc:221
+msgid "No users selected."
+msgstr "لا مستخدمين مختارين."
+
+#: modules/user/user.admin.inc:233
+msgid "User registration settings"
+msgstr "إعدادات تسجيل المستخدمين"
+
+#: modules/user/user.admin.inc:234
+msgid "Public registrations"
+msgstr "التسجيلات العامة"
+
+#: modules/user/user.admin.inc:234
+msgid "Visitors can create accounts and no administrator approval is required."
+msgstr "يمكن للزائرين إنشاء حسابات دون موافقة الإداريين."
+
+#: modules/user/user.admin.inc:234
+msgid "Visitors can create accounts but administrator approval is required."
+msgstr "يمكن للزائرين إنشاء حسابات بموافقة الإداريين."
+
+#: modules/user/user.admin.inc:235
+msgid "Require e-mail verification when a visitor creates an account"
+msgstr "اطلب تأكيد البريد الإلكتروني عندما ينشئ زائر حسابا جديدا"
+
+#: modules/user/user.admin.inc:236
+msgid "User registration guidelines"
+msgstr "إرشادات تسجيل المستخدمين"
+
+#: modules/user/user.admin.inc:241
+msgid "User e-mail settings"
+msgstr "إعدادات البريد الإلكترونى للمستخدم"
+
+#: modules/user/user.admin.inc:242
+msgid ""
+"Drupal sends emails whenever new users register on your site, and "
+"optionally, may also notify users after other account actions. Using a "
+"simple set of content templates, notification e-mails can be customized to "
+"fit the specific needs of your site."
+msgstr ""
+
+#: modules/user/user.admin.inc:246
+msgid "Available variables are:"
+msgstr "المتغيرات المتاحة:"
+
+#: modules/user/user.admin.inc:270
+msgid "Welcome, no approval required"
+msgstr ""
+
+#: modules/user/user.admin.inc:313
+msgid "Customize e-mail messages sent to users who request a new password."
+msgstr ""
+
+#: modules/user/user.admin.inc:333
+msgid ""
+"Enable and customize e-mail messages sent to users upon account activation "
+"(when an administrator activates an account of a user who has already "
+"registered, on a site where administrative approval is required)."
+msgstr ""
+
+#: modules/user/user.admin.inc:358
+msgid ""
+"Enable and customize e-mail messages sent to users when their accounts are "
+"blocked."
+msgstr ""
+
+#: modules/user/user.admin.inc:383
+msgid ""
+"Enable and customize e-mail messages sent to users when their accounts are "
+"deleted."
+msgstr ""
+
+#: modules/user/user.admin.inc:423
+msgid "Pictures"
+msgstr "الصور"
+
+#: modules/user/user.admin.inc:428
+msgid "Picture support"
+msgstr "دعم الصور"
+
+#: modules/user/user.admin.inc:448
+msgid "Picture image path"
+msgstr "مسار الصورة"
+
+#: modules/user/user.admin.inc:452
+msgid "Subdirectory in the directory %dir where pictures will be stored."
+msgstr "دليل فرعي من الدليل \"%dir\" تخزن فيه الصور."
+
+#: modules/user/user.admin.inc:456
+msgid "Default picture"
+msgstr "الصورة المبدئية"
+
+#: modules/user/user.admin.inc:460
+msgid ""
+"URL of picture to display for users with no custom picture selected. Leave "
+"blank for none."
+msgstr ""
+"مسار الصورة الشخصية التي تعرض للمستخدمين الذين لم يختاروا صورة شخصية "
+"لأنفسهم. اتركها خالية كي لا تعرض صورة."
+
+#: modules/user/user.admin.inc:464
+msgid "Picture maximum dimensions"
+msgstr "الحد الأقصى لأبعاد الصورة"
+
+#: modules/user/user.admin.inc:468
+msgid "Maximum dimensions for pictures, in pixels."
+msgstr "الحد الأقصى لأبعاد الصور بالعنصورة."
+
+#: modules/user/user.admin.inc:472
+msgid "Picture maximum file size"
+msgstr "الحد الأقصى لحجم ملف الصورة"
+
+#: modules/user/user.admin.inc:476
+msgid "Maximum file size for pictures, in kB."
+msgstr "الحد الأقصى لحجم ملف الصور بالكيلوبايت."
+
+#: modules/user/user.admin.inc:480
+msgid "Picture guidelines"
+msgstr "إرشادات الصور"
+
+#: modules/user/user.admin.inc:482
+msgid ""
+"This text is displayed at the picture upload form in addition to the default "
+"guidelines. It's useful for helping or instructing your users."
+msgstr ""
+"يعرض هذا النص في استمارة رفع الصور، و ذلك بالإضافة إلى التعليمات المبدئية. "
+"يفيد النص في توجيه المستخدمين."
+
+#: modules/user/user.admin.inc:543
+msgid "Save permissions"
+msgstr "احفظ الصلاحيات"
+
+#: modules/user/user.admin.inc:563 modules/user/user.pages.inc:293;359
+msgid "The changes have been saved."
+msgstr "تم حفظ التغييرات."
+
+#: modules/user/user.admin.inc:582 modules/user/user.module:1961
+msgid "@module module"
+msgstr "وحدة @module"
+
+#: modules/user/user.admin.inc:595
+msgid "Permission"
+msgstr "الصلاحية"
+
+#: modules/user/user.admin.inc:624
+msgid "Role name"
+msgstr "اسم الدور"
+
+#: modules/user/user.admin.inc:629
+msgid ""
+"The name for this role. Example: \"moderator\", \"editorial board\", \"site "
+"architect\"."
+msgstr "اسم الدور. مثلا: \"مشرف\"؛ \"محرر\"؛ \"مصمم\"."
+
+#: modules/user/user.admin.inc:637;662;679
+msgid "Save role"
+msgstr "احفظ الدور"
+
+#: modules/user/user.admin.inc:641;683
+msgid "Delete role"
+msgstr "احذف الدور"
+
+#: modules/user/user.admin.inc:652;667;691
+msgid "Add role"
+msgstr "أضف دورا"
+
+#: modules/user/user.admin.inc:664;669
+msgid "The role name %name already exists. Please choose another role name."
+msgstr "يوجد فعلا دور باسم %name. من فضلك  اختر اسم دور آخرا."
+
+#: modules/user/user.admin.inc:674
+msgid "You must specify a valid role name."
+msgstr "يجب أن تدخل اسم دور صحيح."
+
+#: modules/user/user.admin.inc:681
+msgid "The role has been renamed."
+msgstr "أعيدت تسمية الدور."
+
+#: modules/user/user.admin.inc:689
+msgid "The role has been deleted."
+msgstr "تم حذف الدور."
+
+#: modules/user/user.admin.inc:693
+msgid "The role has been added."
+msgstr "تمت إضافة الدور."
+
+#: modules/user/user.admin.inc:717 modules/user/user.module:1012
+msgid "Add rule"
+msgstr "أضف قاعدة"
+
+#: modules/user/user.admin.inc:725
+msgid "Save rule"
+msgstr "احفظ القاعدة"
+
+#: modules/user/user.admin.inc:741;885
+msgid "Access type"
+msgstr "نوع الوصول"
+
+#: modules/user/user.admin.inc:743
+msgid "Allow"
+msgstr "اسمح"
+
+#: modules/user/user.admin.inc:743
+msgid "Deny"
+msgstr "امنع"
+
+#: modules/user/user.admin.inc:745
+msgid "Host"
+msgstr "المضيف"
+
+#: modules/user/user.admin.inc:748;885
+msgid "Rule type"
+msgstr "نوع القاعدة"
+
+#: modules/user/user.admin.inc:754;885
+msgid "Mask"
+msgstr "القناع"
+
+#: modules/user/user.admin.inc:758
+msgid "Matches any number of characters, even zero characters"
+msgstr "مطابقة أي عدد من الحروف، حتى عدم وجود أي حروف."
+
+#: modules/user/user.admin.inc:758
+msgid "Matches exactly one character."
+msgstr "مطابقة حرف واحد."
+
+#: modules/user/user.admin.inc:774
+msgid "The access rule has been saved."
+msgstr "تم حفظ قاعدة الوصول."
+
+#: modules/user/user.admin.inc:778
+msgid "The access rule has been added."
+msgstr "قاعدة الوصول أضيفت."
+
+#: modules/user/user.admin.inc:785
+msgid "No value entered. Please enter a test string and try again."
+msgstr "لم يتم إدخال قيمة. من فضلك أدخل مقطعا للاختبار ثم حاول مرة أخرى."
+
+#: modules/user/user.admin.inc:791
+msgid "Enter a username to check if it will be denied or allowed."
+msgstr "أدخل اسم مستخدم للتحقق ما إذا كان مسموحا به أم لا."
+
+#: modules/user/user.admin.inc:793
+msgid "Check username"
+msgstr "تأكد من اسم المستخدم"
+
+#: modules/user/user.admin.inc:802
+msgid "Enter an e-mail address to check if it will be denied or allowed."
+msgstr "أدخل عنوان بريد إلكتروني للتحقق ما إذا كان مسموحا به أم لا."
+
+#: modules/user/user.admin.inc:804
+msgid "Check e-mail"
+msgstr "تأكد من البريد الإلكتروني"
+
+#: modules/user/user.admin.inc:813
+msgid ""
+"Enter a hostname or IP address to check if it will be denied or allowed."
+msgstr "أدخل اسم مضيف أو عنوان بروتوكول إنترنت للتأكد إذا ما سيتم حجبه أم لا."
+
+#: modules/user/user.admin.inc:815
+msgid "Check hostname"
+msgstr "تأكد من اسم المضيف"
+
+#: modules/user/user.admin.inc:826
+msgid "The username %name is not allowed."
+msgstr "اسم المستخدم %name غير مسموح  به."
+
+#: modules/user/user.admin.inc:829
+msgid "The username %name is allowed."
+msgstr "اسم المستخدم %name مسموح به."
+
+#: modules/user/user.admin.inc:834
+msgid "The e-mail address %mail is not allowed."
+msgstr "عنوان البريد الالكترونى mail% غير مسموح به."
+
+#: modules/user/user.admin.inc:837
+msgid "The e-mail address %mail is allowed."
+msgstr "عنوان البريد الالكترونى mail% مسموح به."
+
+#: modules/user/user.admin.inc:842
+msgid "The hostname %host is not allowed."
+msgstr "اسم المضيف %host غير مسموح به."
+
+#: modules/user/user.admin.inc:845
+msgid "The hostname %host is allowed."
+msgstr "اسم المضيف %host مسموح به."
+
+#: modules/user/user.admin.inc:860;887
+msgid "username"
+msgstr "اسم المستخدم"
+
+#: modules/user/user.admin.inc:860;887
+msgid "e-mail"
+msgstr "بريد إلكتروني"
+
+#: modules/user/user.admin.inc:860;887
+msgid "host"
+msgstr "مضيف"
+
+#: modules/user/user.admin.inc:866
+msgid "Are you sure you want to delete the @type rule for %rule?"
+msgstr "هل أنت متأكد أنك راغب في حذف قاعدة @type ل%rule؟"
+
+#: modules/user/user.admin.inc:876
+msgid "The access rule has been deleted."
+msgstr "تم حذف قاعدة الوصول."
+
+#: modules/user/user.admin.inc:890
+msgid "allow"
+msgstr "اسمح"
+
+#: modules/user/user.admin.inc:890
+msgid "deny"
+msgstr "امنع"
+
+#: modules/user/user.admin.inc:893
+msgid "There are currently no access rules."
+msgstr "لا توجد حاليا أي قواعد للوصول."
+
+#: modules/user/user.admin.inc:930
+msgid "No users available."
+msgstr "لا مستخدمين."
+
+#: modules/user/user.admin.inc:951
+msgid "edit permissions"
+msgstr "حرر الصلاحيات"
+
+#: modules/user/user.admin.inc:953
+msgid "edit role"
+msgstr "حرر الدور"
+
+#: modules/user/user.admin.inc:956
+msgid "locked"
+msgstr "مغلق"
+
+#: modules/user/user.pages.inc:34
+msgid "Username or e-mail address"
+msgstr "اسم المستخدم، أو عنوان البريد الإلكتروني"
+
+#: modules/user/user.pages.inc:39
+msgid "E-mail new password"
+msgstr "أرسل كلمة المرور الجديدة إلى البريد الإلكتروني"
+
+#: modules/user/user.pages.inc:50
+msgid "%name is not allowed to request a new password."
+msgstr ""
+
+#: modules/user/user.pages.inc:74
+msgid "Further instructions have been sent to your e-mail address."
+msgstr "تم إرسال توجيهات إضافية إلى بريدك الإلكتروني."
+
+#: modules/user/user.pages.inc:88
+msgid ""
+"You have already used this one-time login link. It is not necessary to use "
+"this link to login anymore. You are already logged in."
+msgstr ""
+"سبق أن استعملت رابط الولوج هذا. ليس من الضروري استخدام هذا الرابط للولوج بعد "
+"الآن. لقد تم ولوجك."
+
+#: modules/user/user.pages.inc:99
+msgid ""
+"You have tried to use a one-time login for an account which has been blocked."
+msgstr ""
+
+#: modules/user/user.pages.inc:105
+msgid ""
+"You have tried to use a one-time login link that has expired. Please request "
+"a new one using the form below."
+msgstr ""
+"لقد حاولت استخدام رابط ولوج انتهت صلاحيته. من فضلك اطلب رابطا جديدا مستخدما "
+"الاستمارة بالأدنى."
+
+#: modules/user/user.pages.inc:117
+msgid ""
+"You have just used your one-time login link. It is no longer necessary to "
+"use this link to login. Please change your password."
+msgstr ""
+"لقد قمت للتو باستخدام رابط ولوج يعمل لمرة واحدة. ليس من الضروري بعد الآن "
+"استخدام هذا الرابط. من فضلك غير كلمة مرورك."
+
+#: modules/user/user.pages.inc:122
+msgid "This login can be used only once."
+msgstr "<p>معلومات الولوج هذه صالحة لمرة واحدة فقط.</p>"
+
+#: modules/user/user.pages.inc:123 modules/user/user.module:663;1261;905
+msgid "Log in"
+msgstr "لُج"
+
+#: modules/user/user.pages.inc:129
+msgid ""
+"You have tried to use a one-time login link which has either been used or is "
+"no longer valid. Please request a new one using the form below."
+msgstr ""
+"لقد حاولت استخدام رابط ولوج صالح لاستخدام واحد فقط. ربما تم استخدامه أو أن "
+"صلاحيته انتهت. من فضلك  اطلب رابط ولوج جديد مستخدما الاستمارة التالية."
+
+#: modules/user/user.pages.inc:276;345;274;343
+#: modules/user/user.module:1788;2297
+msgid "Detected malicious attempt to alter protected user fields."
+msgstr "تم اكتشاف محاولة للتلاعب بخانات مستخدم محمية."
+
+#: modules/user/user.pages.inc:321
+msgid "Are you sure you want to delete the account %name?"
+msgstr "هل أنت متأكد أنك ترغب في حذف حساب %name؟"
+
+#: modules/user/user.pages.inc:323
+msgid ""
+"All submissions made by this user will be attributed to the anonymous "
+"account. This action cannot be undone."
+msgstr ""
+"كل المحتوى الذي نشره هذا المستخدم ستعزى إلى الحساب المجهول. لا يمكن الرجوع "
+"عن هذا الفعل."
+
+#: modules/user/user.pages.inc:332
+msgid "%name has been deleted."
+msgstr "تم حذف %name."
+
+#: modules/user/user.pages.inc:73
+msgid "Password reset instructions mailed to %name at %email."
+msgstr "تم إرسال تعليمات إعادة ضبط كلمة مرور إلى %name على البريد %email."
+
+#: modules/user/user.pages.inc:111
+msgid "User %name used one-time login link at time %timestamp."
+msgstr "قام %name باستخدام رابط الولوج في %timestamp."
+
+#: modules/user/user.pages.inc:147
+msgid "Session closed for %name."
+msgstr "انتهت جلسة %name."
+
+#: modules/user/user.module:379
+msgid "You must enter a username."
+msgstr "يجب أن تدخل اسم مستخدم."
+
+#: modules/user/user.module:380
+msgid "The username cannot begin with a space."
+msgstr "يجب ألا يبدأ اسم المستخدم بمسافة."
+
+#: modules/user/user.module:381
+msgid "The username cannot end with a space."
+msgstr "يجب ألا ينتهي اسم المستخدم بمسافة."
+
+#: modules/user/user.module:382
+msgid "The username cannot contain multiple spaces in a row."
+msgstr "يجب ألا يحتوى اسم المستخدم على مسافات متتالية."
+
+#: modules/user/user.module:383;394
+msgid "The username contains an illegal character."
+msgstr "يحتوى اسم المستخدم على حرف غير مسموح به."
+
+#: modules/user/user.module:396
+msgid "The username is not a valid authentication ID."
+msgstr "اسم المستخدم ليس معرفا سليما."
+
+#: modules/user/user.module:397
+msgid "The username %name is too long: it must be %max characters or less."
+msgstr "اسم المستخدم %name طويل جدا: يجب الا يزيد أسم المستخدم عن %max حرفا."
+
+#: modules/user/user.module:401
+msgid "You must enter an e-mail address."
+msgstr "يجب أن تدخل بريدك الإلكترونى."
+
+#: modules/user/user.module:403
+msgid "The e-mail address %mail is not valid."
+msgstr "عنوان البريد الالكترونى mail% ليس صحيحا."
+
+#: modules/user/user.module:617
+msgid "History"
+msgstr "الأرشيف"
+
+#: modules/user/user.module:639
+msgid "Account settings"
+msgstr "إعدادات الحساب"
+
+#: modules/user/user.module:667
+msgid "Create a new user account."
+msgstr "أنشئ حساب مستخدم جديد."
+
+#: modules/user/user.module:669;920
+msgid "Request new password"
+msgstr "اطلب كلمة مرور جديدة"
+
+#: modules/user/user.module:669
+msgid "Request new password via e-mail."
+msgstr "اطلب كلمة مرور جديدة عن طريق البريد الإلكترونى."
+
+#: modules/user/user.module:681;728
+msgid "User login"
+msgstr "اسم المستخدم"
+
+#: modules/user/user.module:690;749
+msgid "Who's new"
+msgstr "الأعضاء الجدد"
+
+#: modules/user/user.module:693;788
+msgid "Who's online"
+msgstr "الموجودون عالخط"
+
+#: modules/user/user.module:700
+msgid "Number of users to display"
+msgstr "عدد المستخدمين المعروضة أسمائهم"
+
+#: modules/user/user.module:708
+msgid "User activity"
+msgstr "نشاط المستخدم"
+
+#: modules/user/user.module:708
+msgid ""
+"A user is considered online for this long after they have last viewed a page."
+msgstr "تحسب فترة وجود المستخدم عالخط منذ آخر عرض لصفحة."
+
+#: modules/user/user.module:709
+msgid "User list length"
+msgstr "طول قائمة المستخدمين"
+
+#: modules/user/user.module:709
+msgid "Maximum number of currently online users to display."
+msgstr "أقصى عدد يعرض للمستخدمين الموجودين عالخط."
+
+#: modules/user/user.module:776
+msgid "There is currently %members and %visitors online."
+msgstr "يوجد حاليا %members و %visitors عالخط."
+
+#: modules/user/user.module:779
+msgid "There are currently %members and %visitors online."
+msgstr "يوجد حاليا %members و %visitors عالخط."
+
+#: modules/user/user.module:785
+msgid "Online users"
+msgstr "المستخدمون عالخط"
+
+#: modules/user/user.module:816
+msgid "@user's picture"
+msgstr "صورة @user"
+
+#: modules/user/user.module:1180;1050
+msgid "My account"
+msgstr "حسابي"
+
+#: modules/user/user.module:1253
+msgid "Enter your @s username."
+msgstr "أدخل اسم مستخدم @s الخاص بك."
+
+#: modules/user/user.module:1256
+msgid "Enter the password that accompanies your username."
+msgstr "أدخل كلمة المرور لاسم المستخدم هذا."
+
+#: modules/user/user.module:1295
+msgid "The username %name has not been activated or is blocked."
+msgstr "الاسم %name غير مفعل أو ممنوع."
+
+#: modules/user/user.module:1299
+msgid "The name %name is a reserved username."
+msgstr "اسم المستخدم %name محجوز."
+
+#: modules/user/user.module:1319
+msgid ""
+"Sorry, unrecognized username or password. <a href=\"@password\">Have you "
+"forgotten your password?</a>"
+msgstr ""
+"عذرا، لم يتم التعرف على اسم المستخدم أو كلمة المرور. <a href=\"@password"
+"\">هل نسيت كلمة مرورك؟</a>"
+
+#: modules/user/user.module:1342
+msgid ""
+"The name %name is registered using a reserved e-mail address and therefore "
+"could not be logged in."
+msgstr ""
+
+#: modules/user/user.module:1439
+msgid "Account information"
+msgstr "بيانات الحساب"
+
+#: modules/user/user.module:1455
+msgid ""
+"A valid e-mail address. All e-mails from the system will be sent to this "
+"address. The e-mail address is not made public and will only be used if you "
+"wish to receive a new password or wish to receive certain news or "
+"notifications by e-mail."
+msgstr ""
+"أدخل عنوان بريد إلكتروني صحيح. كل رسائل البريد الإلكتروني الصادرة عن النظام "
+"سيتم إرسالها إلى هذا العنوان. لن يتم إعلان هذا العنوان البريدي و لن يستخدم "
+"إلا في حال رغبتك في استلام كلمة سر جديدة، أو في حال رغبتك في استقبال بعض "
+"الأخبار و التنبيهات عبر البريد الإلكتروني."
+
+#: modules/user/user.module:1460
+msgid ""
+"To change the current user password, enter the new password in both fields."
+msgstr "لتغير كلمة مرور المستخدم الحالي، أدخل كلمة المرور في كلا الخانتين."
+
+#: modules/user/user.module:1467
+msgid "Provide a password for the new account in both fields."
+msgstr "أدخل كلمة المرور للحساب الجديد في الخانتين."
+
+#: modules/user/user.module:1477
+msgid "Blocked"
+msgstr "ممنوع"
+
+#: modules/user/user.module:1517
+msgid "Signature"
+msgstr "التوقيع"
+
+#: modules/user/user.module:1519
+msgid "Your signature will be publicly displayed at the end of your comments."
+msgstr "يظهر توقيعك علنا فى نهاية تعليقاتك."
+
+#: modules/user/user.module:1525
+msgid "Picture"
+msgstr "الصورة"
+
+#: modules/user/user.module:1529
+msgid "Delete picture"
+msgstr "احذف الصورة"
+
+#: modules/user/user.module:1529
+msgid "Check this box to delete your current picture."
+msgstr "اختر هذا الصندوق لتحذف صورتك الحالية."
+
+#: modules/user/user.module:1534
+msgid "Upload picture"
+msgstr "ارفع صورة"
+
+#: modules/user/user.module:1534
+msgid ""
+"Your virtual face or picture. Maximum dimensions are %dimensions and the "
+"maximum size is %size kB."
+msgstr ""
+"صورتك. الحد الأقصى لأبعاد الصورة أو الشعار هو %dimensions، و الحجم الأقصى %"
+"size ك.ب."
+
+#: modules/user/user.module:1550
+msgid "The name %name is already taken."
+msgstr "الاسم %name مستخدم بالفعل."
+
+#: modules/user/user.module:1553
+msgid "The name %name has been denied access."
+msgstr "الاسم %name ممنوع من الوصول."
+
+#: modules/user/user.module:1562
+msgid ""
+"The e-mail address %email is already registered. <a href=\"@password\">Have "
+"you forgotten your password?</a>"
+msgstr ""
+"عنوان البريد %email مسجل فعلا. <a href=\"@password\">هل نسيت كلمة مرورك؟</a>"
+
+#: modules/user/user.module:1565
+msgid "The e-mail address %email has been denied access."
+msgstr "عنوان البريد الإلكتروني %email ممنوع من الوصول."
+
+#: modules/user/user.module:1645
+msgid "Account details for !username at !site"
+msgstr "تفاصيل حساب !username على !site"
+
+#: modules/user/user.module:1647
+msgid ""
+"!username,\n"
+"\n"
+"Thank you for registering at !site. You may now log in to !login_uri using "
+"the following username and password:\n"
+"\n"
+"username: !username\n"
+"password: !password\n"
+"\n"
+"You may also log in by clicking on this link or copying and pasting it in "
+"your browser:\n"
+"\n"
+"!login_url\n"
+"\n"
+"This is a one-time login, so it can be used only once.\n"
+"\n"
+"After logging in, you will be redirected to !edit_uri so you can change your "
+"password.\n"
+"\n"
+"\n"
+"--  !site team"
+msgstr ""
+"!username\n"
+"\n"
+"شكرا لتسجيلك فى !site. بإمكانك الآن الولوج إلى !login_uri باستخدام اسم "
+"المستخدم وكلمة المرور التاليين:\n"
+"\n"
+"اسم المستخدم: !username\n"
+"كلمة المرور: !password\n"
+"\n"
+"يمكنك أيضا الولوج بالنقر على الرابط التالي أو بنسخه ثم لصقه في متصفحك:\n"
+"\n"
+"!login_url\n"
+"\n"
+"هذا الرابط صالح لاستخدام واحد فقط.\n"
+"\n"
+"بعد الولوج، سيتم تحويلك إلى !edit_uri حتى تتمكن من تغيير كلمة مرورك.\n"
+"\n"
+"\n"
+"--  فريق !site"
+
+#: modules/user/user.module:1649
+msgid "An administrator created an account for you at !site"
+msgstr "قام إداري بإنشاء حساب لك في !site"
+
+#: modules/user/user.module:1651
+msgid ""
+"!username,\n"
+"\n"
+"A site administrator at !site has created an account for you. You may now "
+"log in to !login_uri using the following username and password:\n"
+"\n"
+"username: !username\n"
+"password: !password\n"
+"\n"
+"You may also log in by clicking on this link or copying and pasting it in "
+"your browser:\n"
+"\n"
+"!login_url\n"
+"\n"
+"This is a one-time login, so it can be used only once.\n"
+"\n"
+"After logging in, you will be redirected to !edit_uri so you can change your "
+"password.\n"
+"\n"
+"\n"
+"--  !site team"
+msgstr ""
+"!username\n"
+"\n"
+"لقد قام إداري في !site بإنشاء حساب لك. يمكنك الآن الولوج عبر !login_uri "
+"باستخدام اسم المستخدم وكلمة المرور التاليين :\n"
+"\n"
+"اسم المستخدم: !username\n"
+"كلمة المرور: !password\n"
+"\n"
+"يمكنك الولوج أيضا  بالنقر على الرابط التالي أو نسخه ثم لصقه في شريط العنوان "
+"في متصفحك: \n"
+"!login_url\n"
+"\n"
+"هذا الرابط صالح لاستخدام واحد فقط.\n"
+"\n"
+"بعد الولوج، سيتم تحويلك إلى !edit_uri من أجل تغيير كلمة مرورك.\n"
+"\n"
+"\n"
+"--  فريق !site"
+
+#: modules/user/user.module:1654
+msgid "Account details for !username at !site (pending admin approval)"
+msgstr "تفاصيل حساب !username على !site (معلق لحين موافقة إداري الموقع)"
+
+#: modules/user/user.module:1658
+msgid ""
+"!username has applied for an account.\n"
+"\n"
+"!edit_uri"
+msgstr ""
+"طلب !username إنشاء حساب.\n"
+"\n"
+"!edit_uri"
+
+#: modules/user/user.module:1660
+msgid "Replacement login information for !username at !site"
+msgstr "بيانات بديلة لولوج !username إلى !site"
+
+#: modules/user/user.module:1734
+msgid "Unblock the selected users"
+msgstr "ارفع المنع عن المستخدمين المختارين"
+
+#: modules/user/user.module:1738
+msgid "Block the selected users"
+msgstr "امنع المستخدمين المختارين"
+
+#: modules/user/user.module:1742
+msgid "Delete the selected users"
+msgstr "احذف المستخدمين المختارين"
+
+#: modules/user/user.module:1762
+msgid "Add a role to the selected users"
+msgstr "أضف دورا إلى المستخدمين المختارين"
+
+#: modules/user/user.module:1765
+msgid "Remove a role from the selected users"
+msgstr "احذف دورا من المستخدمين المختارين"
+
+#: modules/user/user.module:1867
+msgid "Are you sure you want to delete these users?"
+msgstr "هل أنت متأكد من رغبتك في حذف هؤلاء المستخدمين؟"
+
+#: modules/user/user.module:1877
+msgid "The users have been deleted."
+msgstr "تم حذف المستخدمين."
+
+#: modules/user/user.module:1893
+msgid ""
+"A visitor accessing your website is assigned a unique ID, or session ID, "
+"which is stored in a cookie. The cookie does not contain personal "
+"information, but acts as a key to retrieve information from your site. Users "
+"should have cookies enabled in their web browser when using your site."
+msgstr ""
+
+#: modules/user/user.module:1897
+msgid ""
+"Drupal allows users to register, login, log out, maintain user profiles, "
+"etc. Users of the site may not use their own names to post content until "
+"they have signed up for a user account."
+msgstr ""
+"يسمح دروبال للمستخدمين بالتسجيل، و الولوج، و الخروج، و تحرير ملفاتهم "
+"الشخصية... لا يسمح للمستخدمين بنشر أي محتوى حتى ينشئوا حسابات مستخدمين."
+
+#: modules/user/user.module:1902
+msgid ""
+"Set up username and e-mail address access rules for new <em>and</em> "
+"existing accounts (currently logged in accounts will not be logged out). If "
+"a username or e-mail address for an account matches any deny rule, but not "
+"an allow rule, then the account will not be allowed to be created or to log "
+"in. A host rule is effective for every page view, not just registrations."
+msgstr ""
+"اضبط قواعد وصول أسماء المستخدمين و عناوين البريد الإلكتروني للمستخدمين الجدد "
+"<em>و</em> المستخدمين الحاليين (المستخدمين الوالجين حاليا لن يتم إخراجهم) "
+"إذا طابق اسم مستخدم أو بريده أي اسم أو بريد ممنوع و لم يطابق اسما أو بريدا "
+"مسموحا به فلن يسمح للمستخدم بإنشاء حساب جديد أو الولوج إلى حسابه. أما أدوار "
+"المضيفات فتؤثر في كل الصفحات و ليس مجرد صفحة التسجيل."
+
+#: modules/user/user.module:1904
+msgid ""
+"Permissions let you control what users can do on your site. Each user role "
+"(defined on the <a href=\"@role\">user roles page</a>) has its own set of "
+"permissions. For example, you could give users classified as \"Administrators"
+"\" permission to \"administer nodes\" but deny this power to ordinary, "
+"\"authenticated\" users. You can use permissions to reveal new features to "
+"privileged users (those with subscriptions, for example). Permissions also "
+"allow trusted users to share the administrative burden of running a busy "
+"site."
+msgstr ""
+"تسمح لك الصلاحيات بالتحكم في الأشياء التي يمكن للمستخدمين عملها في موقعك. كل "
+"دور مستخدمين (معرف في <a href=\"@role\">صفحة أدوار المستخدمين</a>) له مجموعة "
+"صلاحيات خاصة به. مثلا، يمكنك منح المستخدمين المصنفين كإداريين صلاحية إدارة "
+"العقد، و منع المستخدمين \"الموثقين\" من ذلك. يمكنك استخدام الصلاحيات لإعطاء "
+"خدمات جديدة للمستخدمين المميزين (التنويه عن المحتوى الجديد، مثلا)، كما تسمح "
+"الصلاحيات بمشاركة المستخدمين الموثقين في أعباء إدارة المواقع الضخمة."
+
+#: modules/user/user.module:1906
+msgid ""
+"<p>Roles allow you to fine tune the security and administration of Drupal. A "
+"role defines a group of users that have certain privileges as defined in <a "
+"href=\"@permissions\">user permissions</a>. Examples of roles include: "
+"anonymous user, authenticated user, moderator, administrator and so on. In "
+"this area you will define the <em>role names</em> of the various roles. To "
+"delete a role choose \"edit\".</p><p>By default, Drupal comes with two user "
+"roles:</p>\n"
+"      <ul>\n"
+"      <li>Anonymous user: this role is used for users that don't have a user "
+"account or that are not authenticated.</li>\n"
+"      <li>Authenticated user: this role is automatically granted to all "
+"logged in users.</li>\n"
+"      </ul>"
+msgstr ""
+"<p>تسمح لك الأدوار بالضبط الدقيق لأمان و إدارة دروبال. يعرف الدور <a href="
+"\"@permissions\">صلاحيات</a> مجموعة من المستخدمين. من الأمثلة على الأدوار: "
+"مستخدم مجهول؛ مستخدم معرف؛ مراقب؛ إداري... عرف في هذه المنطقة <em>أسماء "
+"الأدوار</em> للأدوار المختلفة. لتحذف دورا، اختر \"تحرير\".</p> <p>بشكل "
+"مبدئي، يأتي دروبال بنوعين من الأدوار:</p>\n"
+"<ul>\n"
+"<li>المستخدم المجهول: يستخدم هذا الدور للمستخدمين الذين لا يملكون حسابات، أو "
+"الذين لم يعرفوا أنفسهم.</li>\n"
+"<li>المستخدم المعرف: يعين هذا الدور آليا إلى المستخدمين ولوجهم.</li>\n"
+"</ul>"
+
+#: modules/user/user.module:1949
+msgid "role"
+msgstr "دور"
+
+#: modules/user/user.module:1967
+msgid "permission"
+msgstr "صلاحية"
+
+#: modules/user/user.module:2173
+msgid ""
+"It is recommended to choose a password that contains at least six "
+"characters. It should include numbers, punctuation, and both upper and "
+"lowercase letters."
+msgstr ""
+
+#: modules/user/user.module:2174
+msgid "The password does not include enough variation to be secure. Try:"
+msgstr ""
+
+#: modules/user/user.module:2175
+msgid "Adding both upper and lowercase letters."
+msgstr ""
+
+#: modules/user/user.module:2176
+msgid "Adding numbers."
+msgstr ""
+
+#: modules/user/user.module:2177
+msgid "Adding punctuation."
+msgstr ""
+
+#: modules/user/user.module:2178
+msgid "It is recommended to choose a password different from the username."
+msgstr ""
+
+#: modules/user/user.module:2205
+msgid "After a user has logged in"
+msgstr ""
+
+#: modules/user/user.module:2208
+msgid "After a user has logged out"
+msgstr ""
+
+#: modules/user/user.module:2211
+msgid "When a user's profile is being viewed"
+msgstr ""
+
+#: modules/user/user.module:2230
+msgid "Ban IP address of current user"
+msgstr ""
+
+#: modules/user/user.module:2323
+msgid ""
+"Welcome to Drupal. You are now logged in as user #1, which gives you full "
+"control over your website."
+msgstr ""
+
+#: modules/user/user.module:2325
+msgid ""
+"</p><p> Your password is <strong>%pass</strong>. You may change your "
+"password below.</p>"
+msgstr ""
+
+#: modules/user/user.module:2344
+msgid "Registration successful. You are now logged in."
+msgstr ""
+
+#: modules/user/user.module:2357
+msgid ""
+"Your password and further instructions have been sent to your e-mail address."
+msgstr "كلمة مرورك أرسلت إلى بريدك و معها مزيد من التوجيهات."
+
+#: modules/user/user.module:2402
+msgid "Notify user of new account"
+msgstr "نبه المستخدم بالحسابات الجديدة"
+
+#: modules/user/user.module:1320
+msgid "Login attempt failed for %user."
+msgstr "لقد فشلت محاولة دخول %user."
+
+#: modules/user/user.module:1366
+msgid "Session opened for %name."
+msgstr "فتحت الجلسة ل%name."
+
+#: modules/user/user.module:1597
+msgid "Deleted user: %name %email."
+msgstr "تم حذف المستخدم: %name %email."
+
+#: modules/user/user.module:2265
+msgid "Banned IP address %ip"
+msgstr ""
+
+#: modules/user/user.module:776;779
+msgid "1 guest"
+msgid_plural "@count guests"
+msgstr[0] "ضيف واحد"
+msgstr[1] "لا ضيوف"
+msgstr[2] "ضيفين"
+msgstr[3] "@count ضيوف"
+msgstr[4] "@count ضيفا"
+msgstr[5] "@count ضيف"
+
+#: modules/user/user.module:544
+msgid "administer users"
+msgstr "يدير المستخدمين"
+
+#: modules/user/user.module:544
+msgid "access user profiles"
+msgstr "يصل إلى ملفات المستخدمين"
+
+#: modules/user/user.module:544
+msgid "change own username"
+msgstr "يغير اسم المستخدم الخاص به"
+
+#: modules/user/user.module:887
+msgid "User autocomplete"
+msgstr "إكمال آلي لاسم المستخدم"
+
+#: modules/user/user.module:897
+msgid "User account"
+msgstr "حساب المستخدم"
+
+#: modules/user/user.module:928
+msgid "Reset password"
+msgstr "أعد ضبط كلمة المرور"
+
+#: modules/user/user.module:938
+msgid "User management"
+msgstr "إدارة المستخدمين"
+
+#: modules/user/user.module:939
+msgid "Manage your site's users, groups and access to site features."
+msgstr ""
+"أدر المستخدمين و مجموعات المستخدمين في موقعك، و وصولهم إلى خدمات الموقع."
+
+#: modules/user/user.module:948
+msgid "List, add, and edit users."
+msgstr "اسرد، و أضف، و حرر المستخدمين."
+
+#: modules/user/user.module:960
+msgid "Add user"
+msgstr "أضف مستخدما"
+
+#: modules/user/user.module:967
+msgid "User settings"
+msgstr "إعدادات المستخدم"
+
+#: modules/user/user.module:968
+msgid ""
+"Configure default behavior of users, including registration requirements, e-"
+"mails, and user pictures."
+msgstr ""
+"تضبط السلوك المبدئي للمستخدمين، بما فيها متطلبات التسجيل، و البريد "
+"الإلكتروني، و صور المستخدمين."
+
+#: modules/user/user.module:978
+msgid "Determine access to features by selecting permissions for roles."
+msgstr "تحدد الوصول إلى الخصائص باختيار صلاحيات الأدوار."
+
+#: modules/user/user.module:986
+msgid "List, edit, or add user roles."
+msgstr "تسرد، و تحرر، و تضيف أدوار المستخدمين."
+
+#: modules/user/user.module:993
+msgid "Edit role"
+msgstr "حرر الدور"
+
+#: modules/user/user.module:1000
+msgid "Access rules"
+msgstr "قواعد الوصول"
+
+#: modules/user/user.module:1001
+msgid ""
+"List and create rules to disallow usernames, e-mail addresses, and IP "
+"addresses."
+msgstr ""
+"تسرد و تنشئ قواعد لتمنع أسماء مستخدمين بعينها، أو عناوين بريد إلكتروني، و "
+"عناوين بروتوكول إنترنت."
+
+#: modules/user/user.module:1019
+msgid "Check rules"
+msgstr "راجع القواعد"
+
+#: modules/user/user.module:1026
+msgid "Edit rule"
+msgstr "حرر قاعدة"
+
+#: modules/user/user.module:1033
+msgid "Delete rule"
+msgstr "احذف القاعدة"
+
+#: modules/user/user.module:1042
+msgid "Log out"
+msgstr "اخرج"
+
+#: modules/user/user.module:0
+msgid "authenticated user"
+msgstr "مستخدم معرف"
+
+#: modules/user/user.install:9
+msgid "Stores site access rules."
+msgstr ""
+
+#: modules/user/user.install:21
+msgid "Text mask used for filtering access."
+msgstr ""
+
+#: modules/user/user.install:28
+msgid "Type of access rule: name, mail or host."
+msgstr ""
+
+#: modules/user/user.install:35
+msgid "Whether rule is to allow(1) or deny(0) access."
+msgstr ""
+
+#: modules/user/user.install:54
+msgid "User's {users}.uid."
+msgstr ""
+
+#: modules/user/user.install:68
+msgid "Module which is controlling the authentication."
+msgstr ""
+
+#: modules/user/user.install:81
+msgid "Primary Key: Unique permission ID."
+msgstr ""
+
+#: modules/user/user.install:94
+msgid "List of permissions being assigned."
+msgstr ""
+
+#: modules/user/user.install:101
+msgid "Originally intended for taxonomy-based permissions, but never used."
+msgstr ""
+
+#: modules/user/user.install:130
+msgid "Stores user data."
+msgstr ""
+
+#: modules/user/user.install:150
+msgid "User's password (md5 hash)."
+msgstr ""
+
+#: modules/user/user.install:164
+msgid ""
+"Per-user comment display mode (threaded vs. flat), used by the {comment} "
+"module."
+msgstr ""
+
+#: modules/user/user.install:171
+msgid ""
+"Per-user comment sort order (newest vs. oldest first), used by the {comment} "
+"module."
+msgstr ""
+
+#: modules/user/user.install:178
+msgid ""
+"Previously used by the {comment} module for per-user preferences; no longer "
+"used."
+msgstr ""
+
+#: modules/user/user.install:198
+msgid "Timestamp for when user was created."
+msgstr ""
+
+#: modules/user/user.install:204
+msgid "Timestamp for previous time user accessed the site."
+msgstr ""
+
+#: modules/user/user.install:210
+msgid "Timestamp for user's last login."
+msgstr ""
+
+#: modules/user/user.install:217
+msgid "Whether the user is active(1) or blocked(0)."
+msgstr ""
+
+#: modules/user/user.install:237
+msgid "Path to the user's uploaded picture."
+msgstr ""
+
+#: modules/user/user.install:244
+msgid "Email address used for initial account creation."
+msgstr ""
+
+#: modules/user/user.install:250
+msgid ""
+"A serialized array of name value pairs that are related to the user. Any "
+"form values posted during user edit are stored and are loaded into the $user "
+"object during user_load(). Use of this field is discouraged and it will "
+"likely disappear in a future version of Drupal."
+msgstr ""
+
+#: modules/user/user.install:272
+msgid "Primary Key: {users}.uid for user."
+msgstr ""
+
+#: modules/user/user.install:279
+msgid "Primary Key: {role}.rid for role."
+msgstr ""
+
+#~ msgid "You must enter a mask."
+#~ msgstr "يجب أن تدخل قناعا."

@@ -1,0 +1,76 @@
+/* Site space */
+#global,
+#branding,
+#navigation,
+#content h2.block-title,
+#navigation ul.space-links li a:hover { background-color:#393 !important; }
+
+#branding form input.form-text { background-color:#252 !important; }
+
+#branding,
+#navigation,
+#navigation ul.space-links li a,
+#branding form input.form-text { border-color:#4a4 !important; }
+
+/* Sprite overrides */
+div.dropdown-blocks div.block div.item-list li a:hover,
+div.pager li.pager-current,
+ul.menu a.active,
+div.more-link a:hover,
+div.node-links ul li a:hover,
+div.comment-links ul li a:hover,
+a.picture-user-s,
+a.picture-user-m,
+#global,
+#global h1.site-name a,
+#global ul.links li.active a:hover,
+#global ul.links li a:hover,
+#global ul.dropdown li.selected a,
+#global ul.dropdown li.selected a.active,
+#global ul.dropdown li.selected a:hover,
+#navigation,
+#navigation ul.space-links li a,
+#features-menu li.active,
+#features-menu li a:hover,
+#features-menu li a span.icon,
+ul.menu span.icon,
+div.xref div.label,
+table.cases span.case-priority,
+.node a.new,
+.comment a.new,
+span.marker,
+.views-field-feature span.spaces-feature {
+  background-image:url(images/sprite_ie.png) !important;
+  }
+
+/* IE positions backgrounds slightly differently. */
+#navigation { background-position: 0px -120px; }
+
+/* Adjustments to features menu icons, hover */
+#features-menu li a:hover { background:transparent !important; }
+
+#features-menu li.active a span.icon { background-position:0px -440px; }
+
+#features-menu li.active a.icon-blog span.icon { background-position: 0px -560px; }
+#features-menu li.active a.icon-documents span.icon { background-position: -40px -560px; }
+#features-menu li.active a.icon-calendar span.icon { background-position: -80px -560px; }
+#features-menu li.active a.icon-casetracker span.icon { background-position: -120px -560px; }
+#features-menu li.active a.icon-dashboard span.icon { background-position: -160px -560px; }
+#features-menu li.active a.icon-groups span.icon { background-position: -200px -560px; }
+#features-menu li.active a.icon-home span.icon { background-position: -240px -560px; }
+#features-menu li.active a.icon-members span.icon { background-position: -280px -560px; }
+#features-menu li.active a.icon-profile span.icon { background-position: -280px -560px; }
+#features-menu li.active a.icon-shoutbox span.icon { background-position: -320px -560px; }
+
+/* Normal fixes */
+div.xref ul.links a,
+ul.menu li,
+ul.menu li a {
+  height:1%;
+  }
+
+div.litecal .litecal-data {
+  width:100%;
+  margin:0px;
+  padding:0px;
+  }

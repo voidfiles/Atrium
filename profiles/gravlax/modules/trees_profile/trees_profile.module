@@ -1,0 +1,68 @@
+<?php
+
+include_once('trees_profile.features.inc');
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function trees_profile_strongarm() {
+  $conf = array();
+
+  $conf['node_options_profile'] = array('status');
+  $conf["notifications_content_type_profile"] = array();
+  $conf['upload_profile'] = FALSE;
+
+  // Disable comments
+  $conf['comment_profile'] = COMMENT_NODE_DISABLED;
+
+  // Disable FeedAPI
+  $conf['feedapi_settings_profile'] = array('enabled' => FALSE);
+
+  // Disable Diff button
+  $conf["show_preview_changes_profile"] = FALSE;
+  $conf["show_diff_inline_profile"] = FALSE;
+
+  // Configure content profile.
+  $conf['content_profile_use_profile'] = 1;
+  $conf['content_profile_profile'] = array (
+    'weight' => '0',
+    'user_display' => 'full',
+    'edit_link' => 0,
+    'edit_tab' => 'sub',
+    'add_link' => 0,
+  );
+
+  // Disable from recent activity views
+  $conf['trees_update_type_profile'] = FALSE;
+  return $conf;
+}
+
+/**
+ * Implementation of hook_trees_create_links_alter().
+ */
+function trees_profile_trees_create_links_alter(&$links) {
+  unset($links['profile']);
+}
+
+/**
+ * Implementation of hook_trees_update_types_alter().
+ * Excludes profile content type from update feeds, etc.
+ */
+function trees_profile_trees_update_types_alter(&$types) {
+  unset($types['profile']);
+}
+
+/**
+ * Implementation of hook_context_links_alter().
+ */
+function trees_profile_context_links_alter(&$links) {
+  global $user;
+  $space = spaces_get_space();
+  if ($space->type == 'user' && $user->uid == $space->sid && node_access('create', 'profile') && $_GET['q'] != "user/{$user->uid}/edit/profile") {
+    $links['profile'] = array(
+      'title' => t('Edit my profile'),
+      'href' => "user/{$user->uid}/edit/profile",
+      'custom' => TRUE,
+    );
+  }
+}

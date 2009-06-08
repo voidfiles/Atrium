@@ -1,0 +1,6 @@
+name = "Seed"
+description = "Provides UI customizations and niceties."
+package = "Other"
+core = "6.x"
+dependencies[] = "context"
+dependencies[] = "context_contrib"

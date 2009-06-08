@@ -1,0 +1,91 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  notifications_tags.module,v 1.1.2.5.2.12.2.3 2009/04/20 18:55:26 jareyero
+#  notifications_tags.info,v 1.1.4.2 2008/11/07 17:27:30 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: notifications/notifications_tags/notifications_tags.module:55,22
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: notifications/notifications_tags/notifications_tags.module:13
+msgid "Autocomplete taxonomy"
+msgstr "Autocompletar la taxonomía"
+
+#: notifications/notifications_tags/notifications_tags.module:48
+msgid "Term: %name"
+msgstr "Término: %name"
+
+#: notifications/notifications_tags/notifications_tags.module:56
+msgid "Subscribe to content tagged with a given taxonomy term."
+msgstr "Subscribirse al contenido etiquetado con un término determinado."
+
+#: notifications/notifications_tags/notifications_tags.module:116
+msgid "Posts tagged with %name"
+msgstr "Envíos etiquedatos con %name"
+
+#: notifications/notifications_tags/notifications_tags.module:148
+msgid "Term name not found."
+msgstr "Nombre del término no encontrado."
+
+#: notifications/notifications_tags/notifications_tags.module:166
+msgid "Tag subscriptions"
+msgstr "Subscripciones a etiquetas"
+
+#: notifications/notifications_tags/notifications_tags.module:172
+msgid "Allowed vocabularies"
+msgstr "Vocabularios permitidos"
+
+#: notifications/notifications_tags/notifications_tags.module:175
+msgid "Select vocabularies to which subscriptions should be <em>allowed</em>."
+msgstr ""
+"Seleccionar vocabularios a cuyos términos se permiten las "
+"suscripciones."
+
+#: notifications/notifications_tags/notifications_tags.module:180
+msgid "Limit the displayed taxonomy terms"
+msgstr "Limitar los términos mostrados"
+
+#: notifications/notifications_tags/notifications_tags.module:182
+msgid ""
+"If checked, the displayed taxonomy terms in User Interface form will "
+"be limited to subscribed terms only. When you have too many taxonomy "
+"terms causing the Tags tab to run out of memory under Notifications "
+"UI, enabling this setting can fix the problem by only displaying the "
+"subscribed taxonomy terms. Note that if you enable this setting, you "
+"will have to provide your users an alternative way to subscribe to "
+"taxonomy items, such as providing links like: "
+"notifications/subscribe/%user/taxonomy/tid/%tid . The link will bring "
+"up the standard subscription confirmation dialog."
+msgstr ""
+"Si se marca, los términos mostrados se limitarán a aquellos a los "
+"cuales está suscrito. Esto es conveniente para vocabularios con "
+"demasiados términos."
+
+#: notifications/notifications_tags/notifications_tags.module:35
+msgid "subscribe to taxonomy terms"
+msgstr "suscribirse a términos de taxonomía"
+
+#: notifications/notifications_tags/notifications_tags.module:0
+msgid "notifications_tags"
+msgstr "notifications_tags"
+
+#: notifications/notifications_tags/notifications_tags.info:0
+msgid "Taxonomy Notifications"
+msgstr "Notificaciones de Taxonomía"
+
+#: notifications/notifications_tags/notifications_tags.info:0
+msgid "Allows users to subscribe to taxonomy terms."
+msgstr "Permite a los usuarios suscribirse a términos de la taxonomía."
+

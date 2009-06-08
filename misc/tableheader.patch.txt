@@ -1,0 +1,17 @@
+Index: tableheader.js
+===================================================================
+--- tableheader.js	(revision 13279)
++++ tableheader.js	(working copy)
+@@ -70,8 +70,10 @@
+     // Get the height of the header table and scroll up that amount.
+     if (prevAnchor != location.hash) {
+       if (location.hash != '') {
+-        var scrollLocation = $('td'+ location.hash).offset().top - $(e).height();
+-        $('body, html').scrollTop(scrollLocation);
++        if ($('td'+ location.hash).size() > 0) {
++          var scrollLocation = $('td'+ location.hash).offset().top - $(e).height();
++          $('body, html').scrollTop(scrollLocation);
++        }
+       }
+       prevAnchor = location.hash;
+     }

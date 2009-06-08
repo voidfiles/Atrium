@@ -1,0 +1,68 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  notifications_autosubscribe.module,v 1.2.2.3.2.5.2.1 2009/04/19 11:02:20 jareyero
+#  notifications_autosubscribe.info,v 1.2.2.1.2.1 2008/08/03 00:12:48 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:83,76
+msgid "Autosubscribe"
+msgstr "Autosubscribirse"
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:78
+msgid ""
+"Checking this box allows you to automatically subscribe to any thread "
+"you create or post a comment to."
+msgstr ""
+"Marcar esta casilla le permitirá subscribirse automaticamente a "
+"cualquier conversación que cree o a la que envíe un comentario."
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:86
+msgid "Set all users to \"autosubscribe\" by default"
+msgstr ""
+"Habilitar por defecto la opción \"autosubscribirse\" para todos los "
+"usuarios"
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:88
+msgid ""
+"If checked the option will be 'enabled' by default for user account "
+"settings. This won't change existing settings for users who have "
+"already defined it."
+msgstr ""
+"Si se marca esta casilla la opción aparecerá activada por defecto en "
+"las cuentas de usuario. Esto no cambiara las opciones existentes para "
+"los usuarios que ya la han definido."
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:110
+msgid ""
+"You are currently set to receive notifications for replies to content "
+"which you create. To change this default, uncheck the autosubscribe "
+"option in your user account settings."
+msgstr ""
+"Tiene habilitada la opción para recibir notificaciones para "
+"respuestas a contenido que crea. Para cambiar esta opción, desmarque "
+"la casilla \"autosubscribirse\" en las opciones de su cuenta de "
+"usuario."
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.module:0
+msgid "notifications_autosubscribe"
+msgstr "notifications_autosubscribe"
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.info:0
+msgid "Notifications Autosubscribe"
+msgstr "Autosubscribirse a Notificaciones"
+
+#: notifications/notifications_autosubscribe/notifications_autosubscribe.info:0
+msgid "Provides automatic notifications."
+msgstr "Proporciona notificaciones automáticas."
+

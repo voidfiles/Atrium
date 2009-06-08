@@ -1,0 +1,99 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  date_copy.module,v 1.16.2.1.2.10 2008/11/01 13:06:26 karens
+#  date_copy.info,v 1.2 2008/02/18 19:32:28 karens
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/date/date_copy/date_copy.module:268
+msgid "Import dates into CCK from various sources."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:273
+msgid "This feature is not yet functional."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:287
+msgid ""
+"See complete instructions on how to do it in the <a "
+"href=\"!link\">Advanced help</a>."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:318
+msgid ""
+"<p>Create a new CCK content type to import your events into, or, if "
+"you do not want to create new nodes for your events, add a date field "
+"to the existing event type. Make sure the target content type has a "
+"date field that has an optional or required To date so it can accept "
+"the From date and To date of the event. If your source event has its "
+"own timezone field, make sure you set the target date timezone "
+"handling to 'date'. Test the target type by trying to create a node "
+"manually and make sure all the right options are available in the form "
+"before attempting an import. </p><p><strong>The import will create new "
+"nodes and trigger all related hooks, so you may want to turn off "
+"automatic email messaging for this node type while performing the "
+"import!</strong></p>"
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:399
+msgid "%limit events have been converted."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:400
+msgid "Source Id"
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:400
+msgid "Target Id"
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:400
+msgid "Start"
+msgstr "Inicio"
+
+#: modules/date/date_copy/date_copy.module:400
+msgid "End"
+msgstr "Fin"
+
+#: modules/date/date_copy/date_copy.module:0,536,526
+msgid "date_copy"
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:526
+msgid "!type: created %title."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:536
+msgid "!type: updated %title."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:20
+msgid "Date Import/Export"
+msgstr "Date Import/Export"
+
+#: modules/date/date_copy/date_copy.module:21
+msgid "Import and export date data."
+msgstr ""
+
+#: modules/date/date_copy/date_copy.module:60
+msgid "CSV"
+msgstr "CSV"
+
+#: modules/date/date_copy/date_copy.info:0
+msgid "Date Copy"
+msgstr ""
+
+#: modules/date/date_copy/date_copy.info:0
+msgid "Import and export CCK date data."
+msgstr ""
+

@@ -1,0 +1,5 @@
+; $Id: flot.info,v 1.1 2008/09/29 01:05:04 jmiccolis Exp $
+name = Flot
+description = Provides an API for the flot js graphing library.
+core = 6.x
+

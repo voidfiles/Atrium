@@ -1,0 +1,35 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_base/seed/views/seed_handler_field_markup.inc: n/a
+#  gravlax_base/seed/views/seed_handler_field_date.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: seed/views/seed_handler_field_markup.inc:13
+msgid "Text length (in characters)"
+msgstr ""
+
+#: seed/views/seed_handler_field_markup.inc:15
+msgid ""
+"Enter 0 or leave blank to use full text. Truncating strings will have "
+"their HTML formatting stripped."
+msgstr ""
+
+#: seed/views/seed_handler_field_date.inc:21
+msgid "Day only"
+msgstr ""
+
+#: seed/views/seed_handler_field_date.inc:22
+msgid "Time only"
+msgstr "Sólo hora"
+

@@ -1,0 +1,325 @@
+<?php
+// $Id: features.module,v 1.1.2.23 2009/06/07 15:43:57 yhahn Exp $
+
+/**
+ * @file
+ * Module file for the features module, which enables the capture and
+ * management of features in Drupal. A feature is a collection of Drupal
+ * entities which taken together statisfy a certain use-case.
+ */
+
+define('FEATURES_MODULE_ENABLED', 1);
+define('FEATURES_MODULE_DISABLED', 0);
+define('FEATURES_MODULE_MISSING', -1);
+
+define('FEATURES_DEFAULT', 0);
+define('FEATURES_OVERRIDDEN', 1);
+
+/**
+ * Implementation of hook_menu().
+ */
+function features_menu() {
+  $items = array();
+  $items['admin/build/features'] = array(
+    'title' => 'Features',
+    'description' => 'Administer features.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_admin_form'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'features.admin.inc',
+  );
+  $items['admin/build/features/manage'] = array(
+    'title' => 'Manage',
+    'description' => 'Enable and disable features.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_admin_form'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'features.admin.inc',
+  );
+  $items['admin/build/features/export'] = array(
+    'title' => 'Export',
+    'description' => 'Export features to code.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_export_form'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => "features.export.inc",
+    'weight' => 10,
+  );
+  $items['admin/build/features/%feature'] = array(
+    'title' => 'Feature components',
+    'description' => 'Display components of a feature.',
+    'page callback' => 'features_admin_components',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'file' => 'features.admin.inc',
+  );
+  $items['admin/build/features/%feature/view'] = array(
+    'title' => 'View',
+    'description' => 'Display components of a feature.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/build/features/%feature/compare'] = array(
+    'title' => 'Compare',
+    'description' => 'Compare default and current feature.',
+    'page callback' => 'features_feature_comparison',
+    'page arguments' => array(3),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'features.admin.inc',
+  );
+  $items['admin/build/features/%feature/export'] = array(
+    'title' => 'Export',
+    'description' => 'Update a feature.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_export_form', 3),
+    'type' => MENU_LOCAL_TASK,
+    'file' => "features.export.inc",
+    'weight' => 10,
+  );
+    $items['admin/build/features/%feature/status'] = array(
+    'title' => 'Status',
+    'description' => 'Javascript status call back.',
+    'page callback' => 'features_feature_status',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'file' => 'features.admin.inc',
+  );
+  foreach ($items as $path => $item) {
+    $items[$path]['access callback'] = 'user_access';
+    $items[$path]['access arguments'] = array('administer site configuration');
+  }
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function features_menu_alter(&$cache) {
+  // Collect exported menu items and graft them into the features menu.
+  $items = module_invoke_all('menu_default_items');
+  drupal_alter('menu_default_items', $items);
+
+  foreach ($items as $item) {
+    if (!empty($item['path'])) {
+      $path = $item['path'];
+      unset($item['path']);
+      if (!empty($cache[$path])) {
+        $cache[$path] = array_merge($cache[$path], $item);
+        $cache[$path]['type'] = MENU_NORMAL_ITEM;
+        $cache[$path]['menu_name'] = 'features';
+      }
+    }
+  }
+}
+
+/**
+ *  Implementation of hook_theme().
+ */
+function features_theme() {
+  $path = drupal_get_path('module', 'features') .'/theme';
+  $items = array();
+  $items['features_form'] =
+  $items['features_export_form_confirm'] =
+  $items['features_export_form_final'] = array(
+    'arguments' => array('form' => NULL),
+    'file' => 'theme.inc',
+    'path' => $path,
+  );
+  $items['features_form_buttons'] = array(
+    'arguments' => array('element' => NULL),
+    'file' => 'theme.inc',
+    'path' => $path,
+  );
+  $items['features_admin_components'] = array(
+    'arguments' => array('info' => NULL, 'dependencies' => NULL, 'components' => NULL, 'conflicts' => NULL),
+    'template' => 'features-admin-components',
+    'file' => 'theme.inc',
+    'path' => $path,
+  );
+  $items['features_module_status'] = array(
+    'arguments' => array('module' => NULL, 'status' => NULL),
+    'file' => 'theme.inc',
+    'path' => $path,
+  );
+  $items['features_storage'] = array(
+    'arguments' => array('storage' => NULL),
+    'file' => 'theme.inc',
+    'path' => $path,
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ */
+function features_theme_registry_alter(&$theme_registry) {
+  // Ensures that features_preprocess_page() comes immediately after
+  // template_preprocess_page().
+  if ($position = array_search('features_preprocess_page', $theme_registry['page']['preprocess functions'])) {
+    unset($theme_registry['page']['preprocess functions'][$position]);
+  }
+  $position = array_search('template_preprocess_page', $theme_registry['page']['preprocess functions']);
+  $position = $position ? $position + 1 : 2;
+  array_splice($theme_registry['page']['preprocess functions'], $position, 0, 'features_preprocess_page');
+}
+
+/**
+ * Implementation of hook_flush_caches().
+ */
+function features_flush_caches() {
+  features_rebuild();
+  features_get_modules(NULL, TRUE);
+  return array();
+}
+
+/**
+ * Load includes for any modules that implement the features API and
+ * load includes for those provided by features.
+ */
+function features_include() {
+  // Features provides integration on behalf of these modules.
+  $modules = array('block', 'content', 'context', 'imagecache', 'menu', 'node', 'views');
+  foreach ($modules as $module) {
+    module_load_include('inc', 'features', "includes/features.$module");
+  }
+
+  // Check for any other implementing modules and make necessary inclusions.
+  foreach (module_invoke_all('features_api') as $info) {
+    if (is_array($info) && !empty($info['file'])) {
+      require_once $info['file'];
+    }
+  }
+}
+
+/**
+ * Feature object loader.
+ */
+function feature_load($name, $reset = FALSE) {
+  return features_get_features($name, $reset);
+}
+
+/**
+ * Return a module 'object' including .info information.
+ *
+ * @param $name
+ *   The name of the module to retrieve information for. If ommitted,
+ *   an array of all available modules will be returned.
+ * @param $reset
+ *   Whether to reset the cache.
+ *
+ * @return
+ *   If a module is request (and exists) a module object is returned. If no
+ *   module is requested info for all modules is returned.
+ */
+function features_get_modules($name = NULL, $reset = FALSE) {
+  return features_get_info('module', $name, $reset);
+}
+
+function features_get_features($name = NULL, $reset = FALSE) {
+  return features_get_info('feature', $name, $reset);
+}
+
+function features_get_info($type = 'module', $name = NULL, $reset = FALSE) {
+  $cache = cache_get('features_module_info');
+
+  if (empty($cache) || $reset) {
+    $data = array();
+    $result = db_query("SELECT filename, name, type, status, throttle, schema_version FROM {system} WHERE type = 'module' ORDER BY name ASC");
+    while ($row = db_fetch_object($result)) {
+      $row->info = drupal_parse_info_file(dirname($row->filename) .'/'. $row->name .'.info');
+      if (!empty($row->info)) {
+        if (!empty($row->info['features'])) {
+          $data['feature'][$row->name] = $row;
+        }
+        $data['module'][$row->name] = $row;
+      }
+    }
+    cache_set("features_module_info", $data);
+    $cache = new stdClass();
+    $cache->data = $data;
+  }
+  if (!empty($name)) {
+    return !empty($cache->data[$type][$name]) ? $cache->data[$type][$name] : array();
+  }
+  return !empty($cache->data[$type]) ? $cache->data[$type] : array();
+}
+
+/**
+ * Simple wrapper returns the status of a module.
+ */
+function features_get_module_status($module) {
+  if (module_exists($module)) {
+    return FEATURES_MODULE_ENABLED;
+  }
+  else if (features_get_modules($module)) {
+    return FEATURES_MODULE_DISABLED;
+  }
+  else {
+    return FEATURES_MODULE_MISSING;
+  }
+}
+
+/**
+ * Implementation of hook_form_alter() for system_modules form.
+ */
+function features_form_system_modules_alter(&$form) {
+  features_rebuild();
+
+  // Hide feature module from admin/build/modules
+  foreach ($form['validation_modules']['#value'] as $name => $module) {
+    if (isset($module->info['features'])) {
+      unset($form['validation_modules']['#value'][$name]);
+      foreach (array('name', 'version', 'description') as $key) {
+        unset($form[$key][$name]);
+      }
+      unset($form['status']['#options'][$name]);
+    }
+  }
+}
+
+/**
+ * Rebuild definitions -- calls various scripts for non-exportables.
+ */
+function features_rebuild() {
+  features_include();
+  module_invoke_all('features_rebuild');
+}
+
+/**
+ * Returns a links array in the theme_links() format for the features menu.
+ *
+ * @return
+ *   Array of links.
+ */
+function features_menu_links($level = 0, $reset = FALSE) {
+  static $links;
+  if (!isset($links[$level]) || $reset) {
+    if (!isset($links)) {
+      $links = array();
+    }
+    $links[$level] = menu_navigation_links('features', $level);
+  }
+  drupal_alter('features_menu_links', $links[$level]);
+  return $links[$level];
+}
+
+/**
+ * Theme functions ====================================================
+ */
+
+/**
+ * Preprocess function for features links.
+ */
+function features_preprocess_page(&$vars) {
+  if (variable_get('menu_primary_links_source', 'primary-links') == 'features') {
+    $vars['primary_links'] = features_menu_links();
+  }
+  if (variable_get('menu_secondary_links_source', 'secondary-links') == 'features') {
+    if (variable_get('menu_secondary_links_source', 'primary-links') == 'features') {
+      $vars['secondary_links'] = features_menu_links(1);
+    }
+    else {
+      $vars['secondary_links'] = features_menu_links();
+    }
+  }
+}

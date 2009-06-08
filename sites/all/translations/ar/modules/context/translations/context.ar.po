@@ -1,0 +1,151 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_base/context/context.core.inc: n/a
+#  context.module,v 1.6.2.6.2.3 2009/05/26 04:10:25 yhahn
+#  gravlax_base/context/context.install: n/a
+#  context.info,v 1.4 2008/07/17 16:57:18 jmiccolis
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: context/context.core.inc:66
+msgid "Node pages"
+msgstr ""
+
+#: context/context.core.inc:67
+msgid ""
+"Set this context when viewing a node page or using the add/edit form "
+"of one of these content types."
+msgstr ""
+
+#: context/context.core.inc:74
+msgid "User pages"
+msgstr ""
+
+#: context/context.core.inc:75
+msgid "Set this context when a user with selected role(s) is viewed"
+msgstr ""
+
+#: context/context.core.inc:88
+msgid "Set this context when a node in the selected book is viewed."
+msgstr ""
+
+#: context/context.core.inc:96
+msgid "Sitewide context"
+msgstr ""
+
+#: context/context.core.inc:99
+msgid ""
+"Should this context always be set? If <strong>true</strong>, this "
+"context will be active across your entire site."
+msgstr ""
+
+#: context/context.core.inc:219
+msgid "Active menu"
+msgstr ""
+
+#: context/context.core.inc:220
+msgid ""
+"Display the selected menu item as active when this context is set. To "
+"use this feature, you must use <strong>theme_context_links()</strong> "
+"to theme your links. Please see README.txt for more information."
+msgstr ""
+
+#: context/context.core.inc:229
+msgid "Theme variables"
+msgstr ""
+
+#: context/context.core.inc:231
+msgid "Section title"
+msgstr ""
+
+#: context/context.core.inc:232
+msgid ""
+"Provides this text as a <strong>$section_title</strong> variable for "
+"display in page.tpl.php when this context is active."
+msgstr ""
+
+#: context/context.core.inc:237
+msgid "Section subtitle"
+msgstr ""
+
+#: context/context.core.inc:238
+msgid ""
+"Provides this text as a <strong>$section_subtitle</strong> variable "
+"for display in page.tpl.php when this context is active."
+msgstr ""
+
+#: context/context.core.inc:243
+msgid "Section class"
+msgstr ""
+
+#: context/context.core.inc:244
+msgid ""
+"Provides this text as an additional body class (in "
+"<strong>$body_classes</strong> in page.tpl.php) when this section is "
+"active. Note that there may only be <strong>one</strong> active "
+"section class at once."
+msgstr ""
+
+#: context/context.core.inc:254
+msgid "Disabled regions"
+msgstr ""
+
+#: context/context.core.inc:509
+msgid "Add !type"
+msgstr "type! إضافة"
+
+#: context/context.module:0
+msgid "context"
+msgstr ""
+
+#: context/context.install:22
+msgid "Storage for normal (user-defined) contexts."
+msgstr ""
+
+#: context/context.install:31
+msgid "The namespace for a context."
+msgstr ""
+
+#: context/context.install:38
+msgid "The attribute for a context."
+msgstr ""
+
+#: context/context.install:45
+msgid "The value for a context."
+msgstr ""
+
+#: context/context.install:52
+msgid "Serialized storage of all associated context items."
+msgstr ""
+
+#: context/context.info:0
+msgid "Provide modules with a cache that lasts for a single page request."
+msgstr ""
+
+#: context/context.core.inc:105
+msgid ""
+"Set this context when any of the paths above match the page path. Put "
+"each path on a separate line. You can use the \"*\" character as a "
+"wildcard and &lt;front&gt; for the front page."
+msgstr ""
+
+#: context/context.core.inc:132
+msgid "Menu trail"
+msgstr ""
+
+#: context/context.core.inc:133
+msgid ""
+"Set this context when any of the selected menu items belong to the "
+"current active menu trail."
+msgstr ""
+

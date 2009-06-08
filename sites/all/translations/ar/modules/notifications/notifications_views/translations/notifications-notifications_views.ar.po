@@ -1,0 +1,134 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_base/notifications/notifications_views/notifications_views_handler_filter_subscription_type.inc: n/a
+#  gravlax_base/notifications/notifications_views/notifications_views.module: n/a
+#  notifications_views.info,v 1.1.2.1 2009/02/20 18:43:18 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: notifications/notifications_views/notifications_views_handler_filter_subscription_type.inc:8
+msgid "Subscription type"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:26
+msgid "Messaging store."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:33
+msgid "MQID"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:34
+msgid "The ID of the message"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:46
+msgid "The subject of the message"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:58
+msgid "The body of the message"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:65
+msgid "Creation date"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:66
+msgid "The date that the messag was created."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:77
+msgid "Provides a link to delete the message"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:85
+msgid "The delivery method for the message"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:98,92
+msgid "Sender"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:93
+msgid "The User ID of the message sender."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:109,103
+msgid "Receiver"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:104
+msgid "The User ID of the message receiver."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:122
+msgid "Notifications subscriptions."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:141
+msgid "Subscription by the current user"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:152
+msgid "Subscriber UID"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:153
+msgid "The UID of the subscriber."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:165
+msgid "Subscriber"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:171
+msgid "Filter to subscriptions with this send method."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:182
+msgid "Filter to subscriptions of this type."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:199
+msgid "Filter to subscriptions on this interval."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:239
+msgid "Subscribed Nid"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:240
+msgid "The node ID of the subscribed node."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:267
+msgid "Subscribed Author"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:268
+msgid "The UID of the subscribed author."
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.module:0
+msgid "notifications_views"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.info:0
+msgid "Notifications Views"
+msgstr ""
+
+#: notifications/notifications_views/notifications_views.info:0
+msgid "Views integration for Notifications."
+msgstr ""
+

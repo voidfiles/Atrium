@@ -1,0 +1,22 @@
+; $Id$
+name = "Ginkgo"
+description = "Next gen ginkgo (aka 'coldbrew')."
+version = "0.1"
+core = "6.x"
+trees = "1.x"
+engine = "phptemplate"
+base theme = "tao"
+
+stylesheets[screen][] = "style.css"
+stylesheets[screen][] = "forms.css"
+
+scripts[] = "js/jquery.cookie.js"
+scripts[] = "js/coldbrew.js"
+
+regions[right] = "Right sidebar"
+regions[content] = "Content"
+regions[header] = "Header"
+regions[console] = "Console"
+
+admin[admin menu] = 1
+admin[admin inline] = 0

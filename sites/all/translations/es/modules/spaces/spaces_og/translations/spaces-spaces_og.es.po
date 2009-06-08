@@ -1,0 +1,159 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_base/spaces/spaces_og/spaces_og.module: n/a
+#  spaces_og.info,v 1.1.2.1.2.1 2009/04/27 04:23:01 yhahn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: 2009-05-30 19:51+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: spaces/spaces_og/spaces_og.module:118
+msgid "Private"
+msgstr "Privado"
+
+#: spaces/spaces_og/spaces_og.module:174
+msgid "Group settings"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:229
+msgid "Please setup your group by choosing a homepage setting."
+msgstr "Por favor configure su grupo eligiendo una página de inicio."
+
+#: spaces/spaces_og/spaces_og.module:363
+msgid ""
+"This content is not assigned to a group and is not visible to "
+"non-administrative users."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:378
+msgid ""
+"This form should only be submitted within a properly configured group. "
+"Continue at your own risk."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:435
+msgid "Group space"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:450
+msgid ""
+"Only members will be able to access this group. Membership is strictly "
+"managed by admins."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:462
+msgid "Controlled group"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:463
+msgid ""
+"All users may view public content from this group. Users must request "
+"to join this group."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:475
+msgid "Public group"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:476
+msgid ""
+"All users may view public content from this group. User may join this "
+"group at will."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:532,944
+msgid "Add new account"
+msgstr "Añadir nueva cuenta"
+
+#: spaces/spaces_og/spaces_og.module:571
+msgid "My !title"
+msgstr "Mi !title"
+
+#: spaces/spaces_og/spaces_og.module:632
+msgid "Your group membership settings were saved successfully."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:815
+msgid "Select a !typename"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:824
+msgid "My !typenames"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:827
+msgid "All !typenames"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:872
+msgid "Please select a !typename to move this post to."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:872
+msgid "Please select a !typename to add this post to."
+msgstr "Por favor elija un !typename al que añadir este envío."
+
+#: spaces/spaces_og/spaces_og.module:892
+msgid "Privacy"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:898
+msgid ""
+"A post of this type is <strong>private</strong>. Only members of this "
+"!typename will be able to see it."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:901
+msgid ""
+"A post of this type is <strong>public</strong>. All visitors will be "
+"able to see it."
+msgstr ""
+"Un envío de este tipo es <strong>público</strong>. Todos los "
+"visitantes lo podrán ver."
+
+#: spaces/spaces_og/spaces_og.module:918
+msgid "Please choose a !typename to post to."
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:976
+msgid "Cancel request to join"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:985
+msgid "Request to join"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:992
+msgid "Join this group"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:580
+msgid "view users outside groups"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:0
+msgid "spaces_og"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.info:0
+msgid "Spaces OG"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.info:0
+msgid "Provides integration between Spaces and OG"
+msgstr ""
+
+#: spaces/spaces_og/spaces_og.module:727
+msgid ""
+"This content type is provided by the <strong>!feature</strong> feature "
+"and will be used as a <strong>standard group post</strong>."
+msgstr ""
+

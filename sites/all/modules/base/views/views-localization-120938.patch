@@ -1,0 +1,680 @@
+? views-localization-120938.patch
+? views-localization-357529-17.patch
+Index: views_ui.module
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/views_ui.module,v
+retrieving revision 1.109
+diff -u -p -r1.109 views_ui.module
+--- views_ui.module	30 Jan 2009 00:56:01 -0000	1.109
++++ views_ui.module	28 May 2009 18:57:56 -0000
+@@ -233,6 +233,10 @@ function views_ui_cache_load($name) {
+       // Check to see if someone else is already editing this view.
+       global $user;
+       $view->locked = db_fetch_object(db_query("SELECT s.uid, v.updated FROM {views_object_cache} v INNER JOIN {sessions}  s ON v.sid = s.sid WHERE s.sid != '%s' and v.name = '%s' and v.obj = 'view' ORDER BY v.updated ASC", session_id(), $view->name));
++      // Set a flag to indicate that this view is being edited.
++      // This flag will be used e.g. to determine whether strings
++      // should be localized.
++      $view->editing = TRUE;
+     }
+   }
+ 
+Index: help/localization.html
+===================================================================
+RCS file: help/localization.html
+diff -N help/localization.html
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ help/localization.html	28 May 2009 18:57:56 -0000
+@@ -0,0 +1,30 @@
++<!-- $Id: $ -->
++<p>On multilingual sites, custom and overridden views may contain text that could be translated into one or more languages. Views makes this data available for translation.</p>
++
++<p>You can select which localization plugin to use at <strong>Administer &gt;&gt; Site building &gt;&gt; Views &gt;&gt; Tools</strong>. By default, Views supports "None" (don't localize these strings) and "Core" (use Drupal core's t() function).</p>
++
++<p>While it "works", the Core plugin is not recommended, as it doesn't support updates to existing strings. If you need to translate Views labels into other languages, consider installing the <a href="http://drupal.org/project/i18n">Internationalization</a> package's Views translation module.</p>
++
++<p>To prevent security issues, you may wish to install the PHP translation module, also part of the <a href="http://drupal.org/project/i18n">Internationalization</a> package.
++
++When this module is installed, PHP code is replaced with placeholders before being passed for translation. For example, a header with the following text
++
++<code>Welcome, you are visitor number &lt;?php echo visitor_count(); ?&gt;.</code>
++
++would be passed as
++
++<code>Welcome, you are visitor number !php0.</code>
++
++As well as addressing potential security holes, using placeholders in translations avoids presenting confusing code to translators.</p>
++
++<p>To prevent the possible insertion of additional PHP in translations, translated text is passed through strip_tags(), a function used to strip out PHP and HTML tags from text.</p>
++
++<p>If you have enabled PHP translation and wish to retain some HTML in e.g. a header or footer that accepts PHP:
++
++<ul>
++<li>Create a filter format that has both the "HTML filter" and "PHP evaluator" filters.</li>
++<li>Rearrange the order of the filters if necessary to ensure that the PHP evaluator runs before the HTML filter (because otherwise the HTML filter will remove PHP before it can be run).</li>
++<li>Select this filter format for your Views property (e.g., header).</li>
++</ul>
++
++Following this approach will ensure that you can retain a subset of HTML tags while safely using PHP in translatable Views text.</p>
+Index: help/views.help.ini
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/help/views.help.ini,v
+retrieving revision 1.17
+diff -u -p -r1.17 views.help.ini
+--- help/views.help.ini	22 Apr 2009 07:03:35 -0000	1.17
++++ help/views.help.ini	28 May 2009 18:57:56 -0000
+@@ -159,6 +159,9 @@ parent = analyze-theme
+ [overrides]
+ title = What are overrides?
+ 
++[localization]
++title = Localizing views data like header and footer text
++
+ [embed]
+ title = Embedding a view into other parts of your site
+ 
+Index: includes/admin.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/includes/admin.inc,v
+retrieving revision 1.154.2.1
+diff -u -p -r1.154.2.1 admin.inc
+--- includes/admin.inc	20 May 2009 02:52:52 -0000	1.154.2.1
++++ includes/admin.inc	28 May 2009 18:57:56 -0000
+@@ -2729,6 +2729,14 @@ function views_ui_admin_tools() {
+     '#default_value' => variable_get('views_no_javascript', FALSE),
+   );
+ 
++  $form['views_localization_plugin'] =  array(
++    '#type' => 'radios',
++    '#title' => t('Translation method'),
++    '#options' => views_fetch_plugin_names('localization', NULL, array(), TRUE),
++    '#default_value' => variable_get('views_localization_plugin', 'core'),
++    '#description' => t('Select a translation method to use for Views data like header, footer, and empty text.'),
++  );
++ 
+   $regions = system_region_list(variable_get('theme_default', 'garland'));
+ 
+   $form['views_devel_region'] = array(
+Index: includes/base.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/includes/base.inc,v
+retrieving revision 1.2
+diff -u -p -r1.2 base.inc
+--- includes/base.inc	6 Jun 2008 19:29:03 -0000	1.2
++++ includes/base.inc	28 May 2009 18:57:56 -0000
+@@ -19,7 +19,8 @@ class views_object {
+    * @code
+    * 'option_name' => array(
+    *  - 'default' => default value,
+-   *  - 'translatable' => TRUE/FALSE (wrap in t() on export if true),
++   *  - 'translatable' => TRUE/FALSE (use a localization plugin on display and
++   *      wrap in t() on export if true),
+    *  - 'contains' => array of items this contains, with its own defaults, etc.
+    *      If contains is set, the default will be ignored and assumed to
+    *      be array()
+@@ -28,8 +29,6 @@ class views_object {
+    *  @endcode
+    * Each option may have any of the following functions:
+    *  - export_option_OPTIONNAME -- Special export handling if necessary.
+-   *  - translate_option_OPTIONNAME -- Special handling for translating data
+-   *    within the option, if necessary.
+    */
+   function option_definition() { return array(); }
+ 
+@@ -76,7 +75,7 @@ class views_object {
+    * Unpack options over our existing defaults, drilling down into arrays
+    * so that defaults don't get totally blown away.
+    */
+-  function unpack_options(&$storage, $options, $definition = NULL) {
++  function unpack_options(&$storage, $options, $definition = NULL, $localization_keys = array()) {
+     if (!is_array($options)) {
+       return;
+     }
+@@ -86,15 +85,34 @@ class views_object {
+     }
+ 
+     foreach ($options as $key => $value) {
++      // Ensure we have a localization plugin.
++      $this->view->init_localization();
++
+       if (is_array($value)) {
+         if (!isset($storage[$key]) || !is_array($storage[$key])) {
+           $storage[$key] = array();
+         }
+ 
+-        $this->unpack_options($storage[$key], $value, isset($definition[$key]) ? $definition[$key] : array());
++        $this->unpack_options($storage[$key], $value, isset($definition[$key]) ? $definition[$key] : array(), array_merge($localization_keys, array($key)));
+       }
+-      else if (!empty($definition[$key]['translatable']) && !empty($value)) {
+-        $storage[$key] = t($value);
++
++      // Don't localize strings during editing. When editing, we need to work with
++      // the original data, not the translated version.
++      else if (!$this->view->editing && !empty($definition[$key]['translatable']) && !empty($value)) {
++        // Allow other modules to make changes to the string before it's
++        // sent for translation.
++        // Look for a propertyname_format property.
++        $translation_data = $this->view->invoke_translation_process($value, isset($options[$key . '_format']) ? $options[$key . '_format'] : NULL, 'pre');
++        if ($this->view->is_translatable()) {
++          // The $keys array is built from the view name, any localization keys
++          // sent in, and the name of the property being processed.
++          $storage[$key] = $this->view->localization_plugin->translate($value, array_merge(array($this->view->name), $localization_keys, array($key)));
++        }
++        // Otherwise, this is a code-based string, so we can use t().
++        else {
++          $storage[$key] = t($value);
++        }
++        $this->view->invoke_translation_process($value, $translation_data, 'post');
+       }
+       else {
+         $storage[$key] = $value;
+Index: includes/plugins.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/includes/plugins.inc,v
+retrieving revision 1.152.2.1
+diff -u -p -r1.152.2.1 plugins.inc
+--- includes/plugins.inc	20 May 2009 03:03:38 -0000	1.152.2.1
++++ includes/plugins.inc	28 May 2009 18:57:56 -0000
+@@ -11,7 +11,7 @@
+  */
+ function views_views_plugins() {
+   $path = drupal_get_path('module', 'views') . '/js';
+-  return array(
++  $plugins = array(
+     'module' => 'views', // This just tells our themes are elsewhere.
+     'display' => array(
+       'parent' => array(
+@@ -247,7 +247,31 @@ function views_views_plugins() {
+         'handler' => 'views_plugin_query_default'
+       ),
+     ),
++    'localization' => array(
++      'parent' => array(
++        'no ui' => TRUE,
++        'handler' => 'views_plugin_localization',
++        'parent' => '',
++      ),
++      'none' => array(
++        'title' => t('None'),
++        'help' => t('Do not pass admin strings for translation.'),
++        'handler' => 'views_plugin_localization_none',
++        'help topic' => 'localization-none',
++      ),
++      'core' => array(
++        'title' => t('Core'),
++        'help' => t("Use Drupal core t() function. Not recommended, as it doesn't support updates to existing strings."),
++        'handler' => 'views_plugin_localization_core',
++        'help topic' => 'localization-core',
++      ),
++    ),
+   );
++  // Add a help message pointing to the i18views module if it is not present.
++  if (!module_exists('i18nviews')) {
++    $plugins['localization']['core']['help'] .= ' ' . t('If you need to translate Views labels into other languages, consider installing the <a href="!path">Internationalization</a> package\'s Views translation module.', array('!path' => url('http://drupal.org/project/i18n', array('absolute' => TRUE))));
++  }
++  return $plugins;
+ }
+ 
+ /**
+Index: includes/view.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/includes/view.inc,v
+retrieving revision 1.151.2.3
+diff -u -p -r1.151.2.3 view.inc
+--- includes/view.inc	20 May 2009 03:09:36 -0000	1.151.2.3
++++ includes/view.inc	28 May 2009 18:57:56 -0000
+@@ -23,6 +23,7 @@ class view extends views_db_object {
+   // State variables
+   var $built = FALSE;
+   var $executed = FALSE;
++  var $editing = FALSE;
+ 
+   var $args = array();
+   var $build_info = array();
+@@ -62,6 +63,9 @@ class view extends views_db_object {
+     }
+ 
+     $this->query = new stdClass();
++
++    // Initialize localization.
++    $this->init_localization();
+   }
+ 
+   /**
+@@ -1258,6 +1262,9 @@ class view extends views_db_object {
+       $this->_save_rows($key);
+     }
+ 
++    // Save data for translation.
++    $this->save_locale_strings();
++
+     cache_clear_all('views_urls', 'cache_views');
+     cache_clear_all(); // clear the page cache as well.
+   }
+@@ -1283,6 +1290,8 @@ class view extends views_db_object {
+       return;
+     }
+ 
++    $this->delete_locale_strings();
++
+     db_query("DELETE FROM {views_view} WHERE vid = %d", $this->vid);
+     // Delete from all of our subtables as well.
+     foreach ($this->db_objects() as $key) {
+@@ -1338,6 +1347,15 @@ class view extends views_db_object {
+       }
+     }
+ 
++    // Give the localization system a chance to export translatables to code.
++    if ($this->init_localization()) {
++      $this->export_locale_strings('export');
++      $translatables = $this->localization_plugin->export_render($indent);
++      if (!empty($translatables)) {
++        $output .= $translatables;
++      }
++    }
++
+     return $output;
+   }
+ 
+@@ -1459,6 +1477,137 @@ class view extends views_db_object {
+ 
+     return $errors ? $errors : TRUE;
+   }
++
++  /**
++   * Find and initialize the localizer plugin.
++   */
++  function init_localization() {
++    if (isset($this->localization_plugin) && is_object($this->localization_plugin)) {
++      return TRUE;
++    }
++
++    $this->localization_plugin = views_get_plugin('localization', variable_get('views_localization_plugin', 'core'));
++
++    if (empty($this->localization_plugin)) {
++      return FALSE;
++    }
++
++    $this->localization_plugin->init($this);
++
++    return TRUE;
++  }
++
++  /**
++   * Determine whether a view supports admin string translation.
++   */
++  function is_translatable() {
++    // If the view is normal or overridden, use admin string translation.
++    // A newly created view won't have a type. Accept this.
++    return (!isset($this->type) || in_array($this->type, array(t('Normal'), t('Overridden')))) ? TRUE : FALSE;
++  }
++
++  /**
++   * Send strings for localization.
++   */
++  function save_locale_strings() {
++    $this->process_locale_strings('save');
++  }
++
++  /**
++   * Delete localized strings.
++   */
++  function delete_locale_strings() {
++    $this->process_locale_strings('delete');
++  }
++
++  /**
++   * Export localized strings.
++   */
++  function export_locale_strings() {
++    $this->process_locale_strings('export');
++  }
++
++  /**
++   * Process strings for localization, deletion or export to code.
++   */
++  function process_locale_strings($op) {
++    // Ensure this view supports translation, we have a display, and we
++    // have a localization plugin.
++    if (($this->is_translatable() || $op == 'export') && $this->init_display() && $this->init_localization()) {
++      foreach ($this->display as $display_id => $display) {
++        $translatable = array();
++        // Special handling for display title.
++        if (isset($display->display_title)) {
++          $translatable[] = array($display->display_title, array('display_title'));
++        }
++        $this->unpack_translatable($translatable, $display_id, $display->display_options);
++        foreach ($translatable as $data) {
++          list($string, $keys) = $data;
++          switch ($op) {
++            case 'save':
++              $this->localization_plugin->save($string, array_merge(array($this->name, $display_id), $keys));
++              break;
++            case 'delete':
++              $this->localization_plugin->delete($string, array_merge(array($this->name, $display_id), $keys));
++              break;
++            case 'export':
++              $this->localization_plugin->export($string, array_merge(array($this->name, $display_id), $keys));
++              break;
++          }
++        }
++      }
++    }
++  }
++
++  /**
++   * Unpack translatable properties and their values.
++   */
++  function unpack_translatable(&$translatable, $display_id, $options, $definition = NULL, $keys = array()) {
++
++    if (!is_array($options)) {
++      return;
++    }
++
++    // Ensure we have displays with handlers.
++    $this->init_display();
++
++    if (!isset($definition)) {
++      $definition = $this->display[$display_id]->handler->option_definition();
++    }
++
++    foreach ($options as $key => $value) {
++      if (is_array($value)) {
++        $this->unpack_translatable($translatable, $display_id, $value, isset($definition[$key]) ? $definition[$key] : array(), array_merge($keys, array($key)));
++      }
++      else if (!empty($definition[$key]['translatable']) && !empty($value)) {
++        // Allow other modules to make changes to the string before it's
++        // sent for translation.
++        // Look for a propertyname_format property.
++        $this->invoke_translation_process($value, isset($options[$key . '_format']) ? $options[$key . '_format'] : NULL, 'pre');
++        $translatable[] = array($value, array_merge($keys, array($key)));
++      }
++    }
++  }
++
++  /**
++   * Invoke hook_translation_pre_process() or hook_translation_post_process().
++   *
++   * Like node_invoke_nodeapi(), this function is needed to enable both passing
++   * by reference and fetching return values.
++   */
++  function invoke_translation_process(&$value, $arg, $op) {
++    $return = array();
++    $hook = 'translation_' . $op . '_process';
++    foreach (module_implements($hook) as $module) {
++      $function = $module . '_' . $hook;
++      $result = $function($value, $arg);
++      if (isset($result)) {
++        $return[$module] = $result;
++      }
++    }
++    return $return;
++  }
++
+ }
+ 
+ /**
+Index: plugins/views_plugin_display.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/views/plugins/views_plugin_display.inc,v
+retrieving revision 1.20.2.2
+diff -u -p -r1.20.2.2 views_plugin_display.inc
+--- plugins/views_plugin_display.inc	20 May 2009 03:09:37 -0000	1.20.2.2
++++ plugins/views_plugin_display.inc	28 May 2009 18:57:56 -0000
+@@ -40,7 +40,9 @@ class views_plugin_display extends views
+       unset($options['defaults']);
+     }
+ 
+-    $this->unpack_options($this->options, $options);
++    // Last argument is an array of keys to be used in identifying
++    // strings for translation.
++    $this->unpack_options($this->options, $options, NULL, array($display->id));
+   }
+ 
+   function destroy() {
+Index: plugins/views_plugin_localization.inc
+===================================================================
+RCS file: plugins/views_plugin_localization.inc
+diff -N plugins/views_plugin_localization.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ plugins/views_plugin_localization.inc	28 May 2009 18:57:56 -0000
+@@ -0,0 +1,76 @@
++<?php
++// $Id: $
++
++/**
++ * @file
++ * Contains the base class for views localization plugins.
++ */
++
++/**
++ * The base plugin to handle localization of Views strings.
++ *
++ * @ingroup views_localization_plugins
++ */
++class views_plugin_localization extends views_plugin {
++  /**
++   * Initialize the plugin.
++   *
++   * @param $view
++   *   The view object.
++   */
++  function init(&$view) {
++    $this->view = &$view;
++  }
++
++  /**
++   * Translate a string.
++   *
++   * @param $string
++   *   The string to be translated.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function translate($string, $keys = array()) { }
++
++  /**
++   * Save a string for translation.
++   *
++   * @param $string
++   *   The string to be saved.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function save($string, $keys = array()) { }
++
++  /**
++   * Delete a string.
++   *
++   * @param $string
++   *   The string to be deleted.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function delete($string, $keys = array()) { }
++
++  /**
++   * Collect strings to be exported to code.
++   *
++   * @param $string
++   *   The string to be deleted.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function export($string, $keys = array()) { }
++
++  /**
++   * Render any collected exported strings to code.
++   *
++   * @param $indent
++   *   An optional indentation for prettifying nested code.
++   */
++  function export_render($indent = '  ') { }
++}
+Index: plugins/views_plugin_localization_core.inc
+===================================================================
+RCS file: plugins/views_plugin_localization_core.inc
+diff -N plugins/views_plugin_localization_core.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ plugins/views_plugin_localization_core.inc	28 May 2009 18:57:56 -0000
+@@ -0,0 +1,113 @@
++<?php
++// $Id: $
++
++/**
++ * @file
++ * Contains the Drupal core localization plugin.
++ */
++
++/**
++ * Localization plugin to pass translatable strings through t().
++ *
++ * @ingroup views_localization_plugins
++ */
++class views_plugin_localization_core extends views_plugin_localization {
++
++  /**
++   * Translate a string.
++   *
++   * @param $string
++   *   The string to be translated.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function translate($string, $keys = array()) {
++    return t($string);
++  }
++
++  /**
++   * Save a string for translation.
++   *
++   * @param $string
++   *   The string to be saved.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function save($string, $keys = array()) {
++    global $language;
++
++    // If the current language is 'en', we need to reset the language
++    // in order to trigger an update.
++    // TODO: add test for number of languages.
++    if ($language->language == 'en') {
++      $changed = TRUE;
++      $languages = language_list();
++      $cached_language = $language;
++      unset($languages['en']);
++      $language = current($languages);
++    }
++
++    t($string);
++
++    if (isset($cached_language)) {
++      $language = $cached_language;
++    }
++    return TRUE;
++  }
++
++  /**
++   * Delete a string.
++   *
++   * Deletion is not supported.
++   *
++   * @param $string
++   *   The string to be deleted.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function delete($string, $keys = array()) {
++    return FALSE;
++  }
++
++  /**
++   * Collect strings to be exported to code.
++   *
++   * String identifiers are not supported so strings are anonymously in an array.
++   *
++   * @param $string
++   *   The string to be deleted.
++   * @param $keys
++   *   An array of keys to identify the string. Generally constructed from
++   *   view name, display_id, and a property, e.g., 'header'.
++   */
++  function export($string, $keys = array()) {
++    if (!isset($this->export_strings)) {
++      $this->export_strings = array();
++    }
++    if (!empty($string)) {
++      $this->export_strings[] = $string;
++    }
++  }
++
++  /**
++   * Render any collected exported strings to code.
++   *
++   * @param $indent
++   *   An optional indentation for prettifying nested code.
++   */
++  function export_render($indent = '  ') {
++    $output = '';
++    if (!empty($this->export_strings)) {
++      $this->export_strings = array_unique($this->export_strings);
++      $output = $indent . '$translatables[\'' . $this->view->name . '\'] = array(' . "\n";
++      foreach ($this->export_strings as $string) {
++        $output .= $indent . "  t('" . str_replace("'", "\'", $string) . "'),\n";
++      }
++      $output .= $indent . ");\n";
++    }
++    return $output;
++  }
++}
+Index: plugins/views_plugin_localization_none.inc
+===================================================================
+RCS file: plugins/views_plugin_localization_none.inc
+diff -N plugins/views_plugin_localization_none.inc
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ plugins/views_plugin_localization_none.inc	28 May 2009 18:57:56 -0000
+@@ -0,0 +1,37 @@
++<?php
++// $Id: $
++
++/**
++ * @file
++ * Contains the 'none' localization plugin.
++ */
++
++/**
++ * Localization plugin for no localization.
++ *
++ * @ingroup views_localization_plugins
++ */
++class views_plugin_localization_none extends views_plugin_localization {
++
++  /**
++   * Translate a string; simply return the string.
++   */
++  function translate($string, $keys = array()) {
++    return $string;
++  }
++
++  /**
++   * Save a string for translation; not supported.
++   */
++  function save($string, $keys = array()) {
++    return FALSE;
++  }
++
++  /**
++   * Delete a string; not supported.
++   */
++  function delete($string, $keys = array()) {
++    return FALSE;
++  }
++}
++

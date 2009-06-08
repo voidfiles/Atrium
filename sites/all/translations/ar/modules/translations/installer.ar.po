@@ -1,0 +1,246 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  devel_node_access.module,v 1.15.2.13 2009/02/25 16:31:13 salvis
+#  views_handler_field_comment_link.inc,v 1.2 2008/09/10 00:16:14 merlinofchaos
+#  views_handler_field_node_link.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos
+#  views_handler_field_user_link.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  imageapi_gd.install,v 1.8 2008/08/01 18:52:22 dopry
+#  gravlax_base/spaces/spaces_og/spaces_og.module: n/a
+#  gravlax_base/spaces/spaces_blog/spaces_blog.info: n/a
+#  gravlax_base/spaces/spaces_admin.inc: n/a
+#  gravlax_base/spaces/spaces.theme.inc: n/a
+#  features.info,v 1.1 2009/03/13 21:59:23 yhahn
+#  features.install,v 1.1 2009/03/13 21:59:23 yhahn
+#  features.module,v 1.1.2.20 2009/05/12 03:11:57 yhahn
+#  messaging_debug.info,v 1.1.4.1.2.1 2009/04/29 16:24:40 jareyero
+#  performance.info,v 1.2 2008/10/20 20:29:18 kbahey
+#  macro.info,v 1.4 2008/01/15 04:02:28 weitzman
+#  devel_themer.info,v 1.3.2.1 2008/09/23 03:13:50 weitzman
+#  devel_node_access.info,v 1.7.2.1 2008/05/17 03:49:30 weitzman
+#  devel_generate.info,v 1.5.2.1 2008/05/17 03:49:30 weitzman
+#  devel.info,v 1.5.2.1 2008/06/13 03:25:20 weitzman
+#  devel.install,v 1.24.2.5 2008/12/14 06:25:21 dww
+#  gravlax_base/devel/devel_themer.install: n/a
+#  imageapi.install,v 1.7 2008/12/21 23:08:39 drewish
+#  imagecache.install,v 1.25 2009/01/06 19:48:59 drewish
+#  messaging.module,v 1.7.2.8.2.27.2.6 2009/04/30 10:42:35 jareyero
+#  messaging_phpmailer.info,v 1.1.2.1.2.2 2009/01/26 15:51:40 jareyero
+#  messaging_phpmailer.install,v 1.1.2.1.2.2 2009/01/22 18:53:39 jareyero
+#  og.install,v 1.71 2009/01/30 02:54:16 weitzman
+#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc: n/a
+#  gravlax_base/og/modules/og_access/og_access.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: devel/devel_node_access.module:418,463,256,230; views/modules/comment/views_handler_field_comment_link.inc:34; views/modules/node/views_handler_field_node_link.inc:35; views/modules/user/views_handler_field_user_link.inc:38
+msgid "view"
+msgstr "اعرض"
+
+#: imageapi/imageapi_gd.install:33,13
+msgid "Not installed"
+msgstr "غير مركب"
+
+#: imageapi/imageapi_gd.install:15
+msgid ""
+"The GD library for PHP is missing or outdated. Please check the <a "
+"href=\"@url\">PHP image documentation</a> for information on how to "
+"correct this."
+msgstr ""
+"مكتبة جي.دي لبي.إتش.بي إما قديمة أو غير "
+"موجودة. من فضلك راجع <a href=\"@url\">توثيق "
+"بي.إتش.بي للصور</a> من أجل معلومات عن "
+"كيفية تصحيح هذا الأمر."
+
+#: imageapi/imageapi_gd.install:23,12
+msgid "GD library"
+msgstr "مكتبة جي.دي"
+
+#: devel/devel_node_access.module:80
+msgid "Rebuild permissions"
+msgstr "أعد بناء الصلاحيات"
+
+#: devel/devel_node_access.module:412
+msgid "administer nodes"
+msgstr "يدير العقد"
+
+#: spaces/spaces_og/spaces_og.module:552,541; spaces/spaces_blog/spaces_blog.info:0; spaces/spaces_admin.inc:551; spaces/spaces.theme.inc:153; features/features.info:0; features/features.install:17; features/features.module:24
+msgid "Features"
+msgstr "الخصائص"
+
+#: messaging/messaging_debug/messaging_debug.info:0; devel/performance/performance.info:0; devel/macro.info:0; devel/devel_themer.info:0; devel/devel_node_access.info:0; devel/devel_generate.info:0; devel/devel.info:0; devel/devel.install:40
+msgid "Development"
+msgstr ""
+
+#: devel/devel.install:40
+msgid "Development links."
+msgstr ""
+
+#: devel/devel_themer.install:13
+msgid "Zend Optimizer"
+msgstr ""
+
+#: devel/devel_themer.install:14
+msgid ""
+"You must disable the Zend Optimizer php extension in order to enable "
+"this module. Zend Optimizer is <a href=\"!url\">horribly buggy and "
+"segfaults your Apache</a>."
+msgstr ""
+
+#: features/features.install:17
+msgid "Menu items for any enabled features."
+msgstr ""
+
+#: imageapi/imageapi.install:23
+msgid "ImageAPI Toolkit"
+msgstr ""
+
+#: imageapi/imageapi.install:24
+msgid "No ImageAPI toolkits available"
+msgstr ""
+
+#: imageapi/imageapi.install:26
+msgid ""
+"ImageAPI requires a Toolkit such as ImageAPI GD or ImageAPI "
+"ImageMagick to function. Go to !modules and enable one of them."
+msgstr ""
+
+#: imageapi/imageapi_gd.install:32
+msgid "GD !format Support"
+msgstr ""
+
+#: imageapi/imageapi_gd.install:35
+msgid "PHP GD was not compiled with %format support."
+msgstr ""
+
+#: imageapi/imageapi_gd.install:44
+msgid "GD Image Rotation"
+msgstr ""
+
+#: imageapi/imageapi_gd.install:54,45
+msgid "Low Quality / Poor Performance"
+msgstr ""
+
+#: imageapi/imageapi_gd.install:47
+msgid ""
+"The installed version of PHP GD does not support image rotations. It "
+"was probably compiled using the official GD libraries from "
+"http://www.libgd.org instead of the GD library bundled with PHP. You "
+"should recompile PHP --with-gd using the bundled GD library. See: "
+"@url. An implementation of imagerotate in PHP will used in the "
+"interim."
+msgstr ""
+
+#: imageapi/imageapi_gd.install:53
+msgid "GD Image Filtering"
+msgstr ""
+
+#: imageapi/imageapi_gd.install:56
+msgid ""
+"The installed version of PHP GD does not support image "
+"filtering(desaturate, blur, negate, etc). It was probably compiled "
+"using the official GD libraries from http://www.libgd.org instead of "
+"the GD library bundled with PHP. You should recompile PHP --with-gd "
+"using the bundled GD library. See @url. An implementation of "
+"imagefilter in PHP will be used in the interim."
+msgstr ""
+
+#: imageapi/imageapi_gd.install:64
+msgid "ImageAPI GD Memory Limit"
+msgstr ""
+
+#: imageapi/imageapi_gd.install:67
+msgid ""
+"It is highly recommended that you set you PHP memory_limit to 96M to "
+"use ImageAPI GD. A 1600x1200 images consumes ~45M of memory when "
+"decompressed and there are instances where ImageAPI GD is operating on "
+"two decompressed images at once."
+msgstr ""
+
+#: imagecache/imagecache.install:29,22,15
+msgid "ImageCache Directory"
+msgstr ""
+
+#: imagecache/imagecache.install:16
+msgid "%p does not a directory or is not readable by the webserver."
+msgstr ""
+
+#: imagecache/imagecache.install:40,23
+msgid "%p is not writeable by the webserver."
+msgstr ""
+
+#: imagecache/imagecache.install:30
+msgid "An unknown error occured."
+msgstr ""
+
+#: imagecache/imagecache.install:31
+msgid ""
+"An unknown error occured trying to verify %p is a directory and is "
+"writable."
+msgstr ""
+
+#: imagecache/imagecache.install:39
+msgid "ImageCache Temp Directory"
+msgstr ""
+
+#: messaging/messaging.module:999
+msgid "Messaging sending methods"
+msgstr ""
+
+#: messaging/messaging.module:1000
+msgid ""
+"No sending method plug-ins available. Please enable some Sending "
+"Method on the !admin-modules page."
+msgstr ""
+
+#: messaging/messaging.module:1000
+msgid "Modules administration"
+msgstr ""
+
+#: messaging/messaging_phpmailer/messaging_phpmailer.info:0; messaging/messaging_phpmailer/messaging_phpmailer.install:37
+msgid "Messaging PHPMailer"
+msgstr ""
+
+#: messaging/messaging_phpmailer/messaging_phpmailer.install:38
+msgid "PHP Mailer missing"
+msgstr ""
+
+#: messaging/messaging_phpmailer/messaging_phpmailer.install:40
+msgid ""
+"HTML Mail requires the <a "
+"href=\"http://phpmailer.codeworxtech.com/\">PHP Mailer</a> class to "
+"properly send HTML Mail. Please download the 2.0 version and place the "
+"phpmailer folder in your messaging_phpmailer module directory. Rename "
+"the folder to \"PHPMailer\"."
+msgstr ""
+
+#: og/og.install:449
+msgid "Organic groups group type"
+msgstr ""
+
+#: og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc:11; og/og.install:450
+msgid ""
+"You have no node types which are acting as groups. See the notes "
+"section of the !readme_file and the content types fieldset at top of "
+"<a href=\"!settings\">OG settings</a>."
+msgstr ""
+
+#: og/modules/og_access/og_access.info:0; og/og.install:457
+msgid "Organic groups access control"
+msgstr ""
+
+#: og/og.install:458
+msgid ""
+"Organic groups access control module is disabled. See the <a "
+"href=\"@modules\">modules page</a>."
+msgstr ""
+

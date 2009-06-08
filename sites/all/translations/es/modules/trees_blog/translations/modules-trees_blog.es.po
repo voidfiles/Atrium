@@ -1,0 +1,82 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_blog/trees_blog.defaults.inc: n/a
+#  gravlax_profile/modules/trees_blog/trees_blog.module: n/a
+#  gravlax_profile/modules/trees_blog/trees_blog.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: 2009-05-30 19:52+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/trees_blog/trees_blog.defaults.inc:875
+msgid "Recent comments"
+msgstr "Comentarios recientes"
+
+#: modules/trees_blog/trees_blog.defaults.inc:141
+msgid "Blog post"
+msgstr "Envío de blog"
+
+#: modules/trees_blog/trees_blog.module:11
+msgid ""
+"The blog lets your team communicate, by posting updates and discussing "
+"issues. It is great place for sharing progress, discussing challenges "
+"and exploring ideas."
+msgstr ""
+"El blog permite que su equipo se comunique enviado noticias y asuntos "
+"de discusión. Es un gran lugar para compartir los progresos, discutir "
+"retos y explorar ideas."
+
+#: modules/trees_blog/trees_blog.module:12
+msgid ""
+"To start a conversation navigate to the blog and click the \"Add blog "
+"post\" button. You will need to at least enter a title and some body "
+"content to your post, then click \"Save\"."
+msgstr ""
+"Para iniciar una conversación navegue hasta el blog y haga click en "
+"el botón \"Añadir envío de blog\". Necesitará introducir al menos "
+"un título y algún contenido antes de pulsar \"Guardar\"."
+
+#: modules/trees_blog/trees_blog.module:19
+msgid ""
+"Post an entry to the blog of this group. The post will be shared will "
+"all team members on the team blog and they will be able to reply to "
+"it. You can optionally notify other group members by checking their "
+"name in the notifications field."
+msgstr ""
+"Envíe una entrada al blog de este grupo. El envío será compartido "
+"con todos los miembros del equipo y éstos podrán responder. "
+"Opcionalmente, puede enviar notificaciones a otros miembros del grupo "
+"marcando su nombre en el campo 'notificaciones'."
+
+#: modules/trees_blog/trees_blog.module:0
+msgid "trees_blog"
+msgstr ""
+
+#: modules/trees_blog/trees_blog.info:0
+msgid "Trees Blog"
+msgstr ""
+
+#: modules/trees_blog/trees_blog.info:0
+msgid "A blog feature for 8 Trees."
+msgstr ""
+
+#: modules/trees_blog/trees_blog.defaults.inc:700
+msgid "Blog teaser"
+msgstr ""
+
+#: modules/trees_blog/trees_blog.defaults.inc:701
+msgid "Blog teaser (list)"
+msgstr ""
+
+#: modules/trees_blog/trees_blog.defaults.inc:876
+msgid "No comments found."
+msgstr "No hay comentarios."
+

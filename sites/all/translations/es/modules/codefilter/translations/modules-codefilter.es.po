@@ -1,0 +1,54 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  codefilter.module,v 1.29 2008/01/14 10:00:46 johnalbin
+#  codefilter.info,v 1.3 2007/12/03 08:01:51 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/codefilter/codefilter.module:9
+msgid ""
+"To post pieces of code, surround them with "
+"&lt;code&gt;...&lt;/code&gt; tags. For PHP code, you can use &lt;?php "
+"... ?&gt;, which will also colour it based on syntax."
+msgstr ""
+
+#: modules/codefilter/codefilter.module:12
+msgid ""
+"You may post code using &lt;code&gt;...&lt;/code&gt; (generic) or "
+"&lt;?php ... ?&gt; (highlighted PHP) tags."
+msgstr ""
+
+#: modules/codefilter/codefilter.module:113
+msgid "Code filter"
+msgstr ""
+
+#: modules/codefilter/codefilter.module:116
+msgid ""
+"Allows users to post code verbatim using &lt;code&gt; and &lt;?php "
+"?&gt; tags."
+msgstr ""
+
+#: modules/codefilter/codefilter.module:0
+msgid "codefilter"
+msgstr ""
+
+#: modules/codefilter/codefilter.info:0
+msgid "Code Filter"
+msgstr ""
+
+#: modules/codefilter/codefilter.info:0
+msgid ""
+"Provides tags for automatically escaping and formatting large pieces "
+"of code."
+msgstr ""
+

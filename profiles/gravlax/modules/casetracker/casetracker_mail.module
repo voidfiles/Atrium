@@ -1,0 +1,334 @@
+<?php
+// $Id: casetracker_mail.module,v 1.20.2.1 2009/03/16 03:41:26 jmiccolis Exp $
+
+/**
+ * @file
+ * Enables mail sending and Mailhandler intregation for Case Tracker.
+ */
+
+/**
+ * Implementation of hook_help().
+ */
+function casetracker_mail_help($path, $arg) {
+  switch ($path) {
+    case 'admin/settings/casetracker_mail':
+      return '<p>'. t('Configure the various Case Tracker mail options with these settings.') .'</p>';
+  }
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function casetracker_mail_menu() {
+  $items = array();
+  $items['admin/settings/casetracker/mail'] = array(
+    'access arguments'   => array('administer case tracker'),
+    'page callback'      => 'drupal_get_form',
+    'page arguments'     => array('casetracker_mail_settings'),
+    'description'        => 'Configure the various Case Tracker mail options with these settings.',
+    'title'              => 'CT Mail',
+    'type'               => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Hook implementation for mail
+ */
+function casetracker_mail_mail($key, &$message, $params) {
+  $variables = array(
+    '%project_id'       => $params['pid'],
+    '%project_title'    => $params['project']->title,
+    '%case_id'          => $params['case']->nid,
+    '%case_number'      => $params['pid'] .'-'. $params['case']->nid,
+    '%case_title'       => $params['is_comment'] ? $params['comment']['subject'] : $params['case']->title,
+    '%case_type'        => casetracker_case_state_load($params['is_comment'] ? $params['comment']['casetracker']['case_type_id'] : $params['case']->casetracker->case_type_id, 'type'),
+    '%case_priority'    => casetracker_case_state_load($params['is_comment'] ? $params['comment']['casetracker']['case_priority_id'] : $params['case']->casetracker->case_priority_id, 'priority'),
+    '%case_status'      => casetracker_case_state_load($params['is_comment'] ? $params['comment']['casetracker']['case_status_id'] : $params['case']->casetracker->case_status_id, 'status'),
+    '%case_assigned'    => $params['assign_to_name'],
+    '%case_author'      => casetracker_get_name($params['case']->uid),
+    '%case_created'     => format_date($params['case']->created, 'large'),
+    '%case_changed'     => format_date($params['case']->changed, 'large'),
+    '%case_url'         => url('node/'. $params['case']->nid, array('absolute' => TRUE)),
+    // @todo fails for CCK or non-body cases.
+    '%case_description' => _casetracker_mail_plain_description($params['case']->body),
+    '%comment'          => NULL,
+  );
+  if ($params['is_comment']) {
+    $variables['%comment'] = strtr(variable_get('casetracker_mail_comment_message', _casetracker_mail_comment_message()), array(
+      '%comment_author'      => casetracker_get_name($params['comment']['uid']),
+      '%comment_created'     => format_date($params['comment']['date'], 'large'),
+      '%comment_title'       => $params['comment']['subject'],
+      '%comment_description' => _casetracker_mail_plain_description($params['comment']['comment']),
+    ));
+  }
+
+  $subject = strtr(variable_get('casetracker_mail_subject', _casetracker_mail_subject()), $variables);
+  $body    = strtr(variable_get('casetracker_mail_case_message', _casetracker_mail_case_message()), $variables);
+
+  $message['subject'] = t($subject);
+  $message['body'] = t($body, $variables, $params['language']);
+//  $message['headers'] = $params['headers'];
+
+}
+
+/**
+ * Sends out emails. Woot! Do people still say woot? Man, I'm old.
+ *
+ * @param $case
+ *   The case $node object that is being inserted or modified.
+ * @param $comment
+ *   The $comment array, passed only if this a comment has been left.
+ */
+function casetracker_mail_send($case, $comment = NULL) {
+  global $user;
+
+  // is it a comment post
+  $is_comment = !is_null($comment);
+
+  // get the project data
+  $pid = ($is_comment) ? $comment['casetracker']['pid'] : $case->casetracker->pid;
+  $project = db_fetch_object(db_query("SELECT title FROM {node} WHERE nid = %d", $pid));
+
+  // get the assigned to name
+  $assign_to_id = ($is_comment) ? $comment['casetracker']['assign_to'] : $case->casetracker->assign_to;
+  $assign_to_name =  (is_numeric($assign_to_id)) ? casetracker_get_name($assign_to_id) : $assign_to_id;
+
+  // make our own message ID so we can log it and allow responses via mailhandler.
+  $msg_id = '<'. time() .'.'. mt_rand() .'@'. drupal_strtolower($_SERVER['SERVER_NAME']) .'>';
+  $from    = variable_get('casetracker_mail_address', variable_get('site_mail', ini_get('sendmail_from')));
+  db_query("INSERT INTO {casetracker_mail} (msg_id, nid, cid) VALUES ('%s', %d, %d)", $msg_id, $case->nid, isset($comment['cid']) ? $comment['cid'] : 0);
+
+  // @todo this currently sends to only author and assigned. there needs to be
+  // finer-grain control here, like an OG subscribers or all commenters, etc.
+  $results = db_query("SELECT uid, name, mail FROM {users} WHERE uid IN (%d, %d, %d)", $comment['uid'], $case->uid, is_numeric($assign_to_id) ? $assign_to_id : casetracker_get_uid($assign_to_name));
+
+  $params = array();
+  $params['case'] = $case;
+  $params['comment'] = $comment;
+  $params['is_comment'] = $is_comment;
+  $params['pid'] = $pid;
+  $params['project'] = $project;
+  $params['assign_to_name'] = $assign_to_name;
+  $params['headers'] = array('Message-ID' => $msg_id);
+
+  while ($result = db_fetch_object($results)) {
+    if ($result->uid == $user->uid) { // don't fire to currently commenting user.
+      continue; 
+    }
+    if (!$result->mail) { // don't fire blanks.
+      continue; 
+    }
+
+    // get the language for the user
+    $account = user_load(array('uid' => $result->uid));
+    $language = user_preferred_language($account);
+    $params['language'] = $language->language;
+
+    // if we get here a mail is send
+    $mail_status = drupal_mail('casetracker_mail', 'case', $result->mail, $language, $params, $from);
+    if (!$mail_status) { // mail failure doesn't actually tell us much, since PHP returns no error string, but hey, feel good, right?
+      watchdog('casetracker_mail', 'E-mail notification failed for %address.', array('%address' => $result->mail));
+    }
+    else {
+      watchdog('casetracker_mail', 'E-mail notification succeeded for %address.', array('%address' => $result->mail));
+    }
+  }
+}
+
+
+/**
+ * Implementation of hook_comment().
+ */
+function casetracker_mail_comment(&$comment, $op) {
+  switch ($op) {
+    case 'insert':
+      $node = node_load($comment['nid']); // checks type and compares existing case meta to submitted.
+      if (!in_array($node->type, variable_get('casetracker_case_node_types', array('casetracker_basic_case')), TRUE)) {
+        return; // if this isn't a casetracker case node type, return without sullying our miserable code. MISERY!
+      } // NP: 'Caught' from Stu Phillips's album 'Knight Rider: The Stu Phillips Scores: Original Television Soundtrack'.
+
+      casetracker_mail_send($node, $comment);
+      break;
+
+    case 'delete':
+      db_query('DELETE FROM {casetracker_mail} WHERE cid = %d', $comment->cid);
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function casetracker_mail_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  switch ($op) {
+    case 'insert':
+      if (in_array($node->type, variable_get('casetracker_case_node_types', array('casetracker_basic_case')), TRUE)) {
+        casetracker_mail_send($node);
+      }
+      break;
+
+    case 'delete':
+      if (in_array($node->type, variable_get('casetracker_case_node_types', array('casetracker_basic_case')), TRUE)) {
+        db_query('DELETE FROM {casetracker_mail} WHERE nid = %d', $node->nid);
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_mailhandler().
+ *
+ *   project_number: 500
+ *   type: casetracker_basic_case
+ *   case_title: This is a case title! Yes!
+ *   assign_to: Morbus Iff
+ *   case_status: open
+ *   case_priority: 1-high
+ *   case_type: bug
+ */
+function casetracker_mailhandler($node, $result, $msg_number, $header, $mailbox) {
+  $source_msg_id = $header->references; // used for comment replies. actually
+  // dependent on a few assumptions: the angle brackets are stored in the
+  // casetracker_mail table and that a reply can never be replied too. both
+  // are accurate, but it's not the most flexible of designs.
+
+  // determine the right values based on those in the email.
+  $node->title     = $node->case_title ? $node->case_title : $node->title;
+  $node->assign_to = $node->assign_to  ? $node->assign_to  : $node->uid;
+  foreach (array('priority', 'status', 'type') as $state) {
+    $options = casetracker_case_state_load($state);
+    $temp_keys = array_keys($options);
+    $node->{'case_'. $state .'_id'} = $node->{'case_'. $state}
+      ? db_result(db_query("SELECT csid FROM {casetracker_case_states} WHERE case_state_name = LOWER('%s') AND case_state_realm = '%s'", drupal_strtolower($node->{'case_'. $state}), $state))
+      : variable_get('casetracker_default_case_'. $state, array_shift($temp_keys));
+  }
+
+  // @todo potential hack for CCK fields: explode on [ and make
+  // a new array level for every one you see. maybe, maybe.
+
+  $node->pid = db_result(db_query("SELECT nid FROM {casetracker_project} WHERE project_number = %d", $node->project_number));
+  if ($node->pid && !$source_msg_id) { // if we've got a project number, and this isn't a reply, make a new case.
+    $node->status = 1; return $node; // we'll publish the node by default, but @todo this should be configurable.
+  }
+  elseif ($source_msg_id) {
+    $comment = array(); // a source message ID exists, so this is a comment via email.
+    $result = db_fetch_object(db_query("SELECT msg_id, nid, cid FROM {casetracker_mail} WHERE msg_id = '%s'", $source_msg_id));
+    $case                        = node_load($result->nid);
+    $comment['nid']              = $result->nid;
+    $comment['pid']              = $result->cid;
+    $comment['comment']          = $node->body;
+    $comment['uid']              = $node->uid;
+    $comment['subject']          = $node->title;
+    $comment['case_priority_id'] = $case->case_priority_id;
+    $comment['case_type_id']     = $case->case_type_id;
+    $comment['case_status_id']   = $case->case_status_id;
+    $comment['case_title']       = $case->title;
+    $comment['prid']              = $case->pid;
+    $comment['assign_to']        = casetracker_get_name($case->assign_to);
+    // @todo allow emailed comments to change these states.
+    comment_save($comment);
+  }
+}
+
+/**
+ * Configures the various Case Tracker mail options; system_settings_form().
+ */
+function casetracker_mail_settings() {
+  $form = array();
+
+  $form['casetracker_mail'] = array(
+    '#type'          => 'fieldset',
+    '#title'         => t('E-mail settings'),
+    '#collapsible'   => TRUE,
+    '#collapsed'     => FALSE,
+    '#description'   => t('Enter the From address, subject, case message, and comment message for Case Tracker generated mails. Available variables are %project_id (the node ID), %project_title, %case_id (the node ID), %case_number, %case_title.'),
+  );
+  $form['casetracker_mail']['casetracker_mail_address'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('E-mail address'),
+    '#default_value' => variable_get('casetracker_mail_address', variable_get('site_mail', ini_get('sendmail_from'))),
+    '#description'   => t('A valid e-mail address used in the From: of all Case Tracker generated mails.'),
+  );
+  $form['casetracker_mail']['casetracker_mail_subject'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Subject'),
+    '#default_value' => variable_get('casetracker_mail_subject', _casetracker_mail_subject()),
+    '#description'   => t('Enter the subject of all Case Tracker generated mails.'),
+  );
+  $form['casetracker_mail']['casetracker_mail_case_message'] = array(
+    '#rows'          => 15,
+    '#type'          => 'textarea',
+    '#title'         => t('Case message'),
+    '#default_value' => variable_get('casetracker_mail_case_message', _casetracker_mail_case_message()),
+    '#description'   => t('Enter the case message body of Case Tracker generated mails. Apart from the variables mentioned above, additional variables include %case_type, %case_priority, %case_status, %case_assigned, %case_author, %case_created, %case_changed, %case_url, %case_description, %comment (see below for the value of the %comment variable).'),
+  ); // @todo it is not exactly clear how CCK node types (or other custom node fields) will be available as %variables.
+  // @todo it also doesn't appear like we can give a list of all other comments made on this particular case.
+  $form['casetracker_mail']['casetracker_mail_comment_message'] = array(
+    '#rows'          => 10,
+    '#type'          => 'textarea',
+    '#title'         => t('Comment message'),
+    '#default_value' => variable_get('casetracker_mail_comment_message', _casetracker_mail_comment_message()),
+    '#description'   => t('Enter the comment message body of Case Tracker generated mails. The %comment variable in the \'Case message\' text above will be replaced by this value (if applicable). Available additional variables are %comment_author, %comment_title, %comment_description.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Returns the default message for Case Tracker case mails.
+ */
+function _casetracker_mail_case_message() {
+  return
+    "Case status update for %case_url\n\n".
+    "Project:          %project_title\n".
+    "Type:             %case_type\n".
+    "Priority:         %case_priority\n".
+    "Status:           %case_status\n".
+    "Assigned:         %case_assigned\n".
+    "Opened by:        %case_author\n".
+    "Opened on:        %case_created\n".
+    "Last modified:    %case_changed\n\n".
+    "%case_description\n\n".
+    "%comment\n"
+  ;
+}
+
+function _casetracker_mail_comment_message() {
+  return // @todo it'd be nice if this looked like the project.module with a date.
+    "------------------------------------------------------------------------\n\n".
+    "Comment by:       %comment_author\n" .
+    "Comment title:    %comment_title\n\n".
+    "%comment_description\n\n"
+  ;
+}
+
+/**
+ * Returns the default subject line for Case Tracker mails.
+ */
+function _casetracker_mail_subject() {
+  return '[%project_title %case_type %case_number] %case_title';
+}
+
+/**
+ * Function to clear the possible html from a mail and generate readable txt version
+ *
+ * @param   string
+ * @return  string
+ */
+function _casetracker_mail_plain_description($_description) {
+  // tags that should be have a newline behind their ass
+  $tags = array(
+    '</h1>', '</h2>', '</h3>', '</h4>', '</h5>', '</h6>',
+    '</p>', '<br>', '<br/>', '<br />', '</div>', '</pre>',
+    '</code>', '</ul>', '</ol>', '</li>', '</dl>', '</dd>',
+    '</dt>',
+  );
+  foreach ($tags AS $tag) {
+    $_description = str_replace($tag, $tag ."\n", $_description);
+  }
+  $result = filter_xss($_description, array('dd'));
+
+  return $result;
+}

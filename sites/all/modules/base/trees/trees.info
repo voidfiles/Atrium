@@ -1,0 +1,13 @@
+name = Trees
+description = "Provides functionality specific to 8 Trees."
+dependencies[] = admin
+dependencies[] = comment
+dependencies[] = imagecache
+dependencies[] = search
+dependencies[] = upload
+dependencies[] = seed
+dependencies[] = spaces_og
+dependencies[] = spaces_site
+dependencies[] = spaces_user
+package = Trees
+core = "6.x"

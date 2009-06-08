@@ -1,0 +1,96 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  views_ui.info,v 1.10 2008/01/09 00:05:08 merlinofchaos
+#  views.module,v 1.332 2009/04/08 16:11:51 merlinofchaos
+#  views_ui.module,v 1.109 2009/01/30 00:56:01 merlinofchaos
+#  views.info,v 1.7 2007/08/12 06:52:14 merlinofchaos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: views/views_ui.info:0
+msgid "Views UI"
+msgstr ""
+
+#: views/views.module:644
+msgid "Broken handler @table.@field"
+msgstr ""
+
+#: views/views.module:762
+msgid "Skipping broken view @view"
+msgstr ""
+
+#: views/views.module:146
+msgid "access all views"
+msgstr ""
+
+#: views/views.module:146
+msgid "administer views"
+msgstr ""
+
+#: views/views.module:162
+msgid "Ajax callback for view loading."
+msgstr ""
+
+#: views/views.module:0
+msgid "views"
+msgstr ""
+
+#: views/views_ui.module:159
+msgid ""
+"The converter will make a best-effort attempt to convert a Views 1 "
+"view to Views 2. This conversion is not reliable; you will very likely "
+"have to make adjustments to your view to get it to match. You can "
+"import Views 1 views through the normal Import tab."
+msgstr ""
+
+#: views/views_ui.module:262
+msgid "Changes cannot be made to a locked view."
+msgstr ""
+
+#: views/views_ui.module:28
+msgid ""
+"Views are customized lists of content on your system; they are highly "
+"configurable and give you control over how lists of content are "
+"presented."
+msgstr ""
+
+#: views/views_ui.module:49
+msgid "Tools"
+msgstr ""
+
+#: views/views_ui.module:64
+msgid "Convert stored Views 1 views."
+msgstr ""
+
+#: views/views_ui.module:88,83,70
+msgid "Delete view"
+msgstr ""
+
+#: views/views_ui.module:76
+msgid "Convert view"
+msgstr ""
+
+#: views/views_ui.module:0
+msgid "views_ui"
+msgstr ""
+
+#: views/views.info:0
+msgid "Create customized lists and queries from your database."
+msgstr ""
+
+#: views/views_ui.info:0
+msgid ""
+"Administrative interface to views. Without this module, you cannot "
+"create or edit your views."
+msgstr ""
+

@@ -1,0 +1,79 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  notifications_lite.module,v 1.1.4.6.2.2 2009/04/24 00:10:28 jareyero
+#  notifications_lite.info,v 1.1.4.2 2008/04/29 10:03:06 jareyero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: notifications/notifications_lite/notifications_lite.module:139
+msgid "Message for [user]"
+msgstr "Mensaje para [user]"
+
+#: notifications/notifications_lite/notifications_lite.module:141
+msgid "Notifications lite message"
+msgstr "Mensaje de Notifications Lite"
+
+#: notifications/notifications_lite/notifications_lite.module:179
+msgid "Simple notifications"
+msgstr "Notificaciones Simples"
+
+#: notifications/notifications_lite/notifications_lite.module:180
+msgid "The subject and main body will be provided by the event itself"
+msgstr ""
+"El título y el contenido principal serán proporcionados por el mismo "
+"evento"
+
+#: notifications/notifications_lite/notifications_lite.module:181
+msgid ""
+"Simple notifications triggered by other modules using the "
+"Notifications Lite API module."
+msgstr ""
+"Notificaciones simples enviadas por otros módulos utilizando el "
+"módulo Notifications Lite."
+
+#: notifications/notifications_lite/notifications_lite.module:186
+msgid "Group of simple notifications"
+msgstr "Grupo de notificaciones simples"
+
+#: notifications/notifications_lite/notifications_lite.module:187
+msgid "Simple notifications digested with short format."
+msgstr "Notificaciones simples resumidas con formato corto."
+
+#: notifications/notifications_lite/notifications_lite.module:188
+msgid "Every line of the digest will be a separate message."
+msgstr "Cada línea del resumen será un mensaje."
+
+#: notifications/notifications_lite/notifications_lite.module:214
+msgid "Greetings, [user]."
+msgstr "Saludos, [user]"
+
+#: notifications/notifications_lite/notifications_lite.module:222
+msgid "Generic messages"
+msgstr "Mensajes genéricos"
+
+#: notifications/notifications_lite/notifications_lite.module:0
+msgid "notifications_lite"
+msgstr "notifications_lite"
+
+#: notifications/notifications_lite/notifications_lite.info:0
+msgid "Notifications Lite"
+msgstr "Notifications Lite"
+
+#: notifications/notifications_lite/notifications_lite.info:0
+msgid ""
+"Extra Simple Notifications API. Enable only when required by other "
+"modules."
+msgstr ""
+"Extra Simple API de Notificaciones. Activar solamente cuando sea "
+"requerido por otros módulos."
+

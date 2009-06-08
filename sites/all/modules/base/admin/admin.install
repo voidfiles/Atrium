@@ -1,0 +1,18 @@
+<?php
+// $Id: admin.install,v 1.1.2.1 2009/06/07 07:03:52 yhahn Exp $
+
+/**
+ * Implementation of hook_install().
+ */
+function admin_install() {
+  db_query("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('%s', '%s', '%s')", 'admin', 'Admin', 'Admin links.');
+}
+
+/**
+ * Update 6001: Create admin menu.
+ */
+function admin_update_6001() {
+  $return = array();
+  $return[] = update_sql("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('admin', 'Admin', 'Admin links.')");
+  return $return;
+}

@@ -1,0 +1,130 @@
+Index: feedapi_mapper_date.inc
+===================================================================
+RCS file: /cvs/drupal-contrib/contributions/modules/feedapi_mapper/mappers/Attic/feedapi_mapper_date.inc,v
+retrieving revision 1.1.2.3.2.1
+diff -u -r1.1.2.3.2.1 feedapi_mapper_date.inc
+--- feedapi_mapper_date.inc	8 Sep 2008 11:41:13 -0000	1.1.2.3.2.1
++++ feedapi_mapper_date.inc	19 Nov 2008 16:48:28 -0000
+@@ -1,5 +1,5 @@
+ <?php
+-// $Id: feedapi_mapper_date.inc,v 1.1.2.3.2.1 2008/09/08 11:41:13 alexb Exp $
++// $Id: feedapi_mapper_date.inc,v 1.1.2.2 2008/02/28 22:04:44 alexb Exp $
+ 
+ /**
+  * Implementation of hook_feedapi_mapper for date field from content.module (CCK),
+@@ -9,43 +9,92 @@
+  * @param string $field_name
+  * @param string, number or array of string or number $feed_element
+  * @param string or number as id $sub_field
+- *
++ * 
+  */
+ function date_feedapi_mapper($op, $node, $field_name, $feed_element = array(), $sub_field = '') {
+-  if (!$field = feedapi_mapper_content_is_cck_type($field_name, array('date', 'datestamp'))) {
++  if (!$field = feedapi_mapper_content_is_cck_type($field_name, array('date', 'datestamp', 'datetime'))) {
+     // if not a date just return
+     return;
+   }
+ 
+   switch ($op) {
+     case 'describe':
+-      // Describe what we are doing in this mapper. This shows up as help text on the mapping page.
++      // Describe what we are doing in this mapper. This shows up as help text on the mapping page. 
+       return t('Maps a date to a date CCK field.');
++    
+     case 'list':
+-      // just for sub_fields
+-      return TRUE;
++      return array(
++        'single' => t('Simple date'),
++        'from' => t('From date'),
++        'to' => t('To date'),
++        // 'ical' => 'iCal array of dates', // maybe?
++      );
++    
+     case 'map':
+-      // Here is where the actual mapping happens.
+-      include_once(drupal_get_path('module', 'date_api') .'/date.inc');
+-      $items = $node->$field_name;
+-      if (!is_array($feed_element)) {
+-        // TODO TIMEZONE
+-        // Don't know what type of date so first attempt to create a date from a string
+-        $date = date_text_make_dbdate($feed_element, $field['type'], '', 'none', date_granularity_array($field));
+-        if ($date->db->timestamp == '') {
+-          // not from string, use the empty date object and try as a datestamp
+-          date_set_date($date, $feed_element, 'none', 'db', DATE_UNIX);
+-          // Note granularity is also done on submit
+-        }
++      include_once(drupal_get_path('module', 'date_api') .'/date_api_ical.inc');
++      
++      // A date created by the iCal parser will have ';tz=' in it.
++      if (strstr($feed_element, ';tz=')) {
++        $date_info = explode(';tz=', $feed_element);
++        $timezone = $date_info[1];
++         $date = date_make_date($date_info[0], $timezone);
+       }
+-
+-      if ($field['type'] == DATE_ISO) {
+-        $items[]['value'] = $date->db->iso;
++      // ISO 8601 dates will have +/-05:00 offset adjustments.
++      elseif (strstr($feed_element, '+')) {
++        $date_info = explode('+', $feed_element);
++        $hours = floatval(trim(str_replace(':', '', $date_info[1])) / 100);
++        $timezone = 'UTC';
++        $date = date_make_date(trim($date_info[1]), 'UTC');
++        date_modify($date, '+'. $hours .' hours');
+       }
++      elseif (strstr($feed_element, '-')) {
++        $date_info = explode('-', $feed_element);
++        $hours = floatval(trim(str_replace(':', '', $date_info[1])) / 100);
++        $timezone = 'UTC';
++        $date = date_make_date(trim($date_info[1]), 'UTC');
++        date_modify($date, '-'. $hours .' hours');
++      }
++      // Not an iCal date and not a ISO 8601 date, just use the value.
+       else {
+-        $items[]['value'] = $date->db->timestamp;
++        $date = date_make_date($feed_element);
++        $timezone = date_default_timezone_name();
++      }
++      
++      $db_tz = date_get_timezone_db($field['tz_handling'], $timezone);
++      $to_tz = date_get_timezone($field['tz_handling'], $timezone);
++      date_timezone_set($date, timezone_open($db_tz));
++      
++      switch ($field['type']) {
++        case DATE_ISO:
++          $format = DATE_FORMAT_ISO;
++          break;
++        case DATE_UNIX:
++          $format = DATE_FORMAT_UNIX;
++          break;
++        case DATE_DATETIME:
++          $format = DATE_FORMAT_DATETIME;
++          break;
++      }
++      
++      if ($formatted = date_format($date, $format)) {
++        if ($sub_field == 'to') {
++          $value_field = 'value2';
++          $offset_field = 'offset2';
++        }
++        else {
++          $value_field = 'value';
++          $offset_field = 'offset';
++        }
++        // Create node field information.
++        $items = isset($node->$field_name) ? $node->$field_name : array();
++        $items[0][$value_field] = $formatted;
++        if ($field['tz_handling'] == 'date') {
++          $items[0]['timezone'] = $to_tz;
++          date_timezone_set($date, timezone_open($to_tz));
++          $items[0][$offset_field] = date_offset_get($date);
++        }
++        $node->$field_name = $items;
+       }
+-      $node->$field_name = $items;
+       return $node;
+   }
+ }
+

@@ -1,0 +1,154 @@
+# translation of general.po to Arabic
+# Abdel Rahman Ghareeb <king_abdo@yahoo.com>, 2004.
+# Sameh Sabry <samehsabry@linuxmail.org>, 2004.
+# Manal Hassan <manal@manalaa.net>, 2004.
+# Amr Gharbeia <amr@gharbeia.net>, 2005, 2006, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: general\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-14 11:04+0200\n"
+"PO-Revision-Date: 2007.08.06 14:05+0300\n"
+"Last-Translator: Amr Gharbeia <amr@gharbeia.net>\n"
+"Language-Team: Arabic <general@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==1 ? 0 : n==0 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: modules/path/path.admin.inc:30
+msgid "Alias"
+msgstr "البديل"
+
+#: modules/path/path.admin.inc:54
+msgid "No URL aliases available."
+msgstr "لا مسارات بديلة"
+
+#: modules/path/path.admin.inc:93
+msgid "Existing system path"
+msgstr "مسار نظام موجود بالفعل"
+
+#: modules/path/path.admin.inc:97
+msgid ""
+"Specify the existing path you wish to alias. For example: node/28, forum/1, "
+"taxonomy/term/1+2."
+msgstr ""
+"حدد المسار الذي تريد إنشاء بديل له. مثلا، node/view/28، أو forum/1، أو "
+"taxonomy/term/1+2."
+
+#: modules/path/path.admin.inc:107
+msgid ""
+"Specify an alternative path by which this data can be accessed. For example, "
+"type \"about\" when writing an about page. Use a relative path and don't add "
+"a trailing slash or the URL alias won't work."
+msgstr ""
+"حدد مسارا بديلا يمكن باتباعه الوصول لهذه البيانات. مثلا، أدخل 'about' عند "
+"كتابة صفحة \"حول الموقع\" استخدم مسارا نسبيا، ولا تضع / أخيرة، و إلا فلن "
+"يعمل البديل."
+
+#: modules/path/path.admin.inc:118
+msgid "Update alias"
+msgstr "حدِّث البديل"
+
+#: modules/path/path.admin.inc:121
+msgid "Create new alias"
+msgstr "أنشئ بديلا جديدا"
+
+#: modules/path/path.admin.inc:154
+msgid "The alias has been saved."
+msgstr "تم حفظ البديل"
+
+#: modules/path/path.admin.inc:167
+msgid "Are you sure you want to delete path alias %title?"
+msgstr "هل أنت متأكد أنك ترغب في حذف المسار البديل %title؟"
+
+#: modules/path/path.module:15
+msgid ""
+"The path module allows you to specify aliases for Drupal URLs. Such aliases "
+"improve readability of URLs for your users and may help internet search "
+"engines to index your content more effectively. More than one alias may be "
+"created for a given page."
+msgstr ""
+"تسمح لك وحدة المسار بتحديد مسارات بديلة لعقد دروبال. تحسن هذه البدائل قراءة "
+"المسارات لمستخدمي موقعك، كما قد تساعد محركات البحث في إنترنت على فهرسة "
+"محتويات موقعك بشكل أفضل. يمكن إعطاء أكثر من مسار بديل لنفس الصفحة."
+
+#: modules/path/path.module:16
+msgid ""
+"<p>Some examples of URL aliases are:</p>\n"
+"<ul>\n"
+"<li>user/login =&gt; login</li>\n"
+"<li>image/tid/16 =&gt; store</li>\n"
+"<li>taxonomy/term/7+19+20+21 =&gt; store/products/whirlygigs</li>\n"
+"<li>node/3 =&gt; contact</li>\n"
+"</ul>\n"
+msgstr ""
+"<p>بعض الأمثلة على المسارات البديلة:</p>\n"
+"<ul>\n"
+"<li>user/login =&gt; login</li>\n"
+"<li>image/tid/16 =&gt; store</li>\n"
+"<li>taxonomy/term/7+19+20+21 =&gt; store/products/whirlygigs</li>\n"
+"<li>node/3 =&gt; contact</li>\n"
+"</ul>\n"
+
+#: modules/path/path.module:31
+msgid ""
+"Enter the path you wish to create the alias for, followed by the name of the "
+"new alias."
+msgstr "أدخل المسار الذي ترغب في إنشاء بديل له، و اتبعه باسم المسار الجديد."
+
+#: modules/path/path.module:82
+msgid "The alias has been deleted."
+msgstr "تم حذف البديل."
+
+#: modules/path/path.module:143
+msgid "The path is already in use."
+msgstr "المسار مستخدم بالفعل."
+
+#: modules/path/path.module:186
+msgid "URL path settings"
+msgstr "إعدادات المسار"
+
+#: modules/path/path.module:198
+msgid ""
+"Optionally specify an alternative URL by which this node can be accessed. "
+"For example, type \"about\" when writing an about page. Use a relative path "
+"and don't add a trailing slash or the URL alias won't work."
+msgstr ""
+"يمكنك اختياريا تحديد مسار بديل يمكن باتباعه الوصول إلى هذه العقدة. مثلا، "
+"أدخل 'about' عند كتابة صفحة \"حول الموقع\". استخدم مسارا نسبيا ولا تضع / "
+"أخيرة و إلا فلن يعمل المسار البديل."
+
+#: modules/path/path.module:213
+msgid "create url aliases"
+msgstr "ينشئ المسارات البديلة"
+
+#: modules/path/path.module:213
+msgid "administer url aliases"
+msgstr "يدير المسارات البديلة"
+
+#: modules/path/path.module:40
+msgid "URL aliases"
+msgstr "بدائل المسارات"
+
+#: modules/path/path.module:41
+msgid "Change your site's URL paths by aliasing them."
+msgstr "تغير مسارات موقعك بتعيين بدائل لها."
+
+#: modules/path/path.module:47
+msgid "Edit alias"
+msgstr "حرر البديل"
+
+#: modules/path/path.module:54
+msgid "Delete alias"
+msgstr "احذف البديل"
+
+#: modules/path/path.module:67
+msgid "Add alias"
+msgstr "أضف بديلا"
+
+#: modules/path/path.module:0
+msgid "path"
+msgstr "مسار"

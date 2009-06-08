@@ -1,0 +1,798 @@
+<?php
+
+include_once('trees_intranet.features.inc');
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function trees_intranet_strongarm() {
+  $conf = array();
+
+  // @TODO: See if there are any serious consequences if this is not set
+  // during a cache-clear page load...
+  $conf['og_content_type_usage_group'] = 'group';
+
+  // ImageAPI
+  $conf['imageapi_jpeg_quality'] = 90;
+
+  // Date formats
+  $conf['date_format_short'] = 'M j, Y';
+  $conf['date_format_medium'] = 'g:ia M j, Y';
+  $conf['date_format_long'] = 'g:ia D M j, Y';
+  $conf['date_format_field_date_short'] = 'M j, Y';
+  $conf['date_format_field_date_medium'] = 'g:ia M j, Y';
+  $conf['date_format_field_date_long'] = 'g:ia D M j, Y';
+
+  // Notifications
+  $conf['notifications_content_per_type'] = 1;
+  $conf['messaging_default_method'] = 'mail';
+
+  // Nodetype settings
+  foreach (array('group', 'shoutbox', 'admin_message') as $type) {
+    $conf['node_options_'. $type] = array('status');
+    $conf["notifications_content_type_$type"] = array();
+    $conf['upload_'. $type] = FALSE;
+
+    // Disable comments
+    $conf['comment_'. $type] = COMMENT_NODE_DISABLED;
+
+    // Disable FeedAPI
+    $conf['feedapi_settings_'. $type] = array('enabled' => FALSE);
+
+    // Disable Diff button
+    $conf["show_preview_changes_{$type}"] = FALSE;
+    $conf["show_diff_inline_{$type}"] = FALSE;
+
+    // Disable from recent activity views
+    $conf['trees_update_type_'. $type] = FALSE;
+  }
+
+  // Trees archivable types
+  $conf['trees_archivable'] = array('group');
+
+  // Menus
+  $conf['menu_primary_links_source'] = 'features';
+
+  // Seed variables
+  $conf['seed_imagecache_user_picture'] = 'user-s';
+  $conf['seed_imagecache_attachment'] = 'fileview';
+
+  // Site variables
+  $conf['site_frontpage'] = 'welcome';
+  $conf['site_footer'] = t('&copy; 2009 !devseed', array('!devseed' => l(t('Development Seed'), 'http://www.developmentseed.org', array('absolute' => TRUE))));
+
+  // FeedAPI
+  $conf['feedapi_cron_percentage'] = '25';
+  $conf['feedapi_allow_html_all'] = FALSE;
+  $conf['feedapi_allowed_html_tags'] = '<div> <h1> <h2> <h3> <h4> <h5> <h6> <img> <a> <b> <br> <dd> <dl> <dt> <em> <i> <li> <ol> <p> <strong> <u> <ul>';
+
+  // User variables
+  $conf['user_register'] = 0; // No registration
+  $conf['user_signatures'] = FALSE;
+  $conf['user_pictures'] = TRUE;
+  $conf['user_picture_path'] = 'pictures';
+  $conf['user_picture_dimensions'] = '500x500';
+  $conf['user_picture_file_size'] = '500';
+
+  // Views
+  $conf['views_no_hover_links'] = TRUE;
+
+  // Views: disable views that we are 'overriding'
+  $views_defaults = variable_get('views_defaults', array());
+  $disabled = array(
+    'admin_content',
+    'feeds',
+    'og',
+    'og_my',
+    'og_files',
+    'og_ghp_ron',
+    'og_mytracker',
+    'og_members_block',
+    'og_search',
+    'og_tracker',
+    'og_recent_type_term',
+    'og_unread',
+  );
+  $set = FALSE;
+  foreach ($disabled as $view_name) {
+    if (empty($views_defaults[$view_name])) {
+      $set = TRUE;
+      $views_defaults[$view_name] = TRUE;
+    }
+  }
+  if ($set) {
+    variable_set('views_defaults', $views_defaults);
+  }
+
+  // Upload settings
+  // @TODO should we query for the RIDs here? : (
+  $conf['upload_extensions_2'] =
+  $conf['upload_extensions_3'] =
+  $conf['upload_extensions_4'] =
+  $conf['upload_extensions_default'] = 'au avi bzip2 csv doc docx flv gif graffle gz htm html iso jpeg jpg mov mp2 mp3 mp4 odp ods odt pages patch pdf png pps ppt pptx psd rar svg swf template tif tgz txt vsd wav wmv xls xlsx zip';
+
+  $conf['upload_uploadsize_2'] =
+  $conf['upload_uploadsize_3'] =
+  $conf['upload_uploadsize_4'] =
+  $conf['upload_uploadsize_default'] = 20;
+
+  $conf['upload_usersize_2'] =
+  $conf['upload_usersize_3'] =
+  $conf['upload_usersize_4'] =
+  $conf['upload_usersize_default'] = 200;
+
+  $conf['upload_list_default'] = 1;
+
+  // Do not switch to autocomplete until you have more than 200 users.
+  $conf['notifications_team_max_options'] = 200;
+
+  return $conf;
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function trees_intranet_init() {
+  // Display a login message
+  if (!user_access('access content') && !in_array(arg(0), array('user', 'openid')) && !drupal_is_front_page()) {
+    drupal_set_message(l('Click here to login', 'user', array('query' => 'destination='.$_GET['q'])));
+  }
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function trees_intranet_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function trees_intranet_menu_alter(&$items) {
+  // Kill undesirable menu items
+  $yank = array(
+    'book',
+    'rss.xml',
+    'og/activity',
+    'node/%node/outline',
+  );
+  foreach ($yank as $path) {
+    if (!empty($items[$path])) {
+      unset($items[$path]);
+    }
+  }
+
+  $categories = module_invoke('trees_intranet', 'user', 'categories', $dummy, $dummy);
+  foreach ($categories as $category) {
+    $item = $items['user/%user_category/edit/'. $category['name']];
+    $item['page callback'] = 'drupal_get_form';
+    $item['page arguments'] = array('trees_intranet_user_profile_tab', 1, $category['name']);
+    $items['user/%user_category/edit/'. $category['name']] = $item;
+  }
+}
+
+/**
+ * Implementation of hook_context_links_alter().
+ */
+function trees_intranet_context_links_alter(&$links) {
+  $feature = context_get('spaces', 'feature');
+  switch ($feature) {
+    case 'groups':
+      if (node_access('create', 'group')) {
+        $links['trees_groups'] = array(
+          'title' => t('Group'),
+          'href' => 'node/add/group',
+        );
+      }
+      break;
+    case 'members':
+      if (module_exists('ucreate')) {
+        $links['trees_users'] = array(
+          'title' => t('User account'),
+          'href' => 'user/add',
+        );
+      }
+      break;
+  }
+  // Re-path node add page when in the admin section
+  if (arg(0) == 'admin') {
+    foreach ($links as $k => $v) {
+      if (strpos($v['href'], 'node/add') === 0) {
+        $links[$k]['href'] = 'admin/content/add'. substr($links[$k]['href'], 8);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_imagecache_default_presets_alter().
+ */
+function trees_intranet_imagecache_default_presets_alter(&$presets) {
+  if (!empty($presets['spaces-logo'])) {
+    if (!empty($presets['spaces-logo']['actions'][0]['data']['height'])) {
+      $presets['spaces-logo']['actions'][0]['data']['height'] = 40;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_spaces_presets().
+ */
+function trees_intranet_spaces_presets() {
+  $items = array();
+  $items['trees_og_private'] = array (
+    'name' => 'Private group',
+    'description' => t('A simple private group with a blog, document library and dashboard.'),
+    'type' => 'og',
+    'preset' => array (
+      'features' => array (
+        'trees_blog' => SPACES_OG_PRIVATE,
+        'trees_book' => SPACES_OG_PRIVATE,
+        'trees_calendar' => SPACES_FEATURE_DISABLED,
+        'trees_dashboard' => SPACES_OG_PRIVATE,
+      ),
+      'settings' => array (
+        'home' => 'dashboard',
+        'shoutbox' => array(
+          'display' => array(
+            'blog' => 'blog',
+            'dashboard' => 'dashboard',
+          ),
+          'position' => 'bottom',
+          'max' => 8,
+        ),
+      ),
+      'og' => array(
+        'og_selective' => OG_CLOSED,
+        'og_directory' => OG_DIRECTORY_NEVER,
+        'og_register' => OG_REGISTRATION_ALWAYS,
+        'og_private' => defined(OG_PRIVATE_GROUPS_ALWAYS) ? OG_PRIVATE_GROUPS_ALWAYS : 1,
+      ),
+    ),
+  );
+  $items['trees_og_public'] = array (
+    'name' => 'Public group',
+    'description' => t('A simple public group with a blog, document library and dashboard.'),
+    'type' => 'og',
+    'preset' => array (
+      'features' => array (
+        'trees_blog' => SPACES_OG_PUBLIC,
+        'trees_book' => SPACES_OG_PUBLIC,
+        'trees_calendar' => SPACES_FEATURE_DISABLED,
+        'trees_dashboard' => SPACES_OG_PUBLIC,
+      ),
+      'settings' => array (
+        'home' => 'dashboard',
+        'shoutbox' => array(
+          'display' => array(
+            'blog' => 'blog',
+            'dashboard' => 'dashboard',
+          ),
+          'position' => 'bottom',
+          'max' => 8,
+        ),
+      ),
+      'og' => array(
+        'og_selective' => OG_OPEN,
+        'og_directory' => OG_DIRECTORY_ALWAYS,
+        'og_register' => OG_REGISTRATION_ALWAYS,
+        'og_private' => defined(OG_PRIVATE_GROUPS_NEVER) ? OG_PRIVATE_GROUPS_NEVER : 0,
+      ),
+    ),
+  );
+  $items['trees_user_simple'] = array (
+    'name' => 'Simple profile',
+    'description' => t('A simple profile with a blog, calendar and dashboard.'),
+    'type' => 'user',
+    'preset' => array (
+      'features' => array (
+        'trees_blog' => '1',
+        'trees_book' => '0',
+        'trees_calendar' => '1',
+        'trees_dashboard' => '1',
+      ),
+      'settings' => array (
+        'home' => 'profile',
+      ),
+      'locked' => array (
+        'features' => array (
+          'trees_blog' => 1,
+          'trees_book' => 0,
+          'trees_calendar' => 1,
+          'trees_dashboard' => 1,
+        ),
+        'settings' => array (
+          'home' => 1,
+        ),
+      ),
+      'user' => array (),
+    ),
+  );
+  $items['trees_intranet'] = array (
+    'name' => 'Basic intranet',
+    'description' => t('A basic intranet hub setup.'),
+    'type' => 'site',
+    'preset' => array (
+      'features' => array (
+        'trees_intranet' => 1,
+        'trees_dashboard' => 1,
+      ),
+      'settings' => array (
+        'home' => 'home',
+      ),
+      'locked' => array (
+        'features' => array (
+          'trees_intranet' => 1,
+          'trees_dashboard' => 1,
+        ),
+        'settings' => array (
+          'home' => 0,
+        ),
+      ),
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_trees_update_types_alter().
+ */
+function trees_intranet_trees_update_types_alter(&$types) {
+  if (!empty($types['shoutbox'])) {
+    unset($types['shoutbox']);
+  }
+}
+
+/**
+ * Implementation of hook_link_alter().
+ */
+function trees_intranet_link_alter(&$links, $node) {
+  if (!empty($links['comment_new_comments']) && !empty($links['comment_comments'])) {
+    unset($links['comment_comments']);
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function trees_intranet_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  switch ($op) {
+    case 'view':
+      // Load the node's read state.
+      if (!isset($node->new)) {
+        global $user;
+        $readtime = db_result(db_query("SELECT timestamp FROM {history} WHERE uid = %d AND nid = %d", $user->uid, $node->nid));
+        $node->new = trees_intranet_get_readstate($readtime, $node->changed);
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_litenode().
+ */
+function trees_intranet_litenode() {
+  $info = array();
+  $info['trees'] = array();
+  $info['trees']['module'] = t('Trees');
+  $info['trees']['map'] = array();
+  $info['trees']['fields'] = array(
+    'timestamp_1' => array(
+      'id' => 'timestamp_1',
+      'table' => 'history_user',
+      'field' => 'timestamp',
+    ),
+  );
+  return $info;
+}
+
+/**
+ * Implementation of hook_litenode_alter().
+ */
+function trees_intranet_litenode_alter(&$node, $row) {
+  $node->new = trees_intranet_get_readstate($row->history_user_timestamp, $node->changed);
+}
+
+/**
+ * Helper function to deal with node read state logic.
+ */
+function trees_intranet_get_readstate($readtime, $nodetime) {
+  if ($readtime == 0 && $nodetime > NODE_NEW_LIMIT) {
+    return MARK_NEW;
+  }
+  elseif ($nodetime > $readtime && $nodetime > NODE_NEW_LIMIT) {
+    return MARK_UPDATED;
+  }
+  return MARK_READ;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function trees_intranet_form_alter(&$form, &$form_state, $form_id) {
+  // Disable notifications when editing a post outside of a group space
+  if ((!empty($form['#node']) || $form_id == 'comment_form') && isset($form['notifications'])) {
+    $space = spaces_get_space();
+    if (empty($space) || $space->type != 'og') {
+      $form['notifications']['#access'] = FALSE;
+    }
+  }
+
+  // Node form customizations/niceties
+  if ($form['#id'] == 'node-form') {
+    // Even if you have the perms, we don't want you messing with this stuff
+    $node = $form['#node'];
+    $disable = array('menu', 'comment_settings');
+
+    if (!book_type_is_allowed($node->type)) {
+      $disable[] = 'book';
+    }
+
+    $node_options = variable_get('node_options_'. $node->type, array('status', 'promote'));
+    if (!in_array('revision', $node_options)) {
+      $disable[] = 'revision_information';
+    }
+
+    foreach ($disable as $key) {
+      if (!empty($form[$key])) {
+        $form[$key]['#access'] = FALSE;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_form_alter() for user_login.
+ */
+function trees_intranet_form_user_login_alter(&$form) {
+  // If user has no destination set or user/login (a bad one), send to homepage post login.
+  // See user module login block for the use of [#action] to force a redirect.
+  $dest = isset($_GET['destination']) ? $_GET['destination'] : '';
+  if (!$dest || $dest == 'user/login') {
+    $path = variable_get('site_frontpage', 'node');
+    $form['#action'] = url($_GET['q'], array('query' => 'destination='. $path));
+  }
+}
+
+/**
+ * Implementation of hook_form_alter() for comment_form.
+ */
+function trees_intranet_form_comment_form_alter(&$form) {
+  if (!drupal_get_title()) drupal_set_title(t('Reply'));
+  // Shrink comment field -- people don't have much to say usually
+  $form['comment_filter']['comment']['#rows'] = 8;
+}
+
+/**
+ * Implementation of hook_form_alter() for user_profile_form.
+ */
+function trees_intranet_form_user_profile_form_alter(&$form) {
+  $dummy = array();
+  $categories = module_invoke('trees_intranet', 'user', 'categories', $dummy, $dummy);
+  foreach ($categories as $info) {
+    if (!empty($form[$info['name']])) {
+      $form[$info['name']]['#access'] = FALSE;
+    }
+  }
+  $form['comment_settings']['#type'] = 'hidden';
+}
+
+/**
+ * Implementation of hook_spaces_settings().
+ */
+function trees_intranet_spaces_settings() {
+  return array('members' => 'trees_intranet_setting_members');
+}
+
+/**
+ * Implementation of space_setting.
+ */
+if (function_exists('spaces_menu')) {
+  class trees_intranet_setting_members implements space_setting {
+    var $id;
+
+    function __construct($id = NULL) {
+      $this->id = 'members';
+    }
+
+    function form($space, $value = array()) {
+      $options = array(0 => t('Show all members'), 1 => t('Show only members in current user\'s groups'));
+      $form = array(
+        '#title' => t('Members'),
+        '#type' => 'select',
+        '#description' => t('Choose the display mode for normal users when viewing the member directory. Administrators and managers will still be able to see all members in administrative views.'),
+        '#options' => $options,
+        '#default_value' => !empty($value) ? $value : 0,
+      );
+      return $form;
+    }
+
+    function validate($space, $value) {
+    }
+
+    function submit($space, $value) {
+      return $value;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_views_pre_view().
+ */
+function trees_intranet_views_pre_view(&$view) {
+  switch ($view->name) {
+    case 'trees_members':
+      // The page_3 display corresponds to the member directory.
+      if ($view->current_display == 'page_3') {
+        $space = spaces_get_space();
+        if (!empty($space->settings['members'])) {
+          $filters = $view->display_handler->get_option('filters');
+          if (!empty($filters['uid_1'])) {
+            $filters['uid_1']['value'] = 1;
+            $view->display_handler->set_option('filters', $filters);
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function trees_intranet_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'categories':
+      $categories = array();
+      $categories['picture'] = array(
+        'name' => 'picture',
+        'title' => 'Picture',
+        'weight' => 10,
+      );
+      $categories['theme_select'] = array(
+        'name' => 'theme_select',
+        'title' => 'Theme settings',
+        'weight' => 10,
+      );
+      return $categories;
+  }
+}
+
+/**
+ * Form callback that generates only the portion of the user profile form that is requested.
+ */
+function trees_intranet_user_profile_tab($form_state, $account, $tab) {
+  module_load_include('inc', 'user', 'user.pages');
+  $form = user_profile_form($form_state, $account);
+  $form['#submit'] = array('user_profile_form_submit');
+  foreach (element_children($form) as $k) {
+    if ($k == $tab || $form[$k]['#type'] == 'submit') {
+      $form[$k]['#access'] = TRUE;
+    }
+    else {
+      $form[$k]['#access'] = FALSE;
+    }
+  }
+  return $form;
+}
+
+/**
+ * ADMIN/MAINTENANCE ==================================================
+ */
+
+/**
+ * Implementation of hook trees_permissions().
+ */
+function trees_intranet_trees_permissions() {
+  $perms = array();
+  $perms['anonymous user'] = array(
+  );
+  $perms['authenticated user'] = array(
+    'access content',
+
+    'create blog content',
+    'edit own blog content',
+    'delete own blog content',
+
+    'create event content',
+    'edit own event content',
+    'delete own event content',
+
+    'create profile content',
+    'edit own profile content',
+    'delete own profile content',
+
+    // Book is an exception -- wiki-like permissions
+    'create book content',
+    'edit any book content',
+    'delete own book content',
+
+    'create new books',
+    'add content to books',
+    'see printer-friendly version',
+
+    'access case tracker',
+    'create cases',
+    'edit own cases',
+    // Don't seem to exist any longer...
+    // 'set case status',
+    // 'assign case to user',
+
+    'upload files',
+    'view uploaded files',
+
+    'access comments',
+    'post comments',
+    'post comments without approval',
+    'upload files to comments',
+    'view files uploaded to comments',
+
+    'close admin messages',
+
+    'search content',
+    'use advanced search',
+
+    'skip notifications',
+    'subscribe to content',
+    'subscribe other users',
+
+    'access user profiles',
+
+    'post messages to shoutbox',
+
+    'print content',
+
+    'select different theme',
+  );
+  $perms['manager'] = array_merge($perms['authenticated user'], array(
+    // allow managers to post imagesets
+    'create imageset content',
+    'edit own imageset content',
+    'delete own imageset content',
+
+    // allow managers to mess with their own groups
+    'create group content',
+    'edit own group content',
+    'delete own group content',
+
+    // ucreate
+    'create users',
+    'block users',
+
+    // view all users
+    'view users outside groups',
+
+    // casetracker
+    'create projects',
+    'edit own projects',
+
+    // comments
+    'administer comments',
+
+    // node permissions
+    'create feed_ical content',
+    'create feed_ical_item content',
+    'delete any feed_ical content',
+    'delete any feed_ical_item content',
+    'edit any feed_ical content',
+    'edit any feed_ical_item content',
+
+    // allow managers more book control
+    'delete any book content',
+
+    // revisions -- also applies to viewing inline diffs
+    'revert revisions',
+    'view revisions',
+
+    'configure spaces features',
+  ));
+  $perms['manager'] = array_unique($perms['manager']);
+  $perms['admin'] = array_merge($perms['manager'], array(
+    'admin menu',
+
+    'administer book outlines',
+
+    'administer nodes',
+    'create shoutbox',
+
+    'administer filters',
+
+    'administer group features',
+
+    'administer mailhandler',
+    'administer messaging',
+    'administer notifications',
+
+    'add list of open ids',
+
+    'administer search',
+
+    'access administration pages',
+    'administer site configuration',
+    'select different theme',
+
+    'administer taxonomy',
+
+    'administer permissions',
+    'administer users',
+    'change own username',
+
+    'administer spaces',
+    'administer trees',
+  ));
+  $perms['admin'] = array_unique($perms['admin']);
+  return $perms;
+}
+
+/**
+ * Implementation of hook_trees_filter().
+ */
+function trees_intranet_trees_filter() {
+  // Gather a role name to rid map
+  $roles = array();
+  $result = db_query("SELECT * FROM {role}");
+  while($row = db_fetch_object($result)) {
+    $roles[$row->name] = $row->rid;
+  }
+  $all_rids = array($roles['authenticated user'], $roles['manager'], $roles['admin']);
+  $admin_rids = array($roles['manager'], $roles['admin']);
+
+  return array(
+    // Textile
+    'textile' => array(
+      'format' => array(
+        'name' => 'Textile',
+        'roles' => ','. implode(',', $all_rids) .',',
+        'cache' => 1,
+      ),
+      'filters' => array(
+        array('module' => 'filter', 'delta' => 0, 'weight' => 0),
+        array('module' => 'filter', 'delta' => 2, 'weight' => 1),
+        array('module' => 'textile', 'delta' => 0, 'weight' => 2),
+        array('module' => 'codefilter', 'delta' => 0, 'weight' => 3),
+        array('module' => 'filter', 'delta' => 3, 'weight' => 10),
+      ),
+    ),
+    // Full HTML
+    'full_html' => array(
+      'format' => array(
+        'name' => 'Full HTML',
+        'roles' => ','. implode(',', $admin_rids) .',',
+        'cache' => 1,
+      ),
+      'filters' => array(
+        array('module' => 'codefilter', 'delta' => 0, 'weight' => 0),
+        array('module' => 'filter', 'delta' => 2, 'weight' => 0),
+        array('module' => 'filter', 'delta' => 1, 'weight' => 1),
+        array('module' => 'filter', 'delta' => 3, 'weight' => 10),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_trees_post_admin().
+ */
+function trees_intranet_trees_post_admin($script) {
+  switch ($script) {
+    case 'trees_update_filter':
+      // Strongarm the SimpleHTML allowed tags
+      $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Textile'));
+      variable_set("allowed_html_{$format}", '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <td> <tr>');
+      variable_set('filter_default_format', $format);
+
+      // Strongarm the Messaging Mail input filter
+      $potential_formats = array();
+      $result = db_query("SELECT ff.format, ff.name FROM {filter_formats} ff JOIN {filters} f ON ff.format = f.format WHERE f.module = '%s' AND f.delta = %d", 'messaging', 1);
+      while ($row = db_fetch_object($result)) {
+        $potential_formats[$row->format] = $row->name;
+      }
+      if (!empty($potential_formats)) {
+        // For now use the first format
+        $formats = array_keys($potential_formats);
+        variable_set('messaging_method_mail', array('filter' => $formats[0]));
+      }
+      break;
+  }
+}

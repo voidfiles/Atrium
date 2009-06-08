@@ -1,0 +1,14 @@
+; $Id: parser_ical.info,v 1.1 2008/12/02 21:37:26 ekes Exp $
+name = iCal parser
+description = Provides an iCal parser for FeedAPI modules. Requires PHP5.
+package = FeedAPI Add On
+dependencies[] = feedapi
+dependencies[] = date_api
+core = 6.x
+php = 5.0
+; Information added by drupal.org packaging script on 2009-03-16
+version = "6.x-1.1"
+core = "6.x"
+project = "parser_ical"
+datestamp = "1237224334"
+

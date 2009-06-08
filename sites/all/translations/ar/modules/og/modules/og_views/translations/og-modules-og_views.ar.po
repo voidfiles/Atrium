@@ -1,0 +1,357 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  og_views.views.inc,v 1.13.2.1 2009/04/10 03:09:23 weitzman
+#  og_views.module,v 1.18 2009/04/07 20:57:06 weitzman
+#  og_views.info,v 1.3 2008/10/29 19:59:39 dww
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:07+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: og/modules/og_views/og_views.views.inc:91
+msgid "Group nodes"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:135
+msgid "Group: Description"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:144
+msgid "Group: Members count"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:148
+msgid ""
+"Number of members for a group. Excludes memberships which are pending "
+"approval."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:152
+msgid "Group: Post count"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:156
+msgid ""
+"Number of published posts in a group. Can be restricted by node type "
+"using the <em>Option</em> dropdown."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:161
+msgid "Group: Post count *new*"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:165
+msgid "Number of new posts in a group for the current user."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:169
+msgid "Group: Selective"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:170
+msgid ""
+"The group preference which determines how membership requests are "
+"managed (moderated, invite only, etc.)."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:180
+msgid "Group: Private"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:181
+msgid "Is the group home page private or not."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:194
+msgid "Group: List in directory"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:195
+msgid "Admin specifies whether or not a group appears in the public listings."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:209
+msgid "Group: Join link"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:210
+msgid ""
+"Displays a link for joining a group when a user is not already a "
+"member."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:217
+msgid "Group: Language"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:218
+msgid "Displays the language selected for a given group."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:235
+msgid "Group types"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:244,236
+msgid ""
+"The type of a group (for example, \"blog entry\", \"forum post\", "
+"\"story\", etc)."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:243
+msgid "Group types (all)"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:248
+msgid "Restrict to all content types that have been marked as groups."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:262
+msgid "Posts which are affiiated with a group."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:273
+msgid "The groups for a post."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:283,278
+msgid "Group node (post)"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:279
+msgid "Bring in information about the group node based on a post's groups."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:289
+msgid "<strong>Posts</strong> are filtered for specific organic groups."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:292
+msgid "Post: in specified group (by number)"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:296
+msgid ""
+"<strong>Posts</strong> are filtered for specified organic groups. The "
+"page context (if Display is a page) will be set to the first listed "
+"group. That means that blocks and breadcrumbs (and theme and locale, "
+"if applicable) will be based upon the first specified node id."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:300
+msgid "Post: Nid"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:307
+msgid "OG: Posts in current group"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:308
+msgid ""
+"Posts in current group. Useful for blocks where determining context is "
+"hard. If page is not in any group context, no nodes are listed and "
+"thus a block would not appear."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:316
+msgid "Post: Public"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:317
+msgid "Is a given post public or private according to OG."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:348
+msgid "Group that a member belongs to."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:355,350
+msgid "Group node (member)"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:351
+msgid ""
+"Bring in information about the group node based on a user's "
+"membership."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:360
+msgid "<strong>Members</strong> are filtered for a specific group."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:364
+msgid "User's groups"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:365
+msgid "Groups that a member belongs to."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:369
+msgid "OG: List of user's groups"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:373
+msgid "Group member"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:377
+msgid "OG: Group in current user's groups"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:380
+msgid "Member of a group"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:382
+msgid ""
+"OG: Group in specified user's groups. Note that OG usually considers a "
+"user's groups to be private information. You may want to add access "
+"control to your View or validation to this argument."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:386
+msgid "OG: Admin manage link"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:387
+msgid "A link to the <em>Admin create or remove</em> page."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:394
+msgid "OG: Edit membership link"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:395
+msgid "A link to the <em>My membership</em> page."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:402
+msgid "OG: Approve/Deny/Remove membership link"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:403
+msgid "A link to approve/deny/remove a group member."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:410
+msgid "OG: Is member an admin in a group"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:411
+msgid "Add <em>admin</em> text if user is the group manager."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:424
+msgid "OG: Is membership approved"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:425
+msgid ""
+"Add <em>approval needed</em> user if user's membership request is "
+"pending."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:438
+msgid "OG: Is the group manager"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:439
+msgid "Add <em>manager</em> text if user is the group manager."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:447
+msgid "OG: Membership create date"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:448
+msgid "The date when the membership was created."
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:461
+msgid "OG: Membership last updated date"
+msgstr ""
+
+#: og/modules/og_views/og_views.views.inc:462
+msgid "The date when the membership was last updated."
+msgstr ""
+
+#: og/modules/og_views/og_views.module:76
+msgid "Group notifications (Views enhanced)"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:94
+msgid "This group offers a <a href=\"@groupfeed\">RSS feed</a>"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:96
+msgid " and an <a href=\"@email\">email subscription</a>."
+msgstr ""
+
+#: og/modules/og_views/og_views.module:102
+msgid "Or subscribe to these personalized, sitewide feeds:"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:107
+msgid "My unread: !links"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:111
+msgid "My group: !links"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:115
+msgid "All posts: !links"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:118
+msgid "Group notifications"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:176
+msgid "Group home page view"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:177
+msgid ""
+"Pick a View for your group home page. Only Views whose names start "
+"with <strong>og_ghp_</strong> are eligible. The View determines the "
+"layout of your group home page. You may alter the presentation using "
+"typical Views themeing techniques. See the Theme information link when "
+"editing your View and also see the Theme section of the !README. Also "
+"note that group admins can override this presentation using the "
+"included <em>Organic Groups Panels</em> module."
+msgstr ""
+
+#: og/modules/og_views/og_views.module:188
+msgid "Search group"
+msgstr ""
+
+#: og/modules/og_views/og_views.module:200
+msgid ""
+"The View %name was not found. Check your variables table or "
+"settings.php."
+msgstr ""
+
+#: og/modules/og_views/og_views.module:0
+msgid "og_views"
+msgstr ""
+
+#: og/modules/og_views/og_views.info:0
+msgid "Organic groups Views integration"
+msgstr ""
+
+#: og/modules/og_views/og_views.info:0
+msgid ""
+"<strong>Highly recommended.</strong>. Use Views to search and display "
+"organic groups."
+msgstr ""
+

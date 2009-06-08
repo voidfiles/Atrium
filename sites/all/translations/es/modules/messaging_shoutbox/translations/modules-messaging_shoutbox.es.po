@@ -1,0 +1,175 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/messaging_shoutbox/messaging_shoutbox.module: n/a
+#  gravlax_profile/modules/messaging_shoutbox/messaging_shoutbox.install: n/a
+#  gravlax_profile/modules/messaging_shoutbox/messaging_shoutbox.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: 2009-05-30 19:53+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:34
+msgid "The shoutbox provides a microblogging feature for your team."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:36
+msgid ""
+"Shouts can be used to tell others what you're up to, link to websites "
+"of interest or other random stuff that comes up during the day."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:37
+msgid ""
+"<strong>Keep your shouts short</strong> and to the point. If it starts "
+"getting long, consider using a blog post or document to capture your "
+"thoughts."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:38
+msgid "<strong>URLs</strong> will automatically be linked in your posts."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:65,628,524,504,485,83
+msgid "Shoutbox"
+msgstr "Panel de mensajes"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:85
+msgid "A shoutbox for informal message blasts."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:216
+msgid "[Shoutbox]"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:230
+msgid "Spaces: Shoutbox"
+msgstr "Espacios: Panel de mensajes"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:234
+msgid "Shoutbox: @name"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:495,290
+msgid "Shout"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:337
+msgid "Shout box"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:338
+msgid "New shouts from the web site."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:348
+msgid "Shoutbox: %name"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:349
+msgid "Messages posted to the shoutbox %name"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:358
+msgid "Notifications for shoutbox posts"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:359
+msgid "Notifications produced when a new shout is post."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:360
+msgid "The header and footer will be taken from Notification events"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:372
+msgid "Digest line"
+msgstr "Línea resumen"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:380
+msgid "Shout on [title]: [comment-title]"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:385,382
+msgid "[comment-author-name] shouted: [comment-title]"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:383
+msgid "Read more [node-url]"
+msgstr "Leer más [node-url]"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:404
+msgid "Post to shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:423
+msgid "Select shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:487
+msgid "Shoutbox: %title"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:551
+msgid "New shouts on [title]"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:552
+msgid "[comment-author-name] shouted: [comment-subject]"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:554
+msgid "Shoutbox post"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:646,626
+msgid "Create a new shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:96
+msgid "create shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:96
+msgid "post messages to shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:96
+msgid "subscribe to shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:58
+msgid "Shoutbox AJAX submission callback."
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:66
+msgid "A simple shoutbox feature"
+msgstr "Un sencillo panel de mensajes"
+
+#: modules/messaging_shoutbox/messaging_shoutbox.module:0
+msgid "messaging_shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.install:66
+msgid "shoutbox"
+msgstr ""
+
+#: modules/messaging_shoutbox/messaging_shoutbox.info:0
+msgid ""
+"Provides a shoutbox that integrates with Messaging, Notifications, and "
+"Spaces."
+msgstr ""
+"Proporciona un panel de mensajes que se integra con Mensajería, "
+"Notificationes y Espacios."
+
+#: modules/messaging_shoutbox/messaging_shoutbox.info:0
+msgid "Messaging"
+msgstr "Mensajería"
+

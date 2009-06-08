@@ -1,0 +1,49 @@
+# Arabic translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  gravlax_base/spaces/spaces_taxonomy/spaces_taxonomy.module: n/a
+#  spaces_taxonomy.info,v 1.1.2.1 2008/11/21 22:35:42 yhahn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.module:125
+msgid ""
+"Please setup your taxonomy space by enabling at least 1 feature and "
+"choosing a homepage setting."
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.module:178
+msgid "Term space"
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.module:287
+msgid "Spaces vocabulary"
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.module:288
+msgid ""
+"Choose one of the following vocabularies to enable for use with "
+"Spaces."
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.module:0
+msgid "spaces_taxonomy"
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.info:0
+msgid "Spaces Taxonomy"
+msgstr ""
+
+#: spaces/spaces_taxonomy/spaces_taxonomy.info:0
+msgid "Provides integration between Spaces and Taxonomy"
+msgstr ""
+

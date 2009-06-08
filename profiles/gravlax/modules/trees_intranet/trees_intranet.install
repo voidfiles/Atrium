@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Implementation of hook_enable().
+ */
+function trees_intranet_enable() {
+  variable_set('trees_subprofile', 'trees_intranet');
+
+  // Spaces presets
+  $default_presets = array(
+    'og' => 'trees_og_private',
+    'user' => 'trees_user_simple',
+    'site' => 'trees_intranet',
+  );
+  variable_set('spaces_default_presets', $default_presets);
+
+  // Disable other presets
+  include_once(drupal_get_path('module', 'spaces') .'/spaces_admin.inc');
+  spaces_preset_disable('og', 'private');
+  spaces_preset_disable('og', 'controlled');
+  spaces_preset_disable('og', 'public');
+
+  // Admin setup scripts
+  module_load_include('inc', 'trees', 'trees.admin');
+  foreach (module_invoke_all('trees_admin') as $script => $dummy) {
+    call_user_func($script);
+    module_invoke_all('trees_post_admin', $script);    
+  }
+}
+
+/**
+ * Update 6001.
+ */
+function trees_intranet_update_6001() {
+  // Kill group body field.
+  $types = node_get_types();
+  $types['group']->has_body = FALSE;
+  node_type_save($types['group']);
+  return array();
+}
+
+/**
+ * Update 6002.
+ */
+function trees_intranet_update_6002() {
+  $ret = array();
+  $map = array(
+    'blog' => 'trees_blog',
+    'book' => 'trees_book',
+    'calendar' => 'trees_calendar',
+    'casetracker' => 'trees_casetracker',
+    'dashboard' => 'trees_dashboard',
+  );
+  foreach ($map as $from => $to) {
+    $ret[] = update_sql("UPDATE {spaces_features} SET id = '$to' WHERE id = '$from'");
+  }
+  return $ret;
+}

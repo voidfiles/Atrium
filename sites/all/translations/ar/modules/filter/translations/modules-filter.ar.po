@@ -1,0 +1,661 @@
+# translation of general.po to Arabic
+# Abdel Rahman Ghareeb <king_abdo@yahoo.com>, 2004.
+# Sameh Sabry <samehsabry@linuxmail.org>, 2004.
+# Manal Hassan <manal@manalaa.net>, 2004.
+# Amr Gharbeia <amr@gharbeia.net>, 2005, 2006, 2007.
+# Khaled Hosny <khaledhosny@eglug.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: general\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-14 11:04+0200\n"
+"PO-Revision-Date: 2008-06-07 01:45+0300\n"
+"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"Language-Team: ar <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==1 ? 0 : n==0 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: KAider 0.1\n"
+
+#: modules/filter/filter.admin.inc:33
+msgid "All roles may use default format"
+msgstr "كل الأدوار يمكنها استخدام النسق المبدئي."
+
+#: modules/filter/filter.admin.inc:33
+msgid "No roles may use this format"
+msgstr "لا يمكن لأي دور استخدام هذا النسق"
+
+#: modules/filter/filter.admin.inc:38
+msgid "Set default format"
+msgstr "حدد النسق المبدئي"
+
+#: modules/filter/filter.admin.inc:45
+msgid "Default format updated."
+msgstr "تم تحديث النسق المبدئي"
+
+#: modules/filter/filter.admin.inc:81 modules/filter/filter.module:83
+msgid "Add input format"
+msgstr "أضف نسق إدخال"
+
+#: modules/filter/filter.admin.inc:97
+msgid "All roles for the default format must be enabled and cannot be changed."
+msgstr "يجب أن تفعل كل الأدوار للنسق المبدئي، و لا يمكن تغييرها."
+
+#: modules/filter/filter.admin.inc:104
+msgid "Specify a unique name for this filter format."
+msgstr "حدد اسما مميزا لهذا المرشح."
+
+#: modules/filter/filter.admin.inc:111
+msgid ""
+"Choose which roles may use this filter format. Note that roles with the "
+"\"administer filters\" permission can always use all the filter formats."
+msgstr ""
+"اختر الأدوار التي يحق لها استخدام هذا المرشح. الأدوار التي لديها صلاحية "
+"\"إدارة المرشحات\" يحق لها استخدام كافة مرشحات التنسيق."
+
+#: modules/filter/filter.admin.inc:130
+msgid "Filters"
+msgstr "مرشحات"
+
+#: modules/filter/filter.admin.inc:131
+msgid "Choose the filters that will be used in this filter format."
+msgstr "اختر المرشحات التي ستستخدم في نسق الترشيح هذا."
+
+#: modules/filter/filter.admin.inc:146 modules/filter/filter.module:587
+msgid "More information about formatting options"
+msgstr "معلومات أكثر عن خيارات التنسيق"
+
+#: modules/filter/filter.admin.inc:149
+msgid "No guidelines available."
+msgstr "لا إرشأدات متاحة."
+
+#: modules/filter/filter.admin.inc:151
+msgid ""
+"These are the guidelines that users will see for posting in this input "
+"format. They are automatically generated from the filter settings."
+msgstr ""
+"تظهر هذه التعليمات للمستخدم قبل أن ينشر المحتوى مستخدما نسق الإدخال هذا، وهي "
+"تولد تلقائيا من خصائص المرشح."
+
+#: modules/filter/filter.admin.inc:153 modules/filter/filter.module:516
+msgid "Formatting guidelines"
+msgstr "إرشادات التنسيق"
+
+#: modules/filter/filter.admin.inc:168
+msgid ""
+"Filter format names need to be unique. A format named %name already exists."
+msgstr ""
+"يجب أن تكون أسماء مرشحات التنسيق مميزة. يوجد سلفا مرشح يحمل الاسم %name."
+
+#: modules/filter/filter.admin.inc:187
+msgid "Added input format %format."
+msgstr "تمت إضافة نسق الإدخال %format."
+
+#: modules/filter/filter.admin.inc:190
+msgid "The input format settings have been updated."
+msgstr "تم تحديث إعدادات نسق الإدخال."
+
+#: modules/filter/filter.admin.inc:252
+msgid "Are you sure you want to delete the input format %format?"
+msgstr "هل أنت متأكد من حذف نسق الإدخال %format؟"
+
+#: modules/filter/filter.admin.inc:252
+msgid ""
+"If you have any content left in this input format, it will be switched to "
+"the default input format. This action cannot be undone."
+msgstr ""
+"إذا كان لديك أي محتوى باق بهذا النسق، فسوف يتم تحويله إلى نسق الإدخال "
+"المبدئي. لا يمكن التراجع عن هذا الفعل."
+
+#: modules/filter/filter.admin.inc:255
+msgid "The default format cannot be deleted."
+msgstr "لا يمكن حذف نسق الإدخال المبدئي."
+
+#: modules/filter/filter.admin.inc:278
+msgid "Deleted input format %format."
+msgstr "تم حذف نسق الإدخال %format."
+
+#: modules/filter/filter.admin.inc:312
+msgid "No settings are available."
+msgstr "لا توجد إعدادات متاحة."
+
+#: modules/filter/filter.admin.inc:391
+msgid "The filter ordering has been saved."
+msgstr "تم حفظ ترتيب المرشحات."
+
+#: modules/filter/filter.pages.inc:35
+msgid "input formats"
+msgstr "أنساق الإدخال"
+
+#: modules/filter/filter.module:23
+msgid ""
+"The filter module allows administrators to configure text input formats for "
+"use on your site. An input format defines the HTML tags, codes, and other "
+"input allowed in both content and comments, and is a key feature in guarding "
+"against potentially damaging input from malicious users. Two input formats "
+"included by default are <em>Filtered HTML</em> (which allows only an "
+"administrator-approved subset of HTML tags) and <em>Full HTML</em> (which "
+"allows the full set of HTML tags). Additional input formats may be created "
+"by an administrator."
+msgstr ""
+
+#: modules/filter/filter.module:24
+msgid ""
+"Each input format uses filters to manipulate text, and most input formats "
+"apply several different filters to text in a specific order. Each filter is "
+"designed for a specific purpose, and generally either adds, removes or "
+"transforms elements within user-entered text before it is displayed. A "
+"filter does not change the actual content of a post, but instead, modifies "
+"it temporarily before it is displayed. A filter may remove unapproved HTML "
+"tags, for instance, while another automatically adds HTML to make links "
+"referenced in text clickable."
+msgstr ""
+
+#: modules/filter/filter.module:29
+msgid ""
+"<em>Input formats</em> define a way of processing user-supplied text in "
+"Drupal. Each input format uses filters to manipulate text, and most input "
+"formats apply several different filters to text, in a specific order. Each "
+"filter is designed to accomplish a specific purpose, and generally either "
+"removes elements from or adds elements to text before it is displayed. Users "
+"can choose between the available input formats when submitting content."
+msgstr ""
+
+#: modules/filter/filter.module:35
+msgid ""
+"If you cannot find the settings for a certain filter, make sure you have "
+"enabled it on the <a href=\"@url\">view tab</a> first."
+msgstr ""
+"إذا لم تتمكن من إيجاد إعدادات مرشح ما، تأكد من أنك قد فعلته في <a href=\"@url"
+"\">\"لسان التبويب\"</a>."
+
+#: modules/filter/filter.module:38
+msgid ""
+"Filters are executed from top-to-bottom. To change the order of the filters, "
+"modify the values in the <em>Weight</em> column or grab a drag-and-drop "
+"handle under the <em>Name</em> column and drag filters to new locations in "
+"the list. (Grab a handle by clicking and holding the mouse while hovering "
+"over a handle icon.) Remember that your changes will not be saved until you "
+"click the <em>Save configuration</em> button at the bottom of the page."
+msgstr ""
+
+#: modules/filter/filter.module:187
+msgid ""
+"\n"
+"<p>This site allows HTML content. While learning all of HTML may feel "
+"intimidating, learning how to use a very small number of the most basic HTML "
+"\"tags\" is very easy. This table provides examples for each tag that is "
+"enabled on this site.</p>\n"
+"<p>For more information see W3C's <a href=\"http://www.w3.org/TR/html/"
+"\">HTML Specifications</a> or use your favorite search engine to find other "
+"sites that explain HTML.</p>"
+msgstr ""
+"\n"
+"<p>يسمح هذا الموقع باستخدام إتش.تي.إم.إل. تعلم كافة تفاصيل هذه اللغة قد يبدو "
+"مرعبا، ولكن التعرف على الرقم الأساسية سهل للغاية. الجدول التالي يقدم أمثلة "
+"على كل الرقم المفعلة على هذا الموقع.</p>\n"
+"<p>لمزيد من المعلومات راجع<a href=\"http://www.w3.org/TR/html\">مواصفات إتش."
+"تي.إم.إل</a> التي يصدرها دبليو.ثري.سي، أو استخدم محرك البحث المفضل لديك "
+"لإيجاد مواقع أخرى تشرح إتش.تي.إم.إل.</p>"
+
+#: modules/filter/filter.module:191
+msgid "Anchors are used to make links to other pages."
+msgstr "تستخدم الرقم لعمل روابط لصفحات أخرى."
+
+#: modules/filter/filter.module:192
+msgid ""
+"By default line break tags are automatically added, so use this tag to add "
+"additional ones. Use of this tag is different because it is not used with an "
+"open/close pair like all the others. Use the extra \" /\" inside the tag to "
+"maintain XHTML 1.0 compatibility"
+msgstr ""
+"مبدئيا، تضاف رقم فصل السطور تلقائيا. استخدم هذا الرقم لإضافة أوسمة أخرى "
+"زائدة. يختلف هذا الرقم عن الرقم الأخرى لأنه لا يستخدم في زوج فتح و إغلاق مثل "
+"الآخرين. استخدم \"/\" داخل الرقم لكي تحافظ على التوافق مع معايير إكس.إتش.تي."
+"إم.إل 1.0."
+
+#: modules/filter/filter.module:192
+msgid "Text with <br />line break"
+msgstr "نص مع فواصل السطور <br />"
+
+#: modules/filter/filter.module:193
+msgid ""
+"By default paragraph tags are automatically added, so use this tag to add "
+"additional ones."
+msgstr "مبدئيا، تضاف رقم الفقرات تلقائيا. استخدم هذا الرقم لإضافة رقم إضافية."
+
+#: modules/filter/filter.module:193
+msgid "Paragraph one."
+msgstr "الفقرة الأولى."
+
+#: modules/filter/filter.module:193
+msgid "Paragraph two."
+msgstr "الفقرة الثانية"
+
+#: modules/filter/filter.module:194;194
+msgid "Strong"
+msgstr "عريض"
+
+#: modules/filter/filter.module:195;195
+msgid "Emphasized"
+msgstr "مشدد"
+
+#: modules/filter/filter.module:196;196
+msgid "Cited"
+msgstr "مقتبس"
+
+#: modules/filter/filter.module:197
+msgid "Coded text used to show programming source code"
+msgstr "يستخدم نص الأكواد لعرض الكود المصدري للبرمجيات"
+
+#: modules/filter/filter.module:197
+msgid "Coded"
+msgstr "مُكَوَّد"
+
+#: modules/filter/filter.module:198;198
+msgid "Bolded"
+msgstr "عريض"
+
+#: modules/filter/filter.module:199;199
+msgid "Underlined"
+msgstr "مسطر"
+
+#: modules/filter/filter.module:200;200
+msgid "Italicized"
+msgstr "مائل"
+
+#: modules/filter/filter.module:201
+msgid "Superscripted"
+msgstr "نص علوي"
+
+#: modules/filter/filter.module:201
+msgid "<sup>Super</sup>scripted"
+msgstr "نص <sup>علوي</sup>"
+
+#: modules/filter/filter.module:202
+msgid "Subscripted"
+msgstr "نص سفلي"
+
+#: modules/filter/filter.module:202
+msgid "<sub>Sub</sub>scripted"
+msgstr "نص <sub>سفلي</sub>"
+
+#: modules/filter/filter.module:203;203
+msgid "Preformatted"
+msgstr "منسق مسبقا"
+
+#: modules/filter/filter.module:204
+msgid "Abbreviation"
+msgstr "اختصار"
+
+#: modules/filter/filter.module:204
+msgid "<abbr title=\"Abbreviation\">Abbrev.</abbr>"
+msgstr "<abbr title=\"اختصار\">اخ</abbr>"
+
+#: modules/filter/filter.module:205
+msgid "Acronym"
+msgstr "أوائل حروف الكلمة"
+
+#: modules/filter/filter.module:205
+msgid "<acronym title=\"Three-Letter Acronym\">TLA</acronym>"
+msgstr "<acronym title=\"اختصار ثلاثي الحروف\">اثح</acronym>"
+
+#: modules/filter/filter.module:206;206
+msgid "Block quoted"
+msgstr "تم اقتباس الفقرة"
+
+#: modules/filter/filter.module:207;207
+msgid "Quoted inline"
+msgstr "مقتبس بداخل السطر"
+
+#: modules/filter/filter.module:209
+msgid "Table"
+msgstr "جدول"
+
+#: modules/filter/filter.module:209
+msgid "Table header"
+msgstr "رأس الجدول"
+
+#: modules/filter/filter.module:209
+msgid "Table cell"
+msgstr "خلية في جدول"
+
+#: modules/filter/filter.module:211;211
+msgid "Deleted"
+msgstr "محذوف"
+
+#: modules/filter/filter.module:212;212
+msgid "Inserted"
+msgstr "مضاف"
+
+#: modules/filter/filter.module:214
+msgid "Ordered list - use the &lt;li&gt; to begin each list item"
+msgstr "قائمة مرتبة - استخدم &lt;li&gt; لتبدأ كل عنصر بالقائمة"
+
+#: modules/filter/filter.module:214;215
+msgid "First item"
+msgstr "أول عنصر"
+
+#: modules/filter/filter.module:214;215
+msgid "Second item"
+msgstr "ثاني عنصر"
+
+#: modules/filter/filter.module:215
+msgid "Unordered list - use the &lt;li&gt; to begin each list item"
+msgstr "قائمة غير مرتبة - استخدم &lt;li&gt; لتبدأ كل عنصر بالقائمة"
+
+#: modules/filter/filter.module:218
+msgid ""
+"Definition lists are similar to other HTML lists. &lt;dl&gt; begins the "
+"definition list, &lt;dt&gt; begins the definition term and &lt;dd&gt; begins "
+"the definition description."
+msgstr ""
+"قوائم التعريفات مشابهة للقوائم في إتش.تي.إم.إل. رقم &lt;dl&gt; يبدأ قائمة "
+"التعريفات، و رقم &lt;dt&gt; يبدأ المصطلح، و رقم &lt;dd&gt; يبدأ تعريف "
+"المصطلح."
+
+#: modules/filter/filter.module:218
+msgid "First term"
+msgstr "أول مصطلح"
+
+#: modules/filter/filter.module:218
+msgid "First definition"
+msgstr "أول تعريف"
+
+#: modules/filter/filter.module:218
+msgid "Second term"
+msgstr "ثاني مصطلح"
+
+#: modules/filter/filter.module:218
+msgid "Second definition"
+msgstr "ثاني تعريف"
+
+#: modules/filter/filter.module:221
+msgid "Subtitle"
+msgstr "عنوان ثان"
+
+#: modules/filter/filter.module:222
+msgid "Subtitle three"
+msgstr "عنوان ثالث"
+
+#: modules/filter/filter.module:223
+msgid "Subtitle four"
+msgstr "عنوان رابع"
+
+#: modules/filter/filter.module:224
+msgid "Subtitle five"
+msgstr "عنوان خامس"
+
+#: modules/filter/filter.module:225
+msgid "Subtitle six"
+msgstr "عنوان سادس"
+
+#: modules/filter/filter.module:227
+msgid "Tag Description"
+msgstr "وصف الرقم"
+
+#: modules/filter/filter.module:227;256
+msgid "You Type"
+msgstr "عند كتابة"
+
+#: modules/filter/filter.module:227;256
+msgid "You Get"
+msgstr "يظهر لك"
+
+#: modules/filter/filter.module:241
+msgid "No help provided for tag %tag."
+msgstr "لا توجد مساعده متوفرة للرقم %tag"
+
+#: modules/filter/filter.module:247
+msgid ""
+"\n"
+"<p>Most unusual characters can be directly entered without any problems.</"
+"p>\n"
+"<p>If you do encounter problems, try using HTML character entities. A common "
+"example looks like &amp;amp; for an ampersand &amp; character. For a full "
+"list of entities see HTML's <a href=\"http://www.w3.org/TR/html4/sgml/"
+"entities.html\">entities</a> page. Some of the available characters include:"
+"</p>"
+msgstr ""
+"\n"
+"<p>يمكن استخدام معظم الرموز بدون مشاكل.</p>\n"
+"<p>إذا واجهتك مشكلة فحاول استخدام عناصر إتش.تي.إم.إل من الأمثلة الشائعة على "
+"ذلك: &amp;amp; الرمز (&amp;). للحصول على قائمة بكل العناصر، راجع صفحة <a "
+"href=\"http://www.w3.org/TR/html4/sgml/entities.html\">عناصر اتش.تي.ام.ال</"
+"a>. بعض العناصر المتوفرة تشمل: </p>"
+
+#: modules/filter/filter.module:251
+msgid "Ampersand"
+msgstr "رمز &"
+
+#: modules/filter/filter.module:252
+msgid "Greater than"
+msgstr "أكبر من"
+
+#: modules/filter/filter.module:253
+msgid "Less than"
+msgstr "أصغر من"
+
+#: modules/filter/filter.module:254
+msgid "Quotation mark"
+msgstr "علامة التنصيص"
+
+#: modules/filter/filter.module:256
+msgid "Character Description"
+msgstr "وصف الحرف"
+
+#: modules/filter/filter.module:270
+msgid "No HTML tags allowed"
+msgstr "لا يسمح برقم إتش.تي.إم.إل"
+
+#: modules/filter/filter.module:278
+msgid "Lines and paragraphs break automatically."
+msgstr "تفصل السطور و الفقرات تلقائيا."
+
+#: modules/filter/filter.module:280
+msgid ""
+"Lines and paragraphs are automatically recognized. The &lt;br /&gt; line "
+"break, &lt;p&gt; paragraph and &lt;/p&gt; close paragraph tags are inserted "
+"automatically. If paragraphs are not recognized simply add a couple blank "
+"lines."
+msgstr ""
+"يتم التعرف على السطور والفقرات تلقائيا. رقم فصل السطر &lt;br /&gt;، و رقم "
+"بداية الفقرة &lt;p&gt;، و رقم إغلاق الفقرة &lt;/p&gt; تضاف تلقائيا. إذا لم "
+"تعرف الفقرات تلقائيا، أضف سطرين فارغين بينها."
+
+#: modules/filter/filter.module:284
+msgid "Web page addresses and e-mail addresses turn into links automatically."
+msgstr "تتحول مسارات مواقع وب و عناوين البريد الإلكتروني إلى روابط آليا."
+
+#: modules/filter/filter.module:488
+msgid "Input format"
+msgstr "نسق إدخال"
+
+#: modules/filter/filter.module:608;659
+msgid "HTML filter"
+msgstr "مرشح إتش.تي.إم.إل"
+
+#: modules/filter/filter.module:608
+msgid "Line break converter"
+msgstr "محول فواصل السطور"
+
+#: modules/filter/filter.module:608;719
+msgid "URL filter"
+msgstr "مرشح المسارات"
+
+#: modules/filter/filter.module:608
+msgid "HTML corrector"
+msgstr "مصحح إتش.تي.إم.إل"
+
+#: modules/filter/filter.module:613
+msgid ""
+"Allows you to restrict whether users can post HTML and which tags to filter "
+"out. It will also remove harmful content such as JavaScript events, "
+"JavaScript URLs and CSS styles from those tags that are not removed."
+msgstr ""
+"يمكنك من حد إمكانية المستخدمين في إرسال وسوم إتش.تي.إم.إل وأي الوسوم يتم "
+"ترشيحها خارجا. سيزيل أيضا المحتوى الضار - مثل أحداث جافا سكربت، أو مسارات "
+"جافا سكربت، أو طرز سي.إس.إس - من الوسوم التي لم تُحذف."
+
+#: modules/filter/filter.module:615
+msgid "Converts line breaks into HTML (i.e. &lt;br&gt; and &lt;p&gt; tags)."
+msgstr ""
+"يحول الفواصل بين السطور إلى إتش.تي.إم.إل (مثل رقم &lt;br&gt; و &lt;p&gt; )"
+
+#: modules/filter/filter.module:617
+msgid "Turns web and e-mail addresses into clickable links."
+msgstr "يحول عناوين البريد الإلكتروني و مسارات وب إلى روابط يمكن النقر عليها."
+
+#: modules/filter/filter.module:619
+msgid "Corrects faulty and chopped off HTML in postings."
+msgstr "يصحح رسائل إتش.تي.إم.إل الخاطئة والمقطعة."
+
+#: modules/filter/filter.module:664
+msgid "Filter HTML tags"
+msgstr "مرشح رقم إتش.تي.إم.إل"
+
+#: modules/filter/filter.module:666
+msgid "Strip disallowed tags"
+msgstr "احذف الرقم غير المسموح بها"
+
+#: modules/filter/filter.module:666
+msgid "Escape all tags"
+msgstr "أهمل جميع الرقم"
+
+#: modules/filter/filter.module:667
+msgid ""
+"How to deal with HTML tags in user-contributed content. If set to \"Strip "
+"disallowed tags\", dangerous tags are removed (see below). If set to "
+"\"Escape tags\", all HTML is escaped and presented as it was typed."
+msgstr ""
+"كيفية التعامل مع رقم إتش.تي.إم.إل في محتوى المستخدمين. إذا اخترت \"احذف "
+"الرقم غير المسموح بها\"، فسيتم حذف الرقم الخطرة (انظر بالأسفل). إذا اخترت "
+"\"إأهمل جميع الرقم\"، فسيتم إهمال كل رقم إتش.تي.إم.إل وإظهارها كما هي."
+
+#: modules/filter/filter.module:675
+msgid ""
+"If \"Strip disallowed tags\" is selected, optionally specify tags which "
+"should not be stripped. JavaScript event attributes are always stripped."
+msgstr ""
+"إذا اختير \"احذف الرقم غير المسموح بها\"، يمكنك اختيار العلامات التي ينبغي "
+"أن لا تحذف. خصائص أحداث جافاسكريبت ستحذف في كل الأحوال."
+
+#: modules/filter/filter.module:679
+msgid "Display HTML help"
+msgstr "اعرض مساعدة إتش.تي.إم.إل"
+
+#: modules/filter/filter.module:681
+msgid ""
+"If enabled, Drupal will display some basic HTML help in the long filter tips."
+msgstr ""
+"عند تفعيله، يعرض دروبال بعض المساعدة البسيطة لإتش.تي.إم.إل في النصائح "
+"المطولة للمرشح."
+
+#: modules/filter/filter.module:685
+msgid "Spam link deterrent"
+msgstr "حاذف روابط السخام"
+
+#: modules/filter/filter.module:687
+msgid ""
+"If enabled, Drupal will add rel=\"nofollow\" to all links, as a measure to "
+"reduce the effectiveness of spam links. Note: this will also prevent valid "
+"links from being followed by search engines, therefore it is likely most "
+"effective when enabled for anonymous users."
+msgstr ""
+"عند تفعيله، يضيف دروبال rel=\"nofollow\" لكل الروابط كإجراء لتقليل مفعول "
+"السخام. سوف يمنع ذلك محركات البحث من تتبع الروابط الصحيحة، و لذلك فمن الأفضل "
+"تفعيله للمستخدمين غير المسجلين."
+
+#: modules/filter/filter.module:724
+msgid "Maximum link text length"
+msgstr "أقصى طول لنص الرابط"
+
+#: modules/filter/filter.module:727
+msgid ""
+"URLs longer than this number of characters will be truncated to prevent long "
+"strings that break formatting. The link itself will be retained; just the "
+"text portion of the link will be truncated."
+msgstr ""
+"ستقطع المسارات التي عدد حروفها أكبر من هذا الرقم، و ذلك لمنع المقاطع الطويلة "
+"التي تخرب العرض. سيتم الاحتفاظ بالرابط نفسه، إلا أن الجزء النصي في الرابط "
+"سيقطع."
+
+#: modules/filter/filter.module:157
+msgid "administer filters"
+msgstr "يدير المرشحات"
+
+#: modules/filter/filter.module:71
+msgid "Input formats"
+msgstr "أنساق إدخال"
+
+#: modules/filter/filter.module:91
+msgid "Delete input format"
+msgstr "احذف نسق إدخال"
+
+#: modules/filter/filter.module:99
+msgid "Compose tips"
+msgstr "نصائح للكتابة"
+
+#: modules/filter/filter.module:131
+msgid "Rearrange"
+msgstr "أعد الترتيب"
+
+#: modules/filter/filter.module:0
+msgid "filter"
+msgstr "مرشح"
+
+#: modules/filter/filter.install:9
+msgid ""
+"Table that maps filters (HTML corrector) to input formats (Filtered HTML)."
+msgstr ""
+
+#: modules/filter/filter.install:14
+msgid "Primary Key: Auto-incrementing filter ID."
+msgstr ""
+
+#: modules/filter/filter.install:20
+msgid ""
+"Foreign key: The {filter_formats}.format to which this filter is assigned."
+msgstr ""
+
+#: modules/filter/filter.install:27
+msgid "The origin module of the filter."
+msgstr ""
+
+#: modules/filter/filter.install:34
+msgid "ID to identify which filter within module is being referenced."
+msgstr ""
+
+#: modules/filter/filter.install:41
+msgid "Weight of filter within format."
+msgstr ""
+
+#: modules/filter/filter.install:53
+msgid ""
+"Stores input formats: custom groupings of filters, such as Filtered HTML."
+msgstr ""
+
+#: modules/filter/filter.install:58
+msgid "Primary Key: Unique ID for format."
+msgstr ""
+
+#: modules/filter/filter.install:65
+msgid "Name of the input format (Filtered HTML)."
+msgstr ""
+
+#: modules/filter/filter.install:72
+msgid "A comma-separated string of roles; references {role}.rid."
+msgstr ""
+
+#: modules/filter/filter.install:79
+msgid ""
+"Flag to indicate whether format is cachable. (1 = cachable, 0 = not cachable)"
+msgstr ""
+
+#: modules/filter/filter.install:87
+msgid ""
+"Cache table for the Filter module to store already filtered pieces of text, "
+"identified by input format and md5 hash of the text."
+msgstr ""

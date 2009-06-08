@@ -1,0 +1,33 @@
+# Spanish translation of gravlax_profile (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  gravlax_profile/modules/trees_casetracker/includes/trees_casetracker.views.inc: n/a
+#  gravlax_profile/modules/trees_casetracker/includes/trees_casetracker_handler_filter_status_closed.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_profile (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: modules/trees_casetracker/includes/trees_casetracker.views.inc:63
+msgid "Casetracker"
+msgstr "Gestor de incidencias"
+
+#: modules/trees_casetracker/includes/trees_casetracker.views.inc:72
+msgid "Case Tracker: Show closed cases"
+msgstr "Seguimiento: Mostrar las incidencias cerradas"
+
+#: modules/trees_casetracker/includes/trees_casetracker.views.inc:76
+msgid "Filter out closed cases."
+msgstr "Filtrar las incidencias cerradas."
+
+#: modules/trees_casetracker/includes/trees_casetracker_handler_filter_status_closed.inc:4
+msgid "Show closed cases"
+msgstr "Mostrar las incidencias cerradas."
+

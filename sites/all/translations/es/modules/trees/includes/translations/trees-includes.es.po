@@ -1,0 +1,43 @@
+# Spanish translation of gravlax_base (6.x-0.3)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from file: gravlax_base/trees/includes/trees.views.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gravlax_base (6.x-0.3)\n"
+"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: trees/includes/trees.views.inc:84
+msgid "Include/exclude UIDs"
+msgstr ""
+
+#: trees/includes/trees.views.inc:85
+msgid "Filter the view to include or exclude by UID."
+msgstr ""
+
+#: trees/includes/trees.views.inc:105
+msgid "Last viewed by current user"
+msgstr ""
+
+#: trees/includes/trees.views.inc:150
+msgid "Sort items by current user's latest access time"
+msgstr ""
+
+#: trees/includes/trees.views.inc:154
+msgid "Created date (short)"
+msgstr ""
+
+#: trees/includes/trees.views.inc:165
+msgid "Trees update types"
+msgstr ""
+
+#: trees/includes/trees.views.inc:166
+msgid "Affects only content types designated as update types."
+msgstr ""
+
