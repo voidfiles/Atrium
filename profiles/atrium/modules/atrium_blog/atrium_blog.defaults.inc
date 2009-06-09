@@ -66,6 +66,11 @@ function _atrium_blog_content_default_fields() {
     ),
   );
 
+  // Translatables
+  array(
+    t('Referenced Page'),
+  );
+
   return $fields;
 }
 

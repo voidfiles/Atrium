@@ -119,6 +119,11 @@ function _atrium_calendar_content_default_fields() {
     ),
   );
 
+  // Translatables
+  array(
+    t('Date'),
+  );
+
   return $fields;
 }
 
