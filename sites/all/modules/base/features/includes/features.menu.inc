@@ -52,6 +52,8 @@ function menu_features_export_render($module = 'foo', $data) {
   $code[] = '  $items = array();';
   $code[] = '';
 
+  $translatables = array();
+
   foreach ($data as $path) {
     // Query for links only in the features table
     $result = db_query("SELECT * FROM {menu_links} WHERE link_path = '%s' AND menu_name = 'features'", $path);
@@ -61,17 +63,23 @@ function menu_features_export_render($module = 'foo', $data) {
         'path' => $row['link_path'],
         'weight' => $row['weight'],
       );
+      $translatables[] = $row['link_title'];
 
       // Add in description field
       $options = unserialize($row['options']);
       if (!empty($options['attributes']['title'])) {
         $link['description'] = $options['attributes']['title'];
+        $translatables[] = $options['attributes']['title'];
       }
 
       $code[] = "  \$items[] = ". features_var_export($link, '  ') .";";
       break;
     }
   }
+  if (!empty($translatables)) {
+    $code[] = features_translatables_export($translatables, '  ');
+  }
+
   $code[] = '';
   $code[] = '  return $items;';
   $code = implode("\n", $code);

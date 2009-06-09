@@ -753,6 +753,24 @@ function features_var_export($var, $prefix = '', $init = TRUE) {
 }
 
 /**
+ * Helper function to return an array of t()'d translatables strings.
+ * Useful for providing a separate array of translatables with your
+ * export so that string extractors like potx can detect them.
+ */
+function features_translatables_export($translatables, $prefix = '') {
+  sort($translatables);
+  $translatables = array_unique($translatables);
+
+  $output = $prefix . "// Translatables\n";
+  $output = $prefix . "array(\n";
+  foreach ($translatables as $string) {
+    $output .= $prefix . "  t('" . strtr($string, array("'" => "\'")) . "'),\n";
+  }
+  $output = $prefix . ");\n";
+  return $output;
+}
+
+/**
  * Helper function to eliminate whitespace differences in code.
  */
 function _features_linetrim($code) {
