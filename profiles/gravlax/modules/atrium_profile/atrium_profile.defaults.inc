@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_node_info().
  */
-function _trees_profile_node_info() {
+function _atrium_profile_node_info() {
   $items = array(
     'profile' => array(
       'name' => t('Profile'),
@@ -21,14 +21,14 @@ function _trees_profile_node_info() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_profile_views_default_views() {
+function _atrium_profile_views_default_views() {
   $views = array();
 
-  // Exported view: trees_profile
+  // Exported view: atrium_profile
   $view = new view;
-  $view->name = 'trees_profile';
-  $view->description = 'Trees > Profile';
-  $view->tag = 'trees';
+  $view->name = 'atrium_profile';
+  $view->description = 'Atrium > Profile';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -235,7 +235,7 @@ function _trees_profile_views_default_views() {
   $handler = $view->new_display('block', 'Profile', 'block_1');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_profile'] = array(
+  $translatables['atrium_profile'] = array(
     t('Defaults'),
     t('Profile'),
     t('This user has not filled out a profile.'),

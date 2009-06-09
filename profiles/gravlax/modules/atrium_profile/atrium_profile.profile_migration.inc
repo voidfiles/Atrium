@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Migration function for 8 Trees installs that have used profile module
+ * Migration function for Atrium installs that have used profile module
  * in the past. Loaded in .install.
  */
-function _trees_profile_profile_migration() {
+function _atrium_profile_profile_migration() {
   $result = db_query("SELECT DISTINCT(p.uid) FROM {profile_values} p JOIN {users} u ON p.uid = u.uid");
   while ($row = db_fetch_object($result)) {
     $uid = $row->uid;

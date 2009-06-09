@@ -1,11 +1,11 @@
 <?php
 
-include_once('trees_profile.features.inc');
+include_once('atrium_profile.features.inc');
 
 /**
  * Implementation of hook_strongarm().
  */
-function trees_profile_strongarm() {
+function atrium_profile_strongarm() {
   $conf = array();
 
   $conf['node_options_profile'] = array('status');
@@ -33,29 +33,29 @@ function trees_profile_strongarm() {
   );
 
   // Disable from recent activity views
-  $conf['trees_update_type_profile'] = FALSE;
+  $conf['atrium_update_type_profile'] = FALSE;
   return $conf;
 }
 
 /**
- * Implementation of hook_trees_create_links_alter().
+ * Implementation of hook_atrium_create_links_alter().
  */
-function trees_profile_trees_create_links_alter(&$links) {
+function atrium_profile_atrium_create_links_alter(&$links) {
   unset($links['profile']);
 }
 
 /**
- * Implementation of hook_trees_update_types_alter().
+ * Implementation of hook_atrium_update_types_alter().
  * Excludes profile content type from update feeds, etc.
  */
-function trees_profile_trees_update_types_alter(&$types) {
+function atrium_profile_atrium_update_types_alter(&$types) {
   unset($types['profile']);
 }
 
 /**
  * Implementation of hook_context_links_alter().
  */
-function trees_profile_context_links_alter(&$links) {
+function atrium_profile_context_links_alter(&$links) {
   global $user;
   $space = spaces_get_space();
   if ($space->type == 'user' && $user->uid == $space->sid && node_access('create', 'profile') && $_GET['q'] != "user/{$user->uid}/edit/profile") {
