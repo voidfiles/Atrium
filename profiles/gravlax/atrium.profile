@@ -4,17 +4,17 @@
 /**
  * Implementation of hook_profile_details().
  */
-function gravlax_profile_details() {
+function atrium_profile_details() {
   return array(
-    'name' => 'Gravlax',
-    'description' => 'Gravlax intranet by Development Seed.'
+    'name' => 'Atrium',
+    'description' => 'Atrium by Development Seed.'
   );
 }
 
 /**
  * Implementation of hook_profile_modules().
  */
-function gravlax_profile_modules() {
+function atrium_profile_modules() {
   // Drupal core
   $modules = array(
     'block',
@@ -35,9 +35,9 @@ function gravlax_profile_modules() {
 }
 
 /**
- * Returns an array list of core trees modules.
+ * Returns an array list of core atrium modules.
  */
-function _gravlax_core_modules() {
+function _atrium_core_modules() {
   return array(
     // Admin
     'admin',
@@ -69,15 +69,15 @@ function _gravlax_core_modules() {
     'spaces', 'spaces_site', 'spaces_user', 'spaces_og',
     // Ucreate
     'ucreate', 'ucreate_og',
-    // Trees
-    'trees',
+    // Atrium
+    'atrium',
   );
 }
 
 /**
  * Returns an array list of dsi modules.
  */
-function _gravlax_gravlax_modules() {
+function _atrium_atrium_modules() {
   return array(
     // Strongarm
     'strongarm',
@@ -101,8 +101,8 @@ function _gravlax_gravlax_modules() {
     'notifications_team', 'mail2web', 'mailhandler',
     // Content profile
     'content_profile',
-    // Trees features
-    'trees_blog', 'trees_book', 'trees_calendar', 'trees_dashboard', 'trees_casetracker', 'trees_profile',
+    // Atrium features
+    'atrium_blog', 'atrium_book', 'atrium_calendar', 'atrium_dashboard', 'atrium_casetracker', 'atrium_profile',
     // Formats
     'codefilter', 'textile',
     // Others
@@ -111,15 +111,15 @@ function _gravlax_gravlax_modules() {
     'color', 'spaces_design',
     // VBO
     'views_bulk_operations',
-    // Trees intranet distro module
-    'trees_intranet',
+    // Atrium intranet distro module
+    'atrium_intranet',
   );
 }
 
 /**
  * Implementation of hook_profile_task_list().
  */
-function gravlax_profile_task_list() {
+function atrium_profile_task_list() {
   $tasks = array(
     'locale-extended-import' => st('Import more translations'),
     'intranet-configure' => st('Intranet configuration'),
@@ -130,7 +130,7 @@ function gravlax_profile_task_list() {
 /**
  * Implementation of hook_profile_tasks().
  */
-function gravlax_profile_tasks(&$task, $url) {
+function atrium_profile_tasks(&$task, $url) {
   global $install_locale;
   
   // Just in case some of the future tasks adds some output
@@ -138,8 +138,8 @@ function gravlax_profile_tasks(&$task, $url) {
 
   // Install some more modules and maybe localization helpers too
   if ($task == 'profile') {
-    $modules = _gravlax_core_modules();
-    $modules = array_merge($modules, _gravlax_gravlax_modules());
+    $modules = _atrium_core_modules();
+    $modules = array_merge($modules, _atrium_atrium_modules());
     // If not English, install core_translation module and l10n_client?
     if (!empty($install_locale) && ($install_locale != 'en')) {        
       $modules[] = 'core_translation';
@@ -152,7 +152,7 @@ function gravlax_profile_tasks(&$task, $url) {
     }
     $batch = array(
       'operations' => $operations,
-      'finished' => '_gravlax_profile_batch_finished',
+      'finished' => '_atrium_profile_batch_finished',
       'title' => st('Installing @drupal', array('@drupal' => drupal_install_profile_name())),
       'error_message' => st('The installation has encountered an error.'),
     );
@@ -172,7 +172,7 @@ function gravlax_profile_tasks(&$task, $url) {
       include_once 'includes/locale.inc';
       module_load_include('inc', 'core_translation');
 
-      $batch = core_translation_batch_by_language($install_locale, '_gravlax_locale_batch_finished');
+      $batch = core_translation_batch_by_language($install_locale, '_atrium_locale_batch_finished');
       if (!empty($batch)) {
         $t = get_t();
         $batch['title'] = $t('Importing extended translations');
@@ -253,7 +253,7 @@ function gravlax_profile_tasks(&$task, $url) {
 /**
  * Implementation of hook_form_alter().
  */
-function gravlax_form_alter(&$form, $form_state, $form_id) {
+function atrium_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'install_configure') {
     // Autofill values when working locally (e.g. hostname is localhost, dev, etc.)
     if (strpos($_SERVER['SERVER_NAME'], '.') === FALSE) {
@@ -273,7 +273,7 @@ function gravlax_form_alter(&$form, $form_state, $form_id) {
  *
  * Advance installer task to language import.
  */
-function _gravlax_profile_batch_finished($success, $results) {
+function _atrium_profile_batch_finished($success, $results) {
   variable_set('install_task', 'locale-extended-import');
 }
 /**
@@ -281,7 +281,7 @@ function _gravlax_profile_batch_finished($success, $results) {
  *
  * Advance installer task to the configure screen.
  */
-function _gravlax_locale_batch_finished($success, $results) {
+function _atrium_locale_batch_finished($success, $results) {
   include_once 'includes/locale.inc';
   _locale_batch_language_finished($success, $results);
   variable_set('install_task', 'intranet-configure');
