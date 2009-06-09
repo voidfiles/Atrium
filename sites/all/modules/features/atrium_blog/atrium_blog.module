@@ -55,3 +55,23 @@ function atrium_blog_strongarm() {
 
   return $conf;
 }
+
+/**
+ * Implementation of hook_atrium_dashboard().
+ */
+function atrium_blog_atrium_dashboard() {
+  $blocks = array();
+  $blocks[] = array(
+    'module' => 'views',
+    'delta' => 'atrium_blog-block_2',
+    'region' => 'content',
+    'weight' => '-11',
+  );
+  $blocks[] = array(
+    'module' => 'views',
+    'delta' => 'atrium_blog_comments-block_1',
+    'region' => 'right',
+    'weight' => '10',
+  );
+  return $blocks;
+}

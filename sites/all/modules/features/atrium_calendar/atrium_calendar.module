@@ -185,3 +185,17 @@ function _atrium_calendar_block_mini($op, $edit) {
     return $block;
   }
 }
+
+/**
+ * Implementation of hook_atrium_dashboard().
+ */
+function atrium_calendar_atrium_dashboard() {
+  $blocks = array();
+  $blocks[] = array(
+    'module' => 'views',
+    'delta' => 'atrium_calendar-block_1',
+    'region' => 'right',
+    'weight' => '11',
+  );
+  return $blocks;
+}

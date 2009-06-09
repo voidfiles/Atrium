@@ -1,67 +1,6 @@
 <?php
 
 /**
- * Helper to implemetation of hook_context_default_contexts().
- */
-function _atrium_dashboard_context_default_contexts() {
-  $items = array();
-
-  $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'dashboard',
-    'value' => 'overview',
-    'block' => array(
-      'atrium_blog-block_2' => array(
-        'module' => 'views',
-        'delta' => 'atrium_blog-block_2',
-        'region' => 'content',
-        'weight' => '-11',
-      ),
-      'atrium_dashboard-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_dashboard-block_1',
-        'region' => 'content',
-        'weight' => '-10',
-      ),
-      'atrium_contentstats-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_contentstats-block_1',
-        'region' => 'right',
-        'weight' => '-10',
-      ),
-      'atrium_blog_comments-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_blog_comments-block_1',
-        'region' => 'right',
-        'weight' => '10',
-      ),
-      'atrium_calendar-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_calendar-block_1',
-        'region' => 'right',
-        'weight' => '11',
-      ),
-      'messaging_shoutbox-spaces' => array(
-        'module' => 'messaging_shoutbox',
-        'delta' => 'spaces',
-        'region' => 'right',
-        'weight' => '12',
-      ),
-    ),
-  );
-  $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'feature',
-    'value' => 'dashboard',
-    'description' => '',
-    'views' => array(
-      '0' => 'atrium_dashboard',
-    ),
-  );
-  return $items;
-}
-
-/**
  * Helper to implemetation of hook_menu_default_items().
  */
 function _atrium_dashboard_menu_default_items() {

@@ -155,44 +155,6 @@ function atrium_dashboard_customize() {
 }
 
 /**
- * Implementation of hook_context_active_contexts_alter().
- */
-function atrium_dashboard_context_active_contexts_alter(&$contexts) {
-  $space = spaces_get_space();
-
-  if (!empty($contexts['spaces-feature-dashboard'])) {
-    // Swap out active menu reaction
-    $map = _atrium_dashboard_type_map();
-    if ($space && isset($map[$space->type])) {
-      $contexts['spaces-feature-dashboard']->menu = $map[$space->type];
-    }
-    // Yank my groups block from dashboard views
-    if ($space->type == 'site') {
-      if (!empty($contexts['spaces-feature-dashboard'])) {
-        $contexts['spaces-feature-dashboard']->block['views_atrium_groups-block_2'] = array(
-          'module' => 'views',
-          'delta' => 'atrium_groups-block_2',
-          'region' => 'right',
-          'weight' => '10',
-        );
-      }
-    }
-  }
-
-  // Add the profile block to user dashboards
-  if (!empty($contexts['spaces-dashboard-overview'])) {
-    if ($space && $space->type == 'user') {
-      $contexts['spaces-dashboard-overview']->block['views-atrium_profile-block_1'] = array(
-        'module' => 'views',
-        'delta' => 'atrium_profile-block_1',
-        'region' => 'content',
-        'weight' => -20,
-      );
-    }
-  }
-}
-
-/**
  * Implementation of hook_context_links_alter().
  */
 function atrium_dashboard_context_links_alter(&$links) {
@@ -232,4 +194,90 @@ function _atrium_dashboard_type_map() {
     'user' => 'profile',
     'site' => 'home',
   );
+}
+
+/**
+ * Implementation of hook_atrium_dashboard().
+ */
+function atrium_dashboard_atrium_dashboard() {
+  $blocks = array();
+  $blocks[] = array(
+    'module' => 'views',
+    'delta' => 'atrium_dashboard-block_1',
+    'region' => 'content',
+    'weight' => '-10',
+  );
+  $blocks[] = array(
+    'module' => 'views',
+    'delta' => 'atrium_contentstats-block_1',
+    'region' => 'right',
+    'weight' => '-10',
+  );
+  return $blocks;
+}
+
+/**
+ * Helper to implemetation of hook_context_default_contexts().
+ */
+function atrium_dashboard_context_default_contexts() {
+  $items = array();
+  $items[] = array(
+    'namespace' => 'spaces',
+    'attribute' => 'dashboard',
+    'value' => 'overview',
+    'block' => module_invoke_all('atrium_dashboard'),
+  );
+  $items[] = array(
+    'namespace' => 'spaces',
+    'attribute' => 'feature',
+    'value' => 'dashboard',
+    'description' => '',
+    'views' => array(
+      '0' => 'atrium_dashboard',
+    ),
+  );
+  /*
+  'messaging_shoutbox-spaces' => array(
+    'module' => 'messaging_shoutbox',
+    'delta' => 'spaces',
+    'region' => 'right',
+    'weight' => '12',
+  ),
+  */
+  return $items;
+}
+
+/**
+ * Implementation of hook_context_active_contexts_alter().
+ */
+function atrium_dashboard_context_active_contexts_alter(&$contexts) {
+  $space = spaces_get_space();
+
+  if (!empty($contexts['spaces-feature-dashboard'])) {
+    // Swap out active menu reaction
+    $map = _atrium_dashboard_type_map();
+    if ($space && isset($map[$space->type])) {
+      $contexts['spaces-feature-dashboard']->menu = $map[$space->type];
+    }
+    // Yank my groups block from dashboard views
+    if ($space->type == 'site') {
+      if (!empty($contexts['spaces-feature-dashboard'])) {
+        $contexts['spaces-feature-dashboard']->block['views_atrium_groups-block_2'] = array(
+          'module' => 'views',
+          'delta' => 'atrium_groups-block_2',
+          'region' => 'right',
+          'weight' => '10',
+        );
+      }
+    }
+  }
+
+  // Filter out blocks that aren't enabled for this space type.
+  if (!empty($contexts['spaces-dashboard-overview'])) {
+    foreach ($contexts['spaces-dashboard-overview']->block as $key => $block) {
+      if (isset($block['spaces']) && !in_array($space->type, $block['spaces'])) {
+        unset($contexts['spaces-dashboard-overview']->block[$key]);
+      }
+    }
+  }
 }
