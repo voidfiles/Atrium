@@ -57,6 +57,12 @@ function _atrium_book_menu_default_items() {
     'weight' => '0',
     'description' => 'Provides a documents feature for Atrium.',
   );
+  // Translatables
+  array(
+    t('Documents'),
+    t('Provides a documents feature for Atrium.'),
+  );
+
 
   return $items;
 }
