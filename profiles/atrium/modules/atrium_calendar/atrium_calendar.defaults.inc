@@ -190,6 +190,12 @@ function _atrium_calendar_menu_default_items() {
     'weight' => '0',
     'description' => 'Provides a calendar feature',
   );
+  // Translatables
+  array(
+    t('Calendar'),
+    t('Provides a calendar feature'),
+  );
+
 
   return $items;
 }
