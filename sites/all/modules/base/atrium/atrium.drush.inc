@@ -61,5 +61,17 @@ function atrium_drush_upgrade_gravlax() {
     }
   }
 
+  // Update default presets
+  $presets = variable_get('spaces_default_presets', array());
+  foreach ($presets as $type => $preset) {
+    if (strpos($preset, 'trees') === 0) {
+      $presets[$type] = strtr($preset, array('trees' => 'atrium'));
+    }
+  }
+  variable_set('spaces_default_presets', $presets);
+
+  // Update theme settings
+  variable_set('theme_default', 'ginkgo');
+
   drupal_flush_all_caches();
 }
