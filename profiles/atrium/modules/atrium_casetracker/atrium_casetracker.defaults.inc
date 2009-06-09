@@ -75,6 +75,12 @@ function _atrium_casetracker_menu_default_items() {
     'weight' => '0',
     'description' => 'Provides a casetracker feature',
   );
+  // Translatables
+  array(
+    t('Casetracker'),
+    t('Provides a casetracker feature'),
+  );
+
 
   return $items;
 }
