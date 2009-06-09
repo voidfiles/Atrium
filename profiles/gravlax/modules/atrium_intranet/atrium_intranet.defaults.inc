@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_content_default_fields().
  */
-function _trees_intranet_content_default_fields() {
+function _atrium_intranet_content_default_fields() {
   $fields = array();
 
   // Exported field: field_profile_address
@@ -236,7 +236,7 @@ function _trees_intranet_content_default_fields() {
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_intranet_context_default_contexts() {
+function _atrium_intranet_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -245,7 +245,7 @@ function _trees_intranet_context_default_contexts() {
     'value' => 'groups',
     'menu' => 'groups',
     'views' => array(
-      '0' => 'trees_groups',
+      '0' => 'atrium_groups',
     ),
     'theme_section' => array(
       'title' => 'Groups',
@@ -260,7 +260,7 @@ function _trees_intranet_context_default_contexts() {
     'value' => 'members',
     'menu' => 'members',
     'views' => array(
-      '0' => 'trees_members',
+      '0' => 'atrium_members',
     ),
     'theme_section' => array(
       'title' => 'Members',
@@ -268,16 +268,16 @@ function _trees_intranet_context_default_contexts() {
       'class' => '',
     ),
     'block' => array(
-      'views_-exp-trees_members-default' => array(
+      'views_-exp-atrium_members-default' => array(
         'module' => 'views',
-        'delta' => '-exp-trees_members-default',
+        'delta' => '-exp-atrium_members-default',
         'region' => 'right',
         'weight' => '-10',
       ),
     ),
   );
   $items[] = array(
-    'namespace' => 'trees',
+    'namespace' => 'atrium',
     'attribute' => 'global',
     'value' => 'blocks',
     'description' => 'Sitewide blocks',
@@ -294,19 +294,19 @@ function _trees_intranet_context_default_contexts() {
         'label' => 'Admin messages',
         'type' => 'context_ui',
       ),
-      'views_trees_groups-block_1' => array(
+      'views_atrium_groups-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_groups-block_1',
+        'delta' => 'atrium_groups-block_1',
         'weight' => 21,
         'region' => 'header',
         'status' => '0',
-        'label' => 'trees_groups: Block',
+        'label' => 'atrium_groups: Block',
         'type' => 'context_ui',
       ),
     ),
   );
   $items[] = array(
-    'namespace' => 'trees',
+    'namespace' => 'atrium',
     'attribute' => 'section',
     'value' => 'admin',
     'description' => '',
@@ -314,37 +314,37 @@ function _trees_intranet_context_default_contexts() {
       '0' => 'admin_message',
     ),
     'path' => array(
-      '0' => 'trees',
+      '0' => 'atrium',
     ),
     'views' => array(
-      '0' => 'trees_admin_messages',
+      '0' => 'atrium_admin_messages',
     ),
   );
   $items[] = array(
-    'namespace' => 'trees',
+    'namespace' => 'atrium',
     'attribute' => 'section',
     'value' => 'search',
     'views' => array(
-      '0' => 'trees_search',
+      '0' => 'atrium_search',
     ),
     'theme_section' => array(
       'title' => 'Search',
     ),
   );
   $items[] = array(
-    'namespace' => 'trees',
+    'namespace' => 'atrium',
     'attribute' => 'section',
     'value' => 'taxonomy',
     'views' => array(
-      '0' => 'trees_taxonomy',
+      '0' => 'atrium_taxonomy',
     ),
     'theme_section' => array(
       'title' => 'Tags',
     ),
     'block' => array(
-      'views_trees_taxonomy-block_1' => array(
+      'views_atrium_taxonomy-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_taxonomy-block_1',
+        'delta' => 'atrium_taxonomy-block_1',
         'region' => 'right',
         'weight' => '10',
       ),
@@ -356,7 +356,7 @@ function _trees_intranet_context_default_contexts() {
 /**
  * Helper to implemetation of hook_imagecache_default_presets().
  */
-function _trees_intranet_imagecache_default_presets() {
+function _atrium_intranet_imagecache_default_presets() {
   $items = array(
     'fileview' => array(
       'presetname' => 'fileview',
@@ -408,7 +408,7 @@ function _trees_intranet_imagecache_default_presets() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_intranet_menu_default_items() {
+function _atrium_intranet_menu_default_items() {
   $items = array();
 
   $items[] = array(
@@ -430,7 +430,7 @@ function _trees_intranet_menu_default_items() {
 /**
  * Helper to implemetation of hook_node_info().
  */
-function _trees_intranet_node_info() {
+function _atrium_intranet_node_info() {
   $items = array(
     'group' => array(
       'name' => t('Group'),
@@ -448,14 +448,14 @@ function _trees_intranet_node_info() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_intranet_views_default_views() {
+function _atrium_intranet_views_default_views() {
   $views = array();
 
-  // Exported view: trees_admin_messages
+  // Exported view: atrium_admin_messages
   $view = new view;
-  $view->name = 'trees_admin_messages';
-  $view->description = 'Trees > Admin messages';
-  $view->tag = 'trees';
+  $view->name = 'atrium_admin_messages';
+  $view->description = 'Atrium > Admin messages';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -548,7 +548,7 @@ function _trees_intranet_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'perm',
-    'perm' => 'administer trees',
+    'perm' => 'administer atrium',
   ));
   $handler->override_option('title', 'Messages & alerts');
   $handler->override_option('empty', 'No messages found.');
@@ -590,7 +590,7 @@ function _trees_intranet_views_default_views() {
     'default' => '-1',
   ));
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('path', 'admin/trees/messages');
+  $handler->override_option('path', 'admin/atrium/messages');
   $handler->override_option('menu', array(
     'type' => 'tab',
     'title' => 'Messages & alerts',
@@ -604,7 +604,7 @@ function _trees_intranet_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['trees_admin_messages'] = array(
+  $translatables['atrium_admin_messages'] = array(
     t('Defaults'),
     t('Messages & alerts'),
     t('No messages found.'),
@@ -613,11 +613,11 @@ function _trees_intranet_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_contentstats
+  // Exported view: atrium_contentstats
   $view = new view;
-  $view->name = 'trees_contentstats';
-  $view->description = 'Trees > Content stats';
-  $view->tag = 'trees';
+  $view->name = 'atrium_contentstats';
+  $view->description = 'Atrium > Content stats';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -764,18 +764,18 @@ function _trees_intranet_views_default_views() {
   $handler = $view->new_display('block', 'Content stats', 'block_1');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_contentstats'] = array(
+  $translatables['atrium_contentstats'] = array(
     t('Defaults'),
     t('Content stats'),
   );
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_groups
+  // Exported view: atrium_groups
   $view = new view;
-  $view->name = 'trees_groups';
-  $view->description = 'Trees > Groups';
-  $view->tag = 'trees';
+  $view->name = 'atrium_groups';
+  $view->description = 'Atrium > Groups';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -1422,7 +1422,7 @@ function _trees_intranet_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['trees_groups'] = array(
+  $translatables['atrium_groups'] = array(
     t('Defaults'),
     t('My groups'),
     t('Block'),
@@ -1434,11 +1434,11 @@ function _trees_intranet_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_members
+  // Exported view: atrium_members
   $view = new view;
-  $view->name = 'trees_members';
-  $view->description = 'Trees > Members';
-  $view->tag = 'trees';
+  $view->name = 'atrium_members';
+  $view->description = 'Atrium > Members';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'users';
   $view->is_cacheable = FALSE;
@@ -1848,7 +1848,7 @@ function _trees_intranet_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_intranet',
+    'spaces_feature' => 'atrium_intranet',
   ));
   $handler->override_option('title', 'Member directory');
   $handler->override_option('items_per_page', 30);
@@ -1872,7 +1872,7 @@ function _trees_intranet_views_default_views() {
     'description' => '',
     'weight' => '0',
   ));
-  $translatables['trees_members'] = array(
+  $translatables['atrium_members'] = array(
     t('Defaults'),
     t('Active users'),
     t('Blocked users'),

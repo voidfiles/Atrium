@@ -1,11 +1,11 @@
 <?php
 
-include_once('trees_intranet.features.inc');
+include_once('atrium_intranet.features.inc');
 
 /**
  * Implementation of hook_strongarm().
  */
-function trees_intranet_strongarm() {
+function atrium_intranet_strongarm() {
   $conf = array();
 
   // @TODO: See if there are any serious consequences if this is not set
@@ -44,11 +44,11 @@ function trees_intranet_strongarm() {
     $conf["show_diff_inline_{$type}"] = FALSE;
 
     // Disable from recent activity views
-    $conf['trees_update_type_'. $type] = FALSE;
+    $conf['atrium_update_type_'. $type] = FALSE;
   }
 
-  // Trees archivable types
-  $conf['trees_archivable'] = array('group');
+  // Atrium archivable types
+  $conf['atrium_archivable'] = array('group');
 
   // Menus
   $conf['menu_primary_links_source'] = 'features';
@@ -132,7 +132,7 @@ function trees_intranet_strongarm() {
 /**
  * Implementation of hook_init().
  */
-function trees_intranet_init() {
+function atrium_intranet_init() {
   // Display a login message
   if (!user_access('access content') && !in_array(arg(0), array('user', 'openid')) && !drupal_is_front_page()) {
     drupal_set_message(l('Click here to login', 'user', array('query' => 'destination='.$_GET['q'])));
@@ -142,14 +142,14 @@ function trees_intranet_init() {
 /**
  * Implementation of hook_views_api().
  */
-function trees_intranet_views_api() {
+function atrium_intranet_views_api() {
   return array('api' => 2);
 }
 
 /**
  * Implementation of hook_menu_alter().
  */
-function trees_intranet_menu_alter(&$items) {
+function atrium_intranet_menu_alter(&$items) {
   // Kill undesirable menu items
   $yank = array(
     'book',
@@ -163,11 +163,11 @@ function trees_intranet_menu_alter(&$items) {
     }
   }
 
-  $categories = module_invoke('trees_intranet', 'user', 'categories', $dummy, $dummy);
+  $categories = module_invoke('atrium_intranet', 'user', 'categories', $dummy, $dummy);
   foreach ($categories as $category) {
     $item = $items['user/%user_category/edit/'. $category['name']];
     $item['page callback'] = 'drupal_get_form';
-    $item['page arguments'] = array('trees_intranet_user_profile_tab', 1, $category['name']);
+    $item['page arguments'] = array('atrium_intranet_user_profile_tab', 1, $category['name']);
     $items['user/%user_category/edit/'. $category['name']] = $item;
   }
 }
@@ -175,12 +175,12 @@ function trees_intranet_menu_alter(&$items) {
 /**
  * Implementation of hook_context_links_alter().
  */
-function trees_intranet_context_links_alter(&$links) {
+function atrium_intranet_context_links_alter(&$links) {
   $feature = context_get('spaces', 'feature');
   switch ($feature) {
     case 'groups':
       if (node_access('create', 'group')) {
-        $links['trees_groups'] = array(
+        $links['atrium_groups'] = array(
           'title' => t('Group'),
           'href' => 'node/add/group',
         );
@@ -188,7 +188,7 @@ function trees_intranet_context_links_alter(&$links) {
       break;
     case 'members':
       if (module_exists('ucreate')) {
-        $links['trees_users'] = array(
+        $links['atrium_users'] = array(
           'title' => t('User account'),
           'href' => 'user/add',
         );
@@ -208,7 +208,7 @@ function trees_intranet_context_links_alter(&$links) {
 /**
  * Implementation of hook_imagecache_default_presets_alter().
  */
-function trees_intranet_imagecache_default_presets_alter(&$presets) {
+function atrium_intranet_imagecache_default_presets_alter(&$presets) {
   if (!empty($presets['spaces-logo'])) {
     if (!empty($presets['spaces-logo']['actions'][0]['data']['height'])) {
       $presets['spaces-logo']['actions'][0]['data']['height'] = 40;
@@ -219,18 +219,18 @@ function trees_intranet_imagecache_default_presets_alter(&$presets) {
 /**
  * Implementation of hook_spaces_presets().
  */
-function trees_intranet_spaces_presets() {
+function atrium_intranet_spaces_presets() {
   $items = array();
-  $items['trees_og_private'] = array (
+  $items['atrium_og_private'] = array (
     'name' => 'Private group',
     'description' => t('A simple private group with a blog, document library and dashboard.'),
     'type' => 'og',
     'preset' => array (
       'features' => array (
-        'trees_blog' => SPACES_OG_PRIVATE,
-        'trees_book' => SPACES_OG_PRIVATE,
-        'trees_calendar' => SPACES_FEATURE_DISABLED,
-        'trees_dashboard' => SPACES_OG_PRIVATE,
+        'atrium_blog' => SPACES_OG_PRIVATE,
+        'atrium_book' => SPACES_OG_PRIVATE,
+        'atrium_calendar' => SPACES_FEATURE_DISABLED,
+        'atrium_dashboard' => SPACES_OG_PRIVATE,
       ),
       'settings' => array (
         'home' => 'dashboard',
@@ -251,16 +251,16 @@ function trees_intranet_spaces_presets() {
       ),
     ),
   );
-  $items['trees_og_public'] = array (
+  $items['atrium_og_public'] = array (
     'name' => 'Public group',
     'description' => t('A simple public group with a blog, document library and dashboard.'),
     'type' => 'og',
     'preset' => array (
       'features' => array (
-        'trees_blog' => SPACES_OG_PUBLIC,
-        'trees_book' => SPACES_OG_PUBLIC,
-        'trees_calendar' => SPACES_FEATURE_DISABLED,
-        'trees_dashboard' => SPACES_OG_PUBLIC,
+        'atrium_blog' => SPACES_OG_PUBLIC,
+        'atrium_book' => SPACES_OG_PUBLIC,
+        'atrium_calendar' => SPACES_FEATURE_DISABLED,
+        'atrium_dashboard' => SPACES_OG_PUBLIC,
       ),
       'settings' => array (
         'home' => 'dashboard',
@@ -281,26 +281,26 @@ function trees_intranet_spaces_presets() {
       ),
     ),
   );
-  $items['trees_user_simple'] = array (
+  $items['atrium_user_simple'] = array (
     'name' => 'Simple profile',
     'description' => t('A simple profile with a blog, calendar and dashboard.'),
     'type' => 'user',
     'preset' => array (
       'features' => array (
-        'trees_blog' => '1',
-        'trees_book' => '0',
-        'trees_calendar' => '1',
-        'trees_dashboard' => '1',
+        'atrium_blog' => '1',
+        'atrium_book' => '0',
+        'atrium_calendar' => '1',
+        'atrium_dashboard' => '1',
       ),
       'settings' => array (
         'home' => 'profile',
       ),
       'locked' => array (
         'features' => array (
-          'trees_blog' => 1,
-          'trees_book' => 0,
-          'trees_calendar' => 1,
-          'trees_dashboard' => 1,
+          'atrium_blog' => 1,
+          'atrium_book' => 0,
+          'atrium_calendar' => 1,
+          'atrium_dashboard' => 1,
         ),
         'settings' => array (
           'home' => 1,
@@ -309,22 +309,22 @@ function trees_intranet_spaces_presets() {
       'user' => array (),
     ),
   );
-  $items['trees_intranet'] = array (
+  $items['atrium_intranet'] = array (
     'name' => 'Basic intranet',
     'description' => t('A basic intranet hub setup.'),
     'type' => 'site',
     'preset' => array (
       'features' => array (
-        'trees_intranet' => 1,
-        'trees_dashboard' => 1,
+        'atrium_intranet' => 1,
+        'atrium_dashboard' => 1,
       ),
       'settings' => array (
         'home' => 'home',
       ),
       'locked' => array (
         'features' => array (
-          'trees_intranet' => 1,
-          'trees_dashboard' => 1,
+          'atrium_intranet' => 1,
+          'atrium_dashboard' => 1,
         ),
         'settings' => array (
           'home' => 0,
@@ -336,9 +336,9 @@ function trees_intranet_spaces_presets() {
 }
 
 /**
- * Implementation of hook_trees_update_types_alter().
+ * Implementation of hook_atrium_update_types_alter().
  */
-function trees_intranet_trees_update_types_alter(&$types) {
+function atrium_intranet_atrium_update_types_alter(&$types) {
   if (!empty($types['shoutbox'])) {
     unset($types['shoutbox']);
   }
@@ -347,7 +347,7 @@ function trees_intranet_trees_update_types_alter(&$types) {
 /**
  * Implementation of hook_link_alter().
  */
-function trees_intranet_link_alter(&$links, $node) {
+function atrium_intranet_link_alter(&$links, $node) {
   if (!empty($links['comment_new_comments']) && !empty($links['comment_comments'])) {
     unset($links['comment_comments']);
   }
@@ -356,14 +356,14 @@ function trees_intranet_link_alter(&$links, $node) {
 /**
  * Implementation of hook_nodeapi().
  */
-function trees_intranet_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+function atrium_intranet_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       // Load the node's read state.
       if (!isset($node->new)) {
         global $user;
         $readtime = db_result(db_query("SELECT timestamp FROM {history} WHERE uid = %d AND nid = %d", $user->uid, $node->nid));
-        $node->new = trees_intranet_get_readstate($readtime, $node->changed);
+        $node->new = atrium_intranet_get_readstate($readtime, $node->changed);
       }
       break;
   }
@@ -372,12 +372,12 @@ function trees_intranet_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 /**
  * Implementation of hook_litenode().
  */
-function trees_intranet_litenode() {
+function atrium_intranet_litenode() {
   $info = array();
-  $info['trees'] = array();
-  $info['trees']['module'] = t('Trees');
-  $info['trees']['map'] = array();
-  $info['trees']['fields'] = array(
+  $info['atrium'] = array();
+  $info['atrium']['module'] = t('Atrium');
+  $info['atrium']['map'] = array();
+  $info['atrium']['fields'] = array(
     'timestamp_1' => array(
       'id' => 'timestamp_1',
       'table' => 'history_user',
@@ -390,14 +390,14 @@ function trees_intranet_litenode() {
 /**
  * Implementation of hook_litenode_alter().
  */
-function trees_intranet_litenode_alter(&$node, $row) {
-  $node->new = trees_intranet_get_readstate($row->history_user_timestamp, $node->changed);
+function atrium_intranet_litenode_alter(&$node, $row) {
+  $node->new = atrium_intranet_get_readstate($row->history_user_timestamp, $node->changed);
 }
 
 /**
  * Helper function to deal with node read state logic.
  */
-function trees_intranet_get_readstate($readtime, $nodetime) {
+function atrium_intranet_get_readstate($readtime, $nodetime) {
   if ($readtime == 0 && $nodetime > NODE_NEW_LIMIT) {
     return MARK_NEW;
   }
@@ -410,7 +410,7 @@ function trees_intranet_get_readstate($readtime, $nodetime) {
 /**
  * Implementation of hook_form_alter().
  */
-function trees_intranet_form_alter(&$form, &$form_state, $form_id) {
+function atrium_intranet_form_alter(&$form, &$form_state, $form_id) {
   // Disable notifications when editing a post outside of a group space
   if ((!empty($form['#node']) || $form_id == 'comment_form') && isset($form['notifications'])) {
     $space = spaces_get_space();
@@ -445,7 +445,7 @@ function trees_intranet_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implementation of hook_form_alter() for user_login.
  */
-function trees_intranet_form_user_login_alter(&$form) {
+function atrium_intranet_form_user_login_alter(&$form) {
   // If user has no destination set or user/login (a bad one), send to homepage post login.
   // See user module login block for the use of [#action] to force a redirect.
   $dest = isset($_GET['destination']) ? $_GET['destination'] : '';
@@ -458,7 +458,7 @@ function trees_intranet_form_user_login_alter(&$form) {
 /**
  * Implementation of hook_form_alter() for comment_form.
  */
-function trees_intranet_form_comment_form_alter(&$form) {
+function atrium_intranet_form_comment_form_alter(&$form) {
   if (!drupal_get_title()) drupal_set_title(t('Reply'));
   // Shrink comment field -- people don't have much to say usually
   $form['comment_filter']['comment']['#rows'] = 8;
@@ -467,9 +467,9 @@ function trees_intranet_form_comment_form_alter(&$form) {
 /**
  * Implementation of hook_form_alter() for user_profile_form.
  */
-function trees_intranet_form_user_profile_form_alter(&$form) {
+function atrium_intranet_form_user_profile_form_alter(&$form) {
   $dummy = array();
-  $categories = module_invoke('trees_intranet', 'user', 'categories', $dummy, $dummy);
+  $categories = module_invoke('atrium_intranet', 'user', 'categories', $dummy, $dummy);
   foreach ($categories as $info) {
     if (!empty($form[$info['name']])) {
       $form[$info['name']]['#access'] = FALSE;
@@ -481,15 +481,15 @@ function trees_intranet_form_user_profile_form_alter(&$form) {
 /**
  * Implementation of hook_spaces_settings().
  */
-function trees_intranet_spaces_settings() {
-  return array('members' => 'trees_intranet_setting_members');
+function atrium_intranet_spaces_settings() {
+  return array('members' => 'atrium_intranet_setting_members');
 }
 
 /**
  * Implementation of space_setting.
  */
 if (function_exists('spaces_menu')) {
-  class trees_intranet_setting_members implements space_setting {
+  class atrium_intranet_setting_members implements space_setting {
     var $id;
 
     function __construct($id = NULL) {
@@ -520,9 +520,9 @@ if (function_exists('spaces_menu')) {
 /**
  * Implementation of hook_views_pre_view().
  */
-function trees_intranet_views_pre_view(&$view) {
+function atrium_intranet_views_pre_view(&$view) {
   switch ($view->name) {
-    case 'trees_members':
+    case 'atrium_members':
       // The page_3 display corresponds to the member directory.
       if ($view->current_display == 'page_3') {
         $space = spaces_get_space();
@@ -541,7 +541,7 @@ function trees_intranet_views_pre_view(&$view) {
 /**
  * Implementation of hook_user().
  */
-function trees_intranet_user($op, &$edit, &$account, $category = NULL) {
+function atrium_intranet_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
     case 'categories':
       $categories = array();
@@ -562,7 +562,7 @@ function trees_intranet_user($op, &$edit, &$account, $category = NULL) {
 /**
  * Form callback that generates only the portion of the user profile form that is requested.
  */
-function trees_intranet_user_profile_tab($form_state, $account, $tab) {
+function atrium_intranet_user_profile_tab($form_state, $account, $tab) {
   module_load_include('inc', 'user', 'user.pages');
   $form = user_profile_form($form_state, $account);
   $form['#submit'] = array('user_profile_form_submit');
@@ -582,9 +582,9 @@ function trees_intranet_user_profile_tab($form_state, $account, $tab) {
  */
 
 /**
- * Implementation of hook trees_permissions().
+ * Implementation of hook atrium_permissions().
  */
-function trees_intranet_trees_permissions() {
+function atrium_intranet_atrium_permissions() {
   $perms = array();
   $perms['anonymous user'] = array(
   );
@@ -719,16 +719,16 @@ function trees_intranet_trees_permissions() {
     'change own username',
 
     'administer spaces',
-    'administer trees',
+    'administer atrium',
   ));
   $perms['admin'] = array_unique($perms['admin']);
   return $perms;
 }
 
 /**
- * Implementation of hook_trees_filter().
+ * Implementation of hook_atrium_filter().
  */
-function trees_intranet_trees_filter() {
+function atrium_intranet_atrium_filter() {
   // Gather a role name to rid map
   $roles = array();
   $result = db_query("SELECT * FROM {role}");
@@ -772,11 +772,11 @@ function trees_intranet_trees_filter() {
 }
 
 /**
- * Implementation of hook_trees_post_admin().
+ * Implementation of hook_atrium_post_admin().
  */
-function trees_intranet_trees_post_admin($script) {
+function atrium_intranet_atrium_post_admin($script) {
   switch ($script) {
-    case 'trees_update_filter':
+    case 'atrium_update_filter':
       // Strongarm the SimpleHTML allowed tags
       $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Textile'));
       variable_set("allowed_html_{$format}", '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <td> <tr>');
