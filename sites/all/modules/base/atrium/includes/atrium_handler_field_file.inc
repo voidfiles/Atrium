@@ -1,6 +1,6 @@
 <?php
 
-class trees_handler_field_file extends views_handler_field_file {
+class atrium_handler_field_file extends views_handler_field_file {
   // Render a file icon/preview instead of a text mimetype
   function render_mime($data, $values) {
     if (!empty($this->options['link_to_file'])) {

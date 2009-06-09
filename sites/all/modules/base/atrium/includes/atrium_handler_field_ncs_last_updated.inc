@@ -2,7 +2,7 @@
 /**
  * Field handler to display the newer of last comment / node updated
  */
-class trees_handler_field_ncs_last_updated extends seed_handler_field_date {
+class atrium_handler_field_ncs_last_updated extends seed_handler_field_date {
   function query() {
     $this->ensure_my_table();
     $this->node_table = $this->query->ensure_table('node', $this->relationship);

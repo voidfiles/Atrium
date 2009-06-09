@@ -4,7 +4,7 @@
  * User list inclusion/exclusion handler. Makes it easy to exclude user 1, or
  * other users arbritrarily from a list.
  */
-class trees_handler_filter_user_list extends views_handler_filter_in_operator {
+class atrium_handler_filter_user_list extends views_handler_filter_in_operator {
   var $value_form_type = 'textfield';
 
   function construct() {

@@ -3,18 +3,18 @@
 /**
  * Implementation of hook_views_default_views().
  */
-function trees_views_default_views() {
-  _view_trees_book_current($views);
-  _view_trees_search($views);
-  _view_trees_taxonomy($views);
+function atrium_views_default_views() {
+  _view_atrium_book_current($views);
+  _view_atrium_search($views);
+  _view_atrium_taxonomy($views);
   _view_view_all($views);
   return $views;
 }
 
-function _view_trees_book_current(&$views) {
+function _view_atrium_book_current(&$views) {
   $view = new view;
-  $view->name = 'trees_book_current';
-  $view->description = 'Trees: book: helper view to look up root book pages';
+  $view->name = 'atrium_book_current';
+  $view->description = 'Atrium: book: helper view to look up root book pages';
   $view->tag = 'spaces';
   $view->view_php = '';
   $view->base_table = 'node';
@@ -135,13 +135,13 @@ function _view_trees_book_current(&$views) {
 
 
 /**
- * Exported view: trees_search
+ * Exported view: atrium_search
  */
-function _view_trees_search(&$views) {
+function _view_atrium_search(&$views) {
   $view = new view;
-  $view->name = 'trees_search';
-  $view->description = 'Trees > Search';
-  $view->tag = 'trees';
+  $view->name = 'atrium_search';
+  $view->description = 'Atrium > Search';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -477,13 +477,13 @@ function _view_trees_search(&$views) {
 }
 
 /**
- * Exported view: trees_taxonomy
+ * Exported view: atrium_taxonomy
  */
-function _view_trees_taxonomy(&$views) {
+function _view_atrium_taxonomy(&$views) {
   $view = new view;
-  $view->name = 'trees_taxonomy';
-  $view->description = 'Trees > Taxonomy term override';
-  $view->tag = 'trees';
+  $view->name = 'atrium_taxonomy';
+  $view->description = 'Atrium > Taxonomy term override';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;

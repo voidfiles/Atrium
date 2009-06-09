@@ -1,5 +1,5 @@
 <?php
-class trees_handler_filter_og_group_nid extends views_handler_filter_equality {
+class atrium_handler_filter_og_group_nid extends views_handler_filter_equality {
   // exposed filter options
   var $no_single = TRUE;
 

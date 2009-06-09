@@ -2,7 +2,7 @@
 /**
  * Argument handler for a full date (CCYYMMDD) but with shorter formatting
  */
-class trees_handler_argument_node_created_shortdate extends views_handler_argument_date {
+class atrium_handler_argument_node_created_shortdate extends views_handler_argument_date {
   /**
    * Constructor implementation
    */

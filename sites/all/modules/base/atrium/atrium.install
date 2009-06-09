@@ -3,18 +3,18 @@
 /**
  * Implementation of hook_enable().
  */
-function trees_enable() {
-  module_load_include('inc', 'trees', 'trees_admin');
+function atrium_enable() {
+  module_load_include('inc', 'atrium', 'atrium_admin');
 
   /**
    * TREES ADMIN SCRIPTS ==============================================
    */
-  $scripts = module_invoke_all('trees_admin');
+  $scripts = module_invoke_all('atrium_admin');
   foreach (array_keys($scripts) as $script) {
     if (function_exists($script)) {
       $script();
       // Allow modules to run post-script cleanup.
-      module_invoke_all('trees_post_admin', $script);
+      module_invoke_all('atrium_post_admin', $script);
     }
   }
 }

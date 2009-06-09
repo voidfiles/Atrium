@@ -4,9 +4,9 @@
 /**
  * Filter by node types included in 'update types'.
  */
-class trees_handler_filter_update_types extends views_handler_filter {
+class atrium_handler_filter_update_types extends views_handler_filter {
   function query() {
-    $types = trees_update_types();
+    $types = atrium_update_types();
 
     $this->ensure_my_table();
     $placeholder = "'%s'";

@@ -1,5 +1,5 @@
 <?php
-class trees_handler_field_og_group_nids extends views_handler_field {
+class atrium_handler_field_og_group_nids extends views_handler_field {
   function init(&$view, $options) {
     parent::init($view, $options);
     $this->additional_fields['group_nid'] = array('table' => 'og_ancestry', 'field' => 'group_nid');

@@ -5,20 +5,20 @@
  */
 
 /**
- * Implementation of hook_trees_admin().
+ * Implementation of hook_atrium_admin().
  */
-function trees_trees_admin() {
+function atrium_atrium_admin() {
   return array(
-    'trees_update_permissions' => t('Permissions'),
-    'trees_update_filter' => t('Input filter formats'),
+    'atrium_update_permissions' => t('Permissions'),
+    'atrium_update_filter' => t('Input filter formats'),
   );
 }
 
 /**
- * API function for updating the permissions of an 8 Trees install.
+ * API function for updating the permissions of an Atrium install.
  */
-function trees_update_permissions() {
-  $modules = module_implements('trees_permissions');
+function atrium_update_permissions() {
+  $modules = module_implements('atrium_permissions');
   if (empty($modules)) {
     drupal_set_message(t('No modules were found that implement a permission map.'), 'error');
     return FALSE;
@@ -29,7 +29,7 @@ function trees_update_permissions() {
   }
 
   $module = array_shift($modules);
-  $permissions = module_invoke($module, 'trees_permissions');
+  $permissions = module_invoke($module, 'atrium_permissions');
 
   if (!empty($permissions)) {
     foreach ($permissions as $role_name => $perms) {
@@ -49,10 +49,10 @@ function trees_update_permissions() {
       );
       drupal_write_record('permission', $perms);
     }
-    drupal_set_message(t('The permissions for this instance of 8 Trees have been updated. Permission map used: <strong>!module</strong>.', array('!module' => $module)));
+    drupal_set_message(t('The permissions for this instance of Atrium have been updated. Permission map used: <strong>!module</strong>.', array('!module' => $module)));
     return TRUE;
   }
-  drupal_set_message(t('There was an error maintaining the permissions of this instance of 8 Trees.'), 'error');
+  drupal_set_message(t('There was an error maintaining the permissions of this instance of Atrium.'), 'error');
   return FALSE;
 }
 
@@ -61,8 +61,8 @@ function trees_update_permissions() {
  * Will wipe and replace any filter formats defined by the subprofile.
  * Leaves all other filter formats alone.
  */
-function trees_update_filter() {
-  $modules = module_implements('trees_filter');
+function atrium_update_filter() {
+  $modules = module_implements('atrium_filter');
   if (empty($modules)) {
     drupal_set_message(t('No modules were found that implement a permission map.'), 'error');
     return FALSE;
@@ -73,7 +73,7 @@ function trees_update_filter() {
   }
 
   $module = array_shift($modules);
-  $filter = module_invoke($module, 'trees_filter');
+  $filter = module_invoke($module, 'atrium_filter');
 
   if (!empty($filter)) {
     foreach ($filter as $info) {
@@ -96,7 +96,7 @@ function trees_update_filter() {
         }
       }
     }
-    drupal_set_message(t('The filter formats this instance of 8 Trees have been updated. Filter formats used: <strong>!module</strong>.', array('!module' => $module)));
+    drupal_set_message(t('The filter formats this instance of Atrium have been updated. Filter formats used: <strong>!module</strong>.', array('!module' => $module)));
   }
 }
 
@@ -105,15 +105,15 @@ function trees_update_filter() {
  */
 
 /**
- * 8 trees maintenance form.
+ * 8 atrium maintenance form.
  */
-function trees_admin() {
+function atrium_admin() {
 
   drupal_set_title(t('Maintenance'));
-  context_set('trees', 'section', 'admin');
+  context_set('atrium', 'section', 'admin');
   $form = array();
 
-  $script_options = module_invoke_all('trees_admin');
+  $script_options = module_invoke_all('atrium_admin');
   $form['updates'] = array(
     '#type' => 'fieldset',
     '#title' => t('Updates'),
@@ -127,7 +127,7 @@ function trees_admin() {
   $form['updates']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('trees_admin_submit_updates'),
+    '#submit' => array('atrium_admin_submit_updates'),
   );
 
   $form['cache'] = array(
@@ -138,14 +138,14 @@ function trees_admin() {
   $form['cache']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Clear all caches'),
-    '#submit' => array('trees_admin_clear_caches'),
+    '#submit' => array('atrium_admin_clear_caches'),
   );
 
-  $form['trees_admin_mode'] = array(
+  $form['atrium_admin_mode'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show all administration pages'),
     '#description' => t('Enable this to access all of Drupal\'s administration pages.'),
-    '#default_value' => variable_get('trees_admin_mode', FALSE),
+    '#default_value' => variable_get('atrium_admin_mode', FALSE),
   );
 
   $form['submit'] = array(
@@ -157,34 +157,34 @@ function trees_admin() {
 }
 
 /**
- * Submit handler for trees_admin form.
+ * Submit handler for atrium_admin form.
  */
-function trees_admin_submit(&$form, &$form_state) {
+function atrium_admin_submit(&$form, &$form_state) {
   // Save admin mode variable and rebuild menu cache if mode changes.
-  $old = variable_get('trees_admin_mode', FALSE);
-  variable_set('trees_admin_mode', $form_state['values']['trees_admin_mode']);
-  if ($old != $form_state['values']['trees_admin_mode']) {
+  $old = variable_get('atrium_admin_mode', FALSE);
+  variable_set('atrium_admin_mode', $form_state['values']['atrium_admin_mode']);
+  if ($old != $form_state['values']['atrium_admin_mode']) {
     menu_rebuild();
   }
 }
 
 /**
- * 8 trees update script submit handler.
+ * 8 atrium update script submit handler.
  */
-function trees_admin_submit_updates($form, &$form_state) {
+function atrium_admin_submit_updates($form, &$form_state) {
   foreach ($form_state['values']['scripts'] as $script => $enabled) {
     if ($enabled && function_exists($script)) {
       $script();
       // Allow modules to run post-script cleanup.
-      module_invoke_all('trees_post_admin', $script);
+      module_invoke_all('atrium_post_admin', $script);
     }
   }
 }
 
 /**
- * 8 trees admin script to clear all caches.
+ * 8 atrium admin script to clear all caches.
  */
-function trees_admin_clear_caches($form, &$form_state) {
+function atrium_admin_clear_caches($form, &$form_state) {
   drupal_flush_all_caches();
 
   views_invalidate_cache();

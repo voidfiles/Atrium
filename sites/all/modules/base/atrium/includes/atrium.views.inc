@@ -4,7 +4,7 @@
 /**
  * Implementation of hook_views_pre_build().
  */
-function trees_views_pre_build(&$view) {
+function atrium_views_pre_build(&$view) {
   switch ($view->name) {
     // Improve book contextuality
     // This alter checks the current active context and only allows
@@ -13,8 +13,8 @@ function trees_views_pre_build(&$view) {
     // their respective features while allowing child book pages to be
     // nested under them. See hook_nodeapi() for the companion functionality
     // which sets the active context based on the root book type.
-    case 'trees_book_current':
-      if (context_get('trees', 'book') === 'rendering') {
+    case 'atrium_book_current':
+      if (context_get('atrium', 'book') === 'rendering') {
         $filters = $view->display_handler->get_option('filters');
         $filters['feature'] = array(
           'operator' => '=',
@@ -38,34 +38,34 @@ function trees_views_pre_build(&$view) {
 /**
  * Implementation of hook_views_handlers().
  */
-function trees_views_handlers() {
+function atrium_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'trees') .'/includes',
+      'path' => drupal_get_path('module', 'atrium') .'/includes',
     ),
     'handlers' => array(
-      'trees_handler_filter_update_types' => array(
+      'atrium_handler_filter_update_types' => array(
         'parent' => 'views_handler_filter',
       ),
-      'trees_handler_field_file' => array(
+      'atrium_handler_field_file' => array(
         'parent' => 'views_handler_field_file',
        ),
-      'trees_handler_field_ncs_last_updated' => array(
+      'atrium_handler_field_ncs_last_updated' => array(
         'parent' => 'seed_handler_field_date',
        ),
-      'trees_handler_field_og_group_nids' => array(
+      'atrium_handler_field_og_group_nids' => array(
         'parent' => 'views_handler_field',
        ),
-      'trees_handler_filter_og_group_nid' => array(
+      'atrium_handler_filter_og_group_nid' => array(
         'parent' => 'views_handler_filter_equality',
        ),
-      'trees_handler_field_og_post_count_new' => array(
+      'atrium_handler_field_og_post_count_new' => array(
         'parent' => 'views_handler_field_numeric',
        ),
-      'trees_handler_filter_user_list' => array(
+      'atrium_handler_filter_user_list' => array(
         'parent' => 'views_handler_filter_in_operator',
       ),
-      'trees_handler_argument_node_created_shortdate' => array(
+      'atrium_handler_argument_node_created_shortdate' => array(
         'parent' => 'views_handler_argument_date',
       ),
     ),
@@ -75,7 +75,7 @@ function trees_views_handlers() {
 /**
  * Implementation of hook_views_data().
  */
-function trees_views_data() {
+function atrium_views_data() {
   $data = array();
 
   // UID
@@ -84,7 +84,7 @@ function trees_views_data() {
     'title' => t('Include/exclude UIDs'),
     'help' => t('Filter the view to include or exclude by UID.'),
     'filter' => array(
-      'handler' => 'trees_handler_filter_user_list',
+      'handler' => 'atrium_handler_filter_user_list',
     ),
   );
 
@@ -119,20 +119,20 @@ function trees_views_data() {
 /**
  * Implementation of hook_views_data_alter().
  *
- * Replaces default views date field formatters with special-sauce trees
+ * Replaces default views date field formatters with special-sauce atrium
  * date field formatters.
  */
-function trees_views_data_alter(&$cache) {
+function atrium_views_data_alter(&$cache) {
   foreach ($cache as $module => $a) {
     foreach ($a as $column => $b) {
       foreach ($b as $property => $c) {
         if ($property == 'field' && !empty($c['handler'])) {
           switch ($c['handler']) {
             case 'views_handler_field_file':
-              $cache[$module][$column][$property]['handler'] = 'trees_handler_field_file';
+              $cache[$module][$column][$property]['handler'] = 'atrium_handler_field_file';
               break;
             case 'views_handler_field_ncs_last_updated':
-              $cache[$module][$column][$property]['handler'] = 'trees_handler_field_ncs_last_updated';
+              $cache[$module][$column][$property]['handler'] = 'atrium_handler_field_ncs_last_updated';
               break;
           }
         }
@@ -141,9 +141,9 @@ function trees_views_data_alter(&$cache) {
   }
 
   // Search & destroy operations
-  $cache['og_ancestry']['group_nid']['field']['handler'] = 'trees_handler_field_og_group_nids';
-  $cache['og_ancestry']['group_nid']['filter']['handler'] = 'trees_handler_filter_og_group_nid';
-  $cache['og']['post_count_new']['field']['handler'] = 'trees_handler_field_og_post_count_new';
+  $cache['og_ancestry']['group_nid']['field']['handler'] = 'atrium_handler_field_og_group_nids';
+  $cache['og_ancestry']['group_nid']['filter']['handler'] = 'atrium_handler_filter_og_group_nid';
+  $cache['og']['post_count_new']['field']['handler'] = 'atrium_handler_field_og_post_count_new';
   
   // Add a sort by user access history
   $cache['history_user']['timestamp']['sort']['handler'] = 'views_handler_sort';
@@ -155,17 +155,17 @@ function trees_views_data_alter(&$cache) {
     'help' => t('In the form of CCYYMMDD.'),
     'argument' => array(
       'field' => 'created',
-      'handler' => 'trees_handler_argument_node_created_shortdate',
+      'handler' => 'atrium_handler_argument_node_created_shortdate',
     ),
   );
 
   // Update type type
   $cache['node']['update_type'] = array(
     'real field' => 'type',
-    'title' => t('Trees update types'), // The item it appears as on the UI,
+    'title' => t('Atrium update types'), // The item it appears as on the UI,
     'help' => t('Affects only content types designated as update types.'), // The help that appears on the UI,
     'filter' => array(
-      'handler' => 'trees_handler_filter_update_types',
+      'handler' => 'atrium_handler_filter_update_types',
     ),
   );
 }

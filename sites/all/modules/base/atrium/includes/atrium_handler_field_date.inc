@@ -4,7 +4,7 @@
  *
  * @ingroup views_field_handlers
  */
-class trees_handler_field_date extends views_handler_field_date {
+class atrium_handler_field_date extends views_handler_field_date {
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $time = time();
