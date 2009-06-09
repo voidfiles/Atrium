@@ -85,6 +85,16 @@ function _atrium_dashboard_menu_default_items() {
     'weight' => '0',
     'description' => 'Provides a user profile feature',
   );
+  // Translatables
+  array(
+    t('Dashboard'),
+    t('Home'),
+    t('Profile'),
+    t('Provides a dashboard feature'),
+    t('Provides a site homepage feature'),
+    t('Provides a user profile feature'),
+  );
+
 
   return $items;
 }
