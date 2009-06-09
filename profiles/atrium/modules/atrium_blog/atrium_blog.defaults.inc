@@ -126,7 +126,7 @@ function _atrium_blog_menu_default_items() {
     'title' => 'Blog',
     'path' => 'blog',
     'weight' => '0',
-    'description' => 'A blog feature for 8 Atrium.',
+    'description' => 'A blog feature for team discussions.',
   );
 
   return $items;
