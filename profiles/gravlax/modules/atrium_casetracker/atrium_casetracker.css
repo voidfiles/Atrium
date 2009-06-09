@@ -1,18 +1,18 @@
-div.trees-case-summary {
+div.atrium-case-summary {
   padding:10px 0px;
   }
 
-div.trees-case-summary div.primary {
+div.atrium-case-summary div.primary {
   float:left;
   width:35%;
   }
 
-div.trees-case-summary div.primary div.status {
+div.atrium-case-summary div.primary div.status {
   font-size:18px;
   font-weight:bold;
   }
 
-div.trees-case-summary label {
+div.atrium-case-summary label {
   font-size:11px;
   float:left;
   width:100px;

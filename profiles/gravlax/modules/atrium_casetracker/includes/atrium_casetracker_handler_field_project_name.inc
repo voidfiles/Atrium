@@ -1,6 +1,6 @@
 <?php
 
-class trees_casetracker_handler_field_project_name extends views_handler_field {
+class atrium_casetracker_handler_field_project_name extends views_handler_field {
   /**
    * Pre_render() -- collect casetracker project names
    */

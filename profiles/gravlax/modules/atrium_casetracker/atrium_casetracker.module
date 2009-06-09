@@ -1,18 +1,18 @@
 <?php
 
-require('trees_casetracker.features.inc');
+require('atrium_casetracker.features.inc');
 
 /**
  * Implementation of hook_help().
  */
-function trees_casetracker_help($path, $arg) {
-  if (($path == 'help#trees_casetracker') || (context_get('spaces', 'feature') == 'casetracker')) {
+function atrium_casetracker_help($path, $arg) {
+  if (($path == 'help#atrium_casetracker') || (context_get('spaces', 'feature') == 'casetracker')) {
     switch ($path) {
       case 'node/add/casetracker-basic-case':
       case 'node/add/casetracker-basic-project':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Trees Casetracker') .'</h3>';
+        $help .= '<h3>'. t('Atrium Casetracker') .'</h3>';
         $node = menu_get_object();
         if ($node->type == 'casetracker_basic_case') {
           $help .= '<p>'. t('Tips for adding & editing cases:') .'</p>';
@@ -27,10 +27,10 @@ function trees_casetracker_help($path, $arg) {
         }
         return $help;
 
-      case 'help#trees_casetracker':
+      case 'help#atrium_casetracker':
       default:
         $help = '';
-        $help .= '<h3>'. t('Trees Casetracker') .'</h3>';
+        $help .= '<h3>'. t('Atrium Casetracker') .'</h3>';
         $help .= '<p>'. t('The casetracker gives you a way to track progress on your <strong>projects</strong> and assign <strong>cases</strong> to yourself and others.') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_projects to keep your cases organized.', array('!add_projects' => l(t('Add projects'), 'node/add/project'))) .'</li>';
@@ -46,7 +46,7 @@ function trees_casetracker_help($path, $arg) {
 /**
  * Implementation of hook_strongarm().
  */
-function trees_casetracker_strongarm() {
+function atrium_casetracker_strongarm() {
   $conf = array();
 
   foreach (array('casetracker_basic_case', 'casetracker_basic_project') as $type) {
@@ -56,7 +56,7 @@ function trees_casetracker_strongarm() {
     $conf['feedapi_settings_'. $type] = array('enabled' => FALSE);
 
     // Enable for recent activity views
-    $conf['trees_update_type_'. $type] = TRUE;
+    $conf['atrium_update_type_'. $type] = TRUE;
   }
 
   // Comments
@@ -81,8 +81,8 @@ function trees_casetracker_strongarm() {
   $conf['show_diff_inline_event_casetracker_basic_case'] = FALSE;
   $conf['show_diff_inline_event_casetracker_basic_project'] = TRUE;
 
-  // Trees archivable types
-  $conf['trees_archivable'] = array('casetracker_basic_project');
+  // Atrium archivable types
+  $conf['atrium_archivable'] = array('casetracker_basic_project');
 
   // This isn't a strongarm since we don't want to blow away
   // what the user's defined here.
@@ -98,7 +98,7 @@ function trees_casetracker_strongarm() {
 /**
  * Implementation of hook_nodeapi().
  */
-function trees_casetracker_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+function atrium_casetracker_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       // Confirm we are actually on a page of relevance
@@ -117,7 +117,7 @@ function trees_casetracker_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 /**
  * Implementation of hook_form_alter().
  */
-function trees_casetracker_form_alter(&$form, $form_state, $form_id) {
+function atrium_casetracker_form_alter(&$form, $form_state, $form_id) {
   if (!empty($form['#node']) && !empty($form['book'])) {
     switch ($form['#node']->type) {
       // Prevent projects from becoming cihld pages
@@ -150,7 +150,7 @@ function trees_casetracker_form_alter(&$form, $form_state, $form_id) {
 /**
  * Implementation of hook_form_views_exposed_form_alter().
  */
-function trees_casetracker_form_views_exposed_form_alter(&$form, &$form_state) {
+function atrium_casetracker_form_views_exposed_form_alter(&$form, &$form_state) {
   // Pass table sort on when submitting filter forms
   if (isset($_GET['order'])) {
     $form['order'] = array(
@@ -169,14 +169,14 @@ function trees_casetracker_form_views_exposed_form_alter(&$form, &$form_state) {
 /**
  * Implementation of hook_block().
  */
-function trees_casetracker_block($op = 'list', $delta = 0) {
+function atrium_casetracker_block($op = 'list', $delta = 0) {
   switch ($op) {
     case 'list':
-      $blocks['filters'] = array('info' => t('Trees: Casetracker filter'));
-      $blocks['book'] = array('info' => t('Trees: Casetracker book'));
+      $blocks['filters'] = array('info' => t('Atrium: Casetracker filter'));
+      $blocks['book'] = array('info' => t('Atrium: Casetracker book'));
       return $blocks;
     case 'view':
-      $function = '_trees_casetracker_block_'. $delta;
+      $function = '_atrium_casetracker_block_'. $delta;
       if (function_exists($function)) {
         return call_user_func($function);
       }
@@ -187,39 +187,39 @@ function trees_casetracker_block($op = 'list', $delta = 0) {
 /**
  * Implementation of hook_views_api().
  */
-function trees_casetracker_views_api() {
+function atrium_casetracker_views_api() {
   return array(
     'api' => 2,
-    'path' => drupal_get_path('module', 'trees_casetracker') .'/includes',
+    'path' => drupal_get_path('module', 'atrium_casetracker') .'/includes',
   );
 }
 
 /**
  * Implementation of hook_theme_registry_alter().
  */
-function trees_casetracker_theme_registry_alter(&$theme_registry) {
-  if (!in_array('trees_casetracker_preprocess_views_view', $theme_registry['views_view']['preprocess functions'])) {
-    $theme_registry['views_view']['preprocess functions'][] = 'trees_casetracker_preprocess_views_view';
+function atrium_casetracker_theme_registry_alter(&$theme_registry) {
+  if (!in_array('atrium_casetracker_preprocess_views_view', $theme_registry['views_view']['preprocess functions'])) {
+    $theme_registry['views_view']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view';
   }
-  if (!in_array('trees_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
-    $theme_registry['views_view_table']['preprocess functions'][] = 'trees_casetracker_preprocess_views_view_table';
+  if (!in_array('atrium_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
+    $theme_registry['views_view_table']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view_table';
   }
-  if (!in_array('trees_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
-    $theme_registry['views_view_table']['preprocess functions'][] = 'trees_casetracker_preprocess_views_view_table';
+  if (!in_array('atrium_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
+    $theme_registry['views_view_table']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view_table';
   }
-  $theme_registry['views_view_table']['theme paths'][] = drupal_get_path('module', 'trees_casetracker'). '/theme';
-  $theme_registry['casetracker_case_summary']['function'] = 'trees_casetracker_casetracker_case_summary';
+  $theme_registry['views_view_table']['theme paths'][] = drupal_get_path('module', 'atrium_casetracker'). '/theme';
+  $theme_registry['casetracker_case_summary']['function'] = 'atrium_casetracker_casetracker_case_summary';
 
 }
 
 /**
  * Preprocessor for theme('views_view').
  */
-function trees_casetracker_preprocess_views_view(&$vars) {
+function atrium_casetracker_preprocess_views_view(&$vars) {
   $view = $vars['view'];
-  if ($view->name == 'trees_casetracker') {
+  if ($view->name == 'atrium_casetracker') {
     // Whisk away exposed filter for display in a block
-    _trees_casetracker_block_filters($vars['exposed']);
+    _atrium_casetracker_block_filters($vars['exposed']);
     $vars['exposed'] = '';
   }
 }
@@ -227,9 +227,9 @@ function trees_casetracker_preprocess_views_view(&$vars) {
 /**
  * Preprocessor for theme('views_view_table').
  */
-function trees_casetracker_preprocess_views_view_table(&$vars) {
+function atrium_casetracker_preprocess_views_view_table(&$vars) {
   $view = $vars['view'];
-  if ($view->name == 'trees_casetracker') {
+  if ($view->name == 'atrium_casetracker') {
     $vars['template_files'][] = 'views-view-table-casetracker';
 
     global $user;
@@ -255,7 +255,7 @@ function trees_casetracker_preprocess_views_view_table(&$vars) {
 /**
  * Filter block.
  */
-function _trees_casetracker_block_filters($set = '') {
+function _atrium_casetracker_block_filters($set = '') {
   static $filters;
   if (!empty($set)) {
     $filters = $set;
@@ -270,7 +270,7 @@ function _trees_casetracker_block_filters($set = '') {
 /**
  * Book block.
  */
-function _trees_casetracker_block_book() {
+function _atrium_casetracker_block_book() {
   // Reuse book block code but force book pages setting (and restore the variable after.
   $orig = variable_get('book_block_mode', 'all pages');
   global $conf;
@@ -287,16 +287,16 @@ function _trees_casetracker_block_book() {
 /**
  * Implementation of hook_theme().
  */
-function trees_casetracker_theme() {
+function atrium_casetracker_theme() {
   return array(
-    'trees_casetracker_priority' => array(),
+    'atrium_casetracker_priority' => array(),
   );
 }
 
 /**
  * Case priority theme function.
  */
-function theme_trees_casetracker_priority($id) {
+function theme_atrium_casetracker_priority($id) {
   return "<span class='case-priority priority-$id'>$id</span>";
 }
 
@@ -304,8 +304,8 @@ function theme_trees_casetracker_priority($id) {
  * Override of theme_casetracker_case_summary().
  * @TODO: move to template file.
  */
-function trees_casetracker_casetracker_case_summary($case, $project) {
-  drupal_add_css(drupal_get_path('module', 'trees_casetracker') .'/trees_casetracker.css');
+function atrium_casetracker_casetracker_case_summary($case, $project) {
+  drupal_add_css(drupal_get_path('module', 'atrium_casetracker') .'/atrium_casetracker.css');
 
   $status = casetracker_case_state_load($case->casetracker->case_status_id, 'status');
   $priority = casetracker_case_state_load($case->casetracker->case_priority_id, 'priority');
@@ -316,7 +316,7 @@ function trees_casetracker_casetracker_case_summary($case, $project) {
   $last_comment = db_result(db_query('SELECT last_comment_timestamp FROM {node_comment_statistics} WHERE nid = %d', $case->nid));
   $last_comment = t('!time ago', array('!time' => format_interval(time() - $last_comment)));
 
-  $output = "<div class='trees-case-summary trees-case-status-{$case->casetracker->case_status_id} clear-block'>";
+  $output = "<div class='atrium-case-summary atrium-case-status-{$case->casetracker->case_status_id} clear-block'>";
   $output .= "<div class='primary'>";
   $output .= "<div class='status'>{$status}</div>";
   $output .= "<div class='project'>{$project}</div>";

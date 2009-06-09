@@ -3,24 +3,24 @@
 /**
  * Implementation of hook_enable().
  */
-function trees_casetracker_enable() {
+function atrium_casetracker_enable() {
   drupal_get_schema(NULL, TRUE);
-  _trees_casetracker_default_states();
+  _atrium_casetracker_default_states();
 }
 
 /**
  * Update 6001.
  */
-function trees_casetracker_update_6001() {
+function atrium_casetracker_update_6001() {
   drupal_get_schema(NULL, TRUE);
-  _trees_casetracker_default_states();
+  _atrium_casetracker_default_states();
   return array();
 }
 
 /**
  * Install default casetracker states into DB.
  */
-function _trees_casetracker_default_states() {
+function _atrium_casetracker_default_states() {
   $count = db_result(db_query("SELECT count(*) FROM {casetracker_case_states}"));
   if (empty($count)) {
     $realms = array(

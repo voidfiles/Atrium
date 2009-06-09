@@ -4,11 +4,11 @@
 /**
  * Implementation of hook_views_pre_build().
  */
-function trees_casetracker_views_pre_build(&$view) {
+function atrium_casetracker_views_pre_build(&$view) {
   switch ($view->name) {
     // Smarts for user space
-    case 'trees_casetracker':
-    case 'trees_casetracker_mycases':
+    case 'atrium_casetracker':
+    case 'atrium_casetracker_mycases':
       $space = spaces_get_space();
       if ($space && $space->type == 'user') {
         $filters = $view->display[$view->current_display]->display_options['filters'];
@@ -34,19 +34,19 @@ function trees_casetracker_views_pre_build(&$view) {
 /**
  * Implementation of hook_views_handlers().
  */
-function trees_casetracker_views_handlers() {
+function atrium_casetracker_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'trees_casetracker') .'/includes',
+      'path' => drupal_get_path('module', 'atrium_casetracker') .'/includes',
     ),
     'handlers' => array(
-      'trees_casetracker_handler_field_project_name' => array(
+      'atrium_casetracker_handler_field_project_name' => array(
          'parent' => 'views_handler_field',
       ),
-      'trees_casetracker_handler_field_priority_name' => array(
+      'atrium_casetracker_handler_field_priority_name' => array(
          'parent' => 'views_handler_field',
       ),
-      'trees_casetracker_handler_filter_status_closed' => array(
+      'atrium_casetracker_handler_filter_status_closed' => array(
         'parent' => 'views_handler_filter_boolean_operator',
       ),
     ),
@@ -56,7 +56,7 @@ function trees_casetracker_views_handlers() {
 /**
  * Implementation of hook_views_data().
  */
-function trees_casetracker_views_data() {
+function atrium_casetracker_views_data() {
   $data = array();
 
   // A second entry for the history table, see node.views.inc for the first.
@@ -72,7 +72,7 @@ function trees_casetracker_views_data() {
     'title' => t('Case Tracker: Show closed cases'),
     'filter' => array(
       'field' => 'case_status_id',
-      'handler' => 'trees_casetracker_handler_filter_status_closed',
+      'handler' => 'atrium_casetracker_handler_filter_status_closed',
       'help' => t('Filter out closed cases.'),
     ),
   );
@@ -84,8 +84,8 @@ function trees_casetracker_views_data() {
  *
  * Replaces default field formatters with special-sauce field formatters.
  */
-function trees_casetracker_views_data_alter(&$cache) {
+function atrium_casetracker_views_data_alter(&$cache) {
   // Search & destroy operations
-  $cache['casetracker_case']['pid']['field']['handler'] = 'trees_casetracker_handler_field_project_name';
-  $cache['casetracker_case']['case_priority_id']['field']['handler'] = 'trees_casetracker_handler_field_priority_name';
+  $cache['casetracker_case']['pid']['field']['handler'] = 'atrium_casetracker_handler_field_project_name';
+  $cache['casetracker_case']['case_priority_id']['field']['handler'] = 'atrium_casetracker_handler_field_priority_name';
 }

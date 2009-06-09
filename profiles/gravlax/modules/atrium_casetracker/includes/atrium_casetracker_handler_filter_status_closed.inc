@@ -1,5 +1,5 @@
 <?php
-class trees_casetracker_handler_filter_status_closed extends views_handler_filter_boolean_operator {
+class atrium_casetracker_handler_filter_status_closed extends views_handler_filter_boolean_operator {
   function construct() {
     $this->value_value = t('Show closed cases');  
     if (isset($this->definition['label'])) {

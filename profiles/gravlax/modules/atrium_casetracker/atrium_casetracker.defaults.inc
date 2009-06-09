@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_casetracker_context_default_contexts() {
+function _atrium_casetracker_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -16,8 +16,8 @@ function _trees_casetracker_context_default_contexts() {
     ),
     'menu' => 'casetracker',
     'views' => array(
-      '0' => 'trees_casetracker',
-      '1' => 'trees_casetracker_projects',
+      '0' => 'atrium_casetracker',
+      '1' => 'atrium_casetracker_projects',
     ),
     'spaces' => array(
       'label' => 'Casetracker',
@@ -34,27 +34,27 @@ function _trees_casetracker_context_default_contexts() {
       ),
     ),
     'block' => array(
-      'trees_casetracker-book' => array(
-        'module' => 'trees_casetracker',
+      'atrium_casetracker-book' => array(
+        'module' => 'atrium_casetracker',
         'delta' => 'book',
         'weight' => -13,
         'region' => 'right',
       ),
-      'trees_casetracker-filters' => array(
-        'module' => 'trees_casetracker',
+      'atrium_casetracker-filters' => array(
+        'module' => 'atrium_casetracker',
         'delta' => 'filters',
         'weight' => -12,
         'region' => 'right',
       ),
-      'views_trees_casetracker-block_2' => array(
+      'views_atrium_casetracker-block_2' => array(
         'module' => 'views',
-        'delta' => 'trees_casetracker-block_2',
+        'delta' => 'atrium_casetracker-block_2',
         'weight' => -11,
         'region' => 'right',
       ),
-      'views-trees_casetracker-block_1' => array(
+      'views-atrium_casetracker-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_casetracker-block_1',
+        'delta' => 'atrium_casetracker-block_1',
         'weight' => 11,
         'region' => 'content',
       ),
@@ -66,7 +66,7 @@ function _trees_casetracker_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_casetracker_menu_default_items() {
+function _atrium_casetracker_menu_default_items() {
   $items = array();
 
   $items[] = array(
@@ -82,14 +82,14 @@ function _trees_casetracker_menu_default_items() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_casetracker_views_default_views() {
+function _atrium_casetracker_views_default_views() {
   $views = array();
 
-  // Exported view: trees_casetracker
+  // Exported view: atrium_casetracker
   $view = new view;
-  $view->name = 'trees_casetracker';
-  $view->description = 'Trees > Casetracker';
-  $view->tag = 'trees';
+  $view->name = 'atrium_casetracker';
+  $view->description = 'Atrium > Casetracker';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -359,7 +359,7 @@ function _trees_casetracker_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_casetracker',
+    'spaces_feature' => 'atrium_casetracker',
   ));
   $handler->override_option('title', 'All cases');
   $handler->override_option('empty', 'No cases found.');
@@ -1225,7 +1225,7 @@ function _trees_casetracker_views_default_views() {
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_casetracker'] = array(
+  $translatables['atrium_casetracker'] = array(
     t('Defaults'),
     t('All cases'),
     t('No cases found.'),
@@ -1238,11 +1238,11 @@ function _trees_casetracker_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_casetracker_projects
+  // Exported view: atrium_casetracker_projects
   $view = new view;
-  $view->name = 'trees_casetracker_projects';
-  $view->description = 'Trees > Casetracker projects';
-  $view->tag = 'trees';
+  $view->name = 'atrium_casetracker_projects';
+  $view->description = 'Atrium > Casetracker projects';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -1360,7 +1360,7 @@ function _trees_casetracker_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_casetracker',
+    'spaces_feature' => 'atrium_casetracker',
   ));
   $handler->override_option('title', 'Projects');
   $handler->override_option('empty', 'No projects found.');
@@ -1451,7 +1451,7 @@ function _trees_casetracker_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['trees_casetracker_projects'] = array(
+  $translatables['atrium_casetracker_projects'] = array(
     t('Defaults'),
     t('No projects found.'),
     t('Projects'),
