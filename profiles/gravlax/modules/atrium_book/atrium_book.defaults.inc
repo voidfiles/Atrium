@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_book_context_default_contexts() {
+function _atrium_book_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -15,7 +15,7 @@ function _trees_book_context_default_contexts() {
       '0' => 'book',
     ),
     'views' => array(
-      '0' => 'trees_book',
+      '0' => 'atrium_book',
     ),
     'spaces' => array(
       'label' => 'Documents',
@@ -35,7 +35,7 @@ function _trees_book_context_default_contexts() {
     'menu' => 'documents',
     'block' => array(
       '0' => array(
-        'module' => 'trees',
+        'module' => 'atrium',
         'delta' => 'book',
         'region' => 'right',
         'weight' => -11,
@@ -48,14 +48,14 @@ function _trees_book_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_book_menu_default_items() {
+function _atrium_book_menu_default_items() {
   $items = array();
 
   $items[] = array(
     'title' => 'Documents',
     'path' => 'documents',
     'weight' => '0',
-    'description' => 'Provides a documents feature for 8 Trees.',
+    'description' => 'Provides a documents feature for Atrium.',
   );
 
   return $items;
@@ -64,7 +64,7 @@ function _trees_book_menu_default_items() {
 /**
  * Helper to implemetation of hook_node_info().
  */
-function _trees_book_node_info() {
+function _atrium_book_node_info() {
   $items = array(
     'book' => array(
       'name' => t('Book page'),
@@ -82,14 +82,14 @@ function _trees_book_node_info() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_book_views_default_views() {
+function _atrium_book_views_default_views() {
   $views = array();
 
-  // Exported view: trees_book
+  // Exported view: atrium_book
   $view = new view;
-  $view->name = 'trees_book';
-  $view->description = 'Trees > Book';
-  $view->tag = 'trees';
+  $view->name = 'atrium_book';
+  $view->description = 'Atrium > Book';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -310,7 +310,7 @@ function _trees_book_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_book',
+    'spaces_feature' => 'atrium_book',
   ));
   $handler->override_option('title', 'Latest changes');
   $handler->override_option('items_per_page', 25);
@@ -538,7 +538,7 @@ function _trees_book_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['trees_book'] = array(
+  $translatables['atrium_book'] = array(
     t('Defaults'),
     t('Latest changes'),
     t('Page: Latest changes'),

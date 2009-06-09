@@ -1,17 +1,17 @@
 <?php
 
-include_once('trees_book.features.inc');
+include_once('atrium_book.features.inc');
 
 /**
  * Implementation of hook_help().
  */
-function trees_book_help($path, $arg) {
-  if (($path == 'help#trees_book') || (context_get('spaces', 'feature') == 'book')) {
+function atrium_book_help($path, $arg) {
+  if (($path == 'help#atrium_book') || (context_get('spaces', 'feature') == 'book')) {
     switch ($path) {
       case 'node/add/book':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Trees Book') .'</h3>';
+        $help .= '<h3>'. t('Atrium Book') .'</h3>';
         $help .= '<p>'. t('Tips for adding & editing book pages:') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('Create a new book or choose an existing one for your page.') .'</li>';
@@ -20,10 +20,10 @@ function trees_book_help($path, $arg) {
         $help .= '</ul>';
         return $help;
 
-      case 'help#trees_book':
+      case 'help#atrium_book':
       default:
         $help = '';
-        $help .= '<h3>'. t('Trees Book') .'</h3>';
+        $help .= '<h3>'. t('Atrium Book') .'</h3>';
         $help .= '<p>'. t('The documents section provides a way for you to capture and share knowledge with your group members. With the book feature you can:') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_book_pages and organize them hierarchically into different books.', array('!add_book_pages' => l(t('Add book pages'), 'node/add/book'))) .'</li>';
@@ -39,7 +39,7 @@ function trees_book_help($path, $arg) {
 /**
  * Implementation of hook_strongarm().
  */
-function trees_book_strongarm() {
+function atrium_book_strongarm() {
   // Book
   $conf['book_allowed_types'] = array('book');
 
@@ -58,10 +58,10 @@ function trees_book_strongarm() {
   $conf["show_diff_inline_book"] = TRUE;
 
   // Make archivable
-  $conf['trees_archivable'] = array('book');
+  $conf['atrium_archivable'] = array('book');
 
   // Enable for recent activity views
-  $conf['trees_update_type_book'] = TRUE;
+  $conf['atrium_update_type_book'] = TRUE;
 
   return $conf;
 }
@@ -69,23 +69,23 @@ function trees_book_strongarm() {
 /**
  * Implementation of hook_menu().
  */
-function trees_book_menu() {
+function atrium_book_menu() {
   $items = array();
   $items['documents'] = array(
     'title' => 'Documents',
-    'page callback' => 'trees_book_overview',
+    'page callback' => 'atrium_book_overview',
     'page arguments' => array(),
     'access callback' => 'spaces_feature_access',
-    'access arguments' => array('trees_book'),
+    'access arguments' => array('atrium_book'),
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'features'
   );
   $items['documents/overview'] = array(
     'title' => 'Overview',
-    'page callback' => 'trees_book_overview',
+    'page callback' => 'atrium_book_overview',
     'page arguments' => array(),
     'access callback' => 'spaces_feature_access',
-    'access arguments' => array('trees_book'),
+    'access arguments' => array('atrium_book'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
@@ -95,7 +95,7 @@ function trees_book_menu() {
 /**
  * Page callback for book feature.
  */
-function trees_book_overview() {
+function atrium_book_overview() {
   context_set('spaces', 'feature', 'book');
   $space = spaces_get_space();
   if (!empty($space->settings['book'])) {
@@ -105,21 +105,21 @@ function trees_book_overview() {
       return node_view($node, FALSE, TRUE, TRUE);
     }
   }
-  return views_embed_view('trees_book', 'page_1');
+  return views_embed_view('atrium_book', 'page_1');
 }
 
 /**
  * Implementation of hook_spaces_settings().
  */
-function trees_book_spaces_settings() {
-  return array('book' => 'trees_book_space_setting');
+function atrium_book_spaces_settings() {
+  return array('book' => 'atrium_book_space_setting');
 }
 
 /**
  * Implementation of space_setting.
  */
 if (function_exists('spaces_menu')) {
-  class trees_book_space_setting implements space_setting {
+  class atrium_book_space_setting implements space_setting {
     var $id;
 
     function __construct($id = NULL) {
@@ -130,7 +130,7 @@ if (function_exists('spaces_menu')) {
       $form = array('#tree' => TRUE);
       $options = array(0 => t('Recent updates'), t('Pages') => array());
 
-      if ($view = views_get_view('trees_book_current')) {
+      if ($view = views_get_view('atrium_book_current')) {
         $view->set_display();
         $view->set_items_per_page(0);
         $view->execute();
