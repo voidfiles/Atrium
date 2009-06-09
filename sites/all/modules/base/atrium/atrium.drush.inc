@@ -1,0 +1,55 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_drush_command().
+ */
+function atrium_drush_command() {
+  $items = array();
+  $items['atrium upgrade gravlax'] = array(
+    'callback' => 'atrium_drush_upgrade_gravlax',
+    'description' => "Migrate a legacy Gravlax site to the Atrium platform.",
+  );
+  return $items;
+}
+
+/**
+ * Implementation of hook_drush_help().
+ */
+function atrium_drush_help($section) {
+  switch ($section) {
+    case 'drush:atrium upgrade gravlax':
+      return dt("Migrate a legacy Gravlax site to the Atrium platform.");
+  }
+}
+
+/**
+ * Migration from legacy Gravlax setup to Atrium.
+ */
+function atrium_drush_upgrade_gravlax() {
+  global $profile, $conf;
+  $profile = 'atrium';
+  $conf['install_profile'] = 'atrium';
+
+  // Set the install profile
+  variable_set('install_profile', 'atrium');
+
+  // Re-find modules
+  module_rebuild_cache();
+
+  // Iterate through modules and enable/remove where it makes sense.
+  $result = db_query("SELECT * FROM {system} WHERE type = 'module'");
+  $modules = array();
+  while ($row = db_fetch_object($result)) {
+    $modules[$row->name] = $row;
+  }
+  foreach ($modules as $module => $info) {
+    if (strpos($module, 'trees') === 0) {
+      db_query("DELETE FROM {system} WHERE name = '%s'", $module);
+    }
+    else if (strpos($module, 'atrium') === 0) {
+      db_query("UPDATE {system} SET status = 1 WHERE name = '%s'", $module);
+    }
+  }
+  drupal_flush_all_caches();
+}
