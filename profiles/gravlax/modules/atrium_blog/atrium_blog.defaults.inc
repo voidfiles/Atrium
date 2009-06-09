@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_content_default_fields().
  */
-function _trees_blog_content_default_fields() {
+function _atrium_blog_content_default_fields() {
   $fields = array();
 
   // Exported field: field_referenced_book_page
@@ -72,7 +72,7 @@ function _trees_blog_content_default_fields() {
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_blog_context_default_contexts() {
+function _atrium_blog_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -84,7 +84,7 @@ function _trees_blog_context_default_contexts() {
       '0' => 'blog',
     ),
     'views' => array(
-      '0' => 'trees_blog',
+      '0' => 'atrium_blog',
     ),
     'spaces' => array(
       'label' => 'Blog',
@@ -102,13 +102,13 @@ function _trees_blog_context_default_contexts() {
     ),
     'menu' => 'blog',
     'block' => array(
-      'views_trees_blog_comments-block_1' => array(
+      'views_atrium_blog_comments-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_blog_comments-block_1',
+        'delta' => 'atrium_blog_comments-block_1',
         'weight' => 20,
         'region' => 'right',
         'status' => '0',
-        'label' => 'trees_blog_comments: Recent comments',
+        'label' => 'atrium_blog_comments: Recent comments',
         'type' => 'context_ui',
       ),
     ),
@@ -119,14 +119,14 @@ function _trees_blog_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_blog_menu_default_items() {
+function _atrium_blog_menu_default_items() {
   $items = array();
 
   $items[] = array(
     'title' => 'Blog',
     'path' => 'blog',
     'weight' => '0',
-    'description' => 'A blog feature for 8 Trees.',
+    'description' => 'A blog feature for 8 Atrium.',
   );
 
   return $items;
@@ -135,7 +135,7 @@ function _trees_blog_menu_default_items() {
 /**
  * Helper to implemetation of hook_node_info().
  */
-function _trees_blog_node_info() {
+function _atrium_blog_node_info() {
   $items = array(
     'blog' => array(
       'name' => t('Blog post'),
@@ -153,14 +153,14 @@ function _trees_blog_node_info() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_blog_views_default_views() {
+function _atrium_blog_views_default_views() {
   $views = array();
 
-  // Exported view: trees_blog
+  // Exported view: atrium_blog
   $view = new view;
-  $view->name = 'trees_blog';
-  $view->description = 'Trees > blog';
-  $view->tag = 'trees';
+  $view->name = 'atrium_blog';
+  $view->description = 'Atrium > blog';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -355,7 +355,7 @@ function _trees_blog_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_blog',
+    'spaces_feature' => 'atrium_blog',
   ));
   $handler->override_option('title', 'Blog');
   $handler->override_option('use_pager', '1');
@@ -364,7 +364,7 @@ function _trees_blog_views_default_views() {
     'modules' => array(
       'taxonomy' => 1,
       'upload' => 1,
-      'trees' => 1,
+      'atrium' => 1,
       'node' => TRUE,
       'user' => TRUE,
       'comment' => TRUE,
@@ -690,7 +690,7 @@ function _trees_blog_views_default_views() {
     'page_1' => 0,
     'block_1' => 0,
   ));
-  $translatables['trees_blog'] = array(
+  $translatables['atrium_blog'] = array(
     t('Defaults'),
     t('Blog'),
     t('Page'),
@@ -703,11 +703,11 @@ function _trees_blog_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_blog_comments
+  // Exported view: atrium_blog_comments
   $view = new view;
-  $view->name = 'trees_blog_comments';
-  $view->description = 'Trees > Blog comments';
-  $view->tag = 'trees';
+  $view->name = 'atrium_blog_comments';
+  $view->description = 'Atrium > Blog comments';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -857,7 +857,7 @@ function _trees_blog_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_blog',
+    'spaces_feature' => 'atrium_blog',
   ));
   $handler->override_option('title', 'Recent comments');
   $handler->override_option('empty', 'No comments found.');
@@ -870,7 +870,7 @@ function _trees_blog_views_default_views() {
   $handler = $view->new_display('block', 'Recent comments', 'block_1');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_blog_comments'] = array(
+  $translatables['atrium_blog_comments'] = array(
     t('Defaults'),
     t('Recent comments'),
     t('No comments found.'),

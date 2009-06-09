@@ -1,13 +1,13 @@
 <?php
 
-include_once('trees_blog.features.inc');
+include_once('atrium_blog.features.inc');
 
 /**
  * Implementation of hook_help().
  */
-function trees_blog_help($path) {
+function atrium_blog_help($path) {
   // Central help page content.
-  if ($path == 'help#trees_blog') {
+  if ($path == 'help#atrium_blog') {
     $output = '<p>'. t("The blog lets your team communicate, by posting updates and discussing issues. It is great place for sharing progress, discussing challenges and exploring ideas.") . '</p>';
     $output = '<p>' .t("To start a conversation navigate to the blog and click the \"Add blog post\" button. You will need to at least enter a title and some body content to your post, then click \"Save\".") .'</p>';
     return $output;
@@ -18,14 +18,14 @@ function trees_blog_help($path) {
     if ($path == 'node/add/blog') {
       return '<p>'. t("Post an entry to the blog of this group. The post will be shared will all team members on the team blog and they will be able to reply to it. You can optionally notify other group members by checking their name in the notifications field.") .'</p>';
     }
-    // return '<p>'. t("The blog lets your team communicate, by posting updates and discussing issues. It is great place for sharing progress, discussing challenges and exploring ideas. ") . l(t('More help'), 'help/trees_blog') .'</p>';
+    // return '<p>'. t("The blog lets your team communicate, by posting updates and discussing issues. It is great place for sharing progress, discussing challenges and exploring ideas. ") . l(t('More help'), 'help/atrium_blog') .'</p>';
   }
 }
 
 /**
  * Implementation of hook_strongarm().
  */
-function trees_blog_strongarm() {
+function atrium_blog_strongarm() {
   $conf = array();
 
   $conf['node_options_blog'] = array('status', 'revision');
@@ -51,7 +51,7 @@ function trees_blog_strongarm() {
   $conf["show_diff_inline_blog"] = FALSE;
 
   // Enable for recent activity views
-  $conf['trees_update_type_blog'] = TRUE;
+  $conf['atrium_update_type_blog'] = TRUE;
 
   return $conf;
 }
