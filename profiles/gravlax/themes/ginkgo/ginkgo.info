@@ -3,7 +3,7 @@ name = "Ginkgo"
 description = "Next gen ginkgo (aka 'coldbrew')."
 version = "0.1"
 core = "6.x"
-trees = "1.x"
+atrium = "1.x"
 engine = "phptemplate"
 base theme = "tao"
 

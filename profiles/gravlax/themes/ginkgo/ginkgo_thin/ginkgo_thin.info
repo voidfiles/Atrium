@@ -3,7 +3,7 @@ name = "Ginkgo thin"
 description = "780 version of ginkgo."
 version = "0.1"
 core = "6.x"
-trees = "1.x"
+atrium = "1.x"
 engine = "phptemplate"
 base theme = "ginkgo"
 

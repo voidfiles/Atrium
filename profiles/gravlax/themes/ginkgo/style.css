@@ -1101,7 +1101,7 @@ span.diff-changed {
 /**
  * Module: CASETRACKER ================================================
  */
-div.trees-case-summary {
+div.atrium-case-summary {
   font-size:11px;
   line-height:25px;
   padding:0px;
@@ -1110,23 +1110,23 @@ div.trees-case-summary {
   }
 
   /* Closed */
-  div.trees-case-status-7 {
+  div.atrium-case-status-7 {
     color:#999;
     background:#fcfcfc;
     }
 
-  div.trees-case-summary div.primary,
-  div.trees-case-summary div.secondary {
+  div.atrium-case-summary div.primary,
+  div.atrium-case-summary div.secondary {
     padding:10px;
     }
 
-  div.trees-case-summary div.primary {
+  div.atrium-case-summary div.primary {
     border-right:1px solid #fff;
     width:240px;
     margin-right:10px;
     }
 
-  div.trees-case-summary label {
+  div.atrium-case-summary label {
     color:#999;
     }
 
@@ -1249,14 +1249,14 @@ div.view div.views-field-last-updated,
 div.view div.views-field-timestamp,
 div.view div.views-field-published,
 div.view div.views-field-changed,
-div.view-trees-blog-comments li div.views-field-title {
+div.view-atrium-blog-comments li div.views-field-title {
   color:#666;
   font-size:10px;
   }
 
   div.view div.views-field-description { font-size:11px; }
 
-  div.view-trees-blog-comments li div.views-field-title { text-align:right }
+  div.view-atrium-blog-comments li div.views-field-title { text-align:right }
 
   div#right div.view li div.views-field-edit-node,
   div#right div.view li div.views-field-name {
@@ -1330,20 +1330,20 @@ div.views-field-post-count-new {
     }
 
 /* Profile view */
-#block-views-trees_profile-block_1 div.item-list li { padding:0px; }
+#block-views-atrium_profile-block_1 div.item-list li { padding:0px; }
 
-div.view-trees-profile li div {
+div.view-atrium-profile li div {
   clear:both;
   position:relative;
   }
 
-  div.view-trees-profile li div .field-content {
+  div.view-atrium-profile li div .field-content {
     display:block;
     border-top:1px solid #eee;
     padding:5px 5px 5px 100px;
     }
 
-  div.view-trees-profile li div label {
+  div.view-atrium-profile li div label {
     padding:5px 0px;
     position:absolute;
     left:0px;
@@ -1353,9 +1353,9 @@ div.view-trees-profile li div {
     font-size:11px;
     }
 
-div.view-trees-profile li div.views-field-picture,
-div.view-trees-profile li div.views-field-name,
-div.view-trees-profile li div.views-field-mail {
+div.view-atrium-profile li div.views-field-picture,
+div.view-atrium-profile li div.views-field-name,
+div.view-atrium-profile li div.views-field-mail {
   padding:0px 0px 10px;
   border:0px;
   line-height:60px;
@@ -1364,9 +1364,9 @@ div.view-trees-profile li div.views-field-mail {
   clear:none;
   }
 
-  div.view-trees-profile li div.views-field-name span.field-content,
-  div.view-trees-profile li div.views-field-mail span.field-content,
-  div.view-trees-profile li div.views-field-picture span.field-content {
+  div.view-atrium-profile li div.views-field-name span.field-content,
+  div.view-atrium-profile li div.views-field-mail span.field-content,
+  div.view-atrium-profile li div.views-field-picture span.field-content {
     border:0px;
     padding:0px;
     }
@@ -1376,8 +1376,8 @@ div.view-trees-profile li div.views-field-mail {
   * node title and username are populated. If so, it uses node title.
   * For now, just hide one of the two.
   */
-  div.view-trees-profile div.views-field-title { display:none; }
-  div.view-trees-profile div.views-field-name {
+  div.view-atrium-profile div.views-field-title { display:none; }
+  div.view-atrium-profile div.views-field-name {
     font-weight:bold;
     font-size:24px;
     letter-spacing:-2px;
@@ -1396,12 +1396,12 @@ table td.views-field-name,
 table td.views-field-type { white-space:nowrap; }
 
 /* Dashboard views */
-div.view-trees-dashboard td.views-field-filename,
-div.view-trees-dashboard td.views-field-title { width:75%; }
-div.view-trees-dashboard td.views-field-filemime { width:100px; }
-div.view-trees-dashboard td.views-field-group-nid { width:20px; }
-div.view-trees-dashboard td.views-field-feature { width:15px; }
-div.view-trees-dashboard td.views-field-last-comment-name { width:25%; }
+div.view-atrium-dashboard td.views-field-filename,
+div.view-atrium-dashboard td.views-field-title { width:75%; }
+div.view-atrium-dashboard td.views-field-filemime { width:100px; }
+div.view-atrium-dashboard td.views-field-group-nid { width:20px; }
+div.view-atrium-dashboard td.views-field-feature { width:15px; }
+div.view-atrium-dashboard td.views-field-last-comment-name { width:25%; }
 
 td.views-field-filename div.views-field-filename { font-weight:bold; }
 
@@ -1417,10 +1417,10 @@ td.views-field-filename div.views-field-filename { font-weight:bold; }
   background:url(images/sprite.png) 15px 15px no-repeat;
   }
 
-  .views-field-feature span.feature-trees_blog { background-position:0px -700px; }
-  .views-field-feature span.feature-trees_book { background-position:-15px -700px; }
-  .views-field-feature span.feature-trees_calendar { background-position:-30px -700px; }
-  .views-field-feature span.feature-trees_casetracker { background-position:-45px -700px; }
+  .views-field-feature span.feature-atrium_blog { background-position:0px -700px; }
+  .views-field-feature span.feature-atrium_book { background-position:-15px -700px; }
+  .views-field-feature span.feature-atrium_calendar { background-position:-30px -700px; }
+  .views-field-feature span.feature-atrium_casetracker { background-position:-45px -700px; }
 
 /* OG faces, Member directory */
 table.views-view-grid .views-field-name {
@@ -1431,8 +1431,8 @@ table.views-view-grid .views-field-name {
 
   table.views-view-grid td div.picture { margin:0px auto; }
 
-/* trees_users */
-div.view-trees-users table td.views-field-groups {
+/* atrium_users */
+div.view-atrium-users table td.views-field-groups {
   font-size:10px;
   line-height:15px;
   }

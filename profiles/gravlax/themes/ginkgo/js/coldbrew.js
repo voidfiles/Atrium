@@ -11,10 +11,10 @@ Drupal.behaviors.coldbrew = function (context) {
   // Help text
   if ($.cookie) {
     $('ul.dropdown li.help-help a:not(.coldbrew-help)').each(function() {
-      if (!$.cookie('trees_help')) {
-        $.cookie('trees_help', -1, {expires: 7});
+      if (!$.cookie('atrium_help')) {
+        $.cookie('atrium_help', -1, {expires: 7});
       }
-      switch($.cookie('trees_help')) {
+      switch($.cookie('atrium_help')) {
         case '1':
           $('ul.dropdown li.help-help').addClass('selected');
           $('div#block-help-help').addClass('selected').show();
@@ -22,10 +22,10 @@ Drupal.behaviors.coldbrew = function (context) {
       }
       $(this).addClass('coldbrew-help').click(function() {
         if ($(this).parent().is('.selected')) {
-          $.cookie('trees_help', 0);
+          $.cookie('atrium_help', 0);
         }
         else {
-          $.cookie('trees_help', 1);
+          $.cookie('atrium_help', 1);
         }
         return false;
       });
@@ -75,13 +75,13 @@ $(document).ready(function() {
         $(this).removeClass('selected');
         $('div.sidebar').addClass('hidden');
         $(this).parents('div.form').removeClass('form-sidebar').addClass('form-collapsed');
-        $.cookie('trees_sidebar', 0);
+        $.cookie('atrium_sidebar', 0);
       }
       else {
         $(this).addClass('selected');
         $('div.sidebar').removeClass('hidden');
         $(this).parents('div.form').addClass('form-sidebar').removeClass('form-collapsed');
-        $.cookie('trees_sidebar', 1);
+        $.cookie('atrium_sidebar', 1);
       }
       return false;
     });

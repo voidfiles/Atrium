@@ -4,7 +4,7 @@
  * Adds a check for whether the field content is empty -- if so, bail and
  * do not display the wrapper markup.
  */
-$excluded = array('trees_profile');
+$excluded = array('atrium_profile');
 
 if (get_class($view->style_plugin) == 'views_plugin_style_list' && !in_array($view->name, $excluded)) {
   $enable_grouping = TRUE;
@@ -13,7 +13,7 @@ if (get_class($view->style_plugin) == 'views_plugin_style_list' && !in_array($vi
     'published',
     'picture',
     'name',
-    'trees_reader-title_1',
+    'atrium_reader-title_1',
   );
   $grouped = array('left' => array(), 'right' => array());
   foreach ($fields as $id => $field) {
