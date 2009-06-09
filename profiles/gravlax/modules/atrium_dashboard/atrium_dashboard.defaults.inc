@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_dashboard_context_default_contexts() {
+function _atrium_dashboard_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -11,33 +11,33 @@ function _trees_dashboard_context_default_contexts() {
     'attribute' => 'dashboard',
     'value' => 'overview',
     'block' => array(
-      'trees_blog-block_2' => array(
+      'atrium_blog-block_2' => array(
         'module' => 'views',
-        'delta' => 'trees_blog-block_2',
+        'delta' => 'atrium_blog-block_2',
         'region' => 'content',
         'weight' => '-11',
       ),
-      'trees_dashboard-block_1' => array(
+      'atrium_dashboard-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_dashboard-block_1',
+        'delta' => 'atrium_dashboard-block_1',
         'region' => 'content',
         'weight' => '-10',
       ),
-      'trees_contentstats-block_1' => array(
+      'atrium_contentstats-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_contentstats-block_1',
+        'delta' => 'atrium_contentstats-block_1',
         'region' => 'right',
         'weight' => '-10',
       ),
-      'trees_blog_comments-block_1' => array(
+      'atrium_blog_comments-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_blog_comments-block_1',
+        'delta' => 'atrium_blog_comments-block_1',
         'region' => 'right',
         'weight' => '10',
       ),
-      'trees_calendar-block_1' => array(
+      'atrium_calendar-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_calendar-block_1',
+        'delta' => 'atrium_calendar-block_1',
         'region' => 'right',
         'weight' => '11',
       ),
@@ -55,7 +55,7 @@ function _trees_dashboard_context_default_contexts() {
     'value' => 'dashboard',
     'description' => '',
     'views' => array(
-      '0' => 'trees_dashboard',
+      '0' => 'atrium_dashboard',
     ),
   );
   return $items;
@@ -64,7 +64,7 @@ function _trees_dashboard_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_dashboard_menu_default_items() {
+function _atrium_dashboard_menu_default_items() {
   $items = array();
 
   $items[] = array(
@@ -92,14 +92,14 @@ function _trees_dashboard_menu_default_items() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_dashboard_views_default_views() {
+function _atrium_dashboard_views_default_views() {
   $views = array();
 
-  // Exported view: trees_dashboard
+  // Exported view: atrium_dashboard
   $view = new view;
-  $view->name = 'trees_dashboard';
-  $view->description = 'Trees > Dashboard';
-  $view->tag = 'trees';
+  $view->name = 'atrium_dashboard';
+  $view->description = 'Atrium > Dashboard';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -270,7 +270,7 @@ function _trees_dashboard_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_dashboard',
+    'spaces_feature' => 'atrium_dashboard',
   ));
   $handler->override_option('title', 'Dashboard');
   $handler->override_option('empty', 'No recent activity found.');
@@ -663,7 +663,7 @@ function _trees_dashboard_views_default_views() {
   $handler->override_option('use_pager', '0');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_dashboard'] = array(
+  $translatables['atrium_dashboard'] = array(
     t('Defaults'),
     t('Dashboard'),
     t('No recent activity found.'),

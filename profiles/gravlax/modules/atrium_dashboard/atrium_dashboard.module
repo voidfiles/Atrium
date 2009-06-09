@@ -1,24 +1,24 @@
 <?php
 
-include_once('trees_dashboard.features.inc');
+include_once('atrium_dashboard.features.inc');
 
 /**
  * Implementation of hook_help().
  */
-function trees_dashboard_help($path, $arg) {
-  if ($path == 'help#trees_dashboard' || context_get('spaces', 'feature') == 'dashboard' || context_get('spaces', 'dashboard') == 'overview') {
+function atrium_dashboard_help($path, $arg) {
+  if ($path == 'help#atrium_dashboard' || context_get('spaces', 'feature') == 'dashboard' || context_get('spaces', 'dashboard') == 'overview') {
     switch ($path) {
-      case 'help#trees_dashboard':
+      case 'help#atrium_dashboard':
       default:
         $space = spaces_get_space();
-        $map = _trees_dashboard_type_map();
+        $map = _atrium_dashboard_type_map();
         if ($space->admin_access()) {
           $path = "{$map[$space->type]}/customize";
           $customize_link = l(t('customize'), "{$map[$space->type]}/customize", array('query' => 'destination='. $_GET['q']));
         }
 
         $help = '';
-        $help .= '<h3>'. t('Trees Dashboard') .'</h3>';
+        $help .= '<h3>'. t('Atrium Dashboard') .'</h3>';
         $help .= '<p>'. t('The dashboard provides displays of the latest activity in your groups.') .'</p>';
         $help .= '<ul>';
         if (!empty($customize_link)) {
@@ -36,7 +36,7 @@ function trees_dashboard_help($path, $arg) {
 /**
  * Implementation of hook_menu().
  */
-function trees_dashboard_menu() {
+function atrium_dashboard_menu() {
   // Dashboard pages
   $items = array();
   $items['home'] =
@@ -45,9 +45,9 @@ function trees_dashboard_menu() {
   $items['home/view'] =
   $items['profile/view'] =
   $items['dashboard/view'] = array(
-    'page callback' => 'trees_dashboard_dashboard',
+    'page callback' => 'atrium_dashboard_dashboard',
     'page arguments' => array(),
-    'access callback' => 'trees_dashboard_feature_access',
+    'access callback' => 'atrium_dashboard_feature_access',
     'access arguments' => array('view'),
     'type' => MENU_NORMAL_ITEM,
     'weight' => -20,
@@ -57,9 +57,9 @@ function trees_dashboard_menu() {
   $items['profile/customize'] =
   $items['dashboard/customize'] = array(
     'title' => 'Customize',
-    'page callback' => 'trees_dashboard_customize',
+    'page callback' => 'atrium_dashboard_customize',
     'page arguments' => array(),
-    'access callback' => 'trees_dashboard_feature_access',
+    'access callback' => 'atrium_dashboard_feature_access',
     'access arguments' => array('customize'),
     'type' => MENU_CALLBACK,
     'weight' => 20,
@@ -95,14 +95,14 @@ function trees_dashboard_menu() {
 /**
  * Menu access callback for dashboard pages.
  */
-function trees_dashboard_feature_access($op = 'view', $space_type) {
+function atrium_dashboard_feature_access($op = 'view', $space_type) {
   $space = spaces_get_space();
   if (user_access('access content') && $space && $space->type == $space_type) {
     switch ($op) {
       case 'view':
-        return spaces_feature_access('trees_dashboard');
+        return spaces_feature_access('atrium_dashboard');
       case 'customize':
-        return $space->admin_access() && spaces_feature_access('trees_dashboard');
+        return $space->admin_access() && spaces_feature_access('atrium_dashboard');
     }
   }
   return FALSE;
@@ -111,8 +111,8 @@ function trees_dashboard_feature_access($op = 'view', $space_type) {
 /**
  * Implementation of hook_menu_alter().
  */
-function trees_dashboard_menu_alter(&$items) {
-  $view = views_get_view('trees_dashboard');
+function atrium_dashboard_menu_alter(&$items) {
+  $view = views_get_view('atrium_dashboard');
   if ($view) {
     foreach ($view->display as $display_id => $info) {
       if ($info->display_plugin == 'page') {
@@ -134,7 +134,7 @@ function trees_dashboard_menu_alter(&$items) {
 /**
  * Empty page callback for dashboard feature.
  */
-function trees_dashboard_dashboard() {
+function atrium_dashboard_dashboard() {
   context_set('spaces', 'dashboard', 'overview');
   return '';
 }
@@ -142,36 +142,36 @@ function trees_dashboard_dashboard() {
 /**
  * Dashboard customize callback.
  */
-function trees_dashboard_customize() {
+function atrium_dashboard_customize() {
   $space = spaces_get_space();
 
-  $map = _trees_dashboard_type_map();
+  $map = _atrium_dashboard_type_map();
   if (isset($map[$space->type])) {
     menu_set_active_item($map[$space->type]);
   }
 
   module_load_include('inc', 'spaces', 'spaces_admin');
-  return drupal_get_form('spaces_customize_form', NULL, 'trees_dashboard');
+  return drupal_get_form('spaces_customize_form', NULL, 'atrium_dashboard');
 }
 
 /**
  * Implementation of hook_context_active_contexts_alter().
  */
-function trees_dashboard_context_active_contexts_alter(&$contexts) {
+function atrium_dashboard_context_active_contexts_alter(&$contexts) {
   $space = spaces_get_space();
 
   if (!empty($contexts['spaces-feature-dashboard'])) {
     // Swap out active menu reaction
-    $map = _trees_dashboard_type_map();
+    $map = _atrium_dashboard_type_map();
     if ($space && isset($map[$space->type])) {
       $contexts['spaces-feature-dashboard']->menu = $map[$space->type];
     }
     // Yank my groups block from dashboard views
     if ($space->type == 'site') {
       if (!empty($contexts['spaces-feature-dashboard'])) {
-        $contexts['spaces-feature-dashboard']->block['views_trees_groups-block_2'] = array(
+        $contexts['spaces-feature-dashboard']->block['views_atrium_groups-block_2'] = array(
           'module' => 'views',
-          'delta' => 'trees_groups-block_2',
+          'delta' => 'atrium_groups-block_2',
           'region' => 'right',
           'weight' => '10',
         );
@@ -182,9 +182,9 @@ function trees_dashboard_context_active_contexts_alter(&$contexts) {
   // Add the profile block to user dashboards
   if (!empty($contexts['spaces-dashboard-overview'])) {
     if ($space && $space->type == 'user') {
-      $contexts['spaces-dashboard-overview']->block['views-trees_profile-block_1'] = array(
+      $contexts['spaces-dashboard-overview']->block['views-atrium_profile-block_1'] = array(
         'module' => 'views',
-        'delta' => 'trees_profile-block_1',
+        'delta' => 'atrium_profile-block_1',
         'region' => 'content',
         'weight' => -20,
       );
@@ -195,13 +195,13 @@ function trees_dashboard_context_active_contexts_alter(&$contexts) {
 /**
  * Implementation of hook_context_links_alter().
  */
-function trees_dashboard_context_links_alter(&$links) {
+function atrium_dashboard_context_links_alter(&$links) {
   if (context_isset('spaces', 'dashboard', 'overview')) {
     $space = spaces_get_space();
-    $map = _trees_dashboard_type_map();
+    $map = _atrium_dashboard_type_map();
     if ($space->admin_access()) {
       $path = "{$map[$space->type]}/customize";
-      $links["trees_dashboard"] = array(
+      $links["atrium_dashboard"] = array(
         'title' => t('Customize layout'),
         'href' => $path,
         'query' => 'destination='. $_GET['q'],
@@ -212,9 +212,9 @@ function trees_dashboard_context_links_alter(&$links) {
 }
 
 /**
- * Implementation of hook_trees_user_links_alter().
+ * Implementation of hook_atrium_user_links_alter().
  */
-function trees_dashboard_trees_user_links_alter(&$links) {
+function atrium_dashboard_atrium_user_links_alter(&$links) {
   $links['home'] = array(
     'title' => t('Home'),
     'href' => 'home',
@@ -226,7 +226,7 @@ function trees_dashboard_trees_user_links_alter(&$links) {
 /**
  * Return an array of space types to dashboard paths
  */
-function _trees_dashboard_type_map() {
+function _atrium_dashboard_type_map() {
   return array(
     'og' => 'dashboard',
     'user' => 'profile',
