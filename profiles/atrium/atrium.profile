@@ -251,20 +251,18 @@ function atrium_profile_tasks(&$task, $url) {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implementation of hook_form_alter() for install_configure.
  */
-function atrium_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'install_configure') {
-    // Autofill values when working locally (e.g. hostname is localhost, dev, etc.)
-    if (strpos($_SERVER['SERVER_NAME'], '.') === FALSE) {
-      $form['submit']['#weight'] = -10;
-      $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
-      $form['site_information']['site_mail']['#default_value'] = 'info@developmentseed.org';
-      $form['admin_account']['account']['name']['#default_value'] = 'admin';
-      $form['admin_account']['account']['mail']['#default_value'] = 'info@developmentseed.org';
-      $form['admin_account']['account']['pass']['#default_value'] = 'admin';
-      $form['admin_account']['account']['pass']['#type'] = 'value';
-    }
+function atrium_form_install_configure_alter(&$form, $form_state) {
+  // Autofill values when working locally (e.g. hostname is localhost, dev, etc.)
+  if (strpos($_SERVER['SERVER_NAME'], '.') === FALSE) {
+    $form['submit']['#weight'] = -10;
+    $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+    $form['site_information']['site_mail']['#default_value'] = 'info@developmentseed.org';
+    $form['admin_account']['account']['name']['#default_value'] = 'admin';
+    $form['admin_account']['account']['mail']['#default_value'] = 'info@developmentseed.org';
+    $form['admin_account']['account']['pass']['#default_value'] = 'admin';
+    $form['admin_account']['account']['pass']['#type'] = 'value';
   }
 }
 
