@@ -51,5 +51,15 @@ function atrium_drush_upgrade_gravlax() {
       db_query("UPDATE {system} SET status = 1 WHERE name = '%s'", $module);
     }
   }
+
+  // Iterate through spaces features and update.
+  $result = db_query("SELECT * FROM {spaces_features}");
+  while ($row = db_fetch_object($result)) {
+    if (strpos($row->id, 'trees') === 0) {
+      $renamed = strtr($row->id, array('trees' => 'atrium'));
+      db_query("UPDATE {spaces_features} SET id = '%s' WHERE id = '%s' AND sid = %d AND type = '%s'", $renamed, $row->id, $row->sid, $row->type);
+    }
+  }
+
   drupal_flush_all_caches();
 }
