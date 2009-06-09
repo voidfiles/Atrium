@@ -240,43 +240,6 @@ function _atrium_intranet_context_default_contexts() {
   $items = array();
 
   $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'feature',
-    'value' => 'groups',
-    'menu' => 'groups',
-    'views' => array(
-      '0' => 'atrium_groups',
-    ),
-    'theme_section' => array(
-      'title' => 'Groups',
-      'subtitle' => '',
-      'class' => '',
-    ),
-    'block' => array(),
-  );
-  $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'feature',
-    'value' => 'members',
-    'menu' => 'members',
-    'views' => array(
-      '0' => 'atrium_members',
-    ),
-    'theme_section' => array(
-      'title' => 'Members',
-      'subtitle' => '',
-      'class' => '',
-    ),
-    'block' => array(
-      'views_-exp-atrium_members-default' => array(
-        'module' => 'views',
-        'delta' => '-exp-atrium_members-default',
-        'region' => 'right',
-        'weight' => '-10',
-      ),
-    ),
-  );
-  $items[] = array(
     'namespace' => 'atrium',
     'attribute' => 'global',
     'value' => 'blocks',
@@ -347,6 +310,43 @@ function _atrium_intranet_context_default_contexts() {
         'delta' => 'atrium_taxonomy-block_1',
         'region' => 'right',
         'weight' => '10',
+      ),
+    ),
+  );
+  $items[] = array(
+    'namespace' => 'spaces',
+    'attribute' => 'feature',
+    'value' => 'groups',
+    'menu' => 'groups',
+    'views' => array(
+      '0' => 'atrium_groups',
+    ),
+    'theme_section' => array(
+      'title' => 'Groups',
+      'subtitle' => '',
+      'class' => '',
+    ),
+    'block' => array(),
+  );
+  $items[] = array(
+    'namespace' => 'spaces',
+    'attribute' => 'feature',
+    'value' => 'members',
+    'menu' => 'members',
+    'views' => array(
+      '0' => 'atrium_members',
+    ),
+    'theme_section' => array(
+      'title' => 'Members',
+      'subtitle' => '',
+      'class' => '',
+    ),
+    'block' => array(
+      'views_-exp-atrium_members-default' => array(
+        'module' => 'views',
+        'delta' => '-exp-atrium_members-default',
+        'region' => 'right',
+        'weight' => '-10',
       ),
     ),
   );
@@ -423,6 +423,14 @@ function _atrium_intranet_menu_default_items() {
     'weight' => '0',
     'description' => 'Provides a member directory and user management feature',
   );
+  // Translatables
+  array(
+    t('Groups'),
+    t('Members'),
+    t('Provides a group management feature'),
+    t('Provides a member directory and user management feature'),
+  );
+
 
   return $items;
 }
