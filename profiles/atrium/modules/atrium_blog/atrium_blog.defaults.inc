@@ -128,6 +128,12 @@ function _atrium_blog_menu_default_items() {
     'weight' => '0',
     'description' => 'A blog feature for team discussions.',
   );
+  // Translatables
+  array(
+    t('A blog feature for team discussions.'),
+    t('Blog'),
+  );
+
 
   return $items;
 }
