@@ -762,11 +762,11 @@ function features_translatables_export($translatables, $prefix = '') {
   $translatables = array_unique($translatables);
 
   $output = $prefix . "// Translatables\n";
-  $output = $prefix . "array(\n";
+  $output .= $prefix . "array(\n";
   foreach ($translatables as $string) {
     $output .= $prefix . "  t('" . strtr($string, array("'" => "\'")) . "'),\n";
   }
-  $output = $prefix . ");\n";
+  $output .= $prefix . ");\n";
   return $output;
 }
 
