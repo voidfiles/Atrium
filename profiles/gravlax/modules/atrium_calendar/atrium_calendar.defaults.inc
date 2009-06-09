@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_content_default_fields().
  */
-function _trees_calendar_content_default_fields() {
+function _atrium_calendar_content_default_fields() {
   $fields = array();
 
   // Exported field: field_date
@@ -125,7 +125,7 @@ function _trees_calendar_content_default_fields() {
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _trees_calendar_context_default_contexts() {
+function _atrium_calendar_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -139,29 +139,29 @@ function _trees_calendar_context_default_contexts() {
       '2' => 'feed_ical_item',
     ),
     'views' => array(
-      '0' => 'trees_calendar',
-      '1' => 'trees_calendar_feed_items',
-      '2' => 'trees_calendar_feeds',
-      '3' => 'trees_calendar_upcoming',
+      '0' => 'atrium_calendar',
+      '1' => 'atrium_calendar_feed_items',
+      '2' => 'atrium_calendar_feeds',
+      '3' => 'atrium_calendar_upcoming',
     ),
     'menu' => 'calendar',
     'block' => array(
-      'trees_calendar_mini' => array(
-        'module' => 'trees_calendar',
+      'atrium_calendar_mini' => array(
+        'module' => 'atrium_calendar',
         'delta' => 'mini',
         'weight' => 20,
         'region' => 'right',
         'status' => '0',
-        'label' => 'Trees calendar: Mini calendar',
+        'label' => 'Atrium calendar: Mini calendar',
         'type' => 'context_ui',
       ),
-      'views_trees_calendar_upcoming-block_1' => array(
+      'views_atrium_calendar_upcoming-block_1' => array(
         'module' => 'views',
-        'delta' => 'trees_calendar_upcoming-block_1',
+        'delta' => 'atrium_calendar_upcoming-block_1',
         'weight' => 21,
         'region' => 'right',
         'status' => '0',
-        'label' => 'trees_calendar_upcoming: Block',
+        'label' => 'atrium_calendar_upcoming: Block',
         'type' => 'context_ui',
       ),
       'views_3d47b44f26df08825145e8a74a809061' => array(
@@ -170,7 +170,7 @@ function _trees_calendar_context_default_contexts() {
         'weight' => 20,
         'region' => 'content',
         'status' => '0',
-        'label' => 'trees_calendar_feed_items: Block',
+        'label' => 'atrium_calendar_feed_items: Block',
         'type' => 'context_ui',
       ),
     ),
@@ -181,7 +181,7 @@ function _trees_calendar_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _trees_calendar_menu_default_items() {
+function _atrium_calendar_menu_default_items() {
   $items = array();
 
   $items[] = array(
@@ -197,7 +197,7 @@ function _trees_calendar_menu_default_items() {
 /**
  * Helper to implemetation of hook_node_info().
  */
-function _trees_calendar_node_info() {
+function _atrium_calendar_node_info() {
   $items = array(
     'event' => array(
       'name' => t('Event'),
@@ -233,14 +233,14 @@ function _trees_calendar_node_info() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _trees_calendar_views_default_views() {
+function _atrium_calendar_views_default_views() {
   $views = array();
 
-  // Exported view: trees_calendar
+  // Exported view: atrium_calendar
   $view = new view;
-  $view->name = 'trees_calendar';
-  $view->description = 'Trees > Calendar';
-  $view->tag = 'trees';
+  $view->name = 'atrium_calendar';
+  $view->description = 'Atrium > Calendar';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -427,7 +427,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_calendar',
+    'spaces_feature' => 'atrium_calendar',
   ));
   $handler->override_option('title', 'Calendar');
   $handler->override_option('items_per_page', 0);
@@ -460,7 +460,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_calendar'] = array(
+  $translatables['atrium_calendar'] = array(
     t('Defaults'),
     t('Calendar'),
     t('Page'),
@@ -469,11 +469,11 @@ function _trees_calendar_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_calendar_feed_items
+  // Exported view: atrium_calendar_feed_items
   $view = new view;
-  $view->name = 'trees_calendar_feed_items';
-  $view->description = 'Trees > Calendar feed items';
-  $view->tag = 'trees';
+  $view->name = 'atrium_calendar_feed_items';
+  $view->description = 'Atrium > Calendar feed items';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -629,7 +629,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_calendar',
+    'spaces_feature' => 'atrium_calendar',
   ));
   $handler->override_option('title', 'Events');
   $handler->override_option('use_pager', '1');
@@ -661,7 +661,7 @@ function _trees_calendar_views_default_views() {
   $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_calendar_feed_items'] = array(
+  $translatables['atrium_calendar_feed_items'] = array(
     t('Defaults'),
     t('Events'),
     t('Block'),
@@ -669,11 +669,11 @@ function _trees_calendar_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_calendar_feeds
+  // Exported view: atrium_calendar_feeds
   $view = new view;
-  $view->name = 'trees_calendar_feeds';
-  $view->description = 'Trees > Calendar feeds';
-  $view->tag = 'trees';
+  $view->name = 'atrium_calendar_feeds';
+  $view->description = 'Atrium > Calendar feeds';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -797,7 +797,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_calendar',
+    'spaces_feature' => 'atrium_calendar',
   ));
   $handler->override_option('title', 'Feeds');
   $handler->override_option('items_per_page', 25);
@@ -842,7 +842,7 @@ function _trees_calendar_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['trees_calendar_feeds'] = array(
+  $translatables['atrium_calendar_feeds'] = array(
     t('Defaults'),
     t('Feeds'),
     t('Page'),
@@ -850,11 +850,11 @@ function _trees_calendar_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: trees_calendar_upcoming
+  // Exported view: atrium_calendar_upcoming
   $view = new view;
-  $view->name = 'trees_calendar_upcoming';
-  $view->description = 'Trees > Upcoming events';
-  $view->tag = 'trees';
+  $view->name = 'atrium_calendar_upcoming';
+  $view->description = 'Atrium > Upcoming events';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -977,7 +977,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
-    'spaces_feature' => 'trees_calendar',
+    'spaces_feature' => 'atrium_calendar',
   ));
   $handler->override_option('title', 'Upcoming events');
   $handler->override_option('items_per_page', 25);
@@ -1082,7 +1082,7 @@ function _trees_calendar_views_default_views() {
   ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['trees_calendar_upcoming'] = array(
+  $translatables['atrium_calendar_upcoming'] = array(
     t('Defaults'),
     t('Upcoming events'),
     t('Page'),

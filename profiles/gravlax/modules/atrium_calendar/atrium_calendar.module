@@ -1,18 +1,18 @@
 <?php
 
-include_once('trees_calendar.features.inc');
+include_once('atrium_calendar.features.inc');
 
 /**
  * Implementation of hook_help().
  */
-function trees_calendar_help($path, $arg) {
-  if (($path == 'help#trees_calendar') || (context_get('spaces', 'feature') == 'calendar')) {
+function atrium_calendar_help($path, $arg) {
+  if (($path == 'help#atrium_calendar') || (context_get('spaces', 'feature') == 'calendar')) {
     switch ($path) {
       case 'node/add/event':
       case 'node/add/feed-ical':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Trees Calendar') .'</h3>';
+        $help .= '<h3>'. t('Atrium Calendar') .'</h3>';
         $node = menu_get_object();
         if ($path == 'node/add/event' || $node->type == 'event') {
           $help .= '<p>'. t('Tips for adding & editing events:') .'</p>';
@@ -30,10 +30,10 @@ function trees_calendar_help($path, $arg) {
         }
         return $help;
 
-      case 'help#trees_calendar':
+      case 'help#atrium_calendar':
       default:
         $help = '';
-        $help .= '<h3>'. t('Trees Calendar') .'</h3>';
+        $help .= '<h3>'. t('Atrium Calendar') .'</h3>';
         $help .= '<p>'. t('The calendar displays events and calendar feeds submitted by your group.') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_events to the calendar to let others know about what\'s coming up.', array('!add_events' => l(t('Add events'), 'node/add/event'))) .'</li>';
@@ -47,7 +47,7 @@ function trees_calendar_help($path, $arg) {
 /**
  * Implementation of hook_strongarm().
  */
-function trees_calendar_strongarm() {
+function atrium_calendar_strongarm() {
   $conf = array();
 
   foreach (array('event', 'feed_ical', 'feed_ical_item') as $type) {
@@ -68,9 +68,9 @@ function trees_calendar_strongarm() {
   $conf['upload_feed_ical_item'] = FALSE;
 
   // Enable for recent activity views
-  $conf['trees_update_type_event'] = TRUE;
-  $conf['trees_update_type_feed_ical'] =
-  $conf['trees_update_type_feed_ical_item'] = FALSE;
+  $conf['atrium_update_type_event'] = TRUE;
+  $conf['atrium_update_type_feed_ical'] =
+  $conf['atrium_update_type_feed_ical_item'] = FALSE;
 
   // FeedAPI
   $conf['feedapi_settings_event'] =
@@ -116,7 +116,7 @@ function trees_calendar_strongarm() {
 /**
  * Implementation of hook_feedapi_mapper_elements().
  */
-function trees_calendar_feedapi_mapper_elements() {
+function atrium_calendar_feedapi_mapper_elements() {
   return array(array('options', 'VEVENT'));
 }
 
@@ -124,16 +124,16 @@ function trees_calendar_feedapi_mapper_elements() {
  * Implementation of hook_context_links_alter().
  * Removes ical event items from node links.
  */
-function trees_calendar_context_links_alter(&$links) {
+function atrium_calendar_context_links_alter(&$links) {
   if (!empty($links['feed_ical_item'])) {
     unset($links['feed_ical_item']);
   }
 }
 
 /**
- * Implementation of hook_trees_update_types_alter().
+ * Implementation of hook_atrium_update_types_alter().
  */
-function trees_calendar_trees_update_types_alter(&$types) {
+function atrium_calendar_atrium_update_types_alter(&$types) {
   if (!empty($types['feed_ical_item'])) {
     unset($types['feed_ical_item']);
   }
@@ -142,12 +142,12 @@ function trees_calendar_trees_update_types_alter(&$types) {
 /**
  * Implementation of hook_block().
  */
-function trees_calendar_block($op = 'list', $delta = 0, $edit = array()) {
+function atrium_calendar_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
-      return array('mini' => array('info' => t('Trees calendar: Mini calendar')));
+      return array('mini' => array('info' => t('Atrium calendar: Mini calendar')));
     default:
-      $function = "_trees_calendar_block_{$delta}";
+      $function = "_atrium_calendar_block_{$delta}";
       if (function_exists($function)) {
         return $function($op, $edit);
       }
@@ -157,7 +157,7 @@ function trees_calendar_block($op = 'list', $delta = 0, $edit = array()) {
 /**
  * Implementation of hook_nodeapi().
  */
-function trees_calendar_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+function atrium_calendar_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
   switch ($op) {
     case 'view':
       // Confirm we are actually on a page of relevance
@@ -172,7 +172,7 @@ function trees_calendar_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 /**
  * Block: contextual mini calendar block
  */
-function _trees_calendar_block_mini($op, $edit) {
+function _atrium_calendar_block_mini($op, $edit) {
   if ($op == 'view') {
     $block = array();
     $date = context_get('node', 'field_date');
@@ -180,7 +180,7 @@ function _trees_calendar_block_mini($op, $edit) {
       $year = date_format($date, 'Y');
       $month = date_format($date, 'm');
       $args = "$year-$month";
-      $block['content'] = views_embed_view('trees_calendar', 'block_1', $args);
+      $block['content'] = views_embed_view('atrium_calendar', 'block_1', $args);
     }
     return $block;
   }
