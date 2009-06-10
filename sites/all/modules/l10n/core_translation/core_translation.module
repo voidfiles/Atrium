@@ -60,3 +60,15 @@ function core_translation_form_system_themes_form_alter(&$form, $form_state) {
   $form['#submit'][] =  'core_translation_system_themes_form_submit';
 }
 
+/**
+ * Implementation of hook_form_form_id_alter().
+ *
+ * Take over l10n client 'reimport package'
+ */
+function core_translation_form_l10n_client_import_package_form_alter(&$form, $form_state) {
+  module_load_include('inc', 'core_translation');
+  // Do not add but replace the whole submit callback. 
+  // Otherwise, it seems our submit hook won't run after the l10n batch
+  $form['#submit'] = array();
+  $form['#submit'][] = 'core_translation_l10n_client_import_package_form_submit';
+}

@@ -127,6 +127,21 @@ function core_translation_system_themes_form_submit($form, &$form_state) {
 }
 
 /**
+ * Process l10n client reimport packages form submissions.
+ */
+function core_translation_l10n_client_import_package_form_submit($form, &$form_state) {
+  // First clean up strings and set up default batch
+  l10n_client_import_package_form_submit($form, &$form_state);
+  // Then we add our own batch for more imports.
+  include_once 'includes/locale.inc';
+  foreach (array_filter($form_state['values']['langcodes']) as $langcode) {
+    if ($batch = core_translation_batch_by_language($langcode, '_locale_batch_language_finished')) {
+      batch_set($batch);
+    }
+  }
+}
+
+/**
  * Imports translations when new modules or themes are installed or enabled.
  *
  * This function will either import translation for the component change
