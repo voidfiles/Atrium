@@ -23,30 +23,54 @@ function features_admin_form($feature = NULL) {
   );
 
   $modules = features_get_modules('', TRUE);
+  $conflicts = features_get_conflicts();
 
   // Generate features form.
   foreach (features_get_features('', TRUE) as $name => $module) {
-    $unmet_dependencies = array();
+    $form['feature'][$name] = array(
+      '#type' => 'value',
+      '#value' => $module,
+    );
+
+    $disabled = FALSE;
+    $description = $module->info['description'];
+
+    // Detect unmet dependencies
     if (!empty($module->info['dependencies'])) {
+      $unmet_dependencies = array();
       $dependencies = _features_export_maximize_dependencies($module->info['dependencies']);
       foreach ($dependencies as $dependency) {
         if (empty($modules[$dependency])) {
           $unmet_dependencies[] = theme('features_module_status', FEATURES_MODULE_MISSING, $dependency);
         }
       }
+      if (!empty($unmet_dependencies)) {
+        $description .= "<div class='dependencies'>". t('Unmet dependencies: !dependencies', array('!dependencies' => implode(', ', $unmet_dependencies))) ."</div>";
+        $disabled = TRUE;
+      }
     }
 
-    $form['feature'][$name] = array(
-      '#type' => 'value',
-      '#value' => $module,
-    );
+    // Detect potential conflicts
+    if (!empty($conflicts[$name])) {
+      $module_conflicts = array();
+      foreach ($conflicts[$name] as $conflict) {
+        $module_conflicts[] = theme('features_module_status', FEATURES_MODULE_MISSING, $conflict);
+        // Only disable modules with conflicts if they are not already enabled.
+        // If they are already enabled, somehow the user got themselves into a
+        // bad situation and they need to be able to disable a conflicted module.
+        if (module_exists($conflict) && !module_exists($name)) {
+          $disabled = TRUE;
+        }
+      }
+      $description .= "<div class='conflicts'>". t('Incompatible with: !conflicts', array('!conflicts' => implode(', ', $module_conflicts))) ."</div>";
+    }
 
     $form['status'][$name] = array(
       '#type' => 'checkbox',
       '#title' => $module->info['name'],
-      '#description' => !empty($unmet_dependencies) ? t('Unmet dependencies: !dependencies', array('!dependencies' => implode(', ', $unmet_dependencies))) : $module->info['description'],
+      '#description' => $description,
       '#default_value' => $module->status,
-      '#disabled' => !empty($unmet_dependencies) ? TRUE : FALSE,
+      '#disabled' => $disabled,
     );
 
     $uri = !empty($module->info['feature_uri']) ? $module->info['feature_uri'] : t('Unavailable');
@@ -95,6 +119,7 @@ function features_admin_form($feature = NULL) {
     '#type' => 'submit',
     '#value' => t('Save settings'),
     '#submit' => array('features_form_submit'),
+    '#validate' => array('features_form_validate'),
   );
   return $form;
 }
@@ -142,6 +167,22 @@ function features_admin_components($feature) {
   }
 
   return theme('features_admin_components', $info, $dependencies, $components, $conflicts);
+}
+
+/**
+ * Validate handler for the 'manage features' form.
+ */
+function features_form_validate(&$form, &$form_state) {
+  $conflicts = features_get_conflicts();
+  foreach ($form_state['values']['status'] as $module => $status) {
+    if ($status && !empty($conflicts[$module])) {
+      foreach ($conflicts[$module] as $conflict) {
+        if (!empty($form_state['values']['status'][$conflict])) {
+          form_set_error('status', t('The feature !module cannot be enabled because it conflicts with !conflict.', array('!module' => $module, '!conflict' => $conflict)));
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -253,4 +294,56 @@ function features_feature_status($feature) {
   module_load_include('inc', 'features', 'features.export');
   $storage = count(features_detect_overrides($feature)) ? FEATURES_OVERRIDDEN : FEATURES_DEFAULT;
   return drupal_json(array('status' => $storage));
+}
+
+/**
+ * Detect potential conflicts between any features that provide
+ * identical components.
+ */
+function features_get_conflicts($reset = FALSE) {
+  $conflicts = array();
+
+  $map = features_get_component_map($reset);
+  foreach ($map as $type => $components) {
+    foreach ($components as $component => $modules) {
+      if (count($modules) > 1) {
+        foreach ($modules as $module) {
+          if (!isset($conflicts[$module])) {
+            $conflicts[$module] = array();
+          }
+          foreach ($modules as $m) {
+            if ($m != $module) {
+              $conflicts[$module][$m] = $m;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return $conflicts;
+}
+
+/**
+ * Provide a component to feature map.
+ */
+function features_get_component_map($reset = FALSE) {
+  static $map;
+
+  if (!isset($map) || $reset) {
+    $map = array();
+    $features = features_get_features('', TRUE);
+    foreach ($features as $feature) {
+      foreach ($feature->info['features'] as $type => $components) {
+        if (!isset($map[$type])) {
+          $map[$type] = array();
+        }
+        foreach ($components as $component) {
+          $map[$type][$component][] = $feature->name;
+        }
+      }
+    }
+  }
+
+  return $map;
 }
