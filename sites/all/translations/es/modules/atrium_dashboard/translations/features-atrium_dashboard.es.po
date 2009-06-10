@@ -1,0 +1,114 @@
+# Spanish translation of atrium_features (6.x-0.1)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  modules/features/atrium_dashboard/atrium_dashboard.module: n/a
+#  modules/features/atrium_dashboard/atrium_dashboard.info: n/a
+#  modules/features/atrium_dashboard/atrium_dashboard.defaults.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_features (6.x-0.1)\n"
+"POT-Creation-Date: 2009-06-10 14:52+0200\n"
+"PO-Revision-Date: 2009-05-14 23:15+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: features/atrium_dashboard/atrium_dashboard.module:17
+msgid "customize"
+msgstr "personalizar"
+
+#: features/atrium_dashboard/atrium_dashboard.module:22
+msgid "The dashboard provides displays of the latest activity in your groups."
+msgstr ""
+"El panel proporciona un resumen de las últimas actividades en sus "
+"grupos."
+
+#: features/atrium_dashboard/atrium_dashboard.module:25
+msgid ""
+"You can !customize the layout of displays in <strong>the main "
+"view</strong>."
+msgstr ""
+"Puede !customize la disposición de los elementos en <strong>la vista "
+"principal</strong>."
+
+#: features/atrium_dashboard/atrium_dashboard.module:27
+msgid ""
+"<strong>My threads</strong> shows you posts that you are subscribed "
+"to."
+msgstr ""
+"<strong>Seguimiento</strong> le muestra los envíos a los que está "
+"suscrito."
+
+#: features/atrium_dashboard/atrium_dashboard.module:28
+msgid "<strong>All activity</strong> shows you all posts that you may view."
+msgstr ""
+"<strong>Actividad<strong> le muestra todos los envíos a los que tiene "
+"acceso."
+
+#: features/atrium_dashboard/atrium_dashboard.module:29
+msgid ""
+"<strong>Files</strong> shows you any files that have been attached to "
+"new posts."
+msgstr ""
+"<strong>Archivos</strong> le muestra todos los archivos adjuntados a "
+"nuevos envíos."
+
+#: features/atrium_dashboard/atrium_dashboard.module:167
+msgid "Customize layout"
+msgstr "Personalizar elementos"
+
+#: features/atrium_dashboard/atrium_dashboard.module:59
+msgid "Customize"
+msgstr "Personalizar"
+
+#: features/atrium_dashboard/atrium_dashboard.info:0
+msgid "Provides a dashboard feature specific to the Intranet distro."
+msgstr ""
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:621
+msgid "Files"
+msgstr "Archivos"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:29,617
+msgid "Dashboard"
+msgstr "Panel"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:618
+msgid "No recent activity found."
+msgstr "No hay actividad reciente."
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:619
+msgid "All activity"
+msgstr "Toda la actividad"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:620
+msgid "My threads"
+msgstr "Mis conversaciones"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:622
+msgid "All activity (block)"
+msgstr "Toda la actividad (bloque)"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:623
+msgid "Recent activity"
+msgstr "Actividad reciente"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:32
+msgid "Provides a dashboard feature"
+msgstr "Proporciona la funcionalidad de panel"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:33
+msgid "Provides a site homepage feature"
+msgstr "Proporciona la funcionalidad de página de inicio del sitio"
+
+#: features/atrium_dashboard/atrium_dashboard.defaults.inc:34
+msgid "Provides a user profile feature"
+msgstr "Proporciona la funcionalidad de perfiles de usuario"
+
+#: features/atrium_dashboard/atrium_dashboard.module:0
+msgid "atrium_dashboard"
+msgstr ""
+

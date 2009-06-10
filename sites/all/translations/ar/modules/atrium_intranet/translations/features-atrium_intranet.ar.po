@@ -1,0 +1,131 @@
+# Arabic translation of atrium_features (6.x-0.1)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  modules/features/atrium_intranet/atrium_intranet.module: n/a
+#  modules/features/atrium_intranet/atrium_intranet.defaults.inc: n/a
+#  modules/features/atrium_intranet/atrium_intranet.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_features (6.x-0.1)\n"
+"POT-Creation-Date: 2009-06-10 15:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: features/atrium_intranet/atrium_intranet.module:462
+msgid "Reply"
+msgstr "رد"
+
+#: features/atrium_intranet/atrium_intranet.module:192
+msgid "User account"
+msgstr "حساب المستخدم"
+
+#: features/atrium_intranet/atrium_intranet.module:62
+msgid "&copy; 2009 !devseed"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:62
+msgid "Development Seed"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:226
+msgid "A simple private group with a blog, document library and dashboard."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:256
+msgid "A simple public group with a blog, document library and dashboard."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:286
+msgid "A simple profile with a blog, calendar and dashboard."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:314
+msgid "A basic intranet hub setup."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:500
+msgid "Show all members"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:500
+msgid "Show only members in current user's groups"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.module:504
+msgid ""
+"Choose the display mode for normal users when viewing the member "
+"directory. Administrators and managers will still be able to see all "
+"members in administrative views."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:428
+msgid "Groups"
+msgstr "مجموعات"
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1435
+msgid "My groups"
+msgstr "مجموعاتي"
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:617
+msgid "Messages & alerts"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:618
+msgid "No messages found."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:777
+msgid "Content stats"
+msgstr "محصيات اتمحتوى"
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1438
+msgid "Directory"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1439
+msgid "Archived groups"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1440
+msgid "No archived groups found."
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1885
+msgid "Active users"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1886
+msgid "Blocked users"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:1887
+msgid "Member directory"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:430
+msgid "Provides a group management feature"
+msgstr "توفيرخاصّية ءادارة المجموعات"
+
+#: features/atrium_intranet/atrium_intranet.defaults.inc:431
+msgid "Provides a member directory and user management feature"
+msgstr ""
+"توفير دليل الاعضاء و خاصية إدارة "
+"المستخدم ."
+
+#: features/atrium_intranet/atrium_intranet.module:0
+msgid "atrium_intranet"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.info:0
+msgid "Atrium Intranet"
+msgstr ""
+
+#: features/atrium_intranet/atrium_intranet.info:0
+msgid "Installer and distro module for the Atrium Intranet package."
+msgstr ""
+

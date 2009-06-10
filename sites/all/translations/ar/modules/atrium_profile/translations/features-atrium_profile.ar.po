@@ -1,0 +1,47 @@
+# Arabic translation of atrium_features (6.x-0.1)
+# Copyright (c) 2009 by the Arabic translation team
+# Generated from files:
+#  modules/features/atrium_profile/atrium_profile.defaults.inc: n/a
+#  modules/features/atrium_profile/atrium_profile.profile_migration.inc: n/a
+#  modules/features/atrium_profile/atrium_profile.module: n/a
+#  modules/features/atrium_profile/atrium_profile.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_features (6.x-0.1)\n"
+"POT-Creation-Date: 2009-06-10 15:00+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=((n==1)?(0):((n==0)?(1):((n==2)?(2):((((n%100)>=3)&&((n%100)<=10))?(3):((((n%100)>=11)&&((n%100)<=99))?(4):5)))));\n"
+
+#: features/atrium_profile/atrium_profile.defaults.inc:11
+msgid "Profile."
+msgstr ""
+
+#: features/atrium_profile/atrium_profile.profile_migration.inc:76
+msgid "Migrated profile for user <strong>!username</strong>"
+msgstr ""
+
+#: features/atrium_profile/atrium_profile.module:63
+msgid "Edit my profile"
+msgstr "تعديل صفحة التعريف"
+
+#: features/atrium_profile/atrium_profile.defaults.inc:241
+msgid "This user has not filled out a profile."
+msgstr ""
+
+#: features/atrium_profile/atrium_profile.module:0
+msgid "atrium_profile"
+msgstr ""
+
+#: features/atrium_profile/atrium_profile.info:0
+msgid "Atrium Profile"
+msgstr ""
+
+#: features/atrium_profile/atrium_profile.info:0
+msgid "Provides user profiles for Atrium."
+msgstr ""
+
