@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.module,v 1.1.2.5 2009/06/07 07:03:52 yhahn Exp $
+// $Id: admin.module,v 1.1.2.6 2009/06/08 00:52:46 yhahn Exp $
 
 /**
  * Implementation of hook_init().
@@ -171,25 +171,25 @@ function admin_perm() {
  * Implementation of hook_theme().
  */
 function admin_theme($cache, $type, $theme, $path) {
-  $items = array();
+  $path = drupal_get_path('module', 'admin');
   $items['admin_menu_overview_form'] = array(
     'arguments' => array('form' => array()),
   );
   $items['admin_toolbar'] = array(
     'arguments' => array('tree' => array()),
     'template' => 'admin-toolbar',
-    'path' => drupal_get_path('module', 'admin') .'/toolbar',
+    'path' => $path . '/toolbar',
     'file' => 'theme.inc',
   );
   $items['admin_links'] = array(
     'arguments' => array('links' => array()),
     'template' => 'admin-links',
-    'path' => drupal_get_path('module', 'admin') .'/toolbar',
+    'path' => $path . '/toolbar',
     'file' => 'theme.inc',
   );
   $items['admin_manage_options'] = array(
     'arguments' => array('form' => array()),
-    'path' => drupal_get_path('module', 'admin') .'/theme',
+    'path' => $path . '/theme',
     'file' => 'template.php',
   );
   return $items;
@@ -385,7 +385,7 @@ function admin_preprocess_node(&$vars) {
  * Helper for returning a selectively flattened version of the admin menu.
  */
 function admin_get_menu_tree($method = 'all', $reset = FALSE) {
-  $tree = ($method == 'all') ? menu_tree_all_data('admin', $item) : menu_tree_page_data('admin');
+  $tree = ($method == 'all' ? menu_tree_all_data('admin') : menu_tree_page_data('admin'));
   foreach ($tree as $k => $item) {
     if ($item['link']['link_path'] == 'admin' && !empty($item['below'])) {
       unset($tree[$k]);

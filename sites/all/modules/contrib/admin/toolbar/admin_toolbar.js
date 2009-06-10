@@ -1,22 +1,21 @@
-// $Id: admin_toolbar.js,v 1.1.2.1 2009/06/07 04:14:41 yhahn Exp $
+// $Id: admin_toolbar.js,v 1.1.2.2 2009/06/08 00:52:46 yhahn Exp $
+
+Drupal.admin = Drupal.admin || {};
+Drupal.admin.toolbar = Drupal.admin.toolbar || {};
+
+Drupal.admin.toolbar.setActive = function(toolbar_id) {
+  // Show the right toolbar
+  $('#admin-toolbar .depth-1 ul.links').addClass('collapsed');
+  $(toolbar_id).removeClass('collapsed');
+  $('div#admin-toolbar, div#admin-toolbar .depth-1').removeClass('collapsed');
+
+  // Switch link active class to corresponding menu item
+  var link_id = toolbar_id.replace('admin-toolbar', 'admin-link');
+  $('#admin-toolbar .depth-0 ul.links a').removeClass('active');
+  $(link_id).addClass('active');
+}
 
 Drupal.behaviors.admin_toolbar = function(context) {
-
-  Drupal.admin = {
-    'toolbar': {}
-  }
-
-  Drupal.admin.toolbar.setActive = function(toolbar_id) {
-    // Show the right toolbar
-    $('#admin-toolbar .depth-1 ul.links').addClass('collapsed');
-    $(toolbar_id).removeClass('collapsed');
-    $('div#admin-toolbar, div#admin-toolbar .depth-1').removeClass('collapsed');
-
-    // Switch link active class to corresponding menu item
-    var link_id = toolbar_id.replace('admin-toolbar', 'admin-link');
-    $('#admin-toolbar .depth-0 ul.links a').removeClass('active');
-    $(link_id).addClass('active');
-  }
 
   // Primary menus
   $('#admin-toolbar .depth-0 ul.links a:not(.processed)').each(function() {

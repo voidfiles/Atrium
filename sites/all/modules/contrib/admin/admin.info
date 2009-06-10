@@ -1,5 +1,5 @@
-; $Id: admin.info,v 1.1.2.1 2009/06/07 07:03:52 yhahn Exp $
+; $Id: admin.info,v 1.1.2.2 2009/06/08 00:55:33 yhahn Exp $
 name = "Admin"
-description = "Drupal administration UI helpers. Includes: admin menu, contextual administration links, admin theme."
+description = "UI helpers for Drupal admins and managers. Includes a special admin theme, custom admin header with JS support, and contextual admin links."
 package = "Administration"
 core = 6.x

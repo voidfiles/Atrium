@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.install,v 1.1.2.1 2009/06/07 07:03:52 yhahn Exp $
+// $Id: admin.install,v 1.1.2.2 2009/06/08 16:35:31 yhahn Exp $
 
 /**
  * Implementation of hook_install().
