@@ -1302,7 +1302,7 @@ div.view-filters { padding:0px 10px; }
 span.marker {
   display:block;
   float:right;
-  background:url(images/sprite_base.png) 0px -30px no-repeat;
+  background:url(images/sprite_base.png) 0px -25px no-repeat;
   width:20px;
   height:20px;
   text-indent:-999px;
