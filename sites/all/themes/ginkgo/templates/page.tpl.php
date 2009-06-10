@@ -3,7 +3,6 @@
   <head>
     <?php print $head ?>
     <?php print $styles ?>
-    <!--[if lt IE 7]><?php print $ie6 ?><![endif]-->
     <title><?php print $head_title ?></title>
   </head>
   <body <?php print drupal_attributes($attr) ?>>

@@ -71,7 +71,7 @@ div.more-link a:hover,
 div.node-links ul li a:hover,
 div.comment-links ul li a:hover {
   color:#fff;
-  background:url(images/sprite.png) 0px -920px repeat-x;
+  background:url(images/sprite_base.png) 0px -280px repeat-x;
   }
 
 /**
@@ -103,8 +103,8 @@ a.user-picture {
     height:60px;
     }
 
-  div.picture-user-s { background:url(images/sprite.png) -270px -700px no-repeat; }
-  div.picture-user-m { background:url(images/sprite.png) -300px -700px no-repeat; }
+  div.picture-user-s { background:url(images/sprite_base.png) -270px 0px no-repeat; }
+  div.picture-user-m { background:url(images/sprite_base.png) -300px 0px no-repeat; }
 
 /**
  * CONSOLE =============================================================
@@ -245,7 +245,7 @@ div.dropdown-blocks div.block div.item-list li a {
  * GLOBAL =============================================================
  */
 #global {
-  background:url(images/sprite.png) 0px -200px repeat-x;
+  background:url(images/sprite_skin.png) 0px -200px repeat-x;
   font-size:11px;
 
   position:relative;
@@ -270,7 +270,7 @@ div.dropdown-blocks div.block div.item-list li a {
     overflow:hidden;
 
     display:block;
-    background:url(images/sprite.png) 0px -320px no-repeat;
+    background:url(images/sprite_skin.png) 0px -320px no-repeat;
     }
 
 #global div.picture,
@@ -293,14 +293,14 @@ div.dropdown-blocks div.block div.item-list li a {
   #global ul.links li.active a:hover,
   #global ul.links li a:hover {
     opacity:1;
-    background:url(images/sprite.png) 50% -280px no-repeat;
+    background:url(images/sprite_skin.png) 50% -280px no-repeat;
     }
 
   #global ul.dropdown li.selected a,
   #global ul.dropdown li.selected a.active,
   #global ul.dropdown li.selected a:hover {
     opacity:1;
-    background:url(images/sprite.png) 50% -240px no-repeat;
+    background:url(images/sprite_skin.png) 50% -240px no-repeat;
     }
 
 /**
@@ -389,7 +389,7 @@ div.dropdown-blocks div.block div.item-list li a {
  * Navigation =========================================================
  */
 #navigation {
-  background:url(images/sprite.png) 0px -121px repeat-x;
+  background:url(images/sprite_skin.png) 0px -121px repeat-x;
   border-top-width:1px;
   border-top-style:solid;
   padding:19px 0px 0px;
@@ -405,7 +405,7 @@ div.dropdown-blocks div.block div.item-list li a {
   padding:4px 14px;
   margin-right:5px;
 
-  background-image:url(images/sprite.png);
+  background-image:url(images/sprite_skin.png);
   background-position:0px -200px;
   background-repeat:repeat-x;
 
@@ -433,7 +433,7 @@ div.dropdown-blocks div.block div.item-list li a {
   border:1px solid #fff;
   border-bottom:0px;
   height:59px;
-  background:url(images/sprite.png) 0px 0px repeat-x;
+  background:url(images/sprite_skin.png) 0px 0px repeat-x;
   -moz-border-radius-topleft:3px;
   -moz-border-radius-topright:3px;
   -webkit-border-top-left-radius:3px;
@@ -453,7 +453,7 @@ div.dropdown-blocks div.block div.item-list li a {
   -webkit-border-top-right-radius:3px;
   }
 
-  #features-menu li a:hover { background:url(images/sprite.png) 0px -60px no-repeat; }
+  #features-menu li a:hover { background:url(images/sprite_skin.png) 0px -60px no-repeat; }
 
   #features-menu li.active a,
   #features-menu li.active a.active {
@@ -490,23 +490,23 @@ div.dropdown-blocks div.block div.item-list li a {
     }
 
     #features-menu li a span.icon {
-      background:url(images/sprite.png) 0px -360px no-repeat;
+      background:url(images/sprite_icons.png) 0px 0px no-repeat;
       display:block;
       height:40px;
       width:40px;
       float:left;
       }
 
-  #features-menu li a.icon-blog span.icon { background-position: 0px -400px; }
-  #features-menu li a.icon-documents span.icon { background-position: -40px -400px; }
-  #features-menu li a.icon-calendar span.icon { background-position: -80px -400px; }
-  #features-menu li a.icon-casetracker span.icon { background-position: -120px -400px; }
-  #features-menu li a.icon-dashboard span.icon { background-position: -160px -400px; }
-  #features-menu li a.icon-groups span.icon { background-position: -200px -400px; }
-  #features-menu li a.icon-home span.icon { background-position: -240px -400px; }
-  #features-menu li a.icon-members span.icon { background-position: -280px -400px; }
-  #features-menu li a.icon-profile span.icon { background-position: -280px -400px; }
-  #features-menu li a.icon-shoutbox span.icon { background-position: -320px -400px; }
+  #features-menu li a.icon-blog span.icon { background-position: 0px -40px; }
+  #features-menu li a.icon-documents span.icon { background-position: -40px -40px; }
+  #features-menu li a.icon-calendar span.icon { background-position: -80px -40px; }
+  #features-menu li a.icon-casetracker span.icon { background-position: -120px -40px; }
+  #features-menu li a.icon-dashboard span.icon { background-position: -160px -40px; }
+  #features-menu li a.icon-groups span.icon { background-position: -200px -40px; }
+  #features-menu li a.icon-home span.icon { background-position: -240px -40px; }
+  #features-menu li a.icon-members span.icon { background-position: -280px -40px; }
+  #features-menu li a.icon-profile span.icon { background-position: -280px -40px; }
+  #features-menu li a.icon-shoutbox span.icon { background-position: -320px -40px; }
 
 /**
  * Page header ========================================================
@@ -717,7 +717,7 @@ ul.menu span.icon {
   float:right;
   width:24px;
   height:24px;
-  background:url(images/sprite.png) -80px -720px no-repeat;
+  background:url(images/sprite_base.png) -80px 0px no-repeat;
   }
 
 ul.menu a {
@@ -974,7 +974,7 @@ div.xref div.label {
   right:0px;
   top:0px;
 
-  background:url(images/sprite.png) 100% -760px no-repeat;
+  background:url(images/sprite_base.png) 100% -60px no-repeat;
   overflow:hidden; text-indent:-999px;
   border:1px solid #fff;
   width:23px;
@@ -1163,14 +1163,14 @@ table.cases span.case-priority {
   width:30px; height:5px;
   overflow:hidden;
   text-indent: -999px;
-  background-image: url(images/sprite.png);
+  background-image: url(images/sprite_base.png) 0px 0px;
   }
 
-  table.cases span.priority-1 { background-position: 0px -720px; }
-  table.cases span.priority-2 { background-position: 0px -725px; }
-  table.cases span.priority-3 { background-position: 0px -730px; }
-  table.cases span.priority-4 { background-position: 0px -735px; }
-  table.cases span.priority-5 { background-position: 0px -740px; }
+  table.cases span.priority-1 { background-position: 0px 0px; }
+  table.cases span.priority-2 { background-position: 0px -5px; }
+  table.cases span.priority-3 { background-position: 0px -10px; }
+  table.cases span.priority-4 { background-position: 0px -15px; }
+  table.cases span.priority-5 { background-position: 0px -20px; }
 
 /* CLOSED */
 table.cases tr.status-7,
@@ -1302,7 +1302,7 @@ div.view-filters { padding:0px 10px; }
 span.marker {
   display:block;
   float:right;
-  background:url(images/sprite.png) 0px -745px no-repeat;
+  background:url(images/sprite_base.png) 0px -30px no-repeat;
   width:20px;
   height:20px;
   text-indent:-999px;
@@ -1414,13 +1414,13 @@ td.views-field-filename div.views-field-filename { font-weight:bold; }
   text-indent: -999px;
   overflow:hidden;
 
-  background:url(images/sprite.png) 15px 15px no-repeat;
+  background:url(images/sprite_icons.png) 15px 15px no-repeat;
   }
 
-  .views-field-feature span.feature-atrium_blog { background-position:0px -700px; }
-  .views-field-feature span.feature-atrium_book { background-position:-15px -700px; }
-  .views-field-feature span.feature-atrium_calendar { background-position:-30px -700px; }
-  .views-field-feature span.feature-atrium_casetracker { background-position:-45px -700px; }
+  .views-field-feature span.feature-atrium_blog { background-position:0px -345px; }
+  .views-field-feature span.feature-atrium_book { background-position:-15px -345px; }
+  .views-field-feature span.feature-atrium_calendar { background-position:-30px -345px; }
+  .views-field-feature span.feature-atrium_casetracker { background-position:-45px -345px; }
 
 /* OG faces, Member directory */
 table.views-view-grid .views-field-name {

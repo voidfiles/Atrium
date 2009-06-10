@@ -6,7 +6,7 @@ input.form-submit {
   color:#fff;
   font-weight:normal;
   border:1px solid #444;
-  background:url(images/sprite.png) 0px -920px repeat-x;
+  background:url(images/sprite_base.png) 0px -280px repeat-x;
 
   text-shadow:#222 0px -1px 0px;
   -moz-border-radius:3px;
@@ -17,7 +17,7 @@ input.form-submit {
   div.context-links a:active,
   input.form-submit:active {
     border-color:#222;
-    background:url(images/sprite.png) 0px 100% repeat-x;
+    background:url(images/sprite_base.png) 0px 100% repeat-x;
     text-shadow:#222 0px -1px 0px;
     }
 
@@ -179,10 +179,10 @@ div.form div.form-message {
     width:25px;
     height:25px;
     margin-right:10px;
-    background: url(images/sprite.png) -30px -720px no-repeat;
+    background: url(images/sprite_base.png) -30px 0px no-repeat;
     }
 
-    div.form div.form-message-public span.icon { background-position: -55px -720px; }
+    div.form div.form-message-public span.icon { background-position: -55px 0px; }
 
 /* Dashboard form */
 form#spaces-customize-form h3 {

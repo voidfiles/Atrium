@@ -48,9 +48,6 @@ function ginkgo_preprocess_page(&$vars) {
   // Add spaces design CSS back in
   $vars['styles'] .= !empty($vars['spaces_design_styles']) ? $vars['spaces_design_styles'] : '';
 
-  // IE styles
-  $vars['ie6'] = "<style type='text/css' media='all'>@import ". base_path() . path_to_theme() . "/ie6.css;</style>";
-
   // Grab the header dropdown links
   $vars['header'] = theme('blocks_header', array());
   $vars['dropdown_links'] = theme('blocks_header', array(), TRUE);
