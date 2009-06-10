@@ -174,8 +174,6 @@ function atrium_profile_tasks(&$task, $url) {
 
       $batch = core_translation_batch_by_language($install_locale, '_atrium_locale_batch_finished');
       if (!empty($batch)) {
-        $t = get_t();
-        $batch['title'] = $t('Importing extended translations');
         // Remove temporary variable.
         variable_del('install_locale_batch_components');
         // Start a batch, switch to 'locale-batch' task. We need to
