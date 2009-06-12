@@ -1,5 +1,5 @@
 name = "Atrium Blog"
-description = "A blog feature for Atrium."
+description = "The blog lets you have a conversation on a topic with your team."
 core = "6.x"
 package = "Features"
 dependencies[] = "atrium"

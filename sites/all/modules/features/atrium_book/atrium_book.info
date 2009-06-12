@@ -1,5 +1,5 @@
-name = "Atrium Book"
-description = "Provides a documents feature for Atrium."
+name = "Atrium Documents"
+description = "The documents feature lets you store and share information and attachments."
 core = "6.x"
 package = "Features"
 dependencies[] = "atrium"

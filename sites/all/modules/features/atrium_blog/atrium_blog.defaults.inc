@@ -131,11 +131,11 @@ function _atrium_blog_menu_default_items() {
     'title' => 'Blog',
     'path' => 'blog',
     'weight' => '0',
-    'description' => 'A blog feature for team discussions.',
+    'description' => 'The blog lets you have a conversation on a topic with your team.',
   );
   // Translatables
   array(
-    t('A blog feature for team discussions.'),
+    t('The blog lets you have a conversation on a topic with your team.'),
     t('Blog'),
   );
 

@@ -25,20 +25,16 @@ include_once('messaging_shoutbox.features.inc');
  * Implementation of hook_help().
  */
 function messaging_shoutbox_help($path, $arg) {
-  if (($path == 'help#messaging_shoutbox') || (context_get('spaces', 'feature') == 'shoutbox')) {
-    switch ($path) {
-      case 'help#messaging_shoutbox':
-      default:
-        $help = '';
-        $help .= '<h3>'. t('Messaging Shoutbox') .'</h3>';
-        $help .= '<p>'. t('The shoutbox provides a microblogging feature for your team.') .'</p>';
-        $help .= '<ul>';
-        $help .= '<li>'. t('Shouts can be used to tell others what you\'re up to, link to websites of interest or other random stuff that comes up during the day.') .'</li>';
-        $help .= '<li>'. t('<strong>Keep your shouts short</strong> and to the point. If it starts getting long, consider using a blog post or document to capture your thoughts.') .'</li>';
-        $help .= '<li>'. t('<strong>URLs</strong> will automatically be linked in your posts.') .'</li>';
-        $help .= '</ul>';
-        return $help;
-    }
+  if (($path == 'help#messaging_shoutbox') || context_isset('spaces', 'shoutbox')) {
+    $help = '';
+    $help .= '<h3>'. t('Messaging Shoutbox') .'</h3>';
+    $help .= '<p>'. t('The shoutbox gives your team a space to microblog.') .'</p>';
+    $help .= '<ul>';
+    $help .= '<li>'. t('Shouts can be used to tell others what you\'re up to, link to websites of interest, or cover other random stuff that comes up during the day.') .'</li>';
+    $help .= '<li>'. t('<strong>Keep your shouts short</strong> and to the point. If a shout starts getting long, consider using a blog post or document to capture your thoughts.') .'</li>';
+    $help .= '<li>'. t('<strong>URLs</strong> will automatically be linked in your posts.') .'</li>';
+    $help .= '</ul>';
+    return $help;
   }
 }
 

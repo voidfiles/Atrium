@@ -10,28 +10,28 @@ function _atrium_dashboard_menu_default_items() {
     'title' => 'Dashboard',
     'path' => 'dashboard',
     'weight' => '0',
-    'description' => 'Provides a dashboard feature',
+    'description' => 'The dashboard lets you monitor recent activity in a group.',
   );
   $items[] = array(
     'title' => 'Home',
     'path' => 'home',
     'weight' => '0',
-    'description' => 'Provides a site homepage feature',
+    'description' => 'Site homepage lets you monitor recent activity in all your groups.',
   );
   $items[] = array(
     'title' => 'Profile',
     'path' => 'profile',
     'weight' => '0',
-    'description' => 'Provides a user profile feature',
+    'description' => 'The user profile lets you monitor recent activity for a user.',
   );
   // Translatables
   array(
     t('Dashboard'),
     t('Home'),
     t('Profile'),
-    t('Provides a dashboard feature'),
-    t('Provides a site homepage feature'),
-    t('Provides a user profile feature'),
+    t('The dashboard lets you monitor recent activity in a group.'),
+    t('Site homepage lets you monitor recent activity in all your groups.'),
+    t('The user profile lets you monitor recent activity for a user.'),
   );
 
 

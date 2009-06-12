@@ -1,5 +1,5 @@
 name = "Messaging Shoutbox"
-description = "Provides a shoutbox that integrates with Messaging, Notifications, and Spaces."
+description = "The shoutbox provides a team microblog that integrates with Messaging, Notifications, and Spaces."
 package = "Messaging"
 dependencies[] = "node"
 dependencies[] = "spaces"

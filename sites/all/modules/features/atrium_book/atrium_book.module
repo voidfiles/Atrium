@@ -11,7 +11,7 @@ function atrium_book_help($path, $arg) {
       case 'node/add/book':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Atrium Book') .'</h3>';
+        $help .= '<h3>'. t('Documents') .'</h3>';
         $help .= '<p>'. t('Tips for adding & editing book pages:') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('Create a new book or choose an existing one for your page.') .'</li>';
@@ -23,8 +23,8 @@ function atrium_book_help($path, $arg) {
       case 'help#atrium_book':
       default:
         $help = '';
-        $help .= '<h3>'. t('Atrium Book') .'</h3>';
-        $help .= '<p>'. t('The documents section provides a way for you to capture and share knowledge with your group members. With the book feature you can:') .'</p>';
+        $help .= '<h3>'. t('Documents') .'</h3>';
+        $help .= '<p>'. t('The documents section provides a way for you to store and share information with your group members. With the book feature you can:') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_book_pages and organize them hierarchically into different books.', array('!add_book_pages' => l(t('Add book pages'), 'node/add/book'))) .'</li>';
         $help .= '<li>'. t('Attach files to pages to share them with others.') .'</li>';

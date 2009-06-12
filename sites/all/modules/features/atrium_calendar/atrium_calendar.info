@@ -1,5 +1,5 @@
 name = "Atrium Calendar"
-description = "Provides a calendar feature for Atrium."
+description = "The calendar lets you share events and meetings with your team."
 core = "6.x"
 package = "Features"
 dependencies[] = "date"

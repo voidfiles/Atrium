@@ -1,5 +1,5 @@
 name = "Atrium Profile"
-description = "Provides user profiles for Atrium."
+description = "A profile lets you share personal information about yourself with your team."
 dependencies[] = "atrium_intranet"
 dependencies[] = "content"
 dependencies[] = "features"

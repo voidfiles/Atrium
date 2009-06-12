@@ -1,5 +1,5 @@
 name = "Atrium Intranet"
-description = "Installer and distro module for the Atrium Intranet package."
+description = "Features for managing users, groups, and administering your site."
 dependencies[] = "admin_message"
 dependencies[] = "atrium"
 dependencies[] = "date_api"

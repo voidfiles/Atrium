@@ -18,8 +18,8 @@ function atrium_dashboard_help($path, $arg) {
         }
 
         $help = '';
-        $help .= '<h3>'. t('Atrium Dashboard') .'</h3>';
-        $help .= '<p>'. t('The dashboard provides displays of the latest activity in your groups.') .'</p>';
+        $help .= '<h3>'. t('Dashboard') .'</h3>';
+        $help .= '<p>'. t('The dashboard displays the latest activity in your groups.') .'</p>';
         $help .= '<ul>';
         if (!empty($customize_link)) {
           $help .= '<li>'. t('You can !customize the layout of displays in <strong>the main view</strong>.', array('!customize' => $customize_link)) .'</li>';

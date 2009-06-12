@@ -193,12 +193,12 @@ function _atrium_calendar_menu_default_items() {
     'title' => 'Calendar',
     'path' => 'calendar',
     'weight' => '0',
-    'description' => 'Provides a calendar feature',
+    'description' => 'The calendar lets you share events and meetings with your team.',
   );
   // Translatables
   array(
     t('Calendar'),
-    t('Provides a calendar feature'),
+    t('The calendar lets you share events and meetings with your team.'),
   );
 
 

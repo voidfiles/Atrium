@@ -12,20 +12,20 @@ function atrium_calendar_help($path, $arg) {
       case 'node/add/feed-ical':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Atrium Calendar') .'</h3>';
+        $help .= '<h3>'. t('Calendar') .'</h3>';
         $node = menu_get_object();
         if ($path == 'node/add/event' || $node->type == 'event') {
-          $help .= '<p>'. t('Tips for adding & editing events:') .'</p>';
+          $help .= '<p>'. t('Tips for adding and editing events:') .'</p>';
           $help .= '<ul>';
           $help .= '<li>'. t('Fill in a title and description for your event.') .'</li>';
-          $help .= '<li>'. t('Choose a <strong>start date</strong> for your event. Leave out the </strong>end date</strong> if your event doesn\'t last longer than a day.') .'</li>';
+          $help .= '<li>'. t('Choose a start date and an end date for your event. If your event doesn\'t last longer than a day, leave out the end date.') .'</li>';
           $help .= '</ul>';
         }
         else if ($path == 'node/add/feed-ical' || $node->type == 'feed_ical') {
-          $help .= '<p>'. t('Tips for adding & editing iCal feeds:') .'</p>';
+          $help .= '<p>'. t('Tips for adding and editing iCal feeds:') .'</p>';
           $help .= '<ul>';
           $help .= '<li>'. t('Add a title for your feed so you can identify it quickly later.') .'</li>';
-          $help .= '<li>'. t('Enter the URL of an iCal feed. Feed URLs often begin with <strong>webcal://</strong> and often end with filename like <strong>my_calendar.ics</strong>.') .'</li>';
+          $help .= '<li>'. t('Enter the URL of an iCal feed. Feed URLs often begin with <strong>webcal://</strong> and often end with a filename like <strong>my_calendar.ics</strong>.') .'</li>';
           $help .= '</ul>';
         }
         return $help;
@@ -33,7 +33,7 @@ function atrium_calendar_help($path, $arg) {
       case 'help#atrium_calendar':
       default:
         $help = '';
-        $help .= '<h3>'. t('Atrium Calendar') .'</h3>';
+        $help .= '<h3>'. t('Calendar') .'</h3>';
         $help .= '<p>'. t('The calendar displays events and calendar feeds submitted by your group.') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_events to the calendar to let others know about what\'s coming up.', array('!add_events' => l(t('Add events'), 'node/add/event'))) .'</li>';

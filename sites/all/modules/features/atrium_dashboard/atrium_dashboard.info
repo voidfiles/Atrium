@@ -1,5 +1,5 @@
 name = "Atrium Dashboard"
-description = "Provides a dashboard feature specific to the Intranet distro."
+description = "The dashboard lets you monitor recent activity in a group."
 dependencies[] = "comment"
 dependencies[] = "date_api"
 dependencies[] = "node"

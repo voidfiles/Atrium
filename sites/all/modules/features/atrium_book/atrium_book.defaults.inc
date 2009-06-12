@@ -55,12 +55,12 @@ function _atrium_book_menu_default_items() {
     'title' => 'Documents',
     'path' => 'documents',
     'weight' => '0',
-    'description' => 'Provides a documents feature for Atrium.',
+    'description' => 'The documents feature lets you store and share information and attachments.',
   );
   // Translatables
   array(
     t('Documents'),
-    t('Provides a documents feature for Atrium.'),
+    t('The documents feature lets you store and share information and attachments.'),
   );
 
 

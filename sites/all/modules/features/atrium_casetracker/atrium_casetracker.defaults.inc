@@ -73,12 +73,12 @@ function _atrium_casetracker_menu_default_items() {
     'title' => 'Casetracker',
     'path' => 'casetracker',
     'weight' => '0',
-    'description' => 'Provides a casetracker feature',
+    'description' => 'The casetracker lets you assign tasks to yourself and others and track the progress on a project.',
   );
   // Translatables
   array(
     t('Casetracker'),
-    t('Provides a casetracker feature'),
+    t('The casetracker lets you assign tasks to yourself and others and track the progress on a project.'),
   );
 
 

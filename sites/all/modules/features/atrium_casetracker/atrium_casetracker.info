@@ -1,5 +1,5 @@
 name = "Atrium Casetracker"
-description = "Provides a casetracker for Atrium."
+description = "The casetracker lets you assign tasks to yourself and others and track the progress on a project. "
 core = "6.x"
 package = "Features"
 dependencies[] = "atrium"
