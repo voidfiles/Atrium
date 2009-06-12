@@ -1,5 +1,5 @@
 <?php
-// $Id: casetracker.views_default.inc,v 1.3.2.1 2009/03/07 16:06:50 jmiccolis Exp $
+// $Id: casetracker.views_default.inc,v 1.3.2.3 2009/06/12 20:04:45 jmiccolis Exp $
 
 /**
  * Implementation of hook_views_default_views().
@@ -8,6 +8,7 @@ function casetracker_views_default_views() {
   $list = array(
     'casetracker_project_options',
     'casetracker_project_cases',
+    'casetracker_assignee_options',
   );
   $views = array();
   foreach ($list as $view_name) {
@@ -56,20 +57,6 @@ function _view_casetracker_project_options() {
   }
 
   $filters = array(
-    'current' => array(
-      'operator' => 'active',
-      'value' => 'all',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'current',
-      'table' => 'spaces',
-      'field' => 'current',
-      'relationship' => 'none',
-    ),
     'status' => array(
       'operator' => '=',
       'value' => 1,
@@ -99,9 +86,6 @@ function _view_casetracker_project_options() {
       'relationship' => 'none',
     ),
   );
-  if (!module_exists('spaces')) {
-    unset($filters['current']);
-  }
   $handler->override_option('filters', $filters);
   $handler->override_option('access', array(
     'type' => 'none',
@@ -110,6 +94,103 @@ function _view_casetracker_project_options() {
   return $view;
 }
 
+function _view_casetracker_assignee_options() {
+  $view = new view;
+  $view->name = 'casetracker_assignee_options';
+  $view->description = 'Case tracker >  User options query builder';
+  $view->tag = 'casetracker';
+  $view->view_php = '';
+  $view->base_table = 'users';
+  $view->is_cacheable = FALSE;
+  $view->api_version = 2;
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('fields', array(
+    'name' => array(
+      'label' => 'Name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'link_to_user' => 0,
+      'overwrite_anonymous' => 0,
+      'anonymous_text' => '',
+      'exclude' => 0,
+      'id' => 'name',
+      'table' => 'users',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'uid' => array(
+      'label' => 'Uid',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'link_to_user' => 0,
+      'exclude' => 0,
+      'id' => 'uid',
+      'table' => 'users',
+      'field' => 'uid',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('sorts', array(
+    'name' => array(
+      'order' => 'ASC',
+      'id' => 'name',
+      'table' => 'users',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'status' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'status',
+      'table' => 'users',
+      'field' => 'status',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('items_per_page', 0);
+
+  return $view;
+}
 function _view_casetracker_project_cases() {
   $view = new view;
   $view->name = 'casetracker_project_cases';
@@ -334,6 +415,30 @@ function _view_casetracker_project_cases() {
       'relationship' => 'none',
       'reduce_duplicates' => 0,
     ),
+    'case_type_id' => array(
+      'operator' => 'or',
+      'value' => array(),
+      'group' => '0',
+      'exposed' => TRUE,
+      'expose' => array(
+        'use_operator' => 0,
+        'operator' => 'case_type_id_op',
+        'identifier' => 'case_type_id',
+        'label' => 'Type',
+        'optional' => 1,
+        'single' => 0,
+        'remember' => 0,
+        'reduce' => 0,
+      ),
+      'id' => 'case_type_id',
+      'table' => 'casetracker_case',
+      'field' => 'case_type_id',
+      'override' => array(
+        'button' => 'Override',
+      ),
+      'relationship' => 'none',
+      'reduce_duplicates' => 0,
+    ),
     'case_priority_id' => array(
       'operator' => 'or',
       'value' => array(),
@@ -376,30 +481,6 @@ function _view_casetracker_project_cases() {
       'id' => 'case_status_id',
       'table' => 'casetracker_case',
       'field' => 'case_status_id',
-      'override' => array(
-        'button' => 'Override',
-      ),
-      'relationship' => 'none',
-      'reduce_duplicates' => 0,
-    ),
-    'case_type_id' => array(
-      'operator' => 'or',
-      'value' => array(),
-      'group' => '0',
-      'exposed' => TRUE,
-      'expose' => array(
-        'use_operator' => 0,
-        'operator' => 'case_type_id_op',
-        'identifier' => 'case_type_id',
-        'label' => 'Type',
-        'optional' => 1,
-        'single' => 0,
-        'remember' => 0,
-        'reduce' => 0,
-      ),
-      'id' => 'case_type_id',
-      'table' => 'casetracker_case',
-      'field' => 'case_type_id',
       'override' => array(
         'button' => 'Override',
       ),

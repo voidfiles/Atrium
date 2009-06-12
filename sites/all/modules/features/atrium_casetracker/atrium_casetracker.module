@@ -59,6 +59,10 @@ function atrium_casetracker_strongarm() {
     $conf['atrium_update_type_'. $type] = TRUE;
   }
 
+  // Casetracker views
+  $conf['casetracker_view_project_options'] = 'atrium_ct_project_options';
+  $conf['casetracker_view_assignee_options'] = 'atrium_ct_assignee_options';
+
   // Comments
   $conf['comment_casetracker_basic_project'] = COMMENT_NODE_DISABLED;
 
