@@ -1,5 +1,5 @@
 <?php
-// $Id: casetracker.module,v 1.123.2.8 2009/04/27 12:51:54 jmiccolis Exp $
+// $Id: casetracker.module,v 1.123.2.12 2009/06/12 20:04:44 jmiccolis Exp $
 
 /**
  * @file
@@ -442,6 +442,67 @@ function casetracker_case_form_common(&$form, $default_project = NULL) {
 }
 
 /**
+* Implementation of hook_block
+*/
+function casetracker_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks[0] = array(
+        'info' => t('Jump to case'),
+      );
+      return $blocks;
+    case 'configure':
+       return array();
+    case 'save':
+        return;
+    case 'view':
+      switch ($delta) {
+        case 0:
+          if (user_access('access case tracker')) {
+            $block['subject'] = t('Jump to case');
+            $block['content'] = drupal_get_form('casetracker_block_jump_to_case_number');
+          }
+          break;
+      }
+      return $block;
+  }
+}
+
+/**
+ * Form for "Jump to case number" block.
+ */
+function casetracker_block_jump_to_case_number() {
+  $form = array();
+  $form['case_number'] = array(
+    '#maxlength' => 60, 
+    '#required' => TRUE,
+    '#size' => 15,
+    '#title' => t('Case number'),
+    '#type' => 'textfield',
+    '#prefix' => '<div class="container-inline">',
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go'),
+    '#suffix' => '</div>',
+  );
+  return $form;
+} 
+
+/**
+ * Submit function for our "Jump to case number" block.
+ */
+function casetracker_block_jump_to_case_number_submit($form, $form_state) {
+  list($pid, $nid) = explode('-', $form_state['values']['case_number']);
+  $case_nid = db_result(db_query("SELECT nid FROM {casetracker_case} WHERE pid = %d AND nid = %d", $pid, $nid));
+  if (!$case_nid) {
+    drupal_set_message(t('Your case number was not found.'), 'error');
+    return;
+  }
+  drupal_goto('node/'. $case_nid);
+}
+
+/**
  * CASE STATE CRUD ====================================================
  */
 
@@ -739,7 +800,7 @@ function theme_casetracker_case_summary($case, $project) {
   );
   $rows[] = array(
     t('Created:'),
-    theme_username($case) ." ". t('at') ." ". format_date($case->created, 'medium'),
+    theme('username', $case) ." ". t('at') ." ". format_date($case->created, 'medium'),
   );
   $rows[] = array(
     t('Status:'),
@@ -778,7 +839,7 @@ function theme_casetracker_case_summary($case, $project) {
 function theme_casetracker_project_summary($project) {
   $rows = array();
   $rows[] = array(t('Project number:'), $project->nid);
-  $rows[] = array(t('Opened by:'), theme_username($project));
+  $rows[] = array(t('Opened by:'), theme('username', $project));
   $rows[] = array(t('Opened on:'), format_date($project->created, 'large'));
   $rows[] = array(t('Last modified:'), format_date($project->changed, 'large'));
 
@@ -810,7 +871,7 @@ function theme_casetracker_project_summary($project) {
 function casetracker_project_options() {
   $projects = array();
   // Fetch the views list of projects, which is space-aware.
-  if ($view = views_get_view('casetracker_project_options')) {
+  if ($view = views_get_view(variable_get('casetracker_view_project_options', 'casetracker_project_options'))) {
     $view->set_display();
     $view->set_items_per_page(0);
     $view->execute();
@@ -825,17 +886,20 @@ function casetracker_project_options() {
  * API function that returns valid user options.
  */
 function casetracker_user_options() {
-  $group = module_exists('og') ? og_get_group_context() : NULL;
-  $options = array(0 => variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous'))));
-  if ($group) {
-    $gid = $group->nid;
-    $results = db_query('SELECT u.uid, u.name FROM {users} u INNER JOIN {og_uid} ou ON u.uid = ou.uid WHERE u.status > 0 AND u.uid > 0 AND ou.nid = %d ORDER BY u.name ASC', $gid);
+  $users = array();
+  $options = array();
+  if ($view = views_get_view(variable_get('casetracker_view_assignee_options', 'casetracker_assignee_options'))) {
+    $view->set_display();
+    $view->set_items_per_page(0);
+    $view->execute();
+    foreach ($view->result as $row) {
+      $options[$row->uid] = $row->users_name;
+    }
   }
-  else {
-    $results = db_query('SELECT u.uid, u.name FROM {users} u WHERE u.status > 0 AND u.uid > 0 ORDER BY u.name ASC');
-  }
-  while ($result = db_fetch_object($results)) {
-    $options[$result->uid] = check_plain($result->name);
+  // fill in anonymous value because view is not rendered and the redundant option in views is irrelevant
+  // @TODO render the view before display so this isn't needed.
+  if (isset($options[0])) {
+    $options[0] = variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous')));
   }
   return $options;
 }
@@ -900,3 +964,4 @@ function casetracker_get_name($uid = NULL, $reset = FALSE) {
   }
   return !empty($users[$uid]) ? $users[$uid] : variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous')));
 }
+

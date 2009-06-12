@@ -1,5 +1,5 @@
 <?php
-// $Id: casetracker_admin.inc,v 1.2.2.3 2009/03/10 12:53:45 jmiccolis Exp $
+// $Id: casetracker_admin.inc,v 1.2.2.4 2009/06/12 20:04:45 jmiccolis Exp $
 
 /**
  * Configures the various Case Tracker options; system_settings_form().
@@ -52,6 +52,32 @@ function casetracker_settings() {
     '#options' => $case_types,
     '#default_value' => variable_get('casetracker_case_node_types', array('casetracker_basic_case')),
     '#description' => t('Select the node types that will be considered Case Tracker cases.'),
+  );
+  
+  $all_views = views_get_all_views();
+  $node_views = array();
+  $user_views = array();
+  foreach($all_views AS $view) {
+    if($view->base_table == 'node') {
+      $node_views[$view->name] = $view->name;
+    } else if($view->base_table = 'users') {
+      $user_views[$view->name] = $view->name;
+    }
+  }
+  $form['casetracker_general']['casetracker_view_project_options'] = array(
+    '#type' => 'select',
+    '#title' => t('Project options view'),
+    '#options' => $node_views,
+    '#default_value' => variable_get('casetracker_view_project_options', 'casetracker_project_options'),
+    '#description' => t('Select the view from which to fill the project selector on the add case page.'),
+  );
+  
+  $form['casetracker_general']['casetracker_view_assignee_options'] = array(
+    '#type' => 'select',
+    '#title' => t('Assignee options view'),
+    '#options' => $user_views,
+    '#default_value' => variable_get('casetracker_view_assignee_options', 'casetracker_assignee_options'),
+    '#description' => t('Select the view from which to fill the user assignment options on the add case page.'),
   );
   
   $form['#submit'][] = 'casetracker_settings_submit';
