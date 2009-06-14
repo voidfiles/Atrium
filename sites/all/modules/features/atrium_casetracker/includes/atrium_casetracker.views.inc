@@ -60,7 +60,7 @@ function atrium_casetracker_views_data() {
   $data = array();
 
   // A second entry for the history table, see node.views.inc for the first.
-  $data['casetracker_case2']['table']['group']  = t('Casetracker');
+  $data['casetracker_case2']['table']['group']  = t('Case Tracker');
   $data['casetracker_case2']['table']['join'] = array(
     'node' => array(
       'left_field' => 'vid',

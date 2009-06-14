@@ -20,11 +20,11 @@ function _atrium_casetracker_context_default_contexts() {
       '1' => 'atrium_casetracker_projects',
     ),
     'spaces' => array(
-      'label' => 'Casetracker',
+      'label' => 'Case Tracker',
       'description' => 'Provides an issue and task tracker',
       'menu' => array(
         '0' => array(
-          'title' => 'Casetracker',
+          'title' => 'Case Tracker',
           'href' => 'casetracker',
         ),
       ),
@@ -70,14 +70,14 @@ function _atrium_casetracker_menu_default_items() {
   $items = array();
 
   $items[] = array(
-    'title' => 'Casetracker',
+    'title' => 'Case Tracker',
     'path' => 'casetracker',
     'weight' => '0',
     'description' => 'The casetracker lets you assign tasks to yourself and others and track the progress on a project.',
   );
   // Translatables
   array(
-    t('Casetracker'),
+    t('Case Tracker'),
     t('The casetracker lets you assign tasks to yourself and others and track the progress on a project.'),
   );
 
@@ -94,7 +94,7 @@ function _atrium_casetracker_views_default_views() {
   // Exported view: atrium_casetracker
   $view = new view;
   $view->name = 'atrium_casetracker';
-  $view->description = 'Atrium > Casetracker';
+  $view->description = 'Atrium > Case Tracker';
   $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
@@ -626,7 +626,7 @@ function _atrium_casetracker_views_default_views() {
   ));
   $handler->override_option('tab_options', array(
     'type' => 'normal',
-    'title' => 'Casetracker',
+    'title' => 'Case Tracker',
     'description' => '',
     'weight' => '0',
   ));
@@ -834,7 +834,7 @@ function _atrium_casetracker_views_default_views() {
   ));
   $handler->override_option('tab_options', array(
     'type' => 'normal',
-    'title' => 'Casetracker',
+    'title' => 'Case Tracker',
     'description' => '',
     'weight' => '0',
   ));
@@ -1247,7 +1247,7 @@ function _atrium_casetracker_views_default_views() {
   // Exported view: atrium_casetracker_projects
   $view = new view;
   $view->name = 'atrium_casetracker_projects';
-  $view->description = 'Atrium > Casetracker projects';
+  $view->description = 'Atrium > Case Tracker projects';
   $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';

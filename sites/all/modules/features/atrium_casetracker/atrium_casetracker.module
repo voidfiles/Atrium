@@ -12,7 +12,7 @@ function atrium_casetracker_help($path, $arg) {
       case 'node/add/casetracker-basic-project':
       case 'node/%/edit':
         $help = '';
-        $help .= '<h3>'. t('Casetracker') .'</h3>';
+        $help .= '<h3>'. t('Case Tracker') .'</h3>';
         $node = menu_get_object();
         if ($node->type == 'casetracker_basic_case') {
           $help .= '<p>'. t('Tips for adding and editing cases:') .'</p>';
@@ -23,15 +23,15 @@ function atrium_casetracker_help($path, $arg) {
           $help .= '</ul>';
         }
         else {
-          $help .= '<p>'. t('Projects can be used to organize cases and collect resources and documentations about ongoing work. You can organize <strong>book pages</strong> in a hierarchy under each project and view all of the cases that belong to a certain project in the casetracker.') .'</p>';
+          $help .= '<p>'. t('Projects can be used to organize cases and collect resources and documentations about ongoing work. You can organize <strong>book pages</strong> in a hierarchy under each project and view all of the cases that belong to a certain project in the case tracker.') .'</p>';
         }
         return $help;
 
       case 'help#atrium_casetracker':
       default:
         $help = '';
-        $help .= '<h3>'. t('Casetracker') .'</h3>';
-        $help .= '<p>'. t('The casetracker gives you a way to track progress on your <strong>projects</strong> and assign <strong>cases</strong> to yourself and others.') .'</p>';
+        $help .= '<h3>'. t('Case Tracker') .'</h3>';
+        $help .= '<p>'. t('The case tracker gives you a way to track progress on your <strong>projects</strong> and assign <strong>cases</strong> to yourself and others.') .'</p>';
         $help .= '<ul>';
         $help .= '<li>'. t('!add_projects to keep your cases organized.', array('!add_projects' => l(t('Add projects'), 'node/add/project'))) .'</li>';
         $help .= '<li>'. t('!add_cases to assign tasks or assignments to yourself and others for completion.', array('!add_cases' => l(t('Add cases'), 'node/add/case'))) .'</li>';
@@ -59,7 +59,7 @@ function atrium_casetracker_strongarm() {
     $conf['atrium_update_type_'. $type] = TRUE;
   }
 
-  // Casetracker views
+  // Case Tracker views
   $conf['casetracker_view_project_options'] = 'atrium_ct_project_options';
   $conf['casetracker_view_assignee_options'] = 'atrium_ct_assignee_options';
 
@@ -176,8 +176,8 @@ function atrium_casetracker_form_views_exposed_form_alter(&$form, &$form_state) 
 function atrium_casetracker_block($op = 'list', $delta = 0) {
   switch ($op) {
     case 'list':
-      $blocks['filters'] = array('info' => t('Atrium: Casetracker filter'));
-      $blocks['book'] = array('info' => t('Atrium: Casetracker book'));
+      $blocks['filters'] = array('info' => t('Atrium: Case Tracker filter'));
+      $blocks['book'] = array('info' => t('Atrium: Case Tracker book'));
       return $blocks;
     case 'view':
       $function = '_atrium_casetracker_block_'. $delta;
