@@ -1,5 +1,5 @@
 <?php
-// $Id: context_ui.admin.inc,v 1.1.2.7.2.4 2009/06/03 04:32:05 yhahn Exp $
+// $Id: context_ui.admin.inc,v 1.1.2.7.2.5 2009/06/13 23:58:31 yhahn Exp $
 
 /**
  * Page callback for context_ui admin landing page.
@@ -588,7 +588,7 @@ function context_ui_bulk_export(&$form_state) {
   $form = array();
   $contexts = context_contexts();
   if (isset($form_state['storage']['module_name'])) {
-    $code = "function ". $form_state['storage']['module_name'] ."_context_ui_define() {\n";
+    $code = "function ". $form_state['storage']['module_name'] ."_context_default_contexts() {\n";
     foreach ($form_state['storage']['contexts'] as $id) {
       $context = (array) $contexts[$id];
       unset($context['cid']);

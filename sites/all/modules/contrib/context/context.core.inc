@@ -217,7 +217,7 @@ function context_context_reactions() {
     array_unshift($menus, "-- ". t('None') ." --");
     $items['menu'] = array(
       '#title' => t('Active menu'),
-      '#description' => t('Display the selected menu item as active when this context is set. To use this feature, you must use <strong>theme_context_links()</strong> to theme your links. Please see README.txt for more information.'),
+      '#description' => t('Display the selected menu item as active in the <strong>$primary_links</strong> or <strong>$secondary_links</strong> of page.tpl.php when this context is set.'),
       '#options' => $menus,
       '#type' => 'select',
     );
@@ -553,17 +553,18 @@ function context_links($reset = false) {
 /**
  * A preprocess_page() function that is called *before* all other
  * preprocessors (including template_preprocess_page()). This allows
- * any final context conditions to be set before transitioning into
- * the "reaction" phase of the page load.
+ * any final context conditions to be set and any initial reactions
+ * to be triggered.
  */
 function context_page_alter(&$vars) {
-  drupal_alter('context_page', $vars);
+  module_invoke_all('context_page_condition');
+  module_invoke_all('context_page_reaction');
 }
 
 /**
- * Implementation of hook_context_page_alter().
+ * Implementation of hook_context_page_condition().
  */
-function context_context_page_alter(&$vars) {
+function context_context_page_condition() {
   // Menu trail condition integration
   $trail = menu_get_active_trail();
   foreach ($trail as $item) {

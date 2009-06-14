@@ -1,5 +1,5 @@
 <?php
-// $Id: context_ui.install,v 1.4.2.10 2009/03/14 18:37:28 yhahn Exp $
+// $Id: context_ui.install,v 1.4.2.10.2.1 2009/06/14 00:01:01 yhahn Exp $
 
 /**
  * Implementation of hook_install().
@@ -251,7 +251,7 @@ function context_ui_update_6003() {
     $new_statuses[str_replace(':', '-', $key)] = $status;
   }
   variable_set('context_status', $new_statuses);
-  context_ui_invalidate_cache();
+  context_invalidate_cache();
 
   return array();
 }
