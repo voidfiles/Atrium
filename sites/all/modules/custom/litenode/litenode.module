@@ -75,8 +75,9 @@ function template_preprocess_litenode_view(&$vars) {
         // @TODO og_groups_both -- we could do this similar to the
         // other litenode loaders as a batch query.
         $node->og_groups = array();
-        if (!empty($row->og_ancestry_nid)) {
-          $node->og_groups[$row->og_ancestry_nid] = $row->og_ancestry_nid;
+        $field_alias = $view->field['group_nid']->aliases['group_nid'];
+        if (!empty($row->{$field_alias})) {
+          $node->og_groups[$row->{$field_alias}] = $row->{$field_alias};
         }
       }
     }
