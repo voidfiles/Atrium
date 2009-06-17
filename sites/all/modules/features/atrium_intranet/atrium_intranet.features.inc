@@ -1,14 +1,6 @@
 <?php
 
 /**
- * Implementation of hook_content_default_fields().
- */
-function atrium_intranet_content_default_fields() {
-  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_content_default_fields();
-}
-
-/**
  * Implementation of hook_context_default_contexts().
  */
 function atrium_intranet_context_default_contexts() {
