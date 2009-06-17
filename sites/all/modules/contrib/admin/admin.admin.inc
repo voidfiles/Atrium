@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.admin.inc,v 1.1.2.1 2009/06/07 07:03:52 yhahn Exp $
+// $Id: admin.admin.inc,v 1.1.2.3 2009/06/15 04:31:31 yhahn Exp $
 
 /**
  * Implementation of hook_form_alter() for menu_edit_item.
@@ -50,7 +50,7 @@ function admin_form_menu_overview_form_alter(&$form, &$form_state) {
 /**
  * Theme the menu overview form into a table.
  */
-function admin_admin_menu_overview_form($form) {
+function theme_admin_menu_overview_form($form) {
   drupal_add_tabledrag('menu-overview', 'match', 'parent', 'menu-plid', 'menu-plid', 'menu-mlid', TRUE, MENU_MAX_DEPTH - 1);
   drupal_add_tabledrag('menu-overview', 'order', 'sibling', 'menu-weight');
 
@@ -154,8 +154,8 @@ function admin_menu_overview_form_submit($form, &$form_state) {
  * Implementation of hook_form_alter() for system_admin_theme_settings.
  */
 function admin_form_system_admin_theme_settings_alter(&$form) {
-  // Add in our stealth theme as an option
-  $form['admin_theme']['#options']['admin'] = t('Admin');
+  // Add in our admin theme ('slate') as an option
+  $form['admin_theme']['#options']['slate'] = t('Slate (formerly \'Admin\')');
 }
 
 /**

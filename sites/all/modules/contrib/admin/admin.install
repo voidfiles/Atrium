@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.install,v 1.1.2.2 2009/06/08 16:35:31 yhahn Exp $
+// $Id: admin.install,v 1.1.2.5 2009/06/15 05:13:56 yhahn Exp $
 
 /**
  * Implementation of hook_install().
@@ -9,10 +9,41 @@ function admin_install() {
 }
 
 /**
+ * Implementation of hook_enable().
+ */
+function admin_enable() {
+  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'", $items);
+  while ($item = db_fetch_array($result)) {
+    _menu_delete_item($item, TRUE);
+  }
+  menu_rebuild();
+}
+
+/**
  * Update 6001: Create admin menu.
  */
 function admin_update_6001() {
   $return = array();
   $return[] = update_sql("INSERT INTO {menu_custom} (menu_name, title, description) VALUES ('admin', 'Admin', 'Admin links.')");
   return $return;
+}
+
+/**
+ * Update 6002: Update theme namespace to 'slate' & clears out any customizations to key admin menu items.
+ */
+function admin_update_6002() {
+  db_query("DELETE FROM {system} WHERE name = 'admin' AND type = 'theme'");
+  _admin_theme_rebuild(TRUE);
+
+  if (variable_get('admin_theme', NULL) == 'admin') {
+    variable_set('admin_theme', 'slate');
+  }
+
+  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'", $items);
+  while ($item = db_fetch_array($result)) {
+    _menu_delete_item($item, TRUE);
+  }
+  menu_rebuild();
+
+  return array();
 }

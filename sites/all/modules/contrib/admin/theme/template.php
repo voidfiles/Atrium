@@ -1,10 +1,10 @@
 <?php
-// $Id: template.php,v 1.1.2.1 2009/06/05 05:46:18 yhahn Exp $
+// $Id: template.php,v 1.1.2.2 2009/06/15 03:18:56 yhahn Exp $
 
 /**
  * Display the list of available node types for node creation.
  */
-function admin_node_add_list($content) {
+function slate_node_add_list($content) {
   $output = '';
   if ($content) {
     $output = '<ul class="node-type-list">';
@@ -22,7 +22,7 @@ function admin_node_add_list($content) {
 /**
  * Override of theme_admin_block_content().
  */
-function admin_admin_block_content($content, $get_runstate = FALSE) {
+function slate_admin_block_content($content, $get_runstate = FALSE) {
   static $has_run = FALSE;
   if ($get_runstate) {
     return $has_run;
@@ -61,7 +61,7 @@ function admin_admin_block_content($content, $get_runstate = FALSE) {
  * Override of theme_system_settings_form().
  * Group buttons together @ the bottom.
  */
-function admin_system_settings_form($form) {
+function slate_system_settings_form($form) {
   $buttons = '<div class="buttons">'. drupal_render($form['buttons']) .'</div>';
   return drupal_render($form) . $buttons;
 }
@@ -69,7 +69,7 @@ function admin_system_settings_form($form) {
 /**
  * Override of theme_node_form().
  */
-function admin_node_form($form) {
+function slate_node_form($form) {
   $buttons = '<div class="buttons">'. drupal_render($form['buttons']) .'</div>';
   $sidebar = drupal_render($form['taxonomy']);
   $main = drupal_render($form);
@@ -82,7 +82,7 @@ function admin_node_form($form) {
 /**
  * Override of theme_fieldset().
  */
-function admin_fieldset(&$element) {
+function slate_fieldset(&$element) {
   $attr = isset($element['#attributes']) ? $element['#attributes'] : array();
   $attr['class'] = !empty($attr['class']) ? $attr['class'] : '';
   $attr['class'] .= ' fieldset';
@@ -110,7 +110,7 @@ function admin_fieldset(&$element) {
 /**
  * Theme function for manage options on admin/content/node, admin/user/user.
  */
-function admin_admin_manage_options($form) {
+function slate_admin_manage_options($form) {
   $output = "<div class='clear-block admin-options'>";
   $output .= "<label>{$form['#title']}</label>";
   foreach (element_children($form) as $id) {

@@ -106,13 +106,13 @@ hr { display:none; }
   font-size:11px;
   }
 
-#branding div.block {
-  width:240px;
-  padding-left:10px;
+#branding div.right {
   position:absolute;
   right:20px;
   background:#333;
   }
+
+#branding div.block { float:left; }
 
 #branding div.block form label { display:none; }
 
@@ -145,10 +145,10 @@ div.breadcrumb a {
  * Help ===============================================================
  */
 a.help-toggle {
-  float:right;
+  float:left;
   font-size:11px;
   background:#222;
-  margin:5px 0px 0px;
+  margin:5px 10px 0px 0px;
   padding:0px 10px;
   line-height:20px;
   white-space:nowrap;
@@ -476,13 +476,13 @@ table {
   width:100%;
   font-size:11px;
   margin:0px 0px 10px;
+  background-color:#fcfcfc;
   }
 
 table.system-status-report th,
 table td,
 table th {
   vertical-align:middle;
-  background-color:#fcfcfc;
   border:1px solid #ddd;
   padding:5px;
   }
@@ -495,7 +495,7 @@ table th {
   background:#eee;
   }
 
-table tr.odd td { background:#fff; }
+table tr.odd { background:#fff; }
 
 table td.active { background:#e4f0f8; }
 table tr.odd td.active { background:#ecf8fc; }

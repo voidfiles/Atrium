@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.module,v 1.1.2.6 2009/06/08 00:52:46 yhahn Exp $
+// $Id: admin.module,v 1.1.2.9 2009/06/15 03:39:30 yhahn Exp $
 
 /**
  * Implementation of hook_init().
@@ -17,15 +17,11 @@ function admin_init() {
     module_load_include('inc', 'admin', 'admin.admin');
   }
 
-  // Initialize the "null" theme -- in effect, bypass the theme system
-  // entirely so we can load our own theme into place.
-  $item = menu_get_item();
-  if (variable_get('node_admin_theme', 0) && in_array($item['page_callback'], array('node_add', 'node_add_page', 'node_page_edit'))) {
-    module_load_include('inc', 'admin', 'admin.theme');
+  // Initialize the slate theme. Bypass the theme system entirely so we can load our own theme into place.
+  if (variable_get('node_admin_theme', 0) && (strpos($_GET['q'], 'node/add') === 0 || strpos($_GET['q'], 'admin/content/add') === 0 || (arg(0) == 'node' && arg(2) == 'edit'))) {
     _admin_init_theme();
   }
-  else if (arg(0) == 'admin' && ($item['page_callback'] != 'block_admin_display') && variable_get('admin_theme', 'admin') == 'admin') {
-    module_load_include('inc', 'admin', 'admin.theme');
+  else if (arg(0) == 'admin' && ($item['page_callback'] != 'block_admin_display') && variable_get('admin_theme', 'slate') == 'slate') {
     _admin_init_theme();
   }
 }
@@ -157,6 +153,18 @@ function admin_system_info_alter(&$info, &$theme) {
   if (!isset($once)) {
     $once = TRUE;
     variable_set('admin_theme_invalidated', TRUE);
+  }
+}
+
+/**
+ * Implementation of hook_help().
+ */
+function admin_help($path, $arg) {
+  // Fool node help to think we are on node/add
+  if ($arg[0] == 'admin' && $arg[1] == 'content' && $arg[2] == 'add' && $arg[3]) {
+    $path = 'node/add/'. $arg[3];
+    $arg = array('node', 'add', $arg[3]);
+    return module_invoke('node', 'help', $path, $arg);
   }
 }
 
@@ -316,16 +324,16 @@ function admin_theme_registry_alter(&$theme_registry) {
       $theme_registry[$hook]['preprocess functions'][] = 'admin_preprocess_'. $hook;
     }
   }
-  // If the admin theme has been inited, do some additional work.
+  // If the slate theme has been inited, do some additional work.
   global $theme;
-  if ($theme == 'admin') {
+  if ($theme == 'slate') {
     // Slap a preprocessor on at the very front of the stack for rebuilding the admin theme.
     if (!in_array('admin_page_alter', $theme_registry['page']['preprocess functions'])) {
       array_unshift($theme_registry['page']['preprocess functions'], 'admin_page_alter');
     }
     $overrides = array('fieldset', 'node_form', 'system_settings_form', 'admin_block_content');
     foreach ($overrides as $hook) {
-      $theme_registry[$hook]['function'] = 'admin_'. $hook;
+      $theme_registry[$hook]['function'] = 'slate_'. $hook;
     }
   }
 }
@@ -342,14 +350,11 @@ function admin_page_alter(&$vars) {
  * Implementation of hook_preprocess_page().
  */
 function admin_preprocess_page(&$vars) {
-  // @TODO: merge multiple menus rather than just using the first
+  $vars['admin'] = '';
   if (admin_is_enabled('admin menu')) {
     $links = admin_menu_tree();
     $links = theme('admin_toolbar', $links);
     $vars['admin'] = $links;
-  }
-  else {
-    $vars['admin'] = '';
   }
 }
 
@@ -493,22 +498,76 @@ function admin_in_active_trail($path, $reset = FALSE) {
  */
 function _admin_theme_rebuild($force = FALSE) {
   if (arg(0) == 'admin') {
-    $exists = db_result(db_query("SELECT count(*) FROM {system} WHERE name = 'admin' AND type = 'theme'"));
+    $exists = db_result(db_query("SELECT count(*) FROM {system} WHERE name = 'slate' AND type = 'theme'"));
     $force = !$exists ? TRUE : $force;
   }
   if ($force || variable_get('admin_theme_invalidated', FALSE)) {
     $path = drupal_get_path('module', 'admin') .'/theme';
 
     $theme = new StdClass();
-    $theme->name = 'admin';
-    $theme->filename = "{$path}/admin.theme.info";
+    $theme->name = 'slate';
+    $theme->filename = "{$path}/slate.info";
     $theme->engine = 'phptemplate';
     $theme->owner = drupal_get_path('theme_engine', 'phptemplate') .'/phptemplate.engine';
     $theme->info = system_theme_default();
 
-    db_query("DELETE FROM {system} WHERE name = 'admin' AND type = 'theme'");
+    db_query("DELETE FROM {system} WHERE name = 'slate' AND type = 'theme'");
     db_query("INSERT INTO {system} (name, owner, info, type, filename, status, throttle, bootstrap) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d, %d)", $theme->name, $theme->owner, serialize($theme->info), 'theme', $theme->filename, isset($theme->status) ? $theme->status : 0, 0, 0);
   
     variable_set('admin_theme_invalidated', FALSE);
   }
+}
+
+/**
+ * Initialize the admin "theme".
+ */
+function _admin_init_theme() {
+  global $theme, $theme_key;
+  if (empty($theme)) {
+    _admin_theme_rebuild();
+
+    $theme = $theme_key = 'slate';
+
+    $path = drupal_get_path('module', 'admin') .'/theme';
+
+    $theme_info = new StdClass();
+    $theme_info->name = 'slate';
+    $theme_info->filename = "{$path}/slate.info";
+    $theme_info->engine = 'phptemplate';
+    $theme_info->owner = drupal_get_path('theme_engine', 'phptemplate') .'/phptemplate.engine';
+
+    $theme_info->stylesheets = array();
+    $theme_info->stylesheets['screen'][] = "{$path}/reset.css";
+    $theme_info->stylesheets['screen'][] = "{$path}/style.css";
+
+    $theme_info->scripts = array();
+    $theme_info->scripts[] = "{$path}/theme.js";
+
+    _init_theme($theme_info);
+    return TRUE;
+  }
+}
+
+/**
+ * Generate the 1st level of navigation links under 'admin'.
+ */
+function admin_navigation_primary() {
+  $tree = admin_get_menu_tree();
+  return admin_menu_navigation_links($tree);
+}
+
+/**
+ * Generate the 2nd level of navigation links under 'admin/*'.
+ */
+function admin_navigation_secondary() {
+  $is_duplicated = theme('admin_block_content', NULL, TRUE);
+  if (!$is_duplicated) {
+    $tree = admin_get_menu_tree('page');
+    foreach ($tree as $item) {
+      if (admin_in_active_trail($item['link']['href']) && !empty($item['below'])) {
+        return admin_menu_navigation_links($item['below']);
+      }
+    }
+  }
+  return NULL;
 }
