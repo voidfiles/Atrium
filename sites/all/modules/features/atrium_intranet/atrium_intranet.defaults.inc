@@ -161,9 +161,10 @@ function _atrium_intranet_filter_default_formats() {
   $formats[] = array(
     'name' => 'Textile',
     'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+      '2' => 'admin',
+      '3' => 'manager',
     ),
     'filters' => array(
       '0' => array(
