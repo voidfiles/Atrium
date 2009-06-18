@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.25 2009/06/18 06:16:01 yhahn Exp $
+// $Id: features.module,v 1.1.2.26 2009/06/18 20:48:30 yhahn Exp $
 
 /**
  * @file
@@ -46,7 +46,8 @@ function features_menu() {
     'weight' => 10,
   );
   $items['admin/build/features/%feature'] = array(
-    'title' => 'Feature components',
+    'title callback' => 'features_get_feature_title',
+    'title arguments' => array(3),
     'description' => 'Display components of a feature.',
     'page callback' => 'features_admin_components',
     'page arguments' => array(3),
@@ -64,19 +65,34 @@ function features_menu() {
     'description' => 'Compare default and current feature.',
     'page callback' => 'features_feature_comparison',
     'page arguments' => array(3),
+    'access callback' => 'features_access_override_actions',
+    'access arguments' => array(3),
     'type' => MENU_LOCAL_TASK,
     'file' => 'features.admin.inc',
   );
-  $items['admin/build/features/%feature/export'] = array(
-    'title' => 'Export',
+  $items['admin/build/features/%feature/update'] = array(
+    'title' => 'Update',
     'description' => 'Update a feature.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('features_export_form', 3),
+    'access callback' => 'features_access_override_actions',
+    'access arguments' => array(3),
     'type' => MENU_LOCAL_TASK,
     'file' => "features.export.inc",
     'weight' => 10,
   );
-    $items['admin/build/features/%feature/status'] = array(
+  $items['admin/build/features/%feature/revert'] = array(
+    'title' => 'Revert',
+    'description' => 'Revert a feature.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_revert_form', 3),
+    'access callback' => 'features_access_override_actions',
+    'access arguments' => array(3),
+    'type' => MENU_LOCAL_TASK,
+    'file' => "features.admin.inc",
+    'weight' => 11,
+  );
+  $items['admin/build/features/%feature/status'] = array(
     'title' => 'Status',
     'description' => 'Javascript status call back.',
     'page callback' => 'features_feature_status',
@@ -85,8 +101,10 @@ function features_menu() {
     'file' => 'features.admin.inc',
   );
   foreach ($items as $path => $item) {
-    $items[$path]['access callback'] = 'user_access';
-    $items[$path]['access arguments'] = array('administer site configuration');
+    if (!isset($items[$path]['access callback'])) {
+      $items[$path]['access callback'] = 'user_access';
+      $items[$path]['access arguments'] = array('administer site configuration');
+    }
   }
   return $items;
 }
@@ -257,6 +275,28 @@ function features_get_module_status($module) {
   else {
     return FEATURES_MODULE_MISSING;
   }
+}
+
+/**
+ * Menu title callback.
+ */
+function features_get_feature_title($feature) {
+  return $feature->info['name'];
+}
+
+/**
+ * Menu access callback for whether a user should be able to access
+ * override actions for a given feature.
+ */
+function features_access_override_actions($feature) {
+  // Find all overridden items
+  features_include();
+  module_load_include('inc', 'features', 'features.export');
+  $overrides = features_detect_overrides($feature);
+  if (!empty($overrides)) {
+    return user_access('administer site configuration');
+  }
+  return FALSE;
 }
 
 /**

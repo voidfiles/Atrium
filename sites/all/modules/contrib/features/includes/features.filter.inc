@@ -1,5 +1,5 @@
 <?php
-// $Id: features.filter.inc,v 1.1.2.1 2009/06/18 06:16:01 yhahn Exp $
+// $Id: features.filter.inc,v 1.1.2.2 2009/06/18 06:49:35 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
@@ -61,6 +61,10 @@ function filter_features_export_render($module = 'foo', $data) {
  * Implementation of hook_features_revert().
  */
 function filter_features_revert($module = NULL) {
+  $defaults = module_invoke($module, 'filter_default_formats');
+  foreach ($defaults as $format) {
+    _filter_features_update($format, TRUE);
+  }
   return TRUE;
 }
 
@@ -70,8 +74,50 @@ function filter_features_revert($module = NULL) {
 function filter_features_rebuild() {
   $defaults = module_invoke_all('filter_default_formats');
   foreach ($defaults as $format) {
-    $format_id = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", $format['name']));
+    _filter_features_update($format, FALSE);
+  }
+}
 
+/**
+ * Retrieve all input formats with their respective filters loaded.
+ */
+function _filter_get_formats() {
+  $formats = array();
+
+  $roles = user_roles();
+  $result = db_query("SELECT * FROM {filter_formats}");
+  while ($row = db_fetch_object($result)) {
+    $format_roles = array();
+    // Prepare a roles array with roles that may access the filter.
+    foreach ($roles as $rid => $name) {
+      if (strstr($row->roles, ",$rid,")) {
+        $format_roles[] = $name;
+      }
+    }
+    $formats[$row->format] = array(
+      'name' => $row->name,
+      'roles' => $format_roles,
+      'filters' => array(),
+    );
+    foreach (filter_list_format($row->format) as $filter) {
+      $formats[$row->format]['filters'][] = array(
+        'module' => $filter->module,
+        'delta' => $filter->delta,
+        'weight' => $filter->weight,
+      );
+    }
+  }
+
+  return $formats;
+}
+
+/**
+ * Helper function for updating/inserting formats. Called in both rebuild
+ * and revert steps.
+ */
+function _filter_features_update($format, $update = FALSE) {
+  $format_id = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", $format['name']));
+  if ($update || !$format_id) {
     // Format the role IDs into something that can be inserted into the database.
     // This is so painful. See filter.admin.inc line 218. : (
     $roles = array_flip(user_roles());
@@ -108,35 +154,3 @@ function filter_features_rebuild() {
   }
 }
 
-/**
- * Retrieve all input formats with their respective filters loaded.
- */
-function _filter_get_formats() {
-  $formats = array();
-
-  $roles = user_roles();
-  $result = db_query("SELECT * FROM {filter_formats}");
-  while ($row = db_fetch_object($result)) {
-    $format_roles = array();
-    // Prepare a roles array with roles that may access the filter.
-    foreach ($roles as $rid => $name) {
-      if (strstr($row->roles, ",$rid,")) {
-        $format_roles[] = $name;
-      }
-    }
-    $formats[$row->format] = array(
-      'name' => $row->name,
-      'roles' => $format_roles,
-      'filters' => array(),
-    );
-    foreach (filter_list_format($row->format) as $filter) {
-      $formats[$row->format]['filters'][] = array(
-        'module' => $filter->module,
-        'delta' => $filter->delta,
-        'weight' => $filter->weight,
-      );
-    }
-  }
-
-  return $formats;
-}

@@ -1,5 +1,5 @@
 <?php
-// $Id: features.admin.inc,v 1.1.2.16 2009/06/10 01:06:08 yhahn Exp $
+// $Id: features.admin.inc,v 1.1.2.17 2009/06/18 20:48:30 yhahn Exp $
 
 /**
  * admin/build/features page callback.
@@ -85,7 +85,11 @@ function features_admin_form($feature = NULL) {
 
     $actions = l(t('View'), "admin/build/features/{$name}");
     $actions .= '<span class="admin-overridden"> | </span>';
-    $actions .= l(t('Re-export'), "admin/build/features/{$name}/export", array(
+    $actions .= l(t('Update'), "admin/build/features/{$name}/update", array(
+      'attributes' => array('class' => 'admin-overridden')
+    ));
+    $actions .= '<span class="admin-overridden"> | </span>';
+    $actions .= l(t('Revert'), "admin/build/features/{$name}/revert", array(
       'attributes' => array('class' => 'admin-overridden')
     ));
 
@@ -228,6 +232,61 @@ function features_form_submit(&$form, &$form_state) {
   }
 
   drupal_flush_all_caches();
+}
+
+/**
+ * Features revert form.
+ */
+function features_revert_form($form_state, $feature) {
+  $form = array(
+    'module' => array(
+      '#type' => 'value',
+      '#value' => $feature->name,
+    ),
+    'revert' => array(
+      '#type' => 'checkboxes',
+      '#title' => t('Revert all components'),
+      '#options' => array(),
+      '#default_value' => array(),
+    ),
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Submit'),
+    ),
+  );
+
+  // Find all overridden items
+  features_include();
+  module_load_include('inc', 'features', 'features.export');
+  $overrides = features_detect_overrides($feature);  
+  foreach (array_keys($overrides) as $component) {
+    if (module_hook($component, 'features_revert')) {
+      $form['revert']['#options'][$component] = $component;
+      $form['revert']['#default_value'][$component] = $component;
+    }
+  }
+
+  return $form;
+}
+
+/**
+ * Submit handler for revert form.
+ */
+function features_revert_form_submit(&$form, &$form_state) {
+  features_include();
+  $module = $form_state['values']['module'];
+  foreach ($form_state['values']['revert'] as $component => $status) {
+    if ($status) {
+      $result = module_invoke($component, 'features_revert', $module);
+      if ($result) {
+        drupal_set_message(t('Reverted all <strong>!component</strong> components for <strong>!module</strong>.', array('!component' => $component, '!module' => $module)));
+      }
+      else {
+        drupal_set_message(t('An error occurred trying to revert <strong>!component</strong> components for <strong>!module</strong>.', array('!component' => $component, '!module' => $module)));
+      }
+    }
+  }
+  $form_state['redirect'] = 'admin/build/features/'. $module;
 }
 
 /**
