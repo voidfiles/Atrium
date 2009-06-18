@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.23 2009/06/07 15:43:57 yhahn Exp $
+// $Id: features.module,v 1.1.2.24 2009/06/18 04:42:13 yhahn Exp $
 
 /**
  * @file
@@ -178,7 +178,7 @@ function features_flush_caches() {
  */
 function features_include() {
   // Features provides integration on behalf of these modules.
-  $modules = array('block', 'content', 'context', 'imagecache', 'menu', 'node', 'views');
+  $modules = array('block', 'content', 'context', 'imagecache', 'menu', 'node', 'views', 'user');
   foreach ($modules as $module) {
     module_load_include('inc', 'features', "includes/features.$module");
   }

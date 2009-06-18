@@ -1,5 +1,5 @@
 <?php
-// $Id: features.menu.inc,v 1.1.2.3 2009/05/31 02:44:04 yhahn Exp $
+// $Id: features.menu.inc,v 1.1.2.4 2009/06/10 01:06:09 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
