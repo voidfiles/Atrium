@@ -18,7 +18,8 @@ function atrium_welcome() {
         system_theme_data();  // Rebuild theme cache.
         _block_rehash();      // Rebuild block cache.
         views_invalidate_cache(); // Rebuild the views.
-        menu_rebuild();      // Rebuild the menu.
+        menu_rebuild();       // Rebuild the menu.
+        features_rebuild();   // Features rebuild scripts.
         variable_set('atrium_install', 1);
         drupal_goto('welcome');
       // Stage 1: Display welcome and ask user to create first group

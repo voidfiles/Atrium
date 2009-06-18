@@ -9,6 +9,14 @@ function atrium_intranet_context_default_contexts() {
 }
 
 /**
+ * Implementation of hook_filter_default_formats().
+ */
+function atrium_intranet_filter_default_formats() {
+  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
+  return _atrium_intranet_filter_default_formats();
+}
+
+/**
  * Implementation of hook_imagecache_default_presets().
  */
 function atrium_intranet_imagecache_default_presets() {

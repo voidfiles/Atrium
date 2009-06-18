@@ -126,6 +126,25 @@ function atrium_intranet_strongarm() {
   // Do not switch to autocomplete until you have more than 200 users.
   $conf['notifications_team_max_options'] = 200;
 
+  // Allowed HTML & default filter format settings
+  $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Textile'));
+  if ($format) {
+    $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <td> <tr>';
+    $conf['filter_default_format'] = $format;
+  }
+
+  // Messaging Mail input filter
+  $potential_formats = array();
+  $result = db_query("SELECT ff.format, ff.name FROM {filter_formats} ff JOIN {filters} f ON ff.format = f.format WHERE f.module = '%s' AND f.delta = %d", 'messaging', 1);
+  while ($row = db_fetch_object($result)) {
+    $potential_formats[$row->format] = $row->name;
+  }
+  if (!empty($potential_formats)) {
+    // For now use the first format
+    $formats = array_keys($potential_formats);
+    $conf['messaging_method_mail'] = array('filter' => $formats[0]);
+  }
+
   return $conf;
 }
 
@@ -577,80 +596,4 @@ function atrium_intranet_user_profile_tab($form_state, $account, $tab) {
     }
   }
   return $form;
-}
-
-/**
- * ADMIN/MAINTENANCE ==================================================
- */
-
-/**
- * Implementation of hook_atrium_filter().
- */
-function atrium_intranet_atrium_filter() {
-  // Gather a role name to rid map
-  $roles = array();
-  $result = db_query("SELECT * FROM {role}");
-  while($row = db_fetch_object($result)) {
-    $roles[$row->name] = $row->rid;
-  }
-  $all_rids = array($roles['authenticated user'], $roles['manager'], $roles['admin']);
-  $admin_rids = array($roles['manager'], $roles['admin']);
-
-  return array(
-    // Textile
-    'textile' => array(
-      'format' => array(
-        'name' => 'Textile',
-        'roles' => ','. implode(',', $all_rids) .',',
-        'cache' => 1,
-      ),
-      'filters' => array(
-        array('module' => 'filter', 'delta' => 0, 'weight' => 0),
-        array('module' => 'filter', 'delta' => 2, 'weight' => 1),
-        array('module' => 'textile', 'delta' => 0, 'weight' => 2),
-        array('module' => 'codefilter', 'delta' => 0, 'weight' => 3),
-        array('module' => 'filter', 'delta' => 3, 'weight' => 10),
-      ),
-    ),
-    // Full HTML
-    'full_html' => array(
-      'format' => array(
-        'name' => 'Full HTML',
-        'roles' => ','. implode(',', $admin_rids) .',',
-        'cache' => 1,
-      ),
-      'filters' => array(
-        array('module' => 'codefilter', 'delta' => 0, 'weight' => 0),
-        array('module' => 'filter', 'delta' => 2, 'weight' => 0),
-        array('module' => 'filter', 'delta' => 1, 'weight' => 1),
-        array('module' => 'filter', 'delta' => 3, 'weight' => 10),
-      ),
-    ),
-  );
-}
-
-/**
- * Implementation of hook_atrium_post_admin().
- */
-function atrium_intranet_atrium_post_admin($script) {
-  switch ($script) {
-    case 'atrium_update_filter':
-      // Strongarm the SimpleHTML allowed tags
-      $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Textile'));
-      variable_set("allowed_html_{$format}", '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <td> <tr>');
-      variable_set('filter_default_format', $format);
-
-      // Strongarm the Messaging Mail input filter
-      $potential_formats = array();
-      $result = db_query("SELECT ff.format, ff.name FROM {filter_formats} ff JOIN {filters} f ON ff.format = f.format WHERE f.module = '%s' AND f.delta = %d", 'messaging', 1);
-      while ($row = db_fetch_object($result)) {
-        $potential_formats[$row->format] = $row->name;
-      }
-      if (!empty($potential_formats)) {
-        // For now use the first format
-        $formats = array_keys($potential_formats);
-        variable_set('messaging_method_mail', array('filter' => $formats[0]));
-      }
-      break;
-  }
 }
