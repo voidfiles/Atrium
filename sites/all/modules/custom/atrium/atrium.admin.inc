@@ -9,51 +9,8 @@
  */
 function atrium_atrium_admin() {
   return array(
-    'atrium_update_permissions' => t('Permissions'),
     'atrium_update_filter' => t('Input filter formats'),
   );
-}
-
-/**
- * API function for updating the permissions of an Atrium install.
- */
-function atrium_update_permissions() {
-  $modules = module_implements('atrium_permissions');
-  if (empty($modules)) {
-    drupal_set_message(t('No modules were found that implement a permission map.'), 'error');
-    return FALSE;
-  }
-  else if (count($modules) > 1) {
-    drupal_set_message(t('More than 1 module implements a permission map.'), 'error');
-    return FALSE;
-  }
-
-  $module = array_shift($modules);
-  $permissions = module_invoke($module, 'atrium_permissions');
-
-  if (!empty($permissions)) {
-    foreach ($permissions as $role_name => $perms) {
-      $rid = db_result(db_query("SELECT rid FROM {role} WHERE name ='%s'", $role_name));
-      if ($rid) {
-        db_query("UPDATE permission SET perm = '' WHERE rid = %d", $rid);
-      }
-      else {
-        $role = array('name' => $role_name);
-        drupal_write_record('role', $role);
-        $rid = $role['rid'];
-      }
-      db_query("DELETE FROM {permission} WHERE rid = %d", $rid);
-      $perms = array(
-        'rid' => $rid,
-        'perm' => implode(', ', $perms),
-      );
-      drupal_write_record('permission', $perms);
-    }
-    drupal_set_message(t('The permissions for this instance of Atrium have been updated. Permission map used: <strong>!module</strong>.', array('!module' => $module)));
-    return TRUE;
-  }
-  drupal_set_message(t('There was an error maintaining the permissions of this instance of Atrium.'), 'error');
-  return FALSE;
 }
 
 /**
