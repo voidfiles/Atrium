@@ -1,0 +1,142 @@
+<?php
+// $Id: features.filter.inc,v 1.1.2.1 2009/06/18 06:16:01 yhahn Exp $
+
+/**
+ * Implementation of hook_features_api().
+ */
+function filter_features_api() {
+  return array(
+    'default_hook' => 'filter_default_formats',
+  );
+}
+
+/**
+ * Implementation of hook_features_export().
+ */
+function filter_features_export($data, &$export, $module_name = '') {
+  // The filter_default_formats() hook integration is provided by the
+  // features module so we need to add it as a dependency.
+  $export['dependencies']['features'] = 'features';
+
+  $formats = _filter_get_formats();
+  foreach ($formats as $format) {
+    if (in_array($format['name'], $data)) {
+      // Add format to exports
+      $export['features']['filter'][$format['name']] = $format['name'];
+
+      // Iterate through filters and ensure each filter's module is included as a dependency
+      foreach ($format['filters'] as $filter) {
+        $export['dependencies'][$filter['module']] = $filter['module'];
+      }
+    }
+  }
+
+  $pipe = array();
+  return $pipe;
+}
+
+/**
+ * Implementation of hook_features_export_render().
+ */
+function filter_features_export_render($module = 'foo', $data) {
+  $code = array();
+  $code[] = '  $formats = array();';
+  $code[] = '';
+
+  $formats = _filter_get_formats();
+  foreach ($formats as $format) {
+    if (in_array($format['name'], $data)) {
+      $code[] = '  // Exported format: '. $format['name'];
+      $code[] = '  $formats[] = '. features_var_export($format, '  ') .';';
+      $code[] = '';
+    }
+  }
+
+  $code[] = '  return $formats;';
+  $code = implode("\n", $code);
+  return array('filter_default_formats' => $code);
+}
+
+/**
+ * Implementation of hook_features_revert().
+ */
+function filter_features_revert($module = NULL) {
+  return TRUE;
+}
+
+/**
+ * Implementation of hook_features_rebuild().
+ */
+function filter_features_rebuild() {
+  $defaults = module_invoke_all('filter_default_formats');
+  foreach ($defaults as $format) {
+    $format_id = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", $format['name']));
+
+    // Format the role IDs into something that can be inserted into the database.
+    // This is so painful. See filter.admin.inc line 218. : (
+    $roles = array_flip(user_roles());
+    $format_rids = array();
+    foreach ($format['roles'] as $role_name) {
+      if (isset($roles[$role_name])) {
+        $format_rids[] = $roles[$role_name];
+      }
+    }
+    if ($format_id && $format_id == variable_get('filter_default_format', 1)) {
+      $format['roles'] = ','. implode(',', array_keys(user_roles())) .',';
+    }
+    else {
+      $format['roles'] = ','. implode(',', $format_rids) .',';
+    }
+
+    // Update or insert the format
+    if ($format_id) {
+      $format['format'] = $format_id;
+      drupal_write_record('filter_formats', $format, 'format');
+    }
+    else {
+      drupal_write_record('filter_formats', $format);
+    }
+
+    // Update the filters for the format
+    if ($format['format']) {
+      db_query("DELETE FROM {filters} WHERE format = %d", $format['format']);
+      foreach ($format['filters'] as $filter) {
+        $filter['format'] = $format['format'];
+        drupal_write_record('filters', $filter);
+      }
+    }
+  }
+}
+
+/**
+ * Retrieve all input formats with their respective filters loaded.
+ */
+function _filter_get_formats() {
+  $formats = array();
+
+  $roles = user_roles();
+  $result = db_query("SELECT * FROM {filter_formats}");
+  while ($row = db_fetch_object($result)) {
+    $format_roles = array();
+    // Prepare a roles array with roles that may access the filter.
+    foreach ($roles as $rid => $name) {
+      if (strstr($row->roles, ",$rid,")) {
+        $format_roles[] = $name;
+      }
+    }
+    $formats[$row->format] = array(
+      'name' => $row->name,
+      'roles' => $format_roles,
+      'filters' => array(),
+    );
+    foreach (filter_list_format($row->format) as $filter) {
+      $formats[$row->format]['filters'][] = array(
+        'module' => $filter->module,
+        'delta' => $filter->delta,
+        'weight' => $filter->weight,
+      );
+    }
+  }
+
+  return $formats;
+}
