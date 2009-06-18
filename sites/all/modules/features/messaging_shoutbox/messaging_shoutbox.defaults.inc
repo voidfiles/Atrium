@@ -74,8 +74,41 @@ function _messaging_shoutbox_menu_default_items() {
     'weight' => '0',
     'description' => 'A simple shoutbox feature',
   );
+  // Translatables
+  array(
+    t('A simple shoutbox feature'),
+    t('Shoutbox'),
+  );
+
 
   return $items;
+}
+
+/**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _messaging_shoutbox_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: create shoutbox
+  $permissions[] = array(
+    'name' => 'create shoutbox',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: post messages to shoutbox
+  $permissions[] = array(
+    'name' => 'post messages to shoutbox',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  return $permissions;
 }
 
 /**

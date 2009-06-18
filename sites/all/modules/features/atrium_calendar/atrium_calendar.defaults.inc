@@ -242,6 +242,99 @@ function _atrium_calendar_node_info() {
 }
 
 /**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _atrium_calendar_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: create event content
+  $permissions[] = array(
+    'name' => 'create event content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: create feed_ical content
+  $permissions[] = array(
+    'name' => 'create feed_ical content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: create feed_ical_item content
+  $permissions[] = array(
+    'name' => 'create feed_ical_item content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete any feed_ical content
+  $permissions[] = array(
+    'name' => 'delete any feed_ical content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete any feed_ical_item content
+  $permissions[] = array(
+    'name' => 'delete any feed_ical_item content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete own event content
+  $permissions[] = array(
+    'name' => 'delete own event content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit any feed_ical content
+  $permissions[] = array(
+    'name' => 'edit any feed_ical content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit any feed_ical_item content
+  $permissions[] = array(
+    'name' => 'edit any feed_ical_item content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit own event content
+  $permissions[] = array(
+    'name' => 'edit own event content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
  * Helper to implemetation of hook_views_default_views().
  */
 function _atrium_calendar_views_default_views() {

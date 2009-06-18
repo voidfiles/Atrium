@@ -33,6 +33,14 @@ function atrium_calendar_node_info() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function atrium_calendar_user_default_permissions() {
+  module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
+  return _atrium_calendar_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function atrium_calendar_views_default_views() {

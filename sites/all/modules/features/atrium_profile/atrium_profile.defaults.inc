@@ -260,6 +260,55 @@ function _atrium_profile_node_info() {
 }
 
 /**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _atrium_profile_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: access user profiles
+  $permissions[] = array(
+    'name' => 'access user profiles',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: create profile content
+  $permissions[] = array(
+    'name' => 'create profile content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete own profile content
+  $permissions[] = array(
+    'name' => 'delete own profile content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit own profile content
+  $permissions[] = array(
+    'name' => 'edit own profile content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
  * Helper to implemetation of hook_views_default_views().
  */
 function _atrium_profile_views_default_views() {

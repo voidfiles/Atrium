@@ -17,6 +17,14 @@ function atrium_profile_node_info() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function atrium_profile_user_default_permissions() {
+  module_load_include('inc', 'atrium_profile', 'atrium_profile.defaults');
+  return _atrium_profile_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function atrium_profile_views_default_views() {

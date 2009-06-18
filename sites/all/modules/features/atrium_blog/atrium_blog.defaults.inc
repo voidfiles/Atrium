@@ -11,16 +11,14 @@ function _atrium_blog_content_default_fields() {
     'field_name' => 'field_referenced_book_page',
     'type_name' => 'blog',
     'display_settings' => array(
-      'weight' => 0,
-      'parent' => '',
       'label' => array(
-        'format' => 'inline',
+        'format' => 'above',
       ),
-      'teaser' => array(
+      'full' => array(
         'format' => 'default',
         'exclude' => 0,
       ),
-      'full' => array(
+      'teaser' => array(
         'format' => 'default',
         'exclude' => 0,
       ),
@@ -135,8 +133,8 @@ function _atrium_blog_menu_default_items() {
   );
   // Translatables
   array(
-    t('The blog lets you have a conversation on a topic with your team.'),
     t('Blog'),
+    t('The blog lets you have a conversation on a topic with your team.'),
   );
 
 
@@ -149,9 +147,9 @@ function _atrium_blog_menu_default_items() {
 function _atrium_blog_node_info() {
   $items = array(
     'blog' => array(
-      'name' => t('Blog post'),
+      'name' => t('Blog entry'),
       'module' => 'node',
-      'description' => t(''),
+      'description' => t('A blog is a regularly updated journal or diary made up of individual posts shown in reversed chronological order. Each member of the site may create and maintain a blog.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'has_body' => '1',
@@ -159,6 +157,45 @@ function _atrium_blog_node_info() {
     ),
   );
   return $items;
+}
+
+/**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _atrium_blog_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: create blog content
+  $permissions[] = array(
+    'name' => 'create blog content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete own blog content
+  $permissions[] = array(
+    'name' => 'delete own blog content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit own blog content
+  $permissions[] = array(
+    'name' => 'edit own blog content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  return $permissions;
 }
 
 /**

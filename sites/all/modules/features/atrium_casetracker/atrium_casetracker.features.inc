@@ -17,6 +17,14 @@ function atrium_casetracker_menu_default_items() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function atrium_casetracker_user_default_permissions() {
+  module_load_include('inc', 'atrium_casetracker', 'atrium_casetracker.defaults');
+  return _atrium_casetracker_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function atrium_casetracker_views_default_views() {

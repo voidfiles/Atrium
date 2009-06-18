@@ -33,6 +33,14 @@ function atrium_intranet_node_info() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function atrium_intranet_user_default_permissions() {
+  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
+  return _atrium_intranet_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function atrium_intranet_views_default_views() {

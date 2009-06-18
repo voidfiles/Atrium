@@ -86,6 +86,82 @@ function _atrium_book_node_info() {
 }
 
 /**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _atrium_book_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: add content to books
+  $permissions[] = array(
+    'name' => 'add content to books',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: administer book outlines
+  $permissions[] = array(
+    'name' => 'administer book outlines',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: create book content
+  $permissions[] = array(
+    'name' => 'create book content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: create new books
+  $permissions[] = array(
+    'name' => 'create new books',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete any book content
+  $permissions[] = array(
+    'name' => 'delete any book content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete own book content
+  $permissions[] = array(
+    'name' => 'delete own book content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit any book content
+  $permissions[] = array(
+    'name' => 'edit any book content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
  * Helper to implemetation of hook_views_default_views().
  */
 function _atrium_book_views_default_views() {

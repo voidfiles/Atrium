@@ -17,6 +17,14 @@ function messaging_shoutbox_menu_default_items() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function messaging_shoutbox_user_default_permissions() {
+  module_load_include('inc', 'messaging_shoutbox', 'messaging_shoutbox.defaults');
+  return _messaging_shoutbox_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function messaging_shoutbox_views_default_views() {

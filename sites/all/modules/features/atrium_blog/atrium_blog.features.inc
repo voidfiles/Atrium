@@ -33,6 +33,14 @@ function atrium_blog_node_info() {
 }
 
 /**
+ * Implementation of hook_user_default_permissions().
+ */
+function atrium_blog_user_default_permissions() {
+  module_load_include('inc', 'atrium_blog', 'atrium_blog.defaults');
+  return _atrium_blog_user_default_permissions();
+}
+
+/**
  * Implementation of hook_views_default_views().
  */
 function atrium_blog_views_default_views() {

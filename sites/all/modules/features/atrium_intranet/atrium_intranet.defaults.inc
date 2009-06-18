@@ -221,6 +221,375 @@ function _atrium_intranet_node_info() {
 }
 
 /**
+ * Helper to implemetation of hook_user_default_permissions().
+ */
+function _atrium_intranet_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: access administration pages
+  $permissions[] = array(
+    'name' => 'access administration pages',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: access comments
+  $permissions[] = array(
+    'name' => 'access comments',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: access content
+  $permissions[] = array(
+    'name' => 'access content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: add list of open ids
+  $permissions[] = array(
+    'name' => 'add list of open ids',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: admin menu
+  $permissions[] = array(
+    'name' => 'admin menu',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer atrium
+  $permissions[] = array(
+    'name' => 'administer atrium',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer comments
+  $permissions[] = array(
+    'name' => 'administer comments',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: administer filters
+  $permissions[] = array(
+    'name' => 'administer filters',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer messaging
+  $permissions[] = array(
+    'name' => 'administer messaging',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer nodes
+  $permissions[] = array(
+    'name' => 'administer nodes',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer notifications
+  $permissions[] = array(
+    'name' => 'administer notifications',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer permissions
+  $permissions[] = array(
+    'name' => 'administer permissions',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer search
+  $permissions[] = array(
+    'name' => 'administer search',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer site configuration
+  $permissions[] = array(
+    'name' => 'administer site configuration',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer spaces
+  $permissions[] = array(
+    'name' => 'administer spaces',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer taxonomy
+  $permissions[] = array(
+    'name' => 'administer taxonomy',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: administer users
+  $permissions[] = array(
+    'name' => 'administer users',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: block users
+  $permissions[] = array(
+    'name' => 'block users',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: change own username
+  $permissions[] = array(
+    'name' => 'change own username',
+    'roles' => array(
+      '0' => 'admin',
+    ),
+  );
+
+  // Exported permission: close admin messages
+  $permissions[] = array(
+    'name' => 'close admin messages',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: configure spaces features
+  $permissions[] = array(
+    'name' => 'configure spaces features',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: create group content
+  $permissions[] = array(
+    'name' => 'create group content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: create users
+  $permissions[] = array(
+    'name' => 'create users',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: delete own group content
+  $permissions[] = array(
+    'name' => 'delete own group content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: edit own group content
+  $permissions[] = array(
+    'name' => 'edit own group content',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: post comments
+  $permissions[] = array(
+    'name' => 'post comments',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: post comments without approval
+  $permissions[] = array(
+    'name' => 'post comments without approval',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: revert revisions
+  $permissions[] = array(
+    'name' => 'revert revisions',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: search content
+  $permissions[] = array(
+    'name' => 'search content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: select different theme
+  $permissions[] = array(
+    'name' => 'select different theme',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: skip notifications
+  $permissions[] = array(
+    'name' => 'skip notifications',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: subscribe other users
+  $permissions[] = array(
+    'name' => 'subscribe other users',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: subscribe to content
+  $permissions[] = array(
+    'name' => 'subscribe to content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: upload files
+  $permissions[] = array(
+    'name' => 'upload files',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: upload files to comments
+  $permissions[] = array(
+    'name' => 'upload files to comments',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: use advanced search
+  $permissions[] = array(
+    'name' => 'use advanced search',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view files uploaded to comments
+  $permissions[] = array(
+    'name' => 'view files uploaded to comments',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view revisions
+  $permissions[] = array(
+    'name' => 'view revisions',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  // Exported permission: view uploaded files
+  $permissions[] = array(
+    'name' => 'view uploaded files',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view users outside groups
+  $permissions[] = array(
+    'name' => 'view users outside groups',
+    'roles' => array(
+      '0' => 'admin',
+      '1' => 'manager',
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
  * Helper to implemetation of hook_views_default_views().
  */
 function _atrium_intranet_views_default_views() {
