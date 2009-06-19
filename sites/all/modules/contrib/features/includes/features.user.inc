@@ -1,5 +1,5 @@
 <?php
-// $Id: features.user.inc,v 1.1.2.1 2009/06/18 04:42:13 yhahn Exp $
+// $Id: features.user.inc,v 1.1.2.2 2009/06/19 21:22:33 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
@@ -27,6 +27,8 @@ function user_features_export($data, &$export, $module_name = '') {
       $export['features']['user'][$perm] = $perm;
     }
   }
+
+  $pipe = array();
   return $pipe;
 }
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: theme.inc,v 1.1.2.4 2009/06/05 04:18:48 yhahn Exp $
+// $Id: theme.inc,v 1.1.2.5 2009/06/19 21:22:33 yhahn Exp $
 
 /**
  * Display feature component info
@@ -25,11 +25,20 @@ function template_preprocess_features_admin_components(&$vars) {
     );
     $rows[] = $row;
 
-    foreach ($items as $item) {
+    // Add a threshold check for displaying long component lists
+    if (count($items) <= 10) {
+      foreach ($items as $item) {
+        $row = array(
+          array('data' => $item, 'colspan' => 2, 'class' => 'component'),
+        );
+        $rows[] = $row;
+      }
+    }
+    else {
       $row = array(
-        array('data' => $item, 'colspan' => 2, 'class' => 'component'),
+        array('data' => implode(', ', $items), 'colspan' => 2, 'class' => 'component'),
       );
-      $rows[] = $row;
+      $rows[] = $row;      
     }
   }
   $components = theme('table', array(), $rows);

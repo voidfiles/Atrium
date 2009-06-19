@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.26 2009/06/18 20:48:30 yhahn Exp $
+// $Id: features.module,v 1.1.2.27 2009/06/19 21:22:32 yhahn Exp $
 
 /**
  * @file
@@ -202,7 +202,8 @@ function features_include() {
   }
 
   // Check for any other implementing modules and make necessary inclusions.
-  foreach (module_invoke_all('features_api') as $info) {
+  foreach (module_implements('features_api') as $module) {
+    $info = module_invoke($module, 'features_api');
     if (is_array($info) && !empty($info['file'])) {
       require_once $info['file'];
     }
