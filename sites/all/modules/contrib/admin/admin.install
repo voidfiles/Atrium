@@ -17,6 +17,9 @@ function admin_enable() {
     _menu_delete_item($item, TRUE);
   }
   menu_rebuild();
+
+  // Weight admin to come after other modules -- in particular, admin_theme().
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'admin' AND type = 'module'");
 }
 
 /**
@@ -46,4 +49,14 @@ function admin_update_6002() {
   menu_rebuild();
 
   return array();
+}
+
+/**
+ * Update 6003: Weight admin module.
+ */
+function admin_update_6003() {
+  // Weight admin to come after other modules -- in particular, admin_theme().
+  $return = array();
+  $return[] = update_sql("UPDATE {system} SET weight = 1 WHERE name = 'admin' AND type = 'module'");
+  return $return;
 }

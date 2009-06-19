@@ -21,7 +21,10 @@ function admin_init() {
   if (variable_get('node_admin_theme', 0) && (strpos($_GET['q'], 'node/add') === 0 || strpos($_GET['q'], 'admin/content/add') === 0 || (arg(0) == 'node' && arg(2) == 'edit'))) {
     _admin_init_theme();
   }
-  else if (arg(0) == 'admin' && ($item['page_callback'] != 'block_admin_display') && variable_get('admin_theme', 'slate') == 'slate') {
+  else if (arg(0) == 'admin' && !in_array($_GET['q'], array('admin/build/block', 'admin/build/block/list')) && variable_get('admin_theme', 'slate') == 'slate') {
+    _admin_init_theme();
+  }
+  else if (function_exists('admin_theme_init') && $GLOBALS['custom_theme'] == 'slate') {
     _admin_init_theme();
   }
 }
@@ -100,6 +103,7 @@ function admin_menu_alter(&$items) {
     'admin/themes' => 'Appearance',
     'admin/modules' => '',
   );
+
   foreach ($include as $path => $title) {
     if (!empty($items[$path])) {
       $items[$path]['title'] = !empty($title) ? $title : $items[$path]['title'];
@@ -510,6 +514,7 @@ function _admin_theme_rebuild($force = FALSE) {
     $theme->engine = 'phptemplate';
     $theme->owner = drupal_get_path('theme_engine', 'phptemplate') .'/phptemplate.engine';
     $theme->info = system_theme_default();
+    $theme->info['name'] = 'Slate';
 
     db_query("DELETE FROM {system} WHERE name = 'slate' AND type = 'theme'");
     db_query("INSERT INTO {system} (name, owner, info, type, filename, status, throttle, bootstrap) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d, %d)", $theme->name, $theme->owner, serialize($theme->info), 'theme', $theme->filename, isset($theme->status) ? $theme->status : 0, 0, 0);
