@@ -11,7 +11,7 @@
 
   <?php if ($messages || $console || $iphone_link): ?>
   <div id='console'>
-    <?php if ($iphone_link): ?>
+    <?php if (!empty($iphone_link)): ?>
       <div class='limiter clear-block'><?php print $iphone_link ?></div>
     <?php endif; ?>
     <?php if ($messages): ?>
