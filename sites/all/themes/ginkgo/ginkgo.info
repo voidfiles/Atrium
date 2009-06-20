@@ -7,8 +7,9 @@ atrium = "1.x"
 engine = "phptemplate"
 base theme = "tao"
 
-stylesheets[screen][] = "style.css"
 stylesheets[screen][] = "forms.css"
+stylesheets[screen][] = "style.css"
+stylesheets[screen][] = "theme.css"
 
 scripts[] = "js/jquery.cookie.js"
 scripts[] = "js/coldbrew.js"

@@ -86,6 +86,24 @@ function atrium_context_links_alter(&$links) {
 }
 
 /**
+ * Implementation of hook_features_menu_links_alter().
+ *
+ * Make features menu skinnable
+ */
+function atrium_features_menu_links_alter(&$links) {
+  $links = atrium_skin_links($links, TRUE);
+}
+
+/**
+ * Implementation of hook_space_links_alter().
+ *
+ * Make space links skinnable.
+ */
+function atrium_space_links_alter(&$links) {
+  $links = atrium_skin_links($links);
+}
+
+/**
  * Implementation of hook_menu().
  */
 function atrium_menu() {
@@ -457,11 +475,13 @@ function atrium_search_form($form_state) {
     '#size' => 30,
     '#required' => true,
     '#default_value' => !empty($default) ? $default : '',
+    '#attributes' => array('class' => 'atrium-skin'),
   );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Search'),
     '#submit' => array('atrium_search_form_submit'),
+    '#attributes' => array('class' => 'atrium-skin'),
   );
   return $form;
 }
@@ -499,9 +519,7 @@ function atrium_preprocess_page(&$vars) {
   global $user;
   if ($user->uid != 0) {
     $vars['picture'] = theme('user_picture', $user);
-    $links = atrium_user_links();
-    context_menu_set_active($links);
-    $vars['user_links'] = theme('links', $links);
+    $vars['user_links'] = theme('links', atrium_user_links());
   }
   if (user_access('access content') && user_access('search content')) {
     if ($space = spaces_get_space()) {
@@ -589,5 +607,33 @@ function atrium_user_links() {
   // Allow links to be sorted by weight
   uasort($links, 'element_sort');
 
+  // Set active by context
+  context_menu_set_active($links);
+
+  // Make links skinnable
+  $links = atrium_skin_links($links);
+
   return $links;
+}
+
+/**
+ * Add an "atrium-skin" class to a links array for skinners.
+ */
+function atrium_skin_links($links, $both = FALSE) {
+  $new_links = array();
+  foreach ($links as $k => $v) {
+    if (!isset($v['attributes']['class'])) {
+      $v['attributes']['class'] = 'atrium-skin';
+    }
+    else {
+      $v['attributes']['class'] .= ' atrium-skin';
+    }
+    if ($both) {
+      $new_links["$k atrium-skin"] = $v;
+    }
+    else {
+      $new_links[$k] = $v;
+    }
+  }
+  return $new_links;
 }

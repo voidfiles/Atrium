@@ -9,11 +9,8 @@
 
   <?php if ($admin) print $admin ?>
 
-  <?php if ($messages || $console || $iphone_link): ?>
+  <?php if ($messages || $console): ?>
   <div id='console'>
-    <?php if (!empty($iphone_link)): ?>
-      <div class='limiter clear-block'><?php print $iphone_link ?></div>
-    <?php endif; ?>
     <?php if ($messages): ?>
       <div class='limiter clear-block'><?php print $messages; ?></div>
     <?php endif; ?>
@@ -29,14 +26,14 @@
     </div></div>
   <?php endif; ?>
 
-  <div id='global'><div class='limiter clear-block'>
-    <?php if (!empty($site_name)): ?><h1 class='site-name'><?php print $site_name ?></h1><?php endif; ?>
+  <div id='global' class='atrium-skin'><div class='limiter clear-block'>
+    <?php if (!empty($site_name)): ?><h1 class='site-name atrium-skin'><?php print $site_name ?></h1><?php endif; ?>
     <?php if (!empty($picture)) print $picture ?>
     <?php if (!empty($user_links)) print $user_links ?>
     <?php if (!empty($dropdown_links)) print $dropdown_links ?>
   </div></div>
 
-  <div id='branding'><div class='limiter clear-block'>
+  <div id='branding' class='atrium-skin'><div class='limiter clear-block'>
     <?php if (!empty($spaces_logo)): ?>
       <?php print $spaces_logo ?>
     <?php elseif ($space_title): ?>
@@ -46,7 +43,7 @@
   </div></div>
 
   <?php if ($primary_links): ?>
-  <div id='navigation'><div class='limiter clear-block'>
+  <div id='navigation' class='atrium-skin'><div class='limiter clear-block'>
     <?php if (isset($primary_links)) print theme('links', $primary_links, array('id' => 'features-menu', 'class' => 'links primary-links')) ?>
     <?php if (isset($space_links)) print $space_links ?>
   </div></div>
@@ -68,7 +65,7 @@
       <?php print $content ?>
     <?php else: ?>
       <div id='main' class='clear-block'>
-          <?php if ($mission): print '<div id="mission">'. $mission .'</div>'; endif; ?>
+          <?php if ($mission): ?><div id="mission">'<?php $mission ?></div><?php endif; ?>
           <div id='content' class='clear-block'><?php print $content ?></div>
       </div>
       <?php if ($right): ?>

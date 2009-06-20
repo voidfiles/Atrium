@@ -1,3 +1,9 @@
+/**
+ * Atrium form stylesheet.
+ *
+ * Provides styling for forms and form elements.
+ */
+
 /* Buttons */
 a.button,
 div.context-links a,
@@ -6,7 +12,7 @@ input.form-submit {
   color:#fff;
   font-weight:normal;
   border:1px solid #444;
-  background:url(images/sprite_base.png) 0px -280px repeat-x;
+  background:url(images/sprite_base.png) 0px -400px repeat-x;
 
   text-shadow:#222 0px -1px 0px;
   -moz-border-radius:3px;
@@ -43,9 +49,9 @@ form div.form div.buttons {
     }
 
 /* Nicer padding on input elements */
-input.form-text,
-textarea.form-textarea,
-select.form-select {
+.form-text,
+.form-textarea,
+.form-select {
   width:90%;
   padding:5px;
   border:1px solid #ccc; border-top-color:#999;
@@ -53,9 +59,9 @@ select.form-select {
   color:#333;
   }
 
-  input.form-text:focus,
-  textarea.form-textarea:focus,
-  select.form-select:focus {
+  .form-text:focus,
+  .form-textarea:focus,
+  .form-select:focus {
     color:#000;
     border-color:#ace;
     }
@@ -229,7 +235,7 @@ div.node-preview {
   padding:9px;
   margin:0px 0px 20px;
   }
-  
+
 div.node-preview h2.preview-title {
   background:#f8f8f8;
   padding:4px;

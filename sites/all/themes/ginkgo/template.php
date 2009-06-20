@@ -242,6 +242,7 @@ function ginkgo_blocks_header($blocks, $get_links = FALSE) {
       $dropdown .= theme('block', $block);
     }
     $dropdown = "<div class='dropdown-blocks'>{$dropdown}</div>";
+    $links = module_exists('atrium') ? atrium_skin_links($links) : $links;
     $links = theme('links', $links, array('class' => 'links dropdown'));
   }
   return $get_links ? $links : $dropdown;
