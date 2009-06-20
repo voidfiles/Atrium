@@ -11,6 +11,7 @@ require('theme/theme.inc');
  */
 function seed_strongarm() {
   $conf = array();
+  $conf['site_403'] = 'access-denied';
   $conf['site_404'] = 'not-found';
   return $conf;
 }
@@ -22,7 +23,14 @@ function seed_menu() {
   $items = array();
   $items['not-found'] = array(
     'title' => 'Page not found',
-    'page callback' => 'seed_notfound',
+    'page callback' => 'seed_404',
+    'page arguments' => array(),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  $items['access-denied'] = array(
+    'title' => 'Access denied',
+    'page callback' => 'seed_403',
     'page arguments' => array(),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -63,8 +71,15 @@ function seed_menu() {
 /**
  * 404 page.
  */
-function seed_notfound() {
+function seed_404() {
   return "<div class='not-found'>". t('The requested page could not be found.') ."</div>";
+}
+
+/**
+ * 403 page.
+ */
+function seed_403() {
+  return "<div class='access-denied'>". t('You are not authorized to access this page.') ."</div>";
 }
 
 /**
