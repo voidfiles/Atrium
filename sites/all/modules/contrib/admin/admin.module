@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.module,v 1.1.2.9 2009/06/15 03:39:30 yhahn Exp $
+// $Id: admin.module,v 1.1.2.12 2009/06/21 14:21:46 yhahn Exp $
 
 /**
  * Implementation of hook_init().
@@ -338,6 +338,7 @@ function admin_theme_registry_alter(&$theme_registry) {
     $overrides = array('fieldset', 'node_form', 'system_settings_form', 'admin_block_content');
     foreach ($overrides as $hook) {
       $theme_registry[$hook]['function'] = 'slate_'. $hook;
+      $theme_registry[$hook]['theme path'] = drupal_get_path('module', 'admin') . '/theme';
     }
   }
 }

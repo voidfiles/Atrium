@@ -13,6 +13,14 @@ function admin_preprocess_admin_toolbar(&$vars) {
         $vars['collapsed'] = FALSE;
       }
       $id = str_replace('/', '-', $href);
+
+      // If we aren't on the top level menu, provide a way to get to the top level page.
+      if ($depth > 0) {
+        $links['view-all'] = array(
+          'title' => t('View all'),
+          'href' => $href,
+        );
+      }
       $vars["tree_{$depth}"][$id] = theme('links', $links, array('class' => "links clear-block $class", 'id' => "admin-toolbar-{$id}"));
     }
   }

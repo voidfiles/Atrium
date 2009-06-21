@@ -1,4 +1,4 @@
-/* $Id: admin_toolbar.css,v 1.1.2.1 2009/06/05 07:11:13 yhahn Exp $ */
+/* $Id: admin_toolbar.css,v 1.1.2.2 2009/06/21 14:19:16 yhahn Exp $ */
 
 /**
  * Aggressive resets so we can achieve a consistent look in
@@ -118,9 +118,9 @@ div.admin-links a:hover {
   line-height:25px !important;
   }
 
-  div.admin-links a.icon-delete { background-position:-215px -135px; }
-  div.admin-links a.icon-edit { background-position:-215px -160px; }
-  div.admin-links a.icon-configure { background-position:-215px -185px; }
+  div.admin-links a.icon-delete { background-position:-215px -155px; }
+  div.admin-links a.icon-edit { background-position:-215px -180px; }
+  div.admin-links a.icon-configure { background-position:-215px -205px; }
 
 /**
  * Base styles
@@ -187,7 +187,7 @@ div#admin-toolbar div.depth-1 {
 
 div#admin-toolbar div.depth-1 span.close {
   position:absolute;
-  top:10px;
+  top:15px;
   right:10px;
 
   cursor:pointer;
@@ -195,8 +195,8 @@ div#admin-toolbar div.depth-1 span.close {
   text-indent:-9999px;
   overflow:hidden;
 
-  width:15px;
-  height:15px;
+  width:20px;
+  height:20px;
   }
 
 div#admin-toolbar div.depth-1 ul.links {
@@ -207,11 +207,36 @@ div#admin-toolbar div.depth-1 ul.links {
   float:left;
   }
 
+div#admin-toolbar div.depth-1 ul.links li.view-all {
+  position:absolute;
+  right:40px;
+  top:5px;
+
+  padding:10px 0px;
+  margin:0px;
+  }
+
+  div#admin-toolbar div.depth-1 ul.links li.view-all a.active,
+  div#admin-toolbar div.depth-1 ul.links li.view-all a {
+    margin:0px;
+    padding:0px 15px 0px 10px;
+
+    font-size:9px;
+    line-height:20px;
+    text-transform:uppercase;
+
+    background:#333 url(sprite.png) 100% -135px no-repeat;
+
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    }
+
 div#admin-toolbar div.depth-1 ul.links li a {
-  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
   padding:5px 10px 5px 5px;
   margin-right:5px;
+
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
   }
 
 div#admin-toolbar div.depth-1 ul.links li a.active {
