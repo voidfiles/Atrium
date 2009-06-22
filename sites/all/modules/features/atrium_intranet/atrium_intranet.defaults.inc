@@ -1140,6 +1140,11 @@ function _atrium_intranet_views_default_views() {
         'button' => 'Use default',
       ),
     ),
+    'description' => array(
+      'id' => 'description',
+      'table' => 'og',
+      'field' => 'description',
+    ),
     'post_count' => array(
       'label' => 'Total posts',
       'set_precision' => FALSE,
@@ -1199,7 +1204,7 @@ function _atrium_intranet_views_default_views() {
     'columns' => array(
       'private' => 'private',
       'title' => 'title',
-      'post_count_new' => 'title',
+      'description' => 'title',
       'post_count' => 'post_count',
       'member_count' => 'member_count',
       'created' => 'created',
@@ -1210,10 +1215,9 @@ function _atrium_intranet_views_default_views() {
       ),
       'title' => array(
         'sortable' => 0,
-        'separator' => '',
+        'separator' => '<br/>',
       ),
-      'post_count_new' => array(
-        'sortable' => 0,
+      'description' => array(
         'separator' => '',
       ),
       'post_count' => array(
@@ -1269,6 +1273,11 @@ function _atrium_intranet_views_default_views() {
       'override' => array(
         'button' => 'Use default',
       ),
+    ),
+    'description' => array(
+      'id' => 'description',
+      'table' => 'og',
+      'field' => 'description',
     ),
     'selective' => array(
       'label' => 'Type',
@@ -1399,6 +1408,7 @@ function _atrium_intranet_views_default_views() {
     'columns' => array(
       'private' => 'private',
       'title' => 'title',
+      'description' => 'title',
       'selective' => 'selective',
       'member_count' => 'member_count',
       'post_count' => 'post_count',
@@ -1411,6 +1421,9 @@ function _atrium_intranet_views_default_views() {
       ),
       'title' => array(
         'sortable' => 0,
+        'separator' => '<br/>',
+      ),
+      'description' => array(
         'separator' => '',
       ),
       'selective' => array(
@@ -1478,6 +1491,34 @@ function _atrium_intranet_views_default_views() {
       'override' => array(
         'button' => 'Use default',
       ),
+    ),
+    'description' => array(
+      'label' => 'Group: Description',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'truncate' => '0',
+      'exclude' => 0,
+      'id' => 'description',
+      'table' => 'og',
+      'field' => 'description',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
     ),
     'selective' => array(
       'label' => 'Type',
@@ -1598,9 +1639,10 @@ function _atrium_intranet_views_default_views() {
     'columns' => array(
       'private' => 'private',
       'title' => 'title',
-      'post_count_new' => 'title',
-      'post_count' => 'post_count',
+      'description' => 'title',
+      'selective' => 'selective',
       'member_count' => 'member_count',
+      'post_count' => 'post_count',
       'created' => 'created',
     ),
     'info' => array(
@@ -1609,17 +1651,19 @@ function _atrium_intranet_views_default_views() {
       ),
       'title' => array(
         'sortable' => 0,
+        'separator' => '<br/>',
+      ),
+      'description' => array(
         'separator' => '',
       ),
-      'post_count_new' => array(
+      'selective' => array(
+        'separator' => '',
+      ),
+      'member_count' => array(
         'sortable' => 0,
         'separator' => '',
       ),
       'post_count' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      'member_count' => array(
         'sortable' => 0,
         'separator' => '',
       ),
