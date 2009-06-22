@@ -414,8 +414,11 @@ div.comment-links ul.links {
   div.comment-links ul li { padding-left:1px; }
 
   div.more-link a,
+  div.node-links ul li span,
+  div.comment-links ul li span,
   div.node-links ul li a,
   div.comment-links ul li a {
+    float:left;
     line-height:25px;
     padding:0px 10px;
     background:#f8f8f8 url(images/bleeds.png) 0px 100% repeat-x;
