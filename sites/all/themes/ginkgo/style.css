@@ -22,6 +22,7 @@ body.not-logged-in div.limiter { width:560px; }
 /**
  * "Power" hover classes ==============================================
  */
+ul.multistep li.active,
 .form-text:focus,
 .form-textarea:focus,
 .form-select:focus,
@@ -637,21 +638,60 @@ div.diff-inline-form {
   font-size:11px;
 
   border-top:1px solid #fff;
-  height:29px;
-  line-height:29px;
-  overflow:hidden;
 
-  padding:0px 5px;
+  padding:0px;
   margin:0px;
+  }
+  
+  div.diff-inline-form table {
+    border-color:#eee;
   }
 
   div.diff-inline-form select,
   div.diff-inline-form input.form-submit {
     vertical-align:middle;
     font-size:11px;
+    margin:4px 0px;
     padding:1px;
     }
+    
+  div.diff-inline-form tr.active {
+    background: #ddd;
+  }
+    
+    div.diff-inline-form table.sticky-enabled th.revision-header {
+      display:none;
+    }
+    
+    div.diff-inline-form table.sticky-enabled thead.tableHeader-processed th.revision-header {
+      display:block;
+    }
 
+    div.diff-inline-form .revision-help {
+      height:25px; line-height:25px;
+      padding:0px 5px;
+    }
+    
+    div.diff-inline-form td.rev-num {
+      text-align:center;
+      width:5%;
+    }
+    
+    div.diff-inline-form td.rev-num a {
+      font-size:16px;
+      color:#444;
+    }
+    
+    div.diff-inline-form td.info {
+      width:75%;
+    }
+    
+    div.diff-inline-form td.rev-link {
+      width:20%;
+      font-weight:bold;
+      text-align:center;
+    }
+    
 span.diff-deleted { color:#ccc; }
 
 span.diff-changed {
@@ -1003,6 +1043,57 @@ div.block div.views-exposed-form div.views-exposed-widget {
  */
 div.litecal h3.litecal-title { padding:0px; }
 div.litecal div.views-field-field-date-value { color:inherit; }
+
+/**
+ * MULTISTEP ==========================================================
+ */
+ul.multistep {
+  border:10px solid #f8f8f8;
+  margin:0px 0px 20px;
+  line-height:46px;
+  padding:2px;
+
+  background:#fff;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  }
+
+  ul.multistep-2 li { width:50%; }
+  ul.multistep-3 li { width:33%; }
+  ul.multistep-4 li { width:25%; }
+  ul.multistep-5 li { width:20%; }
+
+ul.multistep li span,
+ul.multistep li a {
+  border-right:1px solid #eee;
+
+  letter-spacing:-1px;
+  font-size:18px;
+  color:#999;
+
+  display:block;
+  float:none;
+  padding:0px 10px;
+  }
+
+  ul.multistep li.last span,
+  ul.multistep li.last a { border-right:0px; }
+
+  ul.multistep li.active a,
+  ul.multistep li.active span { color:#333; }
+
+/**
+ * DL =================================================================
+ */
+dl.node-type-list dt {
+  padding:10px 0px 0px;
+  font-size:15px; }
+
+dl.node-type-list dd {
+  padding:0px 0px 9px;
+  border-bottom:1px solid #ddd;
+  font-size:11px;
+  }
 
 /**
  * CATCHALL ===========================================================
