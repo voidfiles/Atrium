@@ -1,4 +1,18 @@
-// $Id: CHANGELOG.txt,v 1.1.2.2 2009/06/05 05:18:31 yhahn Exp $
+// $Id: CHANGELOG.txt,v 1.1.2.3 2009/06/22 00:13:51 yhahn Exp $
+features DRUPAL-6--1-ALPHA5
+---------------------------
+- Implementing project status url and version keys in info files.
+- Removed context dependency.
+- Implementing feature reverting in the UI and some admin UI cleanups.
+- Initial commit of experimental user/permission integration.
+- Initial commit of features-filters integration.
+- Corrected a misnamed drush hook.
+- Updated usage of drush_print_table to reflect recent changes in drush.
+- Adding component conflict detection between features.
+- Adding export for translatable strings in menu, CCK.
+- #483548 by jmiccolis: Use AJAX to lighten server load on feature
+  overview page.
+
 features DRUPAL-6--1-ALPHA4
 ---------------------------
 - Ensure that a feature module cannot create circular dependencies.

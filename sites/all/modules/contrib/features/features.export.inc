@@ -1,5 +1,84 @@
 <?php
-// $Id: features.export.inc,v 1.1.2.22 2009/06/10 01:06:08 yhahn Exp $
+// $Id: features.export.inc,v 1.1.2.24 2009/06/22 03:20:46 yhahn Exp $
+
+/**
+ * Update form.
+ */
+function features_update_form($form_state, $module) {
+  features_include();
+  $export = array_merge($module->info, features_populate($module->info['features'], $module->name));
+
+  $form['markup'] = array(
+    '#type' => 'markup',
+    '#value' => "<h3>". t('Update !module_name', array('!module_name' => $module->name)) ."</h3>",
+  );
+  $form['export'] = array(
+    '#type' => 'value',
+    '#value' => $export,
+  );
+  $form['name'] = array(
+    '#title' => t('Name'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#default_value' => !empty($module->info['name']) ? $module->info['name'] : '',
+  );
+  $form['module_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Machine-readable name'),
+    '#value' => $module->name,
+    '#default_value' => $module->name,
+    '#disabled' => TRUE,
+  );
+  $form['description'] = array(
+    '#title' => t('Description'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#default_value' => !empty($module->info['description']) ? $module->info['description'] : '',
+  );
+  $form['optional'] = array(
+    '#title' => t('Optional information'),
+    '#type' => 'fieldset',
+    '#tree' => FALSE,
+  );
+  $form['optional']['project_status_url'] = array(
+    '#title' => t('Update feed'),
+    '#type' => 'textfield',
+    '#required' => FALSE,
+    '#default_value' => !empty($module->info['project status url']) ? $module->info['project status url'] : '',
+  );
+  $form['optional']['version'] = array(
+    '#title' => t('Version'),
+    '#type' => 'textfield',
+    '#required' => FALSE,
+    '#default_value' => !empty($module->info['version']) ? $module->info['version'] : '',
+  );
+  $form['download'] = array(
+    '#type' => 'submit',
+    '#value' => t('Download updated feature'),
+  );
+  return $form;
+}
+
+/**
+ * Update form submit.
+ */
+function features_update_form_submit(&$form, &$form_state) {
+  $export = $form_state['values']['export'];
+  $export['name'] = $form_state['values']['name'];
+  $export['description'] = $form_state['values']['description'];
+  if (!empty($form_state['values']['version'])) {
+    $export['version'] = $form_state['values']['version'];
+  }
+  if (!empty($form_state['values']['project_status_url'])) {
+    $export['project status url'] = $form_state['values']['project_status_url'];
+  }
+
+  $module_name = $form_state['values']['module_name'];
+  $filename = !empty($export['version']) ? "{$module_name}-{$export['version']}" : $module_name;
+
+  $files = features_export_render($export, $module_name, TRUE);
+  features_export_download_files($files, $module_name, $filename);
+}
 
 /**
  * Export form.
@@ -33,8 +112,8 @@ function features_export_form($form_state, $module = NULL) {
 
   $form = array();
   $form['step'] = array(
-    '#type' => 'item',
-    '#value' => "<strong>{$steps[$step]}</strong>",
+    '#type' => 'markup',
+    '#value' => "<h3>{$steps[$step]}</h3>",
   );
 
   switch ($step) {
@@ -62,6 +141,25 @@ function features_export_form($form_state, $module = NULL) {
         '#description' => t('Provide a description for your feature.'),
         '#type' => 'textfield',
         '#required' => TRUE,
+        '#default_value' => '',
+      );
+      $form['optional'] = array(
+        '#title' => t('Optional information'),
+        '#type' => 'fieldset',
+        '#tree' => FALSE,
+      );
+      $form['optional']['project_status_url'] = array(
+        '#title' => t('Update feed'),
+        '#description' => t('The URL of the update XML feed for this feature.'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
+        '#default_value' => '',
+      );
+      $form['optional']['version'] = array(
+        '#title' => t('Version'),
+        '#description' => t('The version information for this feature.'),
+        '#type' => 'textfield',
+        '#required' => FALSE,
         '#default_value' => '',
       );
       drupal_add_js(drupal_get_path('module', 'features') .'/features.js');
@@ -150,14 +248,17 @@ function features_export_form($form_state, $module = NULL) {
     // Download/export ================================================
     case 3:
       if ($files = features_export_render($export, $module_name, TRUE)) {
-        $filename = function_exists('gzencode') ? "{$module_name}.tar.gz" : "{$module_name}.tar";
+        $filename = !empty($export['version']) ? "{$module_name}-{$export['version']}" : $module_name;
+        $module_display = function_exists('gzencode') ? "{$filename}.tgz" : "{$filename}.tar";
+
         $form['module_display'] = array(
           '#type' => 'markup',
-          '#value' => "<h3 class='features-download'>{$filename}</h3>",
+          '#value' => "<h3 class='features-download'>{$module_display}</h3>",
         );
 
         $form['download'] = array('#tree' => TRUE, '#theme' => 'features_form_buttons');
         $form['download']['module_name'] = array('#type' => 'value', '#value' => $module_name);
+        $form['download']['filename'] = array('#type' => 'value', '#value' => $filename);
         $form['download']['files'] = array('#type' => 'value', '#value' => $files);
 
         $form['download']['download'] = array(
@@ -202,6 +303,12 @@ function features_export_form_submit($form, &$form_state) {
         'name' => $form_state['values']['name'],
         'description' => $form_state['values']['description'],
       );
+      if (!empty($form_state['values']['version'])) {
+        $export['version'] = $form_state['values']['version'];
+      }
+      if (!empty($form_state['values']['project_status_url'])) {
+        $export['project status url'] = $form_state['values']['project_status_url'];
+      }
       $form_state['storage']['export'] = $export;
       $form_state['storage']['module_name'] = $form_state['values']['module_name'];
       break;
@@ -281,21 +388,25 @@ function features_export_download_submit(&$form, &$form_state) {
   if (!empty($form_state['values']['download']['files'])) {
     $files = $form_state['values']['download']['files'];
     $module_name = $form_state['values']['download']['module_name'];
-    features_export_download_files($files, $module_name);
+    $filename = $form_state['values']['download']['filename'];
+    features_export_download_files($files, $module_name, $filename);
   }
 }
 
 /**
  * Delivers files to the user through a tarball download.
  */
-function features_export_download_files($files, $module_name) {
+function features_export_download_files($files, $module_name, $filename = '') {
   $tar = array();
   foreach ($files as $path => $file_contents) {
     $tar["{$module_name}/{$module_name}.$path"] = $file_contents;
   }
   $tar = features_tar_create($tar);
+
   $header = function_exists('gzencode') ? 'Content-type: application/x-gzip' : 'Content-type: application/x-tar';
-  $filename = function_exists('gzencode') ? "{$module_name}.tar.gz" : "{$module_name}.tar";
+  $filename = !empty($filename) ? $filename : $module_name;
+  $filename = function_exists('gzencode') ? "{$filename}.tgz" : "{$filename}.tar";
+
   drupal_set_header($header);
   drupal_set_header('Content-Disposition: attachment; filename="'. $filename .'"');
   print $tar;
@@ -410,24 +521,13 @@ function _features_export_maximize_dependencies($dependencies, $module_name = ''
 function features_export_render($export, $module_name, $reset = FALSE) {
   features_include();
 
-  global $base_url;
-
   $code = array();
   $existing = features_get_modules($module_name, $reset);
 
   // Prepare info string -- if module exists, merge into its existing info file
-  if ($existing) {
-    $info = $existing->info;
-  }
-  else {
-    $info = array(
-      'core' => '6.x',
-      'package' => 'Features',
-      'feature_uri' => $base_url,
-      'feature_timestamp' => time(),
-    );
-  }
+  $info = $existing ? $existing->info : array('core' => '6.x', 'package' => 'Features', 'project' => $module_name);
   $export = array_merge($info, $export);
+
   // A couple of special cases.
   if (!empty($export['dependencies'])) {
     $export['dependencies'] = array_values($export['dependencies']);

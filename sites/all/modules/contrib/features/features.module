@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.27 2009/06/19 21:22:32 yhahn Exp $
+// $Id: features.module,v 1.1.2.28 2009/06/21 21:03:56 yhahn Exp $
 
 /**
  * @file
@@ -74,7 +74,7 @@ function features_menu() {
     'title' => 'Update',
     'description' => 'Update a feature.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('features_export_form', 3),
+    'page arguments' => array('features_update_form', 3),
     'access callback' => 'features_access_override_actions',
     'access arguments' => array(3),
     'type' => MENU_LOCAL_TASK,

@@ -1,5 +1,5 @@
 <?php
-// $Id: features.admin.inc,v 1.1.2.17 2009/06/18 20:48:30 yhahn Exp $
+// $Id: features.admin.inc,v 1.1.2.18 2009/06/21 21:03:56 yhahn Exp $
 
 /**
  * admin/build/features page callback.
@@ -73,10 +73,10 @@ function features_admin_form($feature = NULL) {
       '#disabled' => $disabled,
     );
 
-    $uri = !empty($module->info['feature_uri']) ? $module->info['feature_uri'] : t('Unavailable');
-    $timestamp = !empty($module->info['feature_timestamp']) ? format_date($module->info['feature_timestamp'], 'small') : '';
-    $timestamp = !empty($timestamp) ? "<div class='description'>$timestamp</div>" : '';
-    $sign = "$uri $timestamp";
+    $uri = !empty($module->info['project status url']) ? l(truncate_utf8($module->info['project status url'], 35, TRUE, TRUE), $module->info['project status url']) : t('Unavailable');
+    $version = !empty($module->info['version']) ? $module->info['version'] : '';
+    $version = !empty($version) ? "<div class='description'>$version</div>" : '';
+    $sign = "$uri $version";
 
     $form['sign'][$name] = array(
       '#type' => 'markup',
