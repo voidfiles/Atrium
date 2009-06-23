@@ -198,6 +198,9 @@ function atrium_profile_tasks(&$task, $url) {
       db_query("DELETE FROM {filters} WHERE format = %d", $row->format);
     }
 
+    // Eliminate the access content perm from anonymous users.
+    db_query("UPDATE permission set perm = '' WHERE rid = 1");
+
     // Create user picture directory
     $picture_path = file_create_path(variable_get('user_picture_path', 'pictures'));
     file_check_directory($picture_path, 1, 'user_picture_path');
