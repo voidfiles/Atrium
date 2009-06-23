@@ -59,7 +59,6 @@ function atrium_intranet_strongarm() {
 
   // Site variables
   $conf['site_frontpage'] = 'welcome';
-  $conf['site_footer'] = t('&copy; 2009 !devseed', array('!devseed' => l(t('Development Seed'), 'http://www.developmentseed.org', array('absolute' => TRUE))));
 
   // FeedAPI
   $conf['feedapi_cron_percentage'] = '25';

@@ -225,6 +225,9 @@ function atrium_profile_tasks(&$task, $url) {
     $date = date_make_date('now', variable_get('date_default_timezone_name', 'US/Eastern'));
     variable_set('date_default_timezone', date_offset_get($date));
 
+    // Set a default footer message.
+    variable_set('site_footer', '&copy; 2009 '. l('Development Seed', 'http://www.developmentseed.org', array('absolute' => TRUE)));
+
     // Theme
     // @TODO: this actually does not work -- by the time we get here
     // the _system_theme_data() static cache has been populated.
