@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: views_handler_filter_node_access.inc,v 1.1 2009/06/02 20:09:33 merlinofchaos Exp $
 /**
  * Filter by node_access records.
  */

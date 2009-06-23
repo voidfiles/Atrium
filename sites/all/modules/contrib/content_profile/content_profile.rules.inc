@@ -1,5 +1,5 @@
 <?php
-// $Id: content_profile.rules.inc,v 1.1.2.1 2009/01/07 11:36:36 fago Exp $
+// $Id: content_profile.rules.inc,v 1.1.2.2 2009/03/30 10:20:01 fago Exp $
 
 /**
  * @file
@@ -12,7 +12,7 @@
 function content_profile_rules_condition_info() {
   return array(
     'content_profile_user_has_profile_condition' => array(
-      'label' => t('User has content_profile'),
+      'label' => t('User has content profile'),
       'arguments' => array(
         'user' => array('type' => 'user', 'label' => t('User')),
       ),

@@ -1,5 +1,5 @@
 <?php
-// $Id: content_profile.install,v 1.1.2.6 2009/01/04 11:30:28 fago Exp $
+// $Id: content_profile.install,v 1.1.2.7 2009/01/09 15:55:07 fago Exp $
 /**
  * @file
  * Content profile installation file.
@@ -116,6 +116,23 @@ function content_profile_update_6003() {
       unset($settings['edit_link_sub']);
       $settings['edit_tab'] = 'sub';
       content_profile_set_settings($type, $settings);
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Due to an old bug it may be that the $settings of a content type
+ * are '0'. As it should be an array this generates errors.
+ * This update fixes up those scrambled settings.
+ */
+function content_profile_update_6004() {
+  $ret = array();
+  drupal_load('module', 'content_profile');
+  foreach (node_get_types('names') as $type => $type_name) {
+    $settings = variable_get('content_profile_'. $type, array());
+    if (!is_array($settings)) {
+      content_profile_set_settings($type, array());
     }
   }
   return $ret;

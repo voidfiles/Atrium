@@ -1,5 +1,5 @@
 <?php
-// $Id: comment_upload.module,v 1.7.2.23 2009/04/21 16:41:04 netaustin Exp $
+// $Id: comment_upload.module,v 1.7.2.24 2009/06/06 01:51:55 netaustin Exp $
 
 /**
  * @file
@@ -275,7 +275,6 @@ function comment_upload_upload_form($files = array()) {
   $form['new']['upload'] = array(
     '#type' => 'file',
     '#title' => t('Attach new file'),
-    '#size' => 40,
     '#description' => ($limits['resolution'] ? t('Images are larger than %resolution will be resized. ', array('%resolution' => $limits['resolution'])) : '') . t('The maximum upload size is %filesize. Only files with the following extensions may be uploaded: %extensions. ', array('%extensions' => $limits['extensions'], '%filesize' => format_size($limits['file_size']))),
   );
 
@@ -404,16 +403,11 @@ function comment_upload_save($comment) {
  * React to the Attach button; update file information on AHAH request.
  */
 function comment_upload_js() {
-  if (empty($_POST)) {
-    return drupal_not_found();
-  }
-
   $cached_form_state = array();
   $files = array();
-
   // Load the form from the Form API cache.
-  if (!($cached_form = form_get_cache($_POST['form_build_id'], $cached_form_state)) || !isset($cached_form['#comment_upload_storage']) || !isset($cached_form['attachments'])) {
-    form_set_error('form_token', t('Validation error, please try again. If this error persists, please contact the site administrator.'));
+  if (empty($_POST) || !($cached_form = form_get_cache($_POST['form_build_id'], $cached_form_state)) || !isset($cached_form['#comment_upload_storage']) || !isset($cached_form['attachments'])) {
+    form_set_error('form_token', t('Validation error, please try again. The file you attempted to upload may be too large. If this error persists, please contact the site administrator.'));
     $output = theme('status_messages');
     print drupal_to_js(array('status' => TRUE, 'data' => $output));
     exit();
@@ -422,7 +416,6 @@ function comment_upload_js() {
   $form_state = array('values' => $_POST);
 
   comment_upload_process_files($cached_form, $form_state);
-
   if (!empty($form_state['values']['files'])) {
     foreach ($form_state['values']['files'] as $fid => $file) {
       if (isset($cached_form['#comment_upload_storage'][$fid])) {
@@ -496,10 +489,15 @@ function comment_upload_process_files(&$form, &$form_state) {
     }
   }
   else {
-    // If no file has been entered, we have an empty upload element in files.
-    unset($form_state['values']['files']['upload']);
+    $errors = form_get_errors();
+    if (!empty($errors)) {
+      return 0;
+    }
+    else {
+      // If no file has been entered, we have an empty upload element in files.
+      unset($form_state['values']['files']['upload']);
+    }
   }
-
   if (isset($form_state['values']['files'])) {
     foreach ($form_state['values']['files'] as $fid => $file) {
       $form_state['values']['files'][$fid]['new'] = !empty($form['#comment_upload_storage'][$fid]['new']) ? TRUE : FALSE;

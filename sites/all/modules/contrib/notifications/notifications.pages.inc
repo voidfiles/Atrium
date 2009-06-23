@@ -1,5 +1,5 @@
 <?php
-// $Id: notifications.pages.inc,v 1.1.2.8.2.4 2009/04/22 14:58:18 jareyero Exp $
+// $Id: notifications.pages.inc,v 1.1.2.8.2.6 2009/06/16 15:23:09 jareyero Exp $
 /**
  * @file
  * User pages for Notifications
@@ -53,7 +53,7 @@ function notifications_user_overview($form_state, $account) {
       $tips['enable'] = l(t('Enable all your subscriptions'), "$path/notifications/update/enable");
     }    
   }
-  $link = notifications_get_link('unsubscribe', array('uid' => $account->uid));
+  $link = notifications_get_link('unsubscribe', array('uid' => $account->uid, 'destination' => TRUE));
   $tips['cancel'] = l(t('Cancel all your subscriptions'), $link['href'], $link['options']);
   
   //$output .= theme('item_list', $tips, t('You can'));
@@ -124,7 +124,11 @@ function notifications_add_subscription_form_validate($form, &$form_state) {
     // We may need additional validation or field - value mappging for some fields
     $value = $field['value'];
     if ($callback = notifications_subscription_fields($field['type'], 'value callback')) {
-      $value = call_user_func($callback, $value, "fields][$fid][value");
+      if ($args = notifications_subscription_fields($field['type'], 'value callback args')) {
+        $value = call_user_func($callback, $value, "fields][$fid][value", $args);
+      } else {
+        $value = call_user_func($callback, $value, "fields][$fid][value");
+      }
     }
     // If we still have a value (mapping may have failed, go and save)
     if ($value) {

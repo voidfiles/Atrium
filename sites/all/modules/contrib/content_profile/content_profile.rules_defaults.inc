@@ -1,5 +1,5 @@
 <?php
-// $Id: content_profile.rules_defaults.inc,v 1.1.2.1 2009/01/07 12:01:32 fago Exp $
+// $Id: content_profile.rules_defaults.inc,v 1.1.2.2 2009/01/26 15:33:00 fago Exp $
 /**
  * @file Rules default rules
  */
@@ -107,12 +107,5 @@ array (
   ),
 );
 
-  return $config + array(
-    'rule_sets' => array(
-      'rules_set_1' => array(
-        'label' => 'Rule Set Example working with content',
-        'arguments' => array('node' => array('type' => 'node', 'label' => 'Content')),
-       ),
-     ),
-   );
+  return $config;
 }

@@ -1,5 +1,5 @@
-<?php 
-// $Id: content_profile_views_handler_relationship.inc,v 1.1.2.2 2008/11/04 03:57:08 jgraham Exp $
+<?php
+// $Id: content_profile_views_handler_relationship.inc,v 1.1.2.3 2009/06/11 15:14:21 fago Exp $
 // @file
 
 /**
@@ -36,7 +36,7 @@ class content_profile_views_handler_relationship extends views_handler_relations
     $join->definition = array(
       'table' => 'node',
       'field' => 'uid',
-      'left_table' => 'users',
+      'left_table' => !empty($this->relationship) ? $this->relationship : 'users',
       'left_field' => 'uid',
       'extra' => array(
         array('field' => 'type', 'value' => $this->options['type']),

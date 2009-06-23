@@ -1,5 +1,5 @@
 <?php
-// $Id: content_profile.module,v 1.1.2.32 2009/01/07 10:58:05 fago Exp $
+// $Id: content_profile.module,v 1.1.2.39 2009/06/15 10:55:24 fago Exp $
 
 /**
  * @file
@@ -11,12 +11,17 @@
  * Implementation of hook_init().
  */
 function content_profile_init() {
-  if (module_exists('panels')) {
-    module_load_include('inc', 'content_profile', 'content_profile.panels');
-  }
   module_load_include('inc', 'content_profile', 'content_profile.theme_vars');
 }
 
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ */
+function content_profile_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'relationships') {
+    return 'panels/' . $plugin;
+  }
+}
 
 /**
  * Implementation of hook_menu().
@@ -81,7 +86,13 @@ function content_profile_page_access($type, $account) {
   if ($node = content_profile_load($type, $account->uid)) {
     return node_access('update', $node);
   }
-  return node_access('create', $type);
+  // Else user may view the page when they are going to create their own profile
+  // or have permission to create it for others.
+  global $user;
+  if ($user->uid == $account->uid || user_access('administer nodes') ){
+    return node_access('create', $type);
+  }
+  return FALSE;
 }
 
 /**
@@ -363,18 +374,23 @@ function _content_profile_node_delete($node) {
 function content_profile_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   global $last_nid;
 
-  if ($op == 'prepare' && is_content_profile($node) && !isset($node->nid) && $node->uid && !user_access('administer nodes')) {
+  if ($op == 'prepare' && is_content_profile($node) && !isset($node->nid) && $node->uid && !user_access('administer nodes') && arg(0) != 'admin') {
     // Check if this nodetype already exists
     if ($nid = content_profile_profile_exists($node, $node->uid)) {
       // This node already exists, redirect to edit page
       drupal_goto('node/'. $nid .'/edit', 'destination=user/'. $node->uid);
     }
   }
-  elseif ($op == 'validate' && is_content_profile($node) && user_access('administer nodes') && !isset($node->nid)) {
+  elseif ($op == 'validate' && is_content_profile($node) && user_access('administer nodes')) {
+    $form = $a3;
+    // Only validate if the user-name changed or we add a new node
+    if (!empty($node->nid) && $form['author']['name']['#default_value'] == $node->name) {
+      return;
+    }
     //check whether the selected user has already a profile
     $uid = db_result(db_query("SELECT uid FROM {users} WHERE name = '%s'", $node->name));
     if (content_profile_profile_exists($node, $uid)) {
-      form_set_error('name', t('This user has already a content profile of this type. You can only create one profile per user.'));
+      form_set_error('name', t('This user already has a content profile of this type. You can only create one profile per user.'));
     }
   }
   elseif ($op == 'prepare translation' && is_content_profile($node->translation_source)) {
@@ -458,14 +474,11 @@ function content_profile_content_profile_settings() {
  * @param $lang
  *   Optional. If translation is enabled, the language of the profile to return.
  */
-function content_profile_load($type, $uid, $lang = NULL) {
+function content_profile_load($type, $uid, $lang = '') {
   static $cache = array();
 
-  if (!isset($lang)) {
-    $lang = module_exists('translation') && translation_supported_type($type) ? $GLOBALS['language']->language : '';
-  }
-
   if (!isset($cache[$type][$uid][$lang])) {
+    $cache[$type][$uid][$lang] = FALSE;
     $params = array('type' => $type, 'uid' => $uid);
     if ($node = node_load($lang ? $params + array('language' => $lang) : $params)) {
       $cache[$type][$uid][$lang] = $node->nid;
@@ -474,7 +487,6 @@ function content_profile_load($type, $uid, $lang = NULL) {
   }
   return !empty($cache[$type][$uid][$lang]) ? node_load($cache[$type][$uid][$lang]) : FALSE;
 }
-
 
 /**
  * Returns an array suitable for use with drupal_render,

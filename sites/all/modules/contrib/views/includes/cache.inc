@@ -1,5 +1,5 @@
 <?php
-// $Id: cache.inc,v 1.24 2009/02/17 23:31:05 merlinofchaos Exp $
+// $Id: cache.inc,v 1.25 2009/06/01 23:33:37 merlinofchaos Exp $
 /**
  * @file cache.inc
  *

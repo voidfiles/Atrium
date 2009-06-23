@@ -17,7 +17,7 @@ function messaging_privatemsg_messaging($op) {
         'name' => t('Private message'),
         'group' => 'web',
         'type' => MESSAGING_TYPE_SEND,
-        'access' => 'access private messages',
+        'access' => 'read privatemsg',
         'glue' => "\n",
         'description' => t('Send messages through Privatemsg'),
         'send callback' => 'messaging_privatemsg_send_msg', // Sending callback
@@ -43,7 +43,9 @@ function messaging_privatemsg_send_msg($destination, $message) {
   } elseif (!empty($message->sender)) {
     $sender = messaging_load_user($message->sender);
   } 
-  return (bool)privatemsg_new_thread($message->subject, $message->body, $recipients, $sender);
+  // this could be broken by minor changes to privatemsg_new_thread, which has an API different from its implementation at present
+  $ret = privatemsg_new_thread($recipients, $message->subject, $message->body, array('author' => $sender));
+  return $ret['success'];
 }
 
 /**

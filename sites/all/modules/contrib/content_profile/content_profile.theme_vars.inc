@@ -1,5 +1,5 @@
 <?php
-// $Id: content_profile.theme_vars.inc,v 1.1.2.4 2009/01/07 10:49:39 fago Exp $
+// $Id: content_profile.theme_vars.inc,v 1.1.2.5 2009/01/26 16:25:50 fago Exp $
 
 /**
  * @file
@@ -37,27 +37,34 @@ class content_profile_theme_variables {
    *
    * @param $type
    *   The type of the user's content profile
+   * @param $teaser
+   *   Whether the value is to be generated for the teaser.
+   * @param $page
+   *   Whether the value is to be generated for the page view.
    *
    * @return
    *   An array of variables available for the profile node
    *   or FALSE if there has been no profile created yet.
    */
-  function get_variables($type) {
-    if (!isset($this->_cache['type'])) {
-      $this->_cache['type'] = FALSE;
+  function get_variables($type, $teaser = FALSE, $page = FALSE) {
+    if (!isset($this->_cache['type'][$teaser][$page])) {
+      $this->_cache['type'][$teaser][$page] = FALSE;
+
       if ($node = content_profile_load($type, $this->uid)) {
-        $vars = array('node' => $node, 'teaser' => FALSE, 'page' => FALSE);
-        $args = array(&$vars, 'node');
+        // Make sure the node is prepared for viewing
+        $node = node_build_content($node, $teaser, $page);
+        $vars = array('node' => $node, 'teaser' => $teaser, 'page' => $page);
+
         // Apply all node template preprocessors
         foreach ($this->_get_node_preprocessors() as $function) {
           if (function_exists($function)) {
-            call_user_func_array($function, $args);
+            $function($vars, 'node');
           }
         }
-        $this->_cache['type'] = (array)$vars;
+        $this->_cache['type'][$teaser][$page] = $vars;
       }
     }
-    return $this->_cache['type'];
+    return $this->_cache['type'][$teaser][$page];
   }
 
   /**
