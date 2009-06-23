@@ -17,28 +17,25 @@ function _atrium_book_context_default_contexts() {
     'views' => array(
       '0' => 'atrium_book',
     ),
-    'spaces' => array(
-      'label' => 'Documents',
-      'description' => 'A document section for maintaining a knowledge base.',
-      'menu' => array(
-        '0' => array(
-          'title' => 'Documents',
-          'href' => 'documents',
-        ),
-      ),
-      'types' => array(
-        'og' => 'og',
-        'site' => 0,
-        'user' => 0,
-      ),
-    ),
     'menu' => 'documents',
     'block' => array(
-      '0' => array(
+      'diff_inline' => array(
+        'module' => 'diff',
+        'delta' => 'inline',
+        'weight' => 20,
+        'region' => 'right',
+        'status' => '0',
+        'label' => 'Diff: inline diff revisions',
+        'type' => 'context_ui',
+      ),
+      'atrium_book' => array(
         'module' => 'atrium',
         'delta' => 'book',
+        'weight' => 21,
         'region' => 'right',
-        'weight' => -11,
+        'status' => '0',
+        'label' => 'Atrium: Book',
+        'type' => 'context_ui',
       ),
     ),
   );

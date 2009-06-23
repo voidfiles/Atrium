@@ -96,85 +96,26 @@ function diff_menu_alter(&$callbacks) {
 }
 
 /**
- * Form for selecting two consecutive revisions for inline diff'ing.
+ * Implementation of hook_block().
  */
-function diff_inline_form($form_state, $node, $revisions) {
-  $form = array();
-  $form['nid'] = array(
-    '#type' => 'value',
-    '#value' => $node->nid,
-  );
-  $form['#theme'] = 'diff_inline_form';
-
-  if (!empty($_SESSION['diff_inline_highlight'])) {
-    $rev = count($revisions);
-    $pad_length = strlen($rev);
-
-    // Build list of revisions. Label using sequential numbers instead of vids
-    // for easier reading.
-    $options = array();
-    foreach ($revisions as $r) {
-      $options[$r->vid] = t("#!num by !name", array('!num' => str_pad($rev, $pad_length, '0', STR_PAD_LEFT), '!date' => format_date($r->timestamp, 'small'), '!name' => $r->name));
-      $rev--;
-    }
-
-    $form['vid'] = array(
-      '#type' => 'select',
-      '#options' => $options,
-      '#default_value' => $node->vid,
-    );
-    $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('View revision'),
-      '#submit' => array('diff_inline_on'),
-    );
-    $form['toggle'] = array(
-      '#type' => 'submit',
-      '#value' => t('Turn off highlighting'),
-      '#submit' => array('diff_inline_off'),
-    );
+function diff_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      return array('inline' => array('info' => t('Diff: inline diff revisions')));
+    case 'view':
+      switch ($delta) {
+        case 'inline':
+          $block = array();
+          if (!empty($_SESSION['diff_inline_highlight'])) {
+            $node = menu_get_object();
+            $revisions = node_revision_list($node);
+            $block['subject'] = t('Revisions');
+            $block['content'] = theme('diff_inline_revisions', $node, $revisions);
+          }
+          return $block;
+      }
+      break;
   }
-  else {
-    $form['vid'] = array(
-      '#type' => 'value',
-      '#value' => $node->vid,
-    );
-    $form['toggle'] = array(
-      '#type' => 'submit',
-      '#value' => t('Highlight changes'),
-      '#submit' => array('diff_inline_on'),
-    );
-  }
-
-  return $form;
-}
-
-/**
- * Diff inline form submit handler. Retrieves node/revision information and
- * directs user to the correct node revision page.
- */
-function diff_inline_on(&$form, &$form_state) {
-  $_SESSION['diff_inline_highlight'] = TRUE;
-  $form_state['redirect'] = "node/{$form_state['values']['nid']}/revisions/{$form_state['values']['vid']}/view";
-}
-
-/**
- * Diff inline form toggle submit handler. Turns off inline diff highlighting.
- */
-function diff_inline_off(&$form, &$form_state) {
-  $_SESSION['diff_inline_highlight'] = FALSE;
-  $form_state['redirect'] = "node/{$form_state['values']['nid']}";
-}
-
-/**
- * Theme function for diff inline forms.
- */
-function theme_diff_inline_form($form) {
-  $output = "<div class='diff-inline-form clear-block'>";
-  $output .= "<div class='toggle'>". drupal_render($form['toggle']) ."</div>";
-  $output .= drupal_render($form);
-  $output .= "</div>";
-  return $output;
 }
 
 /**
@@ -186,11 +127,16 @@ function diff_nodeapi(&$node, $op, $teaser, $page) {
       if ($page && user_access('view revisions') && variable_get('show_diff_inline_'. $node->type, FALSE)) {
         $revisions = node_revision_list($node);
 
+        // Set the hilight flag if specified in the URL
+        if (isset($_GET['diff'])) {
+          $_SESSION['diff_inline_highlight'] = !empty($_GET['diff']);
+        }
+
         // Only render the form if there are multiple revisions
         if (count($revisions) > 1) {
           drupal_add_css(drupal_get_path('module', 'diff') .'/diff.css', 'module', 'all', FALSE);
           $node->content['diff_inline'] = array(
-            '#value' => drupal_get_form('diff_inline_form', $node, $revisions),
+            '#value' => theme('diff_inline_controls', $node),
             '#weight' => -100,
           );
 
@@ -198,12 +144,15 @@ function diff_nodeapi(&$node, $op, $teaser, $page) {
           $position = array_search($node->vid, $vids) + 1;
           $old = isset($vids[$position]) ? $vids[$position] : NULL;
 
+          // Set the active vid before we blow this information away from others by menu_set_active_item().
+          _diff_inline_set_vid($node->vid);
+
+          // @TODO: This is a bad hack that should instead be a patch against the node module.
+          menu_set_active_item("node/{$node->nid}");
+
           // Only highlight changes if inline highlighting is enabled & there
           // is actually an older revision to diff against.
           if ($old && !empty($_SESSION['diff_inline_highlight'])) {
-            // @TODO: This is a bad hack that should instead be a patch against the node module.
-            menu_set_active_item("node/{$node->nid}");
-
             module_load_include('php', 'diff', 'DiffEngine');
             $new = drupal_clone($node);
 
@@ -225,6 +174,15 @@ function diff_nodeapi(&$node, $op, $teaser, $page) {
                   $output .= implode("", $chunk->closing);
                   break;
                 case 'add':
+                  foreach ($chunk->closing as $i =>$piece) {
+                    if (strpos($piece, '<') === 0 && substr($piece, strlen($piece) - 1) === '>') {
+                      $output .= $piece;
+                    }
+                    else {
+                      $output .= "<span class='diff-added'>{$piece}</span>";
+                    }
+                  }
+                  break;
                 case 'change':
                   foreach ($chunk->closing as $i =>$piece) {
                     if (strpos($piece, '<') === 0 && substr($piece, strlen($piece) - 1) === '>') {
@@ -919,6 +877,48 @@ function theme_diff_empty_line($line) {
 }
 
 /**
+ * Simple inline controls and legend.
+ */
+function theme_diff_inline_controls($node) {
+  $output = "<div class='diff-inline-controls clear-block'>";
+  if (empty($_SESSION['diff_inline_highlight'])) {
+    $output .= l(t('Highlight changes'), "node/{$node->nid}/revisions/{$node->vid}/view", array('query' => 'diff=1', 'attributes' => array('class' => 'button')));
+  }
+  else {
+    $output .= l(t('Hide changes'), "node/{$node->nid}", array('query' => 'diff=0', 'attributes' => array('class' => 'button')));
+    $output .= "<span class='diff-inline-legend'>";
+    $output .= "<label>". t('Legend') ."</label>";
+    $output .= "<span class='diff-added'>". t('Added') ."</span>";
+    $output .= "<span class='diff-changed'>". t('Changed') ."</span>";
+    $output .= "<span class='diff-deleted'>". t('Deleted') ."</span>";
+    $output .= "</span>";
+  }
+  $output .= "</div>";
+  return $output;
+}
+
+/**
+ * Theme function for diff inline forms.
+ */
+function theme_diff_inline_revisions($node, $revisions) {
+  $num = count($revisions);
+  foreach ($revisions as $revision) {
+    $log = !empty($revision->log) ? "<div class='log'>". filter_xss($revision->log) ."</div>" : '';
+    $row = array();
+    $row[] = theme('username', $revision);
+    $row[] = array('data' => format_date($revision->timestamp, 'small') . $log, 'class' => 'info');
+    $row[] = array('data' => l(t('View'), "node/{$node->nid}/revisions/{$revision->vid}/view"));
+    $rows[] = array(
+      'data' => $row,
+      'class' => (_diff_inline_set_vid() == $revision->vid) ? 'active' : '',
+    );
+    $num--;
+  }
+  $output .= theme('table', array(), $rows, array('class' => 'diff-inline-revisions'));
+  return $output;
+}
+
+/**
  * Implementation of hook_theme().
  */
 function diff_theme() {
@@ -938,7 +938,10 @@ function diff_theme() {
     'diff_empty_line' => array(
       'arguments' => array('line' => NULL),
     ),
-    'diff_inline_form' => array(
+    'diff_inline_controls' => array(
+      'arguments' => array('info' => NULL)
+    ),
+    'diff_inline_revisions' => array(
       'arguments' => array('form' => NULL),
     ),
   );
@@ -980,4 +983,15 @@ function _diff_default_header($old_header = '', $new_header = '') {
       'colspan' => 2
     )
   );
+}
+
+/**
+ * Helper static cache to set/retrieve the current active vid.
+ */
+function _diff_inline_set_vid($vid = NULL) {
+  static $active;
+  if (!empty($vid)) {
+    $active = $vid;
+  }
+  return $active;
 }

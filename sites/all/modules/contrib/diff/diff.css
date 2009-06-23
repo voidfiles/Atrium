@@ -1,37 +1,35 @@
 /* $Id: diff.css,v 1.7.4.1 2009/04/15 15:05:42 yhahn Exp $ */
 
 /**
- * Inline form theming
+ * Inline diff theming
  */
-div.diff-inline-form {
+div.diff-inline-controls {
   margin:10px 0px;
   background:#f4f4f4;
   padding:5px;
   }
 
-div.diff-inline-form div.form-item {
-  float:left;
-  margin:0px 10px 0px 0px;
-  }
+  div.diff-inline-controls a.button { float:right; }
 
-div.diff-inline-form div.form-item * {
-  vertical-align:middle;
-  }
+  div.diff-inline-controls .diff-inline-legend span,
+  div.diff-inline-controls .diff-inline-legend label { margin-right:5px; }
 
-div.diff-inline-form div.toggle {
-  float:right;
-  }
+  div.diff-inline-controls .diff-inline-legend span { padding:2px 5px; }
+
+table.diff-inline-revisions td { vertical-align:top; }
+
+  table.diff-inline-revisions td.num { font-size:15px; }
+
+  table.diff-inline-revisions td.info { width:80%; }
+
+  table.diff-inline-revisions div.log { font-size:11px; }
 
 /**
  * Inline diff markup
  */
-span.diff-deleted {
-  color:#ccc;
-  }
-
-span.diff-changed {
-  background:#ffb;
-  }
+span.diff-deleted { color:#ccc; }
+span.diff-changed { background:#ffb; }
+span.diff-added { background:#cfc; }
 
 /**
  * Traditional split diff theming
