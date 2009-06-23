@@ -1,5 +1,7 @@
 <?php
 
+include_once('atrium.features.inc');
+
 /**
  * Implementation of hook_help().
  */

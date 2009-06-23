@@ -159,13 +159,22 @@ function atrium_views_data_alter(&$cache) {
     ),
   );
 
-  // Update type type
+  // Update type filter
   $cache['node']['update_type'] = array(
     'real field' => 'type',
-    'title' => t('Atrium update types'), // The item it appears as on the UI,
-    'help' => t('Affects only content types designated as update types.'), // The help that appears on the UI,
+    'title' => t('Atrium update types'),
+    'help' => t('Affects only content types designated as update types.'),
     'filter' => array(
       'handler' => 'atrium_handler_filter_update_types',
+    ),
+  );
+  // Book enabled type filter
+  $cache['node']['book_type'] = array(
+    'real field' => 'type',
+    'title' => t('Book-enabled types'),
+    'help' => t('Affects only book-enabled content types.'),
+    'filter' => array(
+      'handler' => 'atrium_handler_filter_book_types',
     ),
   );
 }

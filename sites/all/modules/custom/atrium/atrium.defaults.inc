@@ -1,174 +1,12 @@
 <?php
 
 /**
- * Implementation of hook_views_default_views().
+ * Helper to implemetation of hook_views_default_views().
  */
-function atrium_views_default_views() {
-  _view_atrium_taxonomy_autocomplete($views);
-  _view_atrium_book_current($views);
-  _view_atrium_search($views);
-  _view_atrium_taxonomy($views);
-  _view_view_all($views);
-  return $views;
-}
+function _atrium_views_default_views() {
+  $views = array();
 
-function _view_atrium_taxonomy_autocomplete(&$views) {
-  $view = new view;
-  $view->name = 'atrium_taxonomy_autocomplete';
-  $view->description = 'Atrium > taxonomy autocomplete';
-  $view->tag = 'atrium';
-  $view->view_php = '';
-  $view->base_table = 'term_data';
-  $view->is_cacheable = FALSE;
-  $view->api_version = 2;
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-  $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->override_option('relationships', array(
-    'vid' => array(
-      'label' => 'node',
-      'required' => 1,
-      'id' => 'vid',
-      'table' => 'term_node',
-      'field' => 'vid',
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('fields', array(
-    'name' => array(
-      'label' => 'Term',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'strip_tags' => 0,
-        'html' => 0,
-      ),
-      'link_to_taxonomy' => 0,
-      'exclude' => 0,
-      'id' => 'name',
-      'table' => 'term_data',
-      'field' => 'name',
-      'relationship' => 'none',
-    ),
-    'tid' => array(
-      'label' => 'Term ID',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'strip_tags' => 0,
-        'html' => 0,
-      ),
-      'set_precision' => FALSE,
-      'precision' => 0,
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
-      'exclude' => 0,
-      'id' => 'tid',
-      'table' => 'term_data',
-      'field' => 'tid',
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('sorts', array(
-    'name' => array(
-      'order' => 'ASC',
-      'id' => 'name',
-      'table' => 'term_data',
-      'field' => 'name',
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('filters', array(
-    'current' => array(
-      'operator' => 'active',
-      'value' => '',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'current',
-      'table' => 'spaces',
-      'field' => 'current',
-      'relationship' => 'vid',
-    ),
-    'nid' => array(
-      'operator' => '=',
-      'value' => '',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'nid',
-      'table' => 'node_access',
-      'field' => 'nid',
-      'relationship' => 'vid',
-    ),
-    'name' => array(
-      'operator' => 'contains',
-      'value' => 'test',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'case' => 0,
-      'id' => 'name',
-      'table' => 'term_data',
-      'field' => 'name',
-      'relationship' => 'none',
-    ),
-    'vid' => array(
-      'operator' => 'in',
-      'value' => array(),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'vid',
-      'table' => 'term_data',
-      'field' => 'vid',
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('access', array(
-    'type' => 'none',
-  ));
-  $handler->override_option('distinct', 1);
-  $translatables['atrium_taxonomy_autocomplete'] = array(
-    t('Defaults'),
-  );
-  $views[$view->name] = $view;
-}
-
-function _view_atrium_book_current(&$views) {
+  // Exported view: atrium_book_current
   $view = new view;
   $view->name = 'atrium_book_current';
   $view->description = 'Atrium: book: helper view to look up root book pages';
@@ -215,11 +53,6 @@ function _view_atrium_book_current(&$views) {
       'relationship' => 'none',
     ),
   ));
-  $book_types = array();
-  foreach (variable_get('book_allowed_types', array('book')) as $type) {
-    $book_types[$type] = $type;
-  }
-
   $handler->override_option('filters', array(
     'depth' => array(
       'operator' => '=',
@@ -269,7 +102,9 @@ function _view_atrium_book_current(&$views) {
     ),
     'type' => array(
       'operator' => 'in',
-      'value' => $book_types,
+      'value' => array(
+        'book' => 'book',
+      ),
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
@@ -286,15 +121,13 @@ function _view_atrium_book_current(&$views) {
     'type' => 'none',
   ));
   $handler->override_option('items_per_page', 0);
+  $translatables['atrium_book_current'] = array(
+    t('Defaults'),
+  );
 
   $views[$view->name] = $view;
-}
 
-
-/**
- * Exported view: atrium_search
- */
-function _view_atrium_search(&$views) {
+  // Exported view: atrium_search
   $view = new view;
   $view->name = 'atrium_search';
   $view->description = 'Atrium > Search';
@@ -304,7 +137,6 @@ function _view_atrium_search(&$views) {
   $view->is_cacheable = FALSE;
   $view->api_version = 2;
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->override_option('fields', array(
     'feature' => array(
@@ -543,19 +375,19 @@ function _view_atrium_search(&$views) {
     ),
     'default' => '-1',
   ));
-
-  /* Page 1 */
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->override_option('path', 'search/posts');
   $handler->override_option('menu', array(
     'type' => 'default tab',
     'title' => 'Posts',
+    'description' => '',
     'weight' => '-1',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'normal',
     'title' => 'Search',
+    'description' => '',
     'weight' => '0',
   ));
   $handler = $view->new_display('page', 'Page', 'page_2');
@@ -621,22 +453,25 @@ function _view_atrium_search(&$views) {
   $handler->override_option('menu', array(
     'type' => 'tab',
     'title' => 'Files',
+    'description' => '',
     'weight' => '1',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'none',
     'title' => '',
+    'description' => '',
     'weight' => 0,
   ));
+  $translatables['atrium_search'] = array(
+    t('Defaults'),
+    t('Search'),
+    t('Page'),
+  );
 
   $views[$view->name] = $view;
-}
 
-/**
- * Exported view: atrium_taxonomy
- */
-function _view_atrium_taxonomy(&$views) {
+  // Exported view: atrium_taxonomy
   $view = new view;
   $view->name = 'atrium_taxonomy';
   $view->description = 'Atrium > Taxonomy term override';
@@ -646,22 +481,7 @@ function _view_atrium_taxonomy(&$views) {
   $view->is_cacheable = FALSE;
   $view->api_version = 2;
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  // Default
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->override_option('relationships', array(
-    'upload_fid' => array(
-      'label' => 'Files',
-      'required' => 1,
-      'id' => 'upload_fid',
-      'table' => 'node',
-      'field' => 'upload_fid',
-      'override' => array(
-        'button' => 'Override',
-      ),
-      'relationship' => 'none',
-    ),
-  ));
   $handler->override_option('fields', array(
     'feature' => array(
       'label' => '',
@@ -851,6 +671,8 @@ function _view_atrium_taxonomy(&$views) {
     'type' => 'perm',
     'perm' => 'access content',
   ));
+  $handler->override_option('empty', 'There is no content tagged with this term.');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
@@ -861,9 +683,6 @@ function _view_atrium_taxonomy(&$views) {
     'columns' => array(
       'title' => 'title',
       'body' => 'title',
-      // 'type' => 'type',
-      // 'name' => 'name',
-      // 'last_updated' => 'last_updated',
     ),
     'info' => array(
       'title' => array(
@@ -873,40 +692,24 @@ function _view_atrium_taxonomy(&$views) {
       'body' => array(
         'separator' => '',
       ),
-      /*
-      'type' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      'name' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      'last_updated' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      */
     ),
     'default' => '-1',
   ));
-
-  // Posts
   $handler = $view->new_display('page', 'Posts', 'page_1');
   $handler->override_option('path', 'taxonomy/term/%/posts');
   $handler->override_option('menu', array(
     'type' => 'default tab',
     'title' => 'Posts',
+    'description' => '',
     'weight' => '0',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'normal',
     'title' => 'Tags',
+    'description' => '',
     'weight' => '0',
   ));
-
-  // Archive block
   $handler = $view->new_display('block', 'Archive block', 'block_1');
   $handler->override_option('arguments', array(
     'tid' => array(
@@ -933,8 +736,8 @@ function _view_atrium_taxonomy(&$views) {
       'default_argument_user' => 0,
       'default_argument_fixed' => '',
       'default_argument_php' => 'if (is_numeric(arg(2))) {
-            return arg(2);
-          }',
+                  return arg(2);
+                }',
       'validate_argument_node_type' => array(
         'blog' => 0,
         'book' => 0,
@@ -1012,13 +815,25 @@ function _view_atrium_taxonomy(&$views) {
     ),
   ));
   $handler->override_option('title', 'Archive');
+  $handler->override_option('empty', '');
   $handler->override_option('items_per_page', 0);
   $handler->override_option('use_pager', '0');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-
-  // Files
   $handler = $view->new_display('page', 'Files', 'page_2');
+  $handler->override_option('relationships', array(
+    'upload_fid' => array(
+      'label' => 'Files',
+      'required' => 1,
+      'id' => 'upload_fid',
+      'table' => 'node',
+      'field' => 'upload_fid',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('fields', array(
     'filemime' => array(
       'label' => 'Type',
@@ -1070,99 +885,188 @@ function _view_atrium_taxonomy(&$views) {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('empty', 'There are no files tagged with this term.');
   $handler->override_option('path', 'taxonomy/term/%/files');
   $handler->override_option('menu', array(
     'type' => 'tab',
     'title' => 'Files',
+    'description' => '',
     'weight' => '1',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
     'type' => 'none',
     'title' => '',
+    'description' => '',
     'weight' => 0,
   ));
+  $translatables['atrium_taxonomy'] = array(
+    t('Defaults'),
+    t('There is no content tagged with this term.'),
+    t('Posts'),
+    t('Archive block'),
+    t('Archive'),
+    t('Files'),
+    t('There are no files tagged with this term.'),
+  );
 
   $views[$view->name] = $view;
-}
 
-function _view_view_all(&$views) {
+  // Exported view: atrium_taxonomy_autocomplete
   $view = new view;
-  $view->name = 'view_all';
-  $view->description = 'view_all';
-  $view->tag = 'viewall';
+  $view->name = 'atrium_taxonomy_autocomplete';
+  $view->description = 'Atrium > taxonomy autocomplete';
+  $view->tag = 'atrium';
   $view->view_php = '';
-  $view->base_table = 'node';
+  $view->base_table = 'term_data';
   $view->is_cacheable = FALSE;
   $view->api_version = 2;
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('relationships', array(
+    'vid' => array(
+      'label' => 'node',
+      'required' => 1,
+      'id' => 'vid',
+      'table' => 'term_node',
+      'field' => 'vid',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('fields', array(
+    'name' => array(
+      'label' => 'Term',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'link_to_taxonomy' => 0,
+      'exclude' => 0,
+      'id' => 'name',
+      'table' => 'term_data',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'tid' => array(
+      'label' => 'Term ID',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'set_precision' => FALSE,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => ',',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 0,
+      'id' => 'tid',
+      'table' => 'term_data',
+      'field' => 'tid',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('sorts', array(
+    'name' => array(
+      'order' => 'ASC',
+      'id' => 'name',
+      'table' => 'term_data',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('filters', array(
+    'current' => array(
+      'operator' => 'active',
+      'value' => '',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'current',
+      'table' => 'spaces',
+      'field' => 'current',
+      'relationship' => 'vid',
+    ),
     'nid' => array(
-      'label' => 'Nid',
-      'link_to_node' => 0,
-      'exclude' => 0,
+      'operator' => '=',
+      'value' => '',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
       'id' => 'nid',
-      'table' => 'node',
+      'table' => 'node_access',
       'field' => 'nid',
+      'relationship' => 'vid',
+    ),
+    'name' => array(
+      'operator' => 'contains',
+      'value' => 'test',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'case' => 0,
+      'id' => 'name',
+      'table' => 'term_data',
+      'field' => 'name',
       'relationship' => 'none',
     ),
-    'title' => array(
-      'label' => 'Title',
-      'link_to_node' => 1,
-      'exclude' => 0,
-      'id' => 'title',
-      'table' => 'node',
-      'field' => 'title',
-      'relationship' => 'none',
-    ),
-    'type' => array(
-      'label' => 'Type',
-      'link_to_node' => 0,
-      'exclude' => 0,
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
-      'relationship' => 'none',
-    ),
-    'group_nid' => array(
-      'label' => 'Groups',
-      'exclude' => 0,
-      'id' => 'group_nid',
-      'table' => 'og_ancestry',
-      'field' => 'group_nid',
-      'relationship' => 'none',
-    ),
-    'is_public' => array(
-      'label' => 'Public',
-      'type' => 'yes-no',
-      'not' => 0,
-      'exclude' => 0,
-      'id' => 'is_public',
-      'table' => 'og_ancestry',
-      'field' => 'is_public',
+    'vid' => array(
+      'operator' => 'in',
+      'value' => array(),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'vid',
+      'table' => 'term_data',
+      'field' => 'vid',
       'relationship' => 'none',
     ),
   ));
   $handler->override_option('access', array(
     'type' => 'none',
   ));
-  $handler->override_option('title', 'Debug node access');
-  $handler->override_option('items_per_page', 25);
-  $handler->override_option('use_pager', '1');
-  $handler->override_option('style_plugin', 'table');
-  $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('path', '_viewall');
-  $handler->override_option('menu', array(
-    'type' => 'none',
-    'title' => '',
-    'weight' => 0,
-    'name' => 'navigation',
-  ));
-  $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
-    'weight' => 0,
-  ));
+  $handler->override_option('distinct', 1);
+  $translatables['atrium_taxonomy_autocomplete'] = array(
+    t('Defaults'),
+  );
+
   $views[$view->name] = $view;
+
+  return $views;
 }
