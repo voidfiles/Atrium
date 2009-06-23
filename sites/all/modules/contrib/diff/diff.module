@@ -109,8 +109,10 @@ function diff_block($op = 'list', $delta = 0, $edit = array()) {
           if (!empty($_SESSION['diff_inline_highlight'])) {
             $node = menu_get_object();
             $revisions = node_revision_list($node);
-            $block['subject'] = t('Revisions');
-            $block['content'] = theme('diff_inline_revisions', $node, $revisions);
+            if (count($revisions) > 1) {
+              $block['subject'] = t('Revisions');
+              $block['content'] = theme('diff_inline_revisions', $node, $revisions);
+            }
           }
           return $block;
       }

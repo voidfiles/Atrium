@@ -28,6 +28,7 @@ ul.multistep li.active,
 .form-select:focus,
 .prose a:hover,
 table tr:hover,
+#right table tr.active,
 ul.menu a:hover { background-color:#ecf4f8; }
 
 div.dropdown-blocks div.block div.item-list li a:hover,
@@ -190,17 +191,18 @@ body.one-sidebar div#main {
   }
 
 #right {
-  width:298px;
-  padding:0px 1px;
+  border-top:1px solid #fff;
+  width:300px;
   float:right;
   }
 
 /**
  * Blocks: Right ======================================================
  */
+#right div.block { padding:0px 1px; }
+
 #right h2.block-title {
-  border-top:1px solid #fff;
-  padding:4px 10px 5px;
+  padding:5px 9px;
   background:#eee;
   color:#666;
   font-weight:bold;
@@ -211,7 +213,8 @@ body.one-sidebar div#main {
   font-size:12px;
   line-height:15px;
   background:#f8f8f8 url(images/bleeds.png) 0% 100% repeat-x;
-  padding:10px;
+  padding:9px;
+  border-bottom:1px solid #fff;
   }
 
 /**
@@ -655,15 +658,30 @@ div.diff-inline-controls {
     float:left;
     }
 
-div.block-diff table.diff-inline-revisions tr {
-  color:#999;
-  border-bottom:1px solid #eee;
-  }
-
-div.block-diff table.diff-inline-revisions tr.active {
-  color:#333;
+#right div.block-diff {
+  padding:10px 10px 10px 9px;
+  border-left:1px solid #f8f8f8;
   background:#fff;
   }
+
+#right div.block-diff div.block-content {
+  padding:0px;
+  background:#fff;
+  }
+
+#right div.block-diff h2.block-title {
+  padding:0px 0px 10px;
+  background:#fff;
+  }
+
+  div.block-diff table.diff-inline-revisions tr,
+  div.block-diff table.diff-inline-revisions tr:hover {
+    color:#999;
+    background:transparent;
+    border-top:1px solid #eee;
+    }
+
+  div.block-diff table.diff-inline-revisions tr.active { color:#333; }
 
 span.diff-deleted { color:#ccc; }
 
