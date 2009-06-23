@@ -100,20 +100,18 @@ function _atrium_views_default_views() {
       'field' => 'current',
       'relationship' => 'none',
     ),
-    'type' => array(
-      'operator' => 'in',
-      'value' => array(
-        'book' => 'book',
-      ),
+    'book_type' => array(
+      'operator' => '=',
+      'value' => '',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
         'operator' => FALSE,
         'label' => '',
       ),
-      'id' => 'type',
+      'id' => 'book_type',
       'table' => 'node',
-      'field' => 'type',
+      'field' => 'book_type',
       'relationship' => 'none',
     ),
   ));
@@ -681,15 +679,29 @@ function _atrium_views_default_views() {
     'sticky' => 0,
     'order' => 'asc',
     'columns' => array(
+      'feature' => 'feature',
       'title' => 'title',
       'body' => 'title',
+      'name' => 'name',
+      'last_updated' => 'last_updated',
     ),
     'info' => array(
+      'feature' => array(
+        'separator' => '',
+      ),
       'title' => array(
+        'sortable' => 0,
+        'separator' => '<br/>',
+      ),
+      'body' => array(
+        'separator' => '',
+      ),
+      'name' => array(
         'sortable' => 0,
         'separator' => '',
       ),
-      'body' => array(
+      'last_updated' => array(
+        'sortable' => 0,
         'separator' => '',
       ),
     ),
@@ -735,9 +747,7 @@ function _atrium_views_default_views() {
       'default_options_div_prefix' => '',
       'default_argument_user' => 0,
       'default_argument_fixed' => '',
-      'default_argument_php' => 'if (is_numeric(arg(2))) {
-                  return arg(2);
-                }',
+      'default_argument_php' => 'if (is_numeric(arg(2))) { return arg(2); }',
       'validate_argument_node_type' => array(
         'blog' => 0,
         'book' => 0,

@@ -44,6 +44,9 @@ function atrium_views_handlers() {
       'path' => drupal_get_path('module', 'atrium') .'/includes',
     ),
     'handlers' => array(
+      'atrium_handler_filter_book_types' => array(
+        'parent' => 'views_handler_filter',
+      ),
       'atrium_handler_filter_update_types' => array(
         'parent' => 'views_handler_filter',
       ),
