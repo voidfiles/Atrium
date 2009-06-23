@@ -196,6 +196,12 @@ body.one-sidebar div#main {
   float:right;
   }
 
+  /* Auto-pad form sidebars */
+  div.form #right {
+    width:298px;
+    padding:0px 1px;
+    }
+
 /**
  * Blocks: Right ======================================================
  */
