@@ -28,6 +28,7 @@ function atrium_profile_modules() {
     'search',
     'system', 
     'taxonomy',
+    'trigger',
     'upload',
     'user',
   );
@@ -44,7 +45,7 @@ function _atrium_core_modules() {
     // Views
     'views', 'views_ui', 'litenode',
     // OG
-    'og', 'og_access', 'og_views',
+    'og', 'og_access', 'og_actions', 'og_views',
     // Context
     'context', 'context_contrib', 'context_ui',
     // Features
