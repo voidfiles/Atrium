@@ -86,7 +86,6 @@ a.user-picture {
 
   div.messages {
     border:5px solid #333;
-    padding:10px;
     background-color:#000;
     color:#fff;
     margin:0px 0px 10px;
@@ -97,27 +96,35 @@ a.user-picture {
     -webkit-border-radius:5px;
     }
 
-  div.messages div.message-content { clear:left; }
+  div.messages div.message-content { padding:10px; }
+
+  div.messages div.message-content li.message-item {
+    border-bottom:1px solid #666;
+    padding-bottom:9px;
+    margin-bottom:10px;
+    }
+
+    div.messages div.message-content li.last {
+      border:0px;
+      padding:0px;
+      margin:0px;
+      }
 
   div.messages div.message-label {
-    float:left;
-    line-height:10px;
+    line-height:15px;
     font-size:10px;
     text-transform:uppercase;
 
-    padding:5px;
-    margin:0px 0px 5px;
+    padding:5px 10px;
     color:#fff;
-    background-color:#6c3;
+    background-color:#278;
     }
 
     div.warning div.message-label { background-color:#fa0; }
-    div.error div.message-label { background-color:#c20; }
+    div.error div.message-label { background-color:#a20; }
 
   span.close {
-    position:absolute;
-    right:0px;
-    top:0px;
+    float:right;
 
     width:25px;
     height:25px;
