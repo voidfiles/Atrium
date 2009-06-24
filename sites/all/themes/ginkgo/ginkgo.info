@@ -11,7 +11,6 @@ stylesheets[screen][] = "forms.css"
 stylesheets[screen][] = "style.css"
 stylesheets[screen][] = "theme.css"
 
-scripts[] = "js/jquery.cookie.js"
 scripts[] = "js/coldbrew.js"
 
 regions[right] = "Right sidebar"
