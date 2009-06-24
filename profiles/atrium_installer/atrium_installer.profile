@@ -4,7 +4,7 @@
 /**
  * Implementation of hook_profile_details().
  */
-function atrium_profile_details() {
+function atrium_installer_profile_details() {
   return array(
     'name' => 'Atrium',
     'description' => 'Atrium by Development Seed.'
@@ -14,7 +14,7 @@ function atrium_profile_details() {
 /**
  * Implementation of hook_profile_modules().
  */
-function atrium_profile_modules() {
+function atrium_installer_profile_modules() {
   // Drupal core
   $modules = array(
     'block',
@@ -38,7 +38,7 @@ function atrium_profile_modules() {
 /**
  * Returns an array list of core atrium modules.
  */
-function _atrium_core_modules() {
+function _atrium_installer_core_modules() {
   return array(
     // Admin
     'admin',
@@ -78,7 +78,7 @@ function _atrium_core_modules() {
 /**
  * Returns an array list of dsi modules.
  */
-function _atrium_atrium_modules() {
+function _atrium_installer_atrium_modules() {
   return array(
     // Strongarm
     'strongarm',
@@ -120,7 +120,7 @@ function _atrium_atrium_modules() {
 /**
  * Implementation of hook_profile_task_list().
  */
-function atrium_profile_task_list() {
+function atrium_installer_profile_task_list() {
   $tasks = array(
     'locale-extended-import' => st('Import more translations'),
     'intranet-configure' => st('Intranet configuration'),
@@ -131,7 +131,7 @@ function atrium_profile_task_list() {
 /**
  * Implementation of hook_profile_tasks().
  */
-function atrium_profile_tasks(&$task, $url) {
+function atrium_installer_profile_tasks(&$task, $url) {
   global $install_locale;
   
   // Just in case some of the future tasks adds some output
@@ -139,8 +139,8 @@ function atrium_profile_tasks(&$task, $url) {
 
   // Install some more modules and maybe localization helpers too
   if ($task == 'profile') {
-    $modules = _atrium_core_modules();
-    $modules = array_merge($modules, _atrium_atrium_modules());
+    $modules = _atrium_installer_core_modules();
+    $modules = array_merge($modules, _atrium_installer_atrium_modules());
     // If not English, install core_translation module and l10n_client?
     if (!empty($install_locale) && ($install_locale != 'en')) {        
       $modules[] = 'core_translation';
@@ -153,7 +153,7 @@ function atrium_profile_tasks(&$task, $url) {
     }
     $batch = array(
       'operations' => $operations,
-      'finished' => '_atrium_profile_batch_finished',
+      'finished' => '_atrium_installer_profile_batch_finished',
       'title' => st('Installing @drupal', array('@drupal' => drupal_install_profile_name())),
       'error_message' => st('The installation has encountered an error.'),
     );
@@ -173,7 +173,7 @@ function atrium_profile_tasks(&$task, $url) {
       include_once 'includes/locale.inc';
       module_load_include('inc', 'core_translation');
 
-      $batch = core_translation_batch_by_language($install_locale, '_atrium_locale_batch_finished');
+      $batch = core_translation_batch_by_language($install_locale, '_atrium_installer_locale_batch_finished');
       if (!empty($batch)) {
         // Remove temporary variable.
         variable_del('install_locale_batch_components');
@@ -258,7 +258,7 @@ function atrium_profile_tasks(&$task, $url) {
 /**
  * Implementation of hook_form_alter() for install_configure.
  */
-function atrium_form_install_configure_alter(&$form, $form_state) {
+function atrium_installer_form_install_configure_alter(&$form, $form_state) {
   // Autofill values when working locally (e.g. hostname is localhost, dev, etc.)
   if (strpos($_SERVER['SERVER_NAME'], '.') === FALSE) {
     $form['submit']['#weight'] = -10;
@@ -276,7 +276,7 @@ function atrium_form_install_configure_alter(&$form, $form_state) {
  *
  * Advance installer task to language import.
  */
-function _atrium_profile_batch_finished($success, $results) {
+function _atrium_installer_profile_batch_finished($success, $results) {
   variable_set('install_task', 'locale-extended-import');
 }
 /**
@@ -284,7 +284,7 @@ function _atrium_profile_batch_finished($success, $results) {
  *
  * Advance installer task to the configure screen.
  */
-function _atrium_locale_batch_finished($success, $results) {
+function _atrium_installer_locale_batch_finished($success, $results) {
   include_once 'includes/locale.inc';
   _locale_batch_language_finished($success, $results);
   variable_set('install_task', 'intranet-configure');
