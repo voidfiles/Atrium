@@ -1,4 +1,21 @@
-// $Id: CHANGELOG.txt,v 1.1.2.2.2.1 2009/05/06 16:23:47 yhahn Exp $
+// $Id: CHANGELOG.txt,v 1.1.2.2.2.2 2009/06/05 20:43:20 yhahn Exp $
+spaces DRUPAL-6--2-ALPHA4
+-------------------------
+- #365928 by dmitrig01: Hide presets form when only 1 preset is available.
+- #459978, #460016 by andypost: Fix E_ALL notices.
+- Removing t() from hook_menu().
+- Replacing OG options on node type form with a message for space_og
+  enabled node types
+- spaces_design: Provide space type body class and space title variables by
+  default to page template.
+- spaces_design: Adding spaces design styles separately to the page vars
+  array so themers can include it selectively.
+- spaces_user: Fix for the PURL modifier when a user changes her username.
+- spaces_user: Adding additional local task entry to smooth out local task
+  handling.
+- spaces_og: Moving groups subscription form from user account page to its
+  own local task.
+
 spaces DRUPAL-6--2-ALPHA3
 -------------------------
 - Fix for bug when enforcing spaces presets that are not the default preset.

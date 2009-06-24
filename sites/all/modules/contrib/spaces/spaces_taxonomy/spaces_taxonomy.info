@@ -5,3 +5,10 @@ package = "Spaces"
 core = "6.x"
 dependencies[] = spaces
 dependencies[] = taxonomy
+
+; Information added by drupal.org packaging script on 2009-06-10
+version = "6.x-2.0-alpha4"
+core = "6.x"
+project = "spaces"
+datestamp = "1244597521"
+
