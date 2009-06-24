@@ -12,46 +12,38 @@ body.tao {
 /**
  * CONSOLE =============================================================
  */
-#header,
-#console { background:#f8f8f8 url(images/bleeds.png) 0% 100% repeat-x; }
-
 #header div.dropdown-blocks div.block {
-  padding:0px 0px 0px 200px;
-  border:0px;
-  border-top:1px solid #f8f8f8;
-  background:transparent;
+  padding:0px 5px;
+  background:#fff;
   color:#666;
+
+  -moz-border-radius-bottomleft:5px;
+  -moz-border-radius-bottomright:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
   }
 
   #header div.dropdown-blocks div.block { position:relative; }
 
 #header div.dropdown-blocks div.block h2.block-title {
   position:absolute;
-  left:0px;
-  top:15px;
-  width:180px;
-  background:#999;
-  color:#fff;
-  font-weight:bold;
-  padding:5px 10px;
+  left:5px;
+  top:20px;
+  width:160px;
 
-  -moz-border-radius-topleft:3px;
-  -moz-border-radius-bottomleft:3px;
-  -webkit-border-top-left-radius:3px;
-  -webkit-border-top-right-radius:3px;
+  border-bottom:1px solid #ddd;
+
+  font-size:18px;
+  font-weight:300;
+  padding:0px 0px 9px 15px;
   }
-
-  #header div#block-help-help h2.block-title {
-    color:#cef;
-    background-color:#489;
-    }
 
 #header div.dropdown-blocks div.block div.block-content,
 #header div.dropdown-blocks div#block-help-help div.block-content {
+  background:#eee;
   font-size:15px;
-  background:#fff;
-  padding:20px;
-  border-left:1px solid #eee;
+  padding:19px 19px 19px 199px;
+  border-bottom:5px solid #fff;
   }
 
   div.message-content h1,
@@ -104,9 +96,9 @@ div.dropdown-blocks div.block div.item-list li {
   }
 
 div.dropdown-blocks div.block div.item-list li a {
-  background:#f8f8f8;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+  background:#fff;
+  border-right:1px solid #eee;
+  border-bottom:1px solid #eee;
   padding:4px 9px 5px 10px;
 
   font-size:13px;

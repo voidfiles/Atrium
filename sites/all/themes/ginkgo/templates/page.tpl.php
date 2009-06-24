@@ -9,16 +9,11 @@
 
   <?php if ($admin) print $admin ?>
 
-  <?php if ($messages): ?>
-    <div id='growl'><?php print $messages; ?></div>
-  <?php endif; ?>
-
   <?php if ($messages || $console): ?>
-  <div id='console'>
-    <?php if ($logged_in && $console): ?>
-      <div class='limiter clear-block'><?php print $console ?></div>
-    <?php endif; ?>
-  </div>
+    <div id='growl'>
+      <?php print $messages; ?>
+      <?php if ($logged_in && $console) print $console; ?>
+    </div>
   <?php endif; ?>
 
   <?php if (!empty($header)): ?>

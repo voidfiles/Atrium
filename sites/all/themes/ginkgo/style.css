@@ -123,6 +123,7 @@ a.user-picture {
     div.warning div.message-label { background-color:#fa0; }
     div.error div.message-label { background-color:#a20; }
 
+  a.admin-message-close,
   span.close {
     float:right;
 
