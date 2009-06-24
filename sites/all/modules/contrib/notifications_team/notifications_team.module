@@ -1,5 +1,5 @@
 <?php
-// $Id: notifications_team.module,v 1.1.2.10.2.1 2009/04/17 21:26:44 jmiccolis Exp $
+// $Id: notifications_team.module,v 1.1.2.10.2.5 2009/05/28 14:47:58 davidg Exp $
 
 /**
  * notifications_team provides a GUI for subscribing to content
@@ -240,25 +240,6 @@ function theme_notifications_team_form($form) {
 }
 
 /**
- * Submit handler for notifications_team_form
- */
-function notifications_team_form_submit($form, &$form_state) {
-  $uids =  explode(',', $form_state['values']['notifications_team']['selected']);
-  if ($form_state['values']['notifications_team']['listed']) {
-    $textunames = explode(',', $form_state['values']['notifications_team']['listed']);
-    foreach($textunames AS $uname) {
-      $u = db_fetch_object(db_query("SELECT uid FROM users WHERE name = '%s'", trim($uname)));
-      if ($u) {
-        $uids[] = $u->uid;
-      }
-    }
-  }
-  
-  $nid =  $form_state['values']['nid'];
-  notifications_team_update($nid, $uids);
-}
-
-/**
  * Implementation of hook_comment().
  * Acts as a pseudo-submit handler for the notifications team UI on the
  * comment form to avoid submit handler clashes with other modules (in
@@ -283,7 +264,7 @@ function notifications_team_comment(&$comment, $op) {
         }
 
         $nid = $comment['nid'];
-        notifications_team_update($nid, $uids);
+        notifications_team_update($nid, $uids, FALSE, empty($comment->notifications_content_disable));
       }
       break;
   }
@@ -308,7 +289,7 @@ function notifications_team_nodeapi(&$node, $op, $teaser) {
           }
         }
       }
-      notifications_team_update($node->nid, $new_uids);
+      notifications_team_update($node->nid, $new_uids, FALSE, empty($node->notifications_content_disable));
     }
   }
 }
@@ -321,17 +302,21 @@ function notifications_team_nodeapi(&$node, $op, $teaser) {
  * @param $new_uids
  *  ids of users to subscribe to the node.
  */
-function notifications_team_update($nid, $new_uids, $reset = FALSE) {
+function notifications_team_update($nid, $new_uids, $reset = FALSE, $displaymsg = FALSE) {
   // Get and wipe existing subs for this thread
   $params = array('type' => 'thread', 'event_type' => 'node');
   $conditions = array('nid' => $nid);
   $subscriptions = notifications_get_subscriptions($params, $conditions);
   foreach ($subscriptions as $s) {
     notifications_delete_subscription($s->sid);
+    $subscriptions_byuid[$s->uid] = $s;
+    $subscriptions_byuid[$s->uid]->sid = 0;
   }
   $allowed = notifications_team_get_users(NULL, 0, NULL, $reset);
   // Create subscriptions
   $doneuids = array();
+  $count = 0;
+  global $user;
   foreach ($new_uids as $uid) {
     if (is_numeric($uid)) {
       if (in_array($uid, $doneuids)) {
@@ -341,9 +326,18 @@ function notifications_team_update($nid, $new_uids, $reset = FALSE) {
       // Only allow for subscribing users who have permission.
       if ($allowed[$uid]) {
         $subscription = array_merge($params, array('uid' => $uid, 'fields' => $conditions));
-        notifications_save_subscription($subscription);
+        // allow retention of personalized settings such as send method if user remains subscribed
+        if ($subscriptions_byuid[$uid]) {
+          $subscription = $subscriptions_byuid[$uid];
+        }
+        if (notifications_save_subscription($subscription) && $user->uid != $uid) {
+          $count++;
+        }
       }
     }
+  }
+  if ($count > 0 && $displaymsg) {
+    drupal_set_message(format_plural($count,"1 other user has been notified.","@count other users have been notified."));
   }
 }
 
