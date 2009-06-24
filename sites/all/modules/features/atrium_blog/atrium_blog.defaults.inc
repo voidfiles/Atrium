@@ -48,6 +48,8 @@ function _atrium_blog_content_default_fields() {
     'advanced_view' => '--',
     'advanced_view_args' => '',
     'widget' => array(
+      'autocomplete_match' => 'contains',
+      'size' => NULL,
       'default_value' => array(
         '0' => array(
           'nid' => NULL,
@@ -55,7 +57,6 @@ function _atrium_blog_content_default_fields() {
         ),
       ),
       'default_value_php' => NULL,
-      'autocomplete_match' => 'contains',
       'label' => 'Referenced Page',
       'weight' => 0,
       'description' => 'Type in the title of another post to add a reference.',
@@ -405,6 +406,9 @@ function _atrium_blog_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_blog',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Blog');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'litenode');
@@ -746,6 +750,7 @@ function _atrium_blog_views_default_views() {
     t('Archive'),
     t('Feed'),
     t('Blog teaser'),
+    t('more'),
     t('Blog teaser (list)'),
   );
 
@@ -757,7 +762,7 @@ function _atrium_blog_views_default_views() {
   $view->description = 'Atrium > Blog comments';
   $view->tag = 'atrium';
   $view->view_php = '';
-  $view->base_table = 'node';
+  $view->base_table = 'comments';
   $view->is_cacheable = FALSE;
   $view->api_version = 2;
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -765,7 +770,7 @@ function _atrium_blog_views_default_views() {
   $handler->override_option('relationships', array(
     'nid' => array(
       'label' => 'Node',
-      'required' => 0,
+      'required' => 1,
       'id' => 'nid',
       'table' => 'comments',
       'field' => 'nid',
@@ -775,30 +780,12 @@ function _atrium_blog_views_default_views() {
   $handler->override_option('fields', array(
     'name' => array(
       'label' => '',
-      'link_to_user' => 1,
-      'exclude' => 0,
-      'id' => 'name',
-      'table' => 'comments',
-      'field' => 'name',
-      'relationship' => 'nid',
-    ),
-    'timestamp' => array(
-      'label' => '',
-      'date_format' => 'reldate',
-      'custom_date_format' => '',
-      'exclude' => 0,
-      'id' => 'timestamp',
-      'table' => 'comments',
-      'field' => 'timestamp',
-      'relationship' => 'nid',
-    ),
-    'comment' => array(
-      'label' => '',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'link_class' => '',
         'alt' => '',
         'prefix' => '',
         'suffix' => '',
@@ -807,23 +794,94 @@ function _atrium_blog_views_default_views() {
         'max_length' => '',
         'word_boundary' => 1,
         'ellipsis' => 1,
+        'strip_tags' => 0,
         'html' => 0,
       ),
-      'truncate' => 100,
+      'link_to_user' => 1,
+      'exclude' => 0,
+      'id' => 'name',
+      'table' => 'comments',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'timestamp' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
+      'date_format' => 'reldate',
+      'custom_date_format' => '',
+      'exclude' => 0,
+      'id' => 'timestamp',
+      'table' => 'comments',
+      'field' => 'timestamp',
+      'relationship' => 'none',
+    ),
+    'comment' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 1,
+        'max_length' => '150',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 1,
+        'html' => 0,
+      ),
+      'truncate' => '0',
       'exclude' => 0,
       'id' => 'comment',
       'table' => 'comments',
       'field' => 'comment',
-      'relationship' => 'nid',
+      'relationship' => 'none',
     ),
     'title' => array(
       'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'strip_tags' => 0,
+        'html' => 0,
+      ),
       'link_to_node' => 1,
       'exclude' => 0,
       'id' => 'title',
       'table' => 'node',
       'field' => 'title',
-      'relationship' => 'none',
+      'relationship' => 'nid',
     ),
   ));
   $handler->override_option('sorts', array(
@@ -833,45 +891,27 @@ function _atrium_blog_views_default_views() {
       'id' => 'timestamp',
       'table' => 'comments',
       'field' => 'timestamp',
-      'relationship' => 'nid',
+      'relationship' => 'none',
     ),
   ));
   $handler->override_option('filters', array(
-    'comment_count' => array(
-      'operator' => '!=',
-      'value' => array(
-        'value' => '0',
-        'min' => '',
-        'max' => '',
-      ),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'comment_count',
-      'table' => 'node_comment_statistics',
-      'field' => 'comment_count',
-      'relationship' => 'none',
-    ),
-    'status' => array(
+    'nid' => array(
       'operator' => '=',
-      'value' => 1,
+      'value' => '',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
         'operator' => FALSE,
         'label' => '',
       ),
-      'id' => 'status',
-      'table' => 'node',
-      'field' => 'status',
-      'relationship' => 'none',
+      'id' => 'nid',
+      'table' => 'node_access',
+      'field' => 'nid',
+      'relationship' => 'nid',
     ),
     'current' => array(
-      'operator' => 'all',
-      'value' => 'all',
+      'operator' => 'active',
+      'value' => '',
       'group' => '0',
       'exposed' => FALSE,
       'expose' => array(
@@ -881,7 +921,7 @@ function _atrium_blog_views_default_views() {
       'id' => 'current',
       'table' => 'spaces',
       'field' => 'current',
-      'relationship' => 'none',
+      'relationship' => 'nid',
     ),
     'timestamp' => array(
       'operator' => '>=',
@@ -904,11 +944,12 @@ function _atrium_blog_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
-    'type' => 'spaces_feature',
-    'spaces_feature' => 'atrium_blog',
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'Recent comments');
-  $handler->override_option('empty', 'No comments found.');
   $handler->override_option('items_per_page', 5);
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('style_options', array(
@@ -917,11 +958,10 @@ function _atrium_blog_views_default_views() {
   ));
   $handler = $view->new_display('block', 'Recent comments', 'block_1');
   $handler->override_option('block_description', '');
-  $handler->override_option('block_caching', -1);
+  $handler->override_option('block_caching', '-1');
   $translatables['atrium_blog_comments'] = array(
     t('Defaults'),
     t('Recent comments'),
-    t('No comments found.'),
   );
 
   $views[$view->name] = $view;
