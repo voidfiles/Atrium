@@ -45,17 +45,17 @@ function _atrium_calendar_content_default_fields() {
     'default_format' => 'field_date_long',
     'widget' => array(
       'default_value' => 'blank',
-      'default_value_custom' => '',
+      'default_value_code' => '',
       'default_value2' => 'same',
-      'default_value_custom2' => '',
+      'default_value_code2' => '',
       'input_format' => 'm/d/Y',
       'input_format_custom' => '',
       'increment' => '1',
       'text_parts' => array(),
       'year_range' => '-3:+3',
-      'default_value_code' => '',
-      'default_value_code2' => '',
       'label_position' => 'above',
+      'default_value_custom' => '',
+      'default_value_custom2' => '',
       'label' => 'Date',
       'weight' => '-3',
       'description' => '',
@@ -111,8 +111,10 @@ function _atrium_calendar_content_default_fields() {
       'text_parts' => array(),
       'year_range' => '-3:+3',
       'label_position' => 'above',
+      'default_value_custom' => '',
+      'default_value_custom2' => '',
       'label' => 'Date',
-      'weight' => 0,
+      'weight' => '-3',
       'description' => '',
       'type' => 'date_text',
       'module' => 'date',
@@ -533,6 +535,9 @@ function _atrium_calendar_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_calendar',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Calendar');
   $handler->override_option('items_per_page', 0);
   $handler->override_option('style_plugin', 'litecal');
@@ -557,6 +562,56 @@ function _atrium_calendar_views_default_views() {
     'weight' => '0',
   ));
   $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->override_option('filters', array(
+    'type' => array(
+      'operator' => 'in',
+      'value' => array(
+        'event' => 'event',
+        'feed_ical_item' => 'feed_ical_item',
+      ),
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'type',
+      'table' => 'node',
+      'field' => 'type',
+      'relationship' => 'none',
+    ),
+    'status' => array(
+      'operator' => '=',
+      'value' => '1',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'status',
+      'table' => 'node',
+      'field' => 'status',
+      'relationship' => 'none',
+    ),
+    'current' => array(
+      'operator' => 'active',
+      'value' => '',
+      'group' => '0',
+      'exposed' => FALSE,
+      'expose' => array(
+        'operator' => FALSE,
+        'label' => '',
+      ),
+      'id' => 'current',
+      'table' => 'spaces',
+      'field' => 'current',
+      'relationship' => 'none',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+    ),
+  ));
   $handler->override_option('style_options', array(
     'grouping' => '',
     'style' => 'compact',
@@ -735,6 +790,9 @@ function _atrium_calendar_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_calendar',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Events');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -902,6 +960,9 @@ function _atrium_calendar_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_calendar',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'Feeds');
   $handler->override_option('items_per_page', 25);
@@ -1082,6 +1143,9 @@ function _atrium_calendar_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_calendar',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'Upcoming events');
   $handler->override_option('items_per_page', 25);
