@@ -21,3 +21,5 @@ regions[console] = "Console"
 
 admin[admin menu] = 1
 admin[admin inline] = 0
+
+features[] = ""

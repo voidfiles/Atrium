@@ -74,6 +74,62 @@ a.user-picture {
   div.picture-user-m { background:url(images/sprite_base.png) -300px 0px no-repeat; }
 
 /**
+ * Growl-like messages ================================================
+ */
+#growl {
+  position:fixed;
+  right:20px;
+  top:20px;
+  width:300px;
+  z-index:1000;
+  }
+
+  div.messages {
+    border:5px solid #333;
+    padding:10px;
+    background-color:#000;
+    color:#fff;
+    margin:0px 0px 10px;
+
+    position:relative;
+    opacity:.9;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    }
+
+  div.messages div.message-content { clear:left; }
+
+  div.messages div.message-label {
+    float:left;
+    line-height:10px;
+    font-size:10px;
+    text-transform:uppercase;
+
+    padding:5px;
+    margin:0px 0px 5px;
+    color:#fff;
+    background-color:#6c3;
+    }
+
+    div.warning div.message-label { background-color:#fa0; }
+    div.error div.message-label { background-color:#c20; }
+
+  span.close {
+    position:absolute;
+    right:0px;
+    top:0px;
+
+    width:25px;
+    height:25px;
+
+    overflow:hidden;
+    text-indent:-999px;
+
+    cursor:pointer;
+    background:url(images/sprite_base.png) -105px 0px no-repeat;
+    }
+
+/**
  * Page header ========================================================
  */
 #page-header,

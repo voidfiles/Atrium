@@ -45,9 +45,6 @@ function ginkgo_preprocess_page(&$vars) {
   // Add icon markup to main menu
   ginkgo_icon_links($vars['primary_links']);
 
-  // Add spaces design CSS back in
-  $vars['styles'] .= !empty($vars['spaces_design_styles']) ? $vars['spaces_design_styles'] : '';
-
   // Grab the header dropdown links
   $vars['header'] = theme('blocks_header', array());
   $vars['dropdown_links'] = theme('blocks_header', array(), TRUE);
@@ -63,6 +60,25 @@ function ginkgo_preprocess_page(&$vars) {
     if ($classes = context_get('theme', 'body_classes')) {
       $vars['attr']['class'] .= " {$classes}";
     }
+  }
+
+  // Theme specific settings
+  $settings = theme_get_settings('ginkgo');
+
+  // Show site title/emblem ?
+  if (isset($settings['emblem']) && !$settings['emblem']) {
+    $vars['site_name'] = '';
+  }
+
+  // Add spaces design CSS back in
+  if (empty($vars['spaces_design_styles'])) {
+    $space = spaces_get_space();
+    $color = isset($settings["color_{$space->type}"]) ? $settings["color_{$space->type}"] : '#3399aa';
+    $vars['styles'] .= theme('spaces_design', $color);
+    $vars['attr']['class'] .= ' spaces-design';
+  }
+  else {
+    $vars['styles'] .= $vars['spaces_design_styles'];
   }
 }
 
@@ -270,12 +286,18 @@ function ginkgo_help() {
 function ginkgo_status_messages($display = NULL) {
   $output = '';
   $first = TRUE;
+
+  // Theme specific settings
+  $settings = theme_get_settings('ginkgo');
+  $autoclose = isset($settings['autoclose']) ? $settings['autoclose'] : array('status' => 1, 'warning' => 0, 'error' => 0);
+
   foreach (drupal_get_messages($display) as $type => $messages) {
     $class = $first ? 'first' : '';
+    $class .= !empty($autoclose[$type]) ? ' autoclose' : '';
     $first = FALSE;
 
     $output .= "<div class='messages clear-block $type $class'>";
-    $output .= "<span class='close'>". t('Hide') ."</span>";
+    $output .= empty($autoclose[$type]) ? "<span class='close'>". t('Hide') ."</span>" : '';
     $output .= "<div class='message-label'>{$type}</div>";
     $output .= "<div class='message-content'>";
     if (count($messages) > 1) {

@@ -1,36 +1,22 @@
 // $Id$
 
 Drupal.behaviors.coldbrew = function (context) {
-  // Hide messages
-  $('div.messages span.close:not(.coldbrew)').each(function() {
-    $(this).addClass('coldbrew').click(function() {
-      $(this).parents('div.messages').slideUp('fast');
+  $('#growl > div:not(.processed)').each(function() {
+    $(this).addClass('processed');
+    $('span.close', this).click(function() {
+      $(this).parent().hide('fast');
     });
+    if ($(this).is('.autoclose')) {
+      $(this).animate(
+        {opacity:.9},
+        3000,
+        'linear',
+        function() {
+          $(this).hide('fast');
+        }
+      );
+    }
   });
-
-  // Help text
-  if ($.cookie) {
-    $('ul.dropdown li.help-help a:not(.coldbrew-help)').each(function() {
-      if (!$.cookie('atrium_help')) {
-        $.cookie('atrium_help', -1, {expires: 7});
-      }
-      switch($.cookie('atrium_help')) {
-        case '1':
-          $('ul.dropdown li.help-help').addClass('selected');
-          $('div#block-help-help').addClass('selected').show();
-          break;
-      }
-      $(this).addClass('coldbrew-help').click(function() {
-        if ($(this).parent().is('.selected')) {
-          $.cookie('atrium_help', 0);
-        }
-        else {
-          $.cookie('atrium_help', 1);
-        }
-        return false;
-      });
-    });
-  }
 
   // Dropdown blocks
   $('ul.dropdown a:not(.coldbrew)').each(function() {

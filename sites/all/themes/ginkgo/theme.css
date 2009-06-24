@@ -9,50 +9,13 @@ body.tao {
 
 .atrium-skin { background-image:url(images/sprite_skin.png); }
 
-/* Site space */
-body.spaces-site #global,
-body.spaces-site #branding,
-body.spaces-site #navigation,
-body.spaces-site #content h2.block-title,
-body.spaces-site #navigation ul.space-links li a:hover { background-color:#4a5; }
-
-body.spaces-site #branding,
-body.spaces-site #navigation,
-body.spaces-site #navigation ul.space-links li a,
-body.spaces-site #branding form input.form-text { border-color:#6c7; }
-
-/* Group space */
-body.spaces-og #global,
-body.spaces-og #branding,
-body.spaces-og #navigation,
-body.spaces-og #content h2.block-title,
-body.spaces-og #navigation ul.space-links li a:hover { background-color:#39a; }
-
-body.spaces-og #branding,
-body.spaces-og #navigation,
-body.spaces-og #navigation ul.space-links li a,
-body.spaces-og #branding form input.form-text { border-color:#5bc; }
-
-/* User space */
-body.spaces-user #global,
-body.spaces-user #branding,
-body.spaces-user #navigation,
-body.spaces-user #content h2.block-title,
-body.spaces-user #navigation ul.space-links li a:hover { background-color:#924; }
-
-body.spaces-user #branding,
-body.spaces-user #navigation,
-body.spaces-user #navigation ul.space-links li a,
-body.spaces-user #branding form input.form-text  { border-color:#b46; }
-
 /**
  * CONSOLE =============================================================
  */
 #header,
 #console { background:#f8f8f8 url(images/bleeds.png) 0% 100% repeat-x; }
 
-#header div.dropdown-blocks div.block,
-div.messages {
+#header div.dropdown-blocks div.block {
   padding:0px 0px 0px 200px;
   border:0px;
   border-top:1px solid #f8f8f8;
@@ -60,11 +23,9 @@ div.messages {
   color:#666;
   }
 
-  #header div.dropdown-blocks div.block,
-  div.messages { position:relative; }
+  #header div.dropdown-blocks div.block { position:relative; }
 
-#header div.dropdown-blocks div.block h2.block-title,
-div.messages div.message-label {
+#header div.dropdown-blocks div.block h2.block-title {
   position:absolute;
   left:0px;
   top:15px;
@@ -80,29 +41,13 @@ div.messages div.message-label {
   -webkit-border-top-right-radius:3px;
   }
 
-  div.messages div.message-label {
-    color:#cfe;
-    background-color:#4c6;
-    }
-
-  div.warning div.message-label {
-    color:#fec;
-    background-color:#fa2;
-    }
-
-  div.error div.message-label {
-    color:#fcd;
-    background-color:#a04;
-    }
-
   #header div#block-help-help h2.block-title {
     color:#cef;
     background-color:#489;
     }
 
 #header div.dropdown-blocks div.block div.block-content,
-#header div.dropdown-blocks div#block-help-help div.block-content,
-div.messages div.message-content {
+#header div.dropdown-blocks div#block-help-help div.block-content {
   font-size:15px;
   background:#fff;
   padding:20px;
@@ -115,18 +60,6 @@ div.messages div.message-content {
     margin:0px;
     border:0px;
     font-weight:bold;
-    }
-
-  div.messages ul li.message-item {
-    margin:0px 0px 10px;
-    padding:0px 0px 10px;
-    border-bottom:1px solid #eee;
-    }
-
-  div.messages ul li.last {
-    margin:0px;
-    padding:0px;
-    border:0px;
     }
 
 /**
