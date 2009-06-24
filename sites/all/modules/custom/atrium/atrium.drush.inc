@@ -29,10 +29,10 @@ function atrium_drush_help($section) {
 function atrium_drush_upgrade_gravlax() {
   global $profile, $conf;
   $profile = 'atrium';
-  $conf['install_profile'] = 'atrium';
+  $conf['install_profile'] = 'atrium_installer';
 
   // Set the install profile
-  variable_set('install_profile', 'atrium');
+  variable_set('install_profile', 'atrium_installer');
 
   // Re-find modules
   module_rebuild_cache();
