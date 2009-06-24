@@ -294,6 +294,7 @@ body.one-sidebar div#main {
   background:url(images/hrule_dotted.png) 0% 100% repeat-x;
   padding:0px 0px 20px;
   margin:0px 0px 20px;
+  position: static;
   }
 
 #content div.block:last-child {
