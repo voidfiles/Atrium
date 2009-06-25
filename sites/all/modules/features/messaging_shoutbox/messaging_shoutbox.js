@@ -1,3 +1,5 @@
+// $Id$
+
 Drupal.behaviors.messaging_shoutbox = function (context) {
   $('div.shoutform:not(.processed)').each(function() {
     $(this).addClass('processed').parents('form').each(function() {
