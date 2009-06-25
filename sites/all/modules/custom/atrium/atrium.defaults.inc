@@ -1,6 +1,35 @@
 <?php
 
 /**
+ * Helper to implemetation of hook_context_default_contexts().
+ */
+function _atrium_context_default_contexts() {
+  $items = array();
+
+  $items[] = array(
+    'namespace' => 'atrium',
+    'attribute' => 'section',
+    'value' => 'taxonomy',
+    'description' => '',
+    'views' => array(
+      '0' => 'atrium_taxonomy',
+    ),
+    'block' => array(
+      'views_atrium_taxonomy-block_1' => array(
+        'module' => 'views',
+        'delta' => 'atrium_taxonomy-block_1',
+        'weight' => 20,
+        'region' => 'right',
+        'status' => '0',
+        'label' => 'atrium_taxonomy: Archive block',
+        'type' => 'context_ui',
+      ),
+    ),
+  );
+  return $items;
+}
+
+/**
  * Helper to implemetation of hook_views_default_views().
  */
 function _atrium_views_default_views() {
@@ -116,6 +145,9 @@ function _atrium_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
     'type' => 'none',
   ));
   $handler->override_option('items_per_page', 0);
@@ -348,6 +380,9 @@ function _atrium_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'access content',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'Search');
   $handler->override_option('items_per_page', 25);
@@ -668,6 +703,9 @@ function _atrium_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'access content',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('empty', 'There is no content tagged with this term.');
   $handler->override_option('empty_format', '5');
@@ -1069,6 +1107,9 @@ function _atrium_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
     'type' => 'none',
   ));
   $handler->override_option('distinct', 1);
