@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Update 6001.
+ */
+function messaging_shoutbox_update_6001() {
+  if (module_exists('spaces')) {
+    db_query("UPDATE {spaces_features} SET id = 'atrium_shoutbox' WHERE id = 'messaging_shoutbox'");
+  }
+}
