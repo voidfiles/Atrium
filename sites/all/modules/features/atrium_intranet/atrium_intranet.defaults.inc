@@ -51,36 +51,6 @@ function _atrium_intranet_context_default_contexts() {
     ),
   );
   $items[] = array(
-    'namespace' => 'atrium',
-    'attribute' => 'section',
-    'value' => 'search',
-    'views' => array(
-      '0' => 'atrium_search',
-    ),
-    'theme_section' => array(
-      'title' => 'Search',
-    ),
-  );
-  $items[] = array(
-    'namespace' => 'atrium',
-    'attribute' => 'section',
-    'value' => 'taxonomy',
-    'views' => array(
-      '0' => 'atrium_taxonomy',
-    ),
-    'theme_section' => array(
-      'title' => 'Tags',
-    ),
-    'block' => array(
-      'views_atrium_taxonomy-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_taxonomy-block_1',
-        'region' => 'right',
-        'weight' => '10',
-      ),
-    ),
-  );
-  $items[] = array(
     'namespace' => 'spaces',
     'attribute' => 'feature',
     'value' => 'groups',
@@ -772,6 +742,9 @@ function _atrium_intranet_views_default_views() {
     'type' => 'perm',
     'perm' => 'administer atrium',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Messages & alerts');
   $handler->override_option('empty', 'No messages found.');
   $handler->override_option('items_per_page', 25);
@@ -981,6 +954,9 @@ function _atrium_intranet_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Content stats');
   $handler->override_option('items_per_page', 30);
   $handler = $view->new_display('block', 'Content stats', 'block_1');
@@ -1085,6 +1061,9 @@ function _atrium_intranet_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'access content',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'My groups');
   $handler->override_option('items_per_page', 0);
@@ -1692,6 +1671,7 @@ function _atrium_intranet_views_default_views() {
     t('Defaults'),
     t('My groups'),
     t('Block'),
+    t('more'),
     t('Page'),
     t('Directory'),
     t('Archived groups'),
@@ -1885,6 +1865,9 @@ function _atrium_intranet_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'create users',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
   ));
   $handler->override_option('title', 'Active users');
   $handler->override_option('items_per_page', 25);
