@@ -3,7 +3,7 @@
 /**
  * Helper to implemetation of hook_context_default_contexts().
  */
-function _messaging_shoutbox_context_default_contexts() {
+function _atrium_shoutbox_context_default_contexts() {
   $items = array();
 
   $items[] = array(
@@ -15,25 +15,26 @@ function _messaging_shoutbox_context_default_contexts() {
       '0' => 'shoutbox',
     ),
     'views' => array(
-      '0' => 'messaging_shoutbox_shouts:page_1',
+      '0' => 'atrium_shoutbox_shouts:page_1',
     ),
+    'menu' => 'shoutbox',
     'block' => array(
-      'views_69014708d43d1b35afa8c5f645d93f6b' => array(
+      'views_468d4512633362842c0ff768ac59efad' => array(
         'module' => 'views',
-        'delta' => '69014708d43d1b35afa8c5f645d93f6b',
+        'delta' => '468d4512633362842c0ff768ac59efad',
         'weight' => 20,
         'region' => 'right',
         'status' => '0',
-        'label' => 'Exposed form: messaging_shoutbox_shouts-page_1',
+        'label' => 'Exposed form: atrium_shoutbox_shouts-page_1',
         'type' => 'context_ui',
       ),
-      'views_1348fa5a11a6dbcc262f11c8295b67dc' => array(
+      'views_atrium_shoutbox_users-block_1' => array(
         'module' => 'views',
-        'delta' => '1348fa5a11a6dbcc262f11c8295b67dc',
+        'delta' => 'atrium_shoutbox_users-block_1',
         'weight' => 21,
         'region' => 'right',
         'status' => '0',
-        'label' => 'messaging_shoutbox_users: Block',
+        'label' => 'atrium_shoutbox_users: Block',
         'type' => 'context_ui',
       ),
     ),
@@ -43,18 +44,21 @@ function _messaging_shoutbox_context_default_contexts() {
     'attribute' => 'shoutbox',
     'value' => 'user',
     'description' => '',
+    'node' => array(
+      '0' => 'shoutbox',
+    ),
     'views' => array(
-      '0' => 'messaging_shoutbox_shouts:page_2',
+      '0' => 'atrium_shoutbox_shouts:page_2',
     ),
     'menu' => 'shoutbox',
     'block' => array(
-      'views_0f5204dac6669237aaaf3b95d9450e41' => array(
+      'views_584a7dacb1e0f4c880cbacb19e2d0e93' => array(
         'module' => 'views',
-        'delta' => '0f5204dac6669237aaaf3b95d9450e41',
+        'delta' => '584a7dacb1e0f4c880cbacb19e2d0e93',
         'weight' => 20,
         'region' => 'right',
         'status' => '0',
-        'label' => 'Exposed form: messaging_shoutbox_shouts-page_2',
+        'label' => 'Exposed form: atrium_shoutbox_shouts-page_2',
         'type' => 'context_ui',
       ),
     ),
@@ -65,7 +69,7 @@ function _messaging_shoutbox_context_default_contexts() {
 /**
  * Helper to implemetation of hook_menu_default_items().
  */
-function _messaging_shoutbox_menu_default_items() {
+function _atrium_shoutbox_menu_default_items() {
   $items = array();
 
   $items[] = array(
@@ -87,7 +91,7 @@ function _messaging_shoutbox_menu_default_items() {
 /**
  * Helper to implemetation of hook_user_default_permissions().
  */
-function _messaging_shoutbox_user_default_permissions() {
+function _atrium_shoutbox_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: create shoutbox
@@ -114,14 +118,14 @@ function _messaging_shoutbox_user_default_permissions() {
 /**
  * Helper to implemetation of hook_views_default_views().
  */
-function _messaging_shoutbox_views_default_views() {
+function _atrium_shoutbox_views_default_views() {
   $views = array();
 
-  // Exported view: messaging_shoutbox
+  // Exported view: atrium_shoutbox
   $view = new view;
-  $view->name = 'messaging_shoutbox';
+  $view->name = 'atrium_shoutbox';
   $view->description = 'Spaces Shoutbox: helper view to look up shoutbox in active space';
-  $view->tag = 'spaces';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'node';
   $view->is_cacheable = FALSE;
@@ -177,6 +181,9 @@ function _messaging_shoutbox_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('items_per_page', 0);
   $handler->override_option('row_plugin', 'node');
   $handler->override_option('row_options', array(
@@ -184,17 +191,17 @@ function _messaging_shoutbox_views_default_views() {
     'links' => 0,
     'comments' => 0,
   ));
-  $translatables['messaging_shoutbox'] = array(
+  $translatables['atrium_shoutbox'] = array(
     t('Defaults'),
   );
 
   $views[$view->name] = $view;
 
-  // Exported view: messaging_shoutbox_shouts
+  // Exported view: atrium_shoutbox_shouts
   $view = new view;
-  $view->name = 'messaging_shoutbox_shouts';
+  $view->name = 'atrium_shoutbox_shouts';
   $view->description = 'View a shouts for a given shoutbox';
-  $view->tag = '';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'comments';
   $view->is_cacheable = FALSE;
@@ -368,192 +375,13 @@ function _messaging_shoutbox_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('items_per_page', 5);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('exposed_block', TRUE);
-  $handler = $view->new_display('block', 'Shoutbox (mini)', 'block_1');
-  $handler->override_option('use_ajax', TRUE);
-  $handler->override_option('use_pager', 'mini');
-  $handler->override_option('block_description', '');
-  $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('block', 'Shoutbox (full)', 'block_2');
-  $handler->override_option('fields', array(
-    'timestamp' => array(
-      'label' => 'Posted',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-      ),
-      'date_format' => 'small',
-      'custom_date_format' => '',
-      'exclude' => 0,
-      'id' => 'timestamp',
-      'table' => 'comments',
-      'field' => 'timestamp',
-      'relationship' => 'none',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-    'name' => array(
-      'label' => 'Author',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-      ),
-      'link_to_user' => 1,
-      'exclude' => 0,
-      'id' => 'name',
-      'table' => 'comments',
-      'field' => 'name',
-      'relationship' => 'none',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-    'comment' => array(
-      'label' => 'Shout',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-      ),
-      'truncate' => '0',
-      'exclude' => 0,
-      'id' => 'comment',
-      'table' => 'comments',
-      'field' => 'comment',
-      'relationship' => 'none',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-    'edit_comment' => array(
-      'label' => '',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-      ),
-      'text' => '',
-      'exclude' => 0,
-      'id' => 'edit_comment',
-      'table' => 'comments',
-      'field' => 'edit_comment',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
-    'delete_comment' => array(
-      'label' => '',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-      ),
-      'text' => '',
-      'exclude' => 0,
-      'id' => 'delete_comment',
-      'table' => 'comments',
-      'field' => 'delete_comment',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
-  ));
-  $handler->override_option('items_per_page', 25);
-  $handler->override_option('use_pager', '1');
-  $handler->override_option('style_plugin', 'table');
-  $handler->override_option('style_options', array(
-    'grouping' => '',
-    'override' => 1,
-    'sticky' => 0,
-    'order' => 'asc',
-    'columns' => array(
-      'timestamp' => 'timestamp',
-      'name' => 'name',
-      'comment' => 'comment',
-      'edit_comment' => 'edit_comment',
-      'delete_comment' => 'edit_comment',
-    ),
-    'info' => array(
-      'timestamp' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      'name' => array(
-        'sortable' => 0,
-        'separator' => '',
-      ),
-      'comment' => array(
-        'separator' => '',
-      ),
-      'edit_comment' => array(
-        'separator' => ' | ',
-      ),
-      'delete_comment' => array(
-        'separator' => '',
-      ),
-    ),
-    'default' => '-1',
-  ));
-  $handler->override_option('block_description', '');
-  $handler->override_option('block_caching', -1);
   $handler = $view->new_display('page', 'Shoutbox (spaces_og)', 'page_1');
   $handler->override_option('fields', array(
     'picture' => array(
@@ -1017,10 +845,8 @@ function _messaging_shoutbox_views_default_views() {
     'description' => '',
     'weight' => 0,
   ));
-  $translatables['messaging_shoutbox_shouts'] = array(
+  $translatables['atrium_shoutbox_shouts'] = array(
     t('Defaults'),
-    t('Shoutbox (mini)'),
-    t('Shoutbox (full)'),
     t('Shoutbox (spaces_og)'),
     t('Shoutbox'),
     t('Shoutbox (spaces_user)'),
@@ -1028,11 +854,11 @@ function _messaging_shoutbox_views_default_views() {
 
   $views[$view->name] = $view;
 
-  // Exported view: messaging_shoutbox_users
+  // Exported view: atrium_shoutbox_users
   $view = new view;
-  $view->name = 'messaging_shoutbox_users';
+  $view->name = 'atrium_shoutbox_users';
   $view->description = 'Block of users that can filter the messaging shoutbox';
-  $view->tag = 'messaging_shoutbox';
+  $view->tag = 'atrium';
   $view->view_php = '';
   $view->base_table = 'users';
   $view->is_cacheable = FALSE;
@@ -1098,6 +924,9 @@ function _messaging_shoutbox_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('style_plugin', 'grid');
   $handler->override_option('style_options', array(
     'grouping' => '',
@@ -1109,7 +938,7 @@ function _messaging_shoutbox_views_default_views() {
   $handler->override_option('items_per_page', 100);
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['messaging_shoutbox_users'] = array(
+  $translatables['atrium_shoutbox_users'] = array(
     t('Defaults'),
     t('Block'),
     t('Members'),

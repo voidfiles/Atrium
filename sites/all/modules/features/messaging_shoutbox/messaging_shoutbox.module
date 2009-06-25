@@ -7,7 +7,6 @@
  * This module provides a shoutbox node type, displayable in a block. It integrates with:
  * - Notifications, providing subscriptions to shoubox posts
  * - Messaging, providing both an incoming message channel and a processor to post to shoutbox
- * - Context / spaces, allowing to link a shoutbox to a given context.
  * 
  * However, it can work as stand alone, having no hard dependencies on all the others.
  * 
@@ -16,27 +15,8 @@
  *
  * (c) Development Seed, 2007-2008
  * http://www.developmentseed.org
- * 
+ *
  */
-
-include_once('messaging_shoutbox.features.inc');
-
-/**
- * Implementation of hook_help().
- */
-function messaging_shoutbox_help($path, $arg) {
-  if (($path == 'help#messaging_shoutbox') || context_isset('spaces', 'shoutbox')) {
-    $help = '';
-    $help .= '<h3>'. t('Messaging Shoutbox') .'</h3>';
-    $help .= '<p>'. t('The shoutbox gives your team a space to microblog.') .'</p>';
-    $help .= '<ul>';
-    $help .= '<li>'. t('Shouts can be used to tell others what you\'re up to, link to websites of interest, or cover other random stuff that comes up during the day.') .'</li>';
-    $help .= '<li>'. t('<strong>Keep your shouts short</strong> and to the point. If a shout starts getting long, consider using a blog post or document to capture your thoughts.') .'</li>';
-    $help .= '<li>'. t('<strong>URLs</strong> will automatically be linked in your posts.') .'</li>';
-    $help .= '</ul>';
-    return $help;
-  }
-}
 
 /**
  * Implementation of hook_init()
@@ -56,17 +36,6 @@ function messaging_shoutbox_menu() {
     'access arguments' => array('post messages to shoutbox'),
     'type' => MENU_CALLBACK,
   );
-  if (module_exists('spaces')) {
-    $items['shoutbox'] = array(
-      'title' => 'Shoutbox',
-      'description' => 'A simple shoutbox feature',
-      'page callback' => 'messaging_shoutbox_page',
-      'access callback' => 'spaces_feature_access',
-      'access arguments' => array('messaging_shoutbox'),
-      'type' => MENU_NORMAL_ITEM,
-      'menu_name' => 'features',
-    );
-  }
   return $items;
 }
 
@@ -155,8 +124,9 @@ function messaging_shoutbox_ajax($op = 'shout') {
       if (($nid = $form_state['values']['nid']) && !empty($form_state['values']['shout'])) {
         messaging_shoutbox_shout($nid, array('text' => $form_state['values']['shout'], 'uid' => $user->uid));
       }
-      $display_id = $form_state['values']['display_id'];
-      $output = views_embed_view('messaging_shoutbox_shouts', $display_id, $nid);
+      $view_name = $form_state['values']['view_name'];
+      $view_display = $form_state['values']['view_display'];
+      $output = views_embed_view($view_name, $view_display, $nid);
       print drupal_to_js(array('status' => TRUE, 'data' => $output));
   }
   exit();
@@ -165,7 +135,7 @@ function messaging_shoutbox_ajax($op = 'shout') {
 /**
  * Save shoutbox as comment
  * 
- * Store the whole commet but trim the subject to a shorter text
+ * Store the whole comment but trim the subject to a shorter text
  */
 function messaging_shoutbox_shout($nid, $shout) {
   $comment = $shout;
@@ -223,9 +193,6 @@ function messaging_shoutbox_shout($nid, $shout) {
 function messaging_shoutbox_block($op = 'list', $delta = 0) {
   if ($op == 'list') {
     $blocks = array();
-    if (module_exists('spaces')) {
-      $blocks['spaces'] = array('info' =>  t('Spaces: Shoutbox'));
-    }
     foreach (messaging_shoutbox_list() as $item) {
       $blocks[$item->nid] = array(
         'info' => t('Shoutbox: @name', array('@name' => $item->title)),
@@ -234,46 +201,49 @@ function messaging_shoutbox_block($op = 'list', $delta = 0) {
     return $blocks;
   }
   else if ($op == 'view') {
-    switch ($delta) {
-      case 'spaces':
-        if ((module_exists('spaces') && $space = spaces_get_space()) && $space->feature_access('messaging_shoutbox')) {
-          return _messaging_shoutbox_block_spaces();
-        }
-        break;
-      default:
-        return _messaging_shoutbox_block_view($delta);
+    if (is_numeric($delta)) {
+      $block = array();
+      $shoutbox = node_load($delta);
+      if ($shoutbox && node_access('view', $shoutbox)) {
+        $block['subject'] = check_plain($shoutbox->title);
+        $block['content'] = drupal_get_form('messaging_shoutbox_shoutform', $shoutbox, array('args' => array($shoutbox->nid)));
+      }
+      return $block;
     }
   }
 }
 
 /**
- * Vanilla messaging shoutbox block.
+ * New shoutbox form.
+ *
+ * @param $form_state
+ *   The FAPI form state array.
+ * @param $shoutbox
+ *   The shoutbox node object to which shouts will be related.
+ * @param $view_name
+ *   The name of the view to use for rendering shouts.
+ * @param $display_id
+ *   The view display to use for rendering shouts.
+ * @param $view_args
+ *   Any additional arguments to pass to the view.
  */
-function _messaging_shoutbox_block_view($nid, $max = 10) {
-  // @TODO: can't we do something better than node_load() here?
-  $shoutbox = node_load($nid);
-
-  $block = array();
-  if ($shoutbox && node_access('view', $shoutbox)) {
-    // $block['subject'] = node_access('update', $shoutbox) ? l($shoutbox->title, "node/{$shoutbox->nid}") : check_plain($shoutbox->title);
-    // @TODO: the link to the shoutbox node does not play nice with space feature workflow... figure out what to do.
-    $block['subject'] = check_plain($shoutbox->title);
-    $block['content'] = drupal_get_form('messaging_shoutbox_shoutform', $shoutbox, 'block_1', array($shoutbox->nid));
-    return $block;
-  }
-}
-
-/**
- * New shoutbox form
- */
-function messaging_shoutbox_shoutform($form_state, $shoutbox, $display_id = 'block_1', $view_args = array()) {
+function messaging_shoutbox_shoutform($form_state, $shoutbox, $views_params = array()) {
   $form = array('#theme' => 'messaging_shoutbox_shoutform');
+
+  $defaults = array(
+    'view' => 'messaging_shoutbox',
+    'display' => 'block_1',
+    'args' => array(),
+  );
+  $views_params = array_merge($defaults, $views_params);
 
   // Different wrapper classes so we can have more shoutboxes on a page
   $wrapper = 'shoutbox-wrapper-' . $shoutbox->nid;
 
+  // Form values to pass thru
   $form['nid'] = array('#type' => 'hidden', '#value' => $shoutbox->nid);
-  $form['display_id'] = array('#type' => 'hidden', '#value' => $display_id);
+  $form['view_name'] = array('#type' => 'hidden', '#value' => $views_params['view']);
+  $form['view_display'] = array('#type' => 'hidden', '#value' => $views_params['display']);
 
   $form['shout'] = array(
     '#type' => 'textarea',
@@ -281,14 +251,12 @@ function messaging_shoutbox_shoutform($form_state, $shoutbox, $display_id = 'blo
     '#resizable' => FALSE,
     '#rows' => 2,
   );
-
   $form['shoutbox_submit'] = array(
     '#type' => 'submit',
     '#value' => t('Shout'),
     '#ahah' => array('path' => 'shoutbox/js/shout', 'wrapper' => $wrapper),
   );
-
-  $args = array_merge(array('messaging_shoutbox_shouts', $display_id), $view_args);
+  $args = array_merge(array($views_params['view'], $views_params['display']), $views_params['args']);
   $form['shoutbox'] = array(
     '#value' => call_user_func_array('views_embed_view', $args),
     '#prefix' => "<div class='shoutbox-list' id='$wrapper'>",
@@ -596,88 +564,4 @@ function _messaging_shoutbox_clean($text) {
   // Replace URLs by links
   $text = _filter_url($text, 'shout');
   return $text;
-}
-
-/** Context & spaces integration ****************+
-
-/**
- * Implementation of hook_context_links_alter().
- */
-function messaging_shoutbox_context_links_alter(&$links) {
-  //@TODO yank out button for creating new shoutbox
-  $space = spaces_get_space();
-  if ($space && isset($links['shoutbox']) && $shoutbox = messaging_shoutbox_active_space_shoutbox()) {
-    unset($links['shoutbox']);
-  }
-}
-/**
- * Spaces block for the shoutbox.
- */
-function _messaging_shoutbox_block_spaces() {
-  $space = spaces_get_space();
-  if ($space && $space->feature_access('messaging_shoutbox')) {
-    // @TODO support user space shoutbox blocks.
-    if ($space->type == 'user') {
-      return NULL;
-    }
-    $shoutbox = messaging_shoutbox_active_space_shoutbox();
-    if ($shoutbox && node_access('view', $shoutbox)) {
-      return _messaging_shoutbox_block_view($shoutbox->nid, 10);
-    }
-    else if (node_access('create', 'shoutbox')) {
-      $link = l(t('Create a new shoutbox'), 'node/add/shoutbox', array('query' => 'destination='. $_GET['q'], 'attributes' => array('class' => 'button')));
-      return array(
-        'subject' => t('Shoutbox'),
-        'content' => "<div class='buttons'>$link</div>",
-      );
-    }
-  }
-  return array();
-}
-
-/**
- * Page callback for spaces shoutbox feature.
- */
-function messaging_shoutbox_page() {
-  if (module_exists('spaces')) {
-    $space = spaces_get_space();
-    if ($space && $space->type == 'user') {
-      context_set('spaces', 'shoutbox', 'user');
-      $view = views_get_view('messaging_shoutbox_shouts');
-      return $view->execute_display('page_2');
-    }
-  }
-
-  $shoutbox = messaging_shoutbox_active_space_shoutbox();
-  if ($shoutbox && node_access('view', $shoutbox)) {
-    $output = drupal_get_form('messaging_shoutbox_shoutform', $shoutbox, 'page_1', array($shoutbox->nid));
-    return $output;
-  }
-  else if (node_access('create', 'shoutbox')) {
-    $link = l(t('Create a new shoutbox'), 'node/add/shoutbox', array('query' => 'destination='. $_GET['q'], 'attributes' => array('class' => 'button')));
-    return "<div class='buttons'>$link</div>";
-  }
-  return '';
-}
-
-/**
- * Helper function to retrieve and static cache the current active shoutbox for a space.
- */
-function messaging_shoutbox_active_space_shoutbox($reset = FALSE) {
-  static $active_shoutbox;
-  if (!isset($active_shoutbox) || $reset) {
-    $active_shoutbox = FALSE;
-    if ($view = views_get_view('messaging_shoutbox')) {
-      $view->set_display();
-      $view->set_items_per_page(0);
-      $view->execute();
-      if (is_array($view->result) && count($view->result)) {
-        $node = node_load($view->result[0]->nid);
-        if ($node) {
-          $active_shoutbox = $node;
-        }
-      }
-    }
-  }
-  return $active_shoutbox;
 }
