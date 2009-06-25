@@ -1,5 +1,5 @@
 <?php
-// $Id: purl.module,v 1.1.2.9 2009/05/14 03:58:13 yhahn Exp $
+// $Id: purl.module,v 1.1.2.10 2009/06/25 14:34:10 jmiccolis Exp $
 
 define('PURL_PATH', 'path');
 define('PURL_SUBDOMAIN', 'subdomain');
@@ -880,7 +880,14 @@ class purl_path implements purl_processor {
    * Just need to add the value to the front of the path.
    */
   public function rewrite(&$path, &$options, $element) {
-    if (!_purl_skip($element, $options)) {
+
+    // We attempt to remove the prefix from the path as a way to detect it's
+    // presence. If the processor can remove itself than we're on a path alias
+    // that contains our prefix. Then $alt will not be the same as the $path 
+    // and we won't do any rewriting.
+    $alt = $this->remove($path, $element);
+
+    if ($alt == $path && !_purl_skip($element, $options)) {
       $items = explode('/', $path);
       array_unshift($items, $element->value);
       $path = implode('/', $items);
