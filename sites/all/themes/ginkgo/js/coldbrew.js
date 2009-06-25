@@ -7,14 +7,16 @@ Drupal.behaviors.coldbrew = function (context) {
       $(this).parent().hide('fast');
     });
     if ($(this).is('.autoclose')) {
-      $(this).animate(
-        {opacity:.9},
-        3000,
-        'linear',
-        function() {
+      // If a message contains a link, autoclosing is probably a bad idea.
+      if ($('a', this).size() > 0) {
+        $(this).removeClass('autoclose');
+      }
+      else {
+        // This essentially adds a 3 second pause before hiding the message.
+        $(this).animate({opacity:.9}, 3000, 'linear', function() {
           $(this).hide('fast');
-        }
-      );
+        });
+      }
     }
   });
 

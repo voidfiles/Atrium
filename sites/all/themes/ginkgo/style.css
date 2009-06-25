@@ -137,6 +137,9 @@ a.user-picture {
     background:url(images/sprite_base.png) -105px 0px no-repeat;
     }
 
+  .autoclose a.admin-message-close,
+  .autoclose span.close { display:none; }
+
 /**
  * Page header ========================================================
  */

@@ -297,7 +297,7 @@ function ginkgo_status_messages($display = NULL) {
     $first = FALSE;
 
     $output .= "<div class='messages clear-block $type $class'>";
-    $output .= empty($autoclose[$type]) ? "<span class='close'>". t('Hide') ."</span>" : '';
+    $output .= "<span class='close'>". t('Hide') ."</span>";
     $output .= "<div class='message-label'>{$type}</div>";
     $output .= "<div class='message-content'>";
     if (count($messages) > 1) {
