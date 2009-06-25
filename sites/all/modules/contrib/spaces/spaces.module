@@ -206,7 +206,7 @@ function spaces_menu_access() {
   }
 
   $standard_access = !empty($access_callback) ? call_user_func_array($access_callback, $args) : TRUE;
-  return ($access || user_access('administer_spaces')) && $standard_access;
+  return ($access || user_access('administer spaces')) && $standard_access;
 }
 
 /**
