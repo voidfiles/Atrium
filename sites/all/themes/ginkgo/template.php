@@ -293,7 +293,7 @@ function ginkgo_status_messages($display = NULL) {
 
   foreach (drupal_get_messages($display) as $type => $messages) {
     $class = $first ? 'first' : '';
-    $class .= !empty($autoclose[$type]) ? ' autoclose' : '';
+    $class .= !empty($autoclose[$type]) || !isset($autoclose[$type]) ? ' autoclose' : '';
     $first = FALSE;
 
     $output .= "<div class='messages clear-block $type $class'>";
