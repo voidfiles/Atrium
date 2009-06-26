@@ -6,9 +6,9 @@ dependencies[] = spaces
 dependencies[] = imagecache
 dependencies[] = color
 core = "6.x"
-; Information added by drupal.org packaging script on 2009-06-10
-version = "6.x-2.0-alpha4"
+; Information added by drupal.org packaging script on 2009-06-26
+version = "6.x-2.0-beta1"
 core = "6.x"
 project = "spaces"
-datestamp = "1244597521"
+datestamp = "1246024934"
 

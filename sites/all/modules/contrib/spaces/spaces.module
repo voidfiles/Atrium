@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.module,v 1.25.4.33.2.16 2009/05/14 03:58:56 yhahn Exp $
+// $Id: spaces.module,v 1.25.4.33.2.18 2009/06/26 13:39:37 yhahn Exp $
 
 define('SPACES_FEATURE_DISABLED', 0);
 
