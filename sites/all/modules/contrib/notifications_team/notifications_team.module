@@ -1,5 +1,5 @@
 <?php
-// $Id: notifications_team.module,v 1.1.2.10.2.7 2009/06/25 13:36:38 davidg Exp $
+// $Id: notifications_team.module,v 1.1.2.10.2.8 2009/06/26 17:34:53 jmiccolis Exp $
 
 /**
  * notifications_team provides a GUI for subscribing to content
@@ -361,6 +361,9 @@ function notifications_team_form_alter(&$form, &$form_state, $form_id) {
   if (user_access('subscribe other users')) {
     if (isset($form['type']) && $form['type']['#value'] .'_node_form' == $form_id) {
       _notifications_team_addform($form, $form['type']['#value'], 'node', $form['nid']['#value']);
+      if (isset($form_state['node_preview'])) {
+        $form['notifications']['notifications_team']['selected']['#default_value'] = $form_state['values']['notifications_team']['selected'];
+      }
     }
     elseif ($form_id == "comment_form") {
       $node = node_load($form['nid']['#value']);
@@ -403,7 +406,12 @@ function _notifications_team_addform(&$form, $node_type, $location = 'node', $ni
   if (notifications_content_type_enabled($node_type, 'thread')) {
     $subscriptions_form = notifications_team_form($nid);
     if (count($subscriptions_form)) {
-      $form['notifications']['notifications_team'] = $subscriptions_form;
+      if (isset($form['notifications'])) {
+        $form['notifications'] = array_merge($form['notifications'], $subscriptions_form);
+      }
+      else {
+        $form['notifications'] = $subscriptions_form;
+      }
     }
   }
 }
