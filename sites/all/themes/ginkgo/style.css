@@ -91,7 +91,7 @@ a.user-picture {
     margin:0px 0px 10px;
 
     position:relative;
-    opacity:.9;
+    opacity:.95;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     }
@@ -113,15 +113,16 @@ a.user-picture {
   div.messages div.message-label {
     line-height:15px;
     font-size:10px;
+    font-weight:bold;
     text-transform:uppercase;
 
     padding:5px 10px;
     color:#fff;
-    background-color:#278;
+    background-color:#6c2;
     }
 
-    div.warning div.message-label { background-color:#fa0; }
-    div.error div.message-label { background-color:#a20; }
+    div.warning div.message-label { background-color:#f90; }
+    div.error div.message-label { background-color:#b10; }
 
   a.admin-message-close,
   span.close {

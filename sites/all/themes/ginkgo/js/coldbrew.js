@@ -13,7 +13,7 @@ Drupal.behaviors.coldbrew = function (context) {
       }
       else {
         // This essentially adds a 3 second pause before hiding the message.
-        $(this).animate({opacity:.9}, 3000, 'linear', function() {
+        $(this).animate({opacity:.95}, 3000, 'linear', function() {
           $(this).hide('fast');
         });
       }
