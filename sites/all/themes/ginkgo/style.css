@@ -841,7 +841,7 @@ table.cases span.case-priority {
   width:30px; height:5px;
   overflow:hidden;
   text-indent: -999px;
-  background-image: url(images/sprite_base.png) 0px 0px;
+  background: url(images/sprite_base.png) 0px 0px no-repeat;
   }
 
   table.cases span.priority-1 { background-position: 0px 0px; }
