@@ -3,9 +3,43 @@
 include_once('atrium_shoutbox.features.inc');
 
 /**
+ * Implementation of hook_strongarm().
+ */
+function atrium_shoutbox_strongarm() {
+  $conf = array();
+
+  // Nodetype settings
+  $conf['node_options_shoutbox'] = array('status');
+  $conf["notifications_content_type_shoutbox"] = array();
+  $conf['upload_shoutbox'] = FALSE;
+
+  // Disable comments -- this is counterintuitive, but since the
+  // shoutbox essentially ignores this setting this is a way to
+  // disable the normal comment UI on shoutbox pages.
+  $conf['comment_shoutbox'] = COMMENT_NODE_DISABLED;
+
+  // Disable FeedAPI
+  $conf['feedapi_settings_shoutbox'] = array('enabled' => FALSE);
+
+  // Disable Diff button
+  $conf["show_preview_changes_shoutbox"] = FALSE;
+  $conf["show_diff_inline_shoutbox"] = FALSE;
+
+  // Disable from recent activity views
+  $conf['atrium_update_type_shoutbox'] = FALSE;
+
+  return $conf;
+}
+
+/**
  * Implementation of hook_help().
  */
 function atrium_shoutbox_help($path, $arg) {
+  // This is a reliable way to run on every page, but late in the stack.
+  if (variable_get('atrium_shoutbox_alert', FALSE)) {
+    atrium_shoutbox_alert();
+  }
+
   if (($path == 'help#atrium_shoutbox') || context_isset('spaces', 'shoutbox')) {
     $help = '';
     $help .= '<h3>'. t('Shoutbox') .'</h3>';
@@ -17,13 +51,6 @@ function atrium_shoutbox_help($path, $arg) {
     $help .= '</ul>';
     return $help;
   }
-}
-
-/**
- * Implementation of hook_init()
- */
-function atrium_shoutbox_init() {
-  drupal_add_css(drupal_get_path('module', 'atrium_shoutbox') .'/atrium_shoutbox.css');
 }
 
 /**
@@ -135,4 +162,40 @@ function atrium_shoutbox_active_space_shoutbox($reset = FALSE) {
     }
   }
   return $active_shoutbox;
+}
+
+/**
+ * Implementation of hook_atrium_dashboard().
+ */
+function atrium_shoutbox_atrium_dashboard() {
+  $blocks = array();
+  $blocks['atrium_shoutbox-shoutbox'] = array(
+    'module' => 'atrium_shoutbox',
+    'delta' => 'shoutbox',
+    'weight' => 20,
+    'region' => 'right',
+    'types' => array('og'),
+  );
+  return $blocks;
+}
+
+/**
+ * Experimental growl-like shoutbox interactions.
+ */
+function atrium_shoutbox_alert() {
+  static $once;
+  if (!isset($once)) {
+    $once = TRUE;
+    global $user;
+    $view = views_get_view('atrium_shoutbox_unread');
+    $view->display['default']->display_options['filters']['timestamp']['value']['value'] = format_date($user->access, 'custom', "Y-m-d H:i:s");
+    $view->display['default']->display_options['filters']['name']['value'] = $user->name;
+    $output = $view->execute_display();
+    if (count($view->result)) {
+      // Update the session access time.
+      // @TODO: See how badly this affects performance.
+      db_query("UPDATE {users} SET access = %d WHERE uid = %d", time(), $user->uid);
+      drupal_set_message($output, 'shout');
+    }
+  }
 }
