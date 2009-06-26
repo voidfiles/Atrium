@@ -236,14 +236,6 @@ function atrium_dashboard_context_default_contexts() {
       '0' => 'atrium_dashboard',
     ),
   );
-  /*
-  'messaging_shoutbox-spaces' => array(
-    'module' => 'messaging_shoutbox',
-    'delta' => 'spaces',
-    'region' => 'right',
-    'weight' => '12',
-  ),
-  */
   return $items;
 }
 
