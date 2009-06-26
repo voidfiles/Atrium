@@ -1,5 +1,4 @@
-Installation instructions
-=========================
+*Installation instructions:*
 
 #  Enable and configure messaging, notifications, and mailhandler modules.
   - http://drupal.org/project/messaging
@@ -7,44 +6,29 @@ Installation instructions
   - http://drupal.org/project/mailhandler
 #  Setup a mailbox for mailhandler which you'll use with mail2web.
 #  Enable the mail2web module
-#  Go to admin/messaging/mail2web and configure as desired.  You must select at least one content type in order
-   for mail2web to work at all.
-#  If a user does not have 'post comments' privilege, they will not be able to use mail2web.  The notifications
-that get sent to users without 'post comments' privilege will not contain the necessary information from mail2web
-in order for the user to reply via email.
+#  Go to admin/messaging/mail2web and configure as desired.
 
 That's it.  Now, when notifications are sent out, they should appear with the delimiter text.
 The default delimiter text says "((( Reply ABOVE this LINE to POST a COMMENT )))".
 
-# Note about mail2web_extras module:  This module uses a few regular expressions targeted at specific email clients.
-  mail2web_extras can simply be enabled, and it will start trying to detect on incoming messages for mail2web.  If a
-  match is found, the default cleaner in mail2web module itself will not be run, even if it is enabled to run.  If no 
-  match is found, the default cleaner (if enabled on the settings page) will attempt to run and clean the message.
+
+*Keep in mind:*
+
+#  If a user does not have 'post comments' privilege, they will not be able to use mail2web.  The notifications
+that get sent to users without 'post comments' privilege will not contain the necessary information from mail2web
+in order for the user to reply via email.
 
 
-For developers
-==============
+*For developers*
 
 # If you need to modify or maintain node parameters upon each reply, there is a hook_mail2web_alter that allows plugin
 modules to act on the node object of each message that comes in via mail2web.
 
 
-Known issues
-============
+*Known issues*
 
 #  If you get blank or incomplete messages, try turning off the "Message cleaner" on the mail2web settings page.  There is a regex
 that works most of the time, but may not work all the time.  This can lead to incomplete or lost messages.  If you turn the message
 cleaner off, all comments that are posted via mail2web will contain an email client byline at the bottom, like:
 "On Jan 27, 2009, John Doe wrote:"
 
-
-Roadmap
-=======
-
-# DONE - Add setting to control on what content types mail2web should be allowed on.  Currently, any notification for a content type will go out with a mail2web header/message.
-# Any kind of handling for inline replies?
-# Ability to initiate a new post while using mail2web (security issues must be sorted out)
-# Ability to use mail2web with multiple email addresses, such as 1 address per OG.
-# Improved error handling, error messages, and detailed instructions in mail footers
-# Set a max-length on the demarcation line allowed, because a very long demarcation line ("PLEASE reply ABOVE...") will break a line and this may not get deteced (need to test).
-# Allow for plugin to handle per-node or per-X on/off switch for mail2web.  Right now, we just handle per-content type.

@@ -89,29 +89,6 @@ function mail2web_admin_settings() {
     '#default_value' => variable_get('mail2web_cleaner', 0),
     '#options' => array(t('Off'), t('On')),
   );
-  $options = array();
-  $ntypes = node_get_types('names');
-  foreach ($ntypes as $type => $name) {
-    $options[$type] = $name;
-  }
-  $form['mail2web_nodetypes'] = array(
-    '#type' => 'select',
-    '#multiple' => TRUE,
-    '#title' => t('Mail2web content types'),
-    '#description' => t('Choose on which content types to enable mail2web.  Enabling mail2web for a content type will ensure
-    that the proper headers are added to the outgoing message.'),
-    '#options' => $options,
-    '#default_value' => variable_get('mail2web_nodetypes', array()),
-  );
-  $form['mail2web_passthru'] = array(
-    '#type' => 'radios',
-    '#title' => t('Passthru to mailhandler module'),
-    '#description' => t('If you want messages that are sent to the mail2web address (but which are missing the mail2web paramaters needed
-    to properly post the comment) to be passed on to mailhandler, enable this.  If this is enabled mail2web will not throw away the node object,
-    but instead will return it to mailhandler to decide how to handle it.'),
-    '#default_value' => variable_get('mail2web_passthru', 0),
-    '#options' => array(t('Off'), t('On')),
-  );
   return system_settings_form($form);
 }
 
@@ -154,7 +131,7 @@ function mail2web_message_alter(&$message, $info) {
   // For now, just for non digested emails
   if (!empty($message->notifications) && ($account = $message->account) 
     && empty($message->notifications['digest']) && $info['group'] == 'mail') {
-    $event = current($message->notifications['events']);
+    $event = array_shift($message->notifications['events']);
     if ($event->type == 'node' && !empty($event->objects['node'])) {
       $params['uid'] = $account->uid;
       $params['nid'] = $event->objects['node']->nid;
@@ -165,7 +142,7 @@ function mail2web_message_alter(&$message, $info) {
   }
   // If we've got some params out of the message, embed them into the message id for emails only
   // and only if the recipient of the message is allowed to post comments.
-  if ($params && ($reply = mail2web_mailbox_mail()) && user_access('post comments', $account) && in_array($event->objects['node']->type, variable_get('mail2web_nodetypes', array()))) {
+  if ($params && ($reply = mail2web_mailbox_mail()) && user_access('post comments', $account)) {
     $message->params['mail']['headers']['Message-ID'] = mail2web_build_messageid($params);
     $message->params['mail']['headers']['Reply-To'] = $reply;
     // Add marker text into the message header part taking care of already existing text
@@ -208,7 +185,7 @@ function mail2web_mailhandler($node, $result, $i, $header, $mailbox) {
 	//  Just set it to the mailbox
 	$header->toaddress = $mbox_name;
   }
-  if (strtolower($header->toaddress) == strtolower($mbox_name) && $node->threading && ($params = mail2web_check_messageparams($node->threading, $header)) && empty($params['error'])) {
+  if ($header->toaddress == $mbox_name && $node->threading && ($params = mail2web_check_messageparams($node->threading, $header)) && empty($params['error'])) {
     // Now check user id , just go ahead if they match and it is a valid user
     if ($node->uid && $node->uid == $params['uid']) {
       // Add params into the node object, other modules may use them
@@ -216,28 +193,23 @@ function mail2web_mailhandler($node, $result, $i, $header, $mailbox) {
       // Set comment parameters
       $node->type = 'comment';
       $node->nid = $params['nid'];
-      $node->pid = $params['cid'];
-      // Comment status and node status flags are opposite.
-      $node->status == 1 ? $node->status = 0 : $node->status = 1;
+      $node->pid = $params['cid'];     
       // Now trim out the rest of the message if separator text exists
       // @ TODO May fail for html mails
       if ($marker = variable_get('mail2web_reply_text', t('((( Reply ABOVE this LINE to POST a COMMENT )))'))) {
-        // Allow other modules to act on the text and node object before we start stripping things from it.
-        mail2web_invoke_mail2web_alter($node, 'pre');
-        
         // Now the dirty part. May need some more clean up for line endings, spare html, etc...
         $pos = strpos($node->body, $marker);
         if ($pos !== FALSE) {
           // Mailhandler brings this in as a full node with teaser/body but we need to chnage context to comment
           $node->body = substr($node->body, 0, $pos);
-          // Allow other modules to act on the text and node object after delimiter has been stripped.
-          mail2web_invoke_mail2web_alter($node, 'post');
-          // Check whether cleaner is turned on, and whether message is already "cleaned"
-          // $node->mail2web_cleaned is just a fake (hack) property you can set w/ your 
-          // plugin module in order to dynamically turn off the default message cleaner.
-          // +1 for variable altering.
-          if (variable_get('mail2web_cleaner', 0) == 1 && $node->mail2web_cleaned !== 1) {
-            // Then get the offset of the last two line breaks, and substring again, if the cleaner is enabled.
+          // Then get the offset of the last two line breaks, and substring again, if the cleaner is enabled.
+          // Allow other modules to alter the body, such as additional cleaners, or to add
+          // addtional parameters to the node object.
+          foreach (module_implements('mail2web_alter') as $module) {
+            $function = $module.'_mail2web_alter';
+            $function($node);
+          }
+          if (variable_get('mail2web_cleaner', 0) == 1) {
             $search = preg_match_all("/<br\s*\/*><br\s*\/*>|\r\n\r\n|\n\n[^<br\s*\/*><br\s*\/*>|\r\n\r\n|\n\n]+$/m", $node->body, $matches, PREG_OFFSET_CAPTURE);
             if (!empty($matches[0])) {
               $key = max(array_keys($matches[0]));
@@ -256,17 +228,15 @@ function mail2web_mailhandler($node, $result, $i, $header, $mailbox) {
   } 
   // If we reach here, there has been an error. Check error code or send a generic one.
   // This part doesn't return a node so it won't be further processed by mailhandler
-  if ($params && $header->toaddress == $mbox_name) {
+  if ($header->toaddress == $mbox_name && $params) {
     mail2web_error($params['error'], $node, $header);
+  } 
+  elseif ($header->toaddress == $mbox_name && !$params) {
+    mail2web_error(MAIL2WEB_ERROR_PARAMS, $node, $header);
   }
-  // If there are no params, return the node back to mailhandler, regardless of toaddress.
-  else {
-    if (variable_get('mail2web_passthru', 0) == 1) {
-      return $node;
-    }
-    else {
-      mail2web_error(MAIL2WEB_ERROR_PARAMS, $node, $header);
-    }
+  // If the message is not addressed to the mail2web mailbox, give the node back to mailhander for delegation.
+  elseif ($header->toaddress != $mbox_name) {
+    return $node;
   }
 }
 
@@ -474,31 +444,3 @@ function _mail2web_get_backup_messageid($body) {
     return FALSE;
   }  
 }
-
-/**
- * Invoke any hook_mail2web_alter operations in all modules.  See mail2web_mailhandler
- * 
- * @param $node
- *   A node object.
- * @param $op
- *   Operation.  Implemented operations are 'pre' and 'post'
- *   'pre' is run before the incoming email had been altered/stripped of junk.
- *   'post' is run after everything below the delimiter has been stripped.
- * @return An array.  The node is passed by reference and therefore can be altered.
- */
-function mail2web_invoke_mail2web_alter(&$node, $op) {
-  $return = array();
-  foreach (module_implements('mail2web_alter') as $name) {
-    $function = $name .'_mail2web_alter';
-    $result = $function($node, $op);
-    if (isset($result) && is_array($result)) {
-      $return = array_merge($return, $result);
-    }
-    else if (isset($result)) {
-      $return[] = $result;
-    }
-  }
-  return $return;
-}
-
-

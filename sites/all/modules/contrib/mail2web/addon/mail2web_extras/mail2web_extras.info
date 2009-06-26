@@ -1,5 +1,0 @@
-name = Mail to Web Extras
-description = Extra junk cleaners for mail2web
-package = "Notifications"
-dependencies[] = mail2web
-core = 6.x
