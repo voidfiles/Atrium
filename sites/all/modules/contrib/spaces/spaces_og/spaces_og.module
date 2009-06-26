@@ -1065,6 +1065,42 @@ function _spaces_og_admin_access($node, $type = NULL, $op = NULL) {
 }
 
 /**
+ * Implementation of hook_token_values().
+ **/
+function spaces_og_token_values($type, $object = NULL, $options = array()) {
+  if ($type == 'node' && (property_exists($object, 'og_groups') || property_exists($object, 'spaces_og'))) {
+    $node = $object;
+    if (property_exists($node, 'spaces_og')) {
+      $gid = $node->spaces_og['gid'];
+    }
+    elseif (property_exists($object, 'og_groups')) {
+      $gid = current($node->og_groups);
+    }
+    $space = spaces_load('og', $gid);
+    $tokens['space-og-path'] = check_plain($space->purl);
+    $tokens['space-og-path-raw'] = $space->purl;
+    return $tokens;
+  }
+  else {
+    return array(
+      'space-og-path' => '',
+      'space-og-path-raw' => '',
+    );
+  }
+}
+
+/**
+ * Implementation of hook_token_list().
+ **/
+function spaces_og_token_list($type = 'all') {
+  if ($type == 'node' || $type == 'all') {
+    $tokens['node']['space-og-path'] = t("The filtered value of the space prefix path");
+    $tokens['node']['space-og-path-raw'] = t("The raw value of the space prefix path");
+    return $tokens;
+  }
+}
+
+/**
  * DEPRECATED FUNCTIONS ===============================================
  */
 

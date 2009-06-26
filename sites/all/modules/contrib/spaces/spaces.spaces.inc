@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: spaces.spaces.inc,v 1.1.2.1 2009/06/26 13:39:38 yhahn Exp $
 
 /**
  * Provides a homepage setting for each space.

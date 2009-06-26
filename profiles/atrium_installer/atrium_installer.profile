@@ -103,7 +103,7 @@ function _atrium_installer_atrium_modules() {
     // Content profile
     'content_profile',
     // Atrium features
-    'atrium_blog', 'atrium_book', 'atrium_calendar', 'atrium_dashboard', 'atrium_casetracker', 'atrium_profile',
+    'atrium_blog', 'atrium_book', 'atrium_calendar', 'atrium_dashboard', 'atrium_casetracker', 'atrium_profile', 'atrium_shoutbox',
     // Formats
     'codefilter', 'textile',
     // Others
