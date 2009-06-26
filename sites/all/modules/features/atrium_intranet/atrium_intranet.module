@@ -28,7 +28,7 @@ function atrium_intranet_strongarm() {
   $conf['messaging_default_method'] = 'mail';
 
   // Nodetype settings
-  foreach (array('group', 'shoutbox', 'admin_message') as $type) {
+  foreach (array('group', 'admin_message') as $type) {
     $conf['node_options_'. $type] = array('status');
     $conf["notifications_content_type_$type"] = array();
     $conf['upload_'. $type] = FALSE;
@@ -254,14 +254,6 @@ function atrium_intranet_spaces_presets() {
       ),
       'settings' => array (
         'home' => 'dashboard',
-        'shoutbox' => array(
-          'display' => array(
-            'blog' => 'blog',
-            'dashboard' => 'dashboard',
-          ),
-          'position' => 'bottom',
-          'max' => 8,
-        ),
       ),
       'og' => array(
         'og_selective' => OG_CLOSED,
@@ -284,14 +276,6 @@ function atrium_intranet_spaces_presets() {
       ),
       'settings' => array (
         'home' => 'dashboard',
-        'shoutbox' => array(
-          'display' => array(
-            'blog' => 'blog',
-            'dashboard' => 'dashboard',
-          ),
-          'position' => 'bottom',
-          'max' => 8,
-        ),
       ),
       'og' => array(
         'og_selective' => OG_OPEN,
@@ -353,15 +337,6 @@ function atrium_intranet_spaces_presets() {
     ),
   );
   return $items;
-}
-
-/**
- * Implementation of hook_atrium_update_types_alter().
- */
-function atrium_intranet_atrium_update_types_alter(&$types) {
-  if (!empty($types['shoutbox'])) {
-    unset($types['shoutbox']);
-  }
 }
 
 /**
@@ -502,39 +477,12 @@ function atrium_intranet_form_user_profile_form_alter(&$form) {
  * Implementation of hook_spaces_settings().
  */
 function atrium_intranet_spaces_settings() {
-  return array('members' => 'atrium_intranet_setting_members');
-}
-
-/**
- * Implementation of space_setting.
- */
-if (function_exists('spaces_menu')) {
-  class atrium_intranet_setting_members implements space_setting {
-    var $id;
-
-    function __construct($id = NULL) {
-      $this->id = 'members';
-    }
-
-    function form($space, $value = array()) {
-      $options = array(0 => t('Show all members'), 1 => t('Show only members in current user\'s groups'));
-      $form = array(
-        '#title' => t('Members'),
-        '#type' => 'select',
-        '#description' => t('Choose the display mode for normal users when viewing the member directory. Administrators and managers will still be able to see all members in administrative views.'),
-        '#options' => $options,
-        '#default_value' => !empty($value) ? $value : 0,
-      );
-      return $form;
-    }
-
-    function validate($space, $value) {
-    }
-
-    function submit($space, $value) {
-      return $value;
-    }
-  }
+  return array(
+    'atrium_members' => array(
+      'class' => 'atrium_intranet_setting_members',
+      'file' => drupal_get_path('module', 'atrium_intranet') .'/atrium_intranet.spaces.inc',
+    ),
+  );
 }
 
 /**
@@ -546,7 +494,7 @@ function atrium_intranet_views_pre_view(&$view) {
       // The page_3 display corresponds to the member directory.
       if ($view->current_display == 'page_3') {
         $space = spaces_get_space();
-        if (!empty($space->settings['members'])) {
+        if (!empty($space->settings['atrium_members'])) {
           $filters = $view->display_handler->get_option('filters');
           if (!empty($filters['uid_1'])) {
             $filters['uid_1']['value'] = 1;

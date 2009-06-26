@@ -98,8 +98,8 @@ function atrium_book_menu() {
 function atrium_book_overview() {
   context_set('spaces', 'feature', 'book');
   $space = spaces_get_space();
-  if (!empty($space->settings['book'])) {
-    $nid = $space->settings['book'];
+  if (!empty($space->settings['atrium_book'])) {
+    $nid = $space->settings['atrium_book'];
     if (is_numeric($nid) && $node = node_load($nid)) {
       menu_set_active_item("node/{$node->nid}");
       return node_view($node, FALSE, TRUE, TRUE);
@@ -112,53 +112,10 @@ function atrium_book_overview() {
  * Implementation of hook_spaces_settings().
  */
 function atrium_book_spaces_settings() {
-  return array('book' => 'atrium_book_space_setting');
-}
-
-/**
- * Implementation of space_setting.
- */
-if (function_exists('spaces_menu')) {
-  class atrium_book_space_setting implements space_setting {
-    var $id;
-
-    function __construct($id = NULL) {
-      $this->id = 'book';
-    }
-
-    function form($space, $value = array()) {
-      $form = array('#tree' => TRUE);
-      $options = array(0 => t('Recent updates'), t('Pages') => array());
-
-      if ($view = views_get_view('atrium_book_current')) {
-        $view->set_display();
-        $view->set_items_per_page(0);
-        $view->execute();
-
-        // Collect books in this space into an array
-        if (is_array($view->result) && count($view->result)) {
-          foreach($view->result as $row) {
-            $options[t('Pages')][$row->nid] = $row->node_title;
-          }
-        }
-      }
-
-      $form = array(
-        '#title' => t('Overview page'),
-        '#type' => 'select',
-        '#description' => t('Choose the page to display when a user first views this feature.'),
-        '#options' => $options,
-        '#default_value' => !empty($value) ? $value : 0,
-      );
-
-      return $form;
-    }
-
-    function validate($space, $value) {
-    }
-
-    function submit($space, $value) {
-      return $value;
-    }
-  }
+  return array(
+    'atrium_book' => array(
+      'class' => 'atrium_book_space_setting',
+      'file' => drupal_get_path('module', 'atrium_book') .'/atrium_book.spaces.inc',
+    ),
+  );
 }
