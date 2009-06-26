@@ -5,9 +5,9 @@ core = 6.x
 package = "Notifications"
 dependencies[] = notifications_content
 
-; Information added by drupal.org packaging script on 2009-06-24
-version = "6.x-2.0-beta3"
+; Information added by drupal.org packaging script on 2009-06-25
+version = "6.x-2.0-beta4"
 core = "6.x"
 project = "notifications_team"
-datestamp = "1245850605"
+datestamp = "1245937941"
 

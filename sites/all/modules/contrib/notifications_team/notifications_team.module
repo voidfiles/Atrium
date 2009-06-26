@@ -1,5 +1,5 @@
 <?php
-// $Id: notifications_team.module,v 1.1.2.10.2.5 2009/05/28 14:47:58 davidg Exp $
+// $Id: notifications_team.module,v 1.1.2.10.2.7 2009/06/25 13:36:38 davidg Exp $
 
 /**
  * notifications_team provides a GUI for subscribing to content
@@ -19,6 +19,14 @@ function notifications_team_menu() {
     'page arguments' => array(2),
     'access arguments' => array('subscribe other users'), 
     'type' => MENU_CALLBACK
+  );
+  $items['admin/messaging/notifications/team_ui'] = array(
+    'title' => 'Team UI',
+    'description' => 'Team UI settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('notifications_team_ui_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
   );
   return $items;
 }
@@ -122,7 +130,7 @@ function notifications_team_get_users($like = NULL, $limit = 0, $gid = NULL, $re
         "SELECT u.name, u.uid, u.mail, u.picture, r.rid
         FROM {users} u
         LEFT JOIN {users_roles} r ON u.uid = r.uid
-          WHERE u.status > 0 $where",
+          WHERE u.status > 0 $where ORDER BY u.name ASC",
           $args);
     }
     while ($row = db_fetch_object($q)){
@@ -175,8 +183,10 @@ function notifications_team_form($nid) {
       // have an autocomplete box and only have users on the checkboxes that are already subscribed
       $acomplete = TRUE;
       foreach($subscribers as $u) {
+        $u = $users[$u];
         $user_names[$u->uid] = $u->name;
       }
+      asort($user_names);
     }
     else {
       foreach($users as $u) {
@@ -357,6 +367,23 @@ function notifications_team_form_alter(&$form, &$form_state, $form_id) {
       _notifications_team_addform($form, $node->type, 'comment', $node->nid);
     }
   }
+}
+
+function notifications_team_ui_settings_form() {
+  $form['notifications_team'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Notifications Team'),
+    '#collapsible' => TRUE,
+    '#weight' => 0,
+  );
+  
+  $form['notifications_team']['notifications_team_max_options'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Max Checkboxes'),
+    '#default_value' => variable_get('notifications_team_max_options', 20),
+    '#description'   => t('Maximum number of available users to show as individual checkboxes before using autocomplete form.'),
+  );
+  return system_settings_form($form);
 }
 
 /**
