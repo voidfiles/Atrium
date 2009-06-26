@@ -36,7 +36,7 @@ function strongarm_drush_export() {
     while ($row = db_fetch_array($result)) {
       $rows[] = array_values($row);
     }
-    drush_print_table($rows, 4, TRUE);
+    drush_print_table($rows, TRUE);
   }
   else {
     $exports = array();
