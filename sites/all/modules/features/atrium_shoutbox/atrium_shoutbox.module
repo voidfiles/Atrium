@@ -90,15 +90,23 @@ function atrium_shoutbox_block($op = 'list', $delta = 0) {
             return NULL;
           }
           $shoutbox = atrium_shoutbox_active_space_shoutbox();
+
+          // Lazy instantiate a shoutbox if no shoutbox exists for this space.
+          if (!$shoutbox && $space->type == 'og') {
+            $form_state = array();
+            module_load_include('inc', 'node', 'node.pages');
+            $node = array('type' => 'shoutbox');
+            $form_state['values']['title'] = $space->title;
+            $form_state['values']['body'] = '';
+            $form_state['values']['name'] = $space->group->name;
+            $form_state['values']['op'] = t('Save');
+            drupal_execute('shoutbox_node_form', $form_state, (object) $node);
+
+            $shoutbox = atrium_shoutbox_active_space_shoutbox(TRUE);
+          }
+
           if ($shoutbox && node_access('view', $shoutbox)) {
             return module_invoke('messaging_shoutbox', 'block', 'view', $shoutbox->nid); 
-          }
-          else if (node_access('create', 'shoutbox')) {
-            $link = l(t('Create a new shoutbox'), 'node/add/shoutbox', array('query' => 'destination='. $_GET['q'], 'attributes' => array('class' => 'button')));
-            return array(
-              'subject' => t('Shoutbox'),
-              'content' => "<div class='buttons'>$link</div>",
-            );
           }
         }
         return array();
@@ -131,13 +139,24 @@ function atrium_shoutbox_page() {
   }
 
   $shoutbox = atrium_shoutbox_active_space_shoutbox();
+
+  // Lazy instantiate a shoutbox if no shoutbox exists for this space.
+  if (!$shoutbox && $space->type == 'og') {
+    $form_state = array();
+    module_load_include('inc', 'node', 'node.pages');
+    $node = array('type' => 'shoutbox');
+    $form_state['values']['title'] = $space->title;
+    $form_state['values']['body'] = '';
+    $form_state['values']['name'] = $space->group->name;
+    $form_state['values']['op'] = t('Save');
+    drupal_execute('shoutbox_node_form', $form_state, (object) $node);
+
+    $shoutbox = atrium_shoutbox_active_space_shoutbox(TRUE);
+  }
+
   if ($shoutbox && node_access('view', $shoutbox)) {
     $output = drupal_get_form('messaging_shoutbox_shoutform', $shoutbox, array('view' => 'atrium_shoutbox_shouts', 'display' => 'page_1', 'args' => array($shoutbox->nid)));
     return $output;
-  }
-  else if (node_access('create', 'shoutbox')) {
-    $link = l(t('Create a new shoutbox'), 'node/add/shoutbox', array('query' => 'destination='. $_GET['q'], 'attributes' => array('class' => 'button')));
-    return "<div class='buttons'>$link</div>";
   }
   return '';
 }
