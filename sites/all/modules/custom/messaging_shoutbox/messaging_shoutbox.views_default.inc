@@ -185,13 +185,15 @@ function messaging_shoutbox_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('items_per_page', 5);
   $handler->override_option('use_pager', '0');
   $handler->override_option('style_plugin', 'list');
   $handler->override_option('exposed_block', TRUE);
   $handler = $view->new_display('block', 'Shoutbox (mini)', 'block_1');
   $handler->override_option('use_ajax', TRUE);
-  $handler->override_option('use_pager', 'mini');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
   $handler = $view->new_display('block', 'Shoutbox (full)', 'block_2');
@@ -371,12 +373,12 @@ function messaging_shoutbox_views_default_views() {
   ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $translatables['messaging_shoutbox_shouts'] = array(
+  $translatables['messaging_shoutbox'] = array(
     t('Defaults'),
-    t('Shoutbox'),
     t('Shoutbox (mini)'),
     t('Shoutbox (full)'),
   );
+
   $views[$view->name] = $view;
   return $views;
 }
