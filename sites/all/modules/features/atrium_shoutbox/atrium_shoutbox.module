@@ -209,7 +209,7 @@ function atrium_shoutbox_atrium_dashboard() {
     'delta' => 'shoutbox',
     'weight' => 20,
     'region' => 'right',
-    'types' => array('og'),
+    'spaces' => array('og'),
   );
   return $blocks;
 }
