@@ -278,9 +278,17 @@ function atrium_form_alter(&$form, &$form_state, $form_id) {
 
     $space = spaces_get_space();
 
+    // Determine whether this node is archivable
+    $archivable = in_array($node->type, variable_get('atrium_archivable', array()));
+    $archivable = !empty($node->nid) && $archivable;
+
+    // Only allow root books to be archived.
+    if (book_type_is_allowed($node->type)) {
+      $archivable = $archivable && (!empty($node->book) && $node->book['plid'] == 0);
+    }
+
     // Add a link to archive/reactive the space
-    $archivable = variable_get('atrium_archivable', array());
-    if (!empty($node->nid) && in_array($node->type, $archivable)) {
+    if ($archivable) {
       // Add archive / reactivate buttons
       if ($node->status) {
         $archive_help = t('This !type is currently <strong>active</strong>. You can archive it to hide it from listings and prevent others from adding to or altering its content. You can always undo this action by reactivating the !type.', array('!type' => atrium_get_typename($node->type)));
