@@ -426,6 +426,9 @@ div.dropdown-blocks div.block div.item-list li a {
 /**
  * Error pages ========================================================
  */
+body.page-access-denied div.limiter,
+body.page-not-found div.limiter { width:960px; }
+
 body.page-access-denied #page-header div.limiter,
 body.page-not-found #page-header div.limiter { display:none; }
 
