@@ -86,7 +86,7 @@ function ginkgo_preprocess_page(&$vars) {
  * Preprocessor for theme_node().
  */
 function ginkgo_preprocess_node(&$vars) {
-  $vars['submitted'] = theme('seed_byline', $vars['node']);
+    $vars['submitted'] = !empty($vars['submitted']) ? theme('seed_byline', $vars['node']) : ''; 
   if (!empty($vars['terms'])) {
     $label = t('Tagged');
     $terms = "<div class='field terms clear-block'><span class='field-label'>{$label}:</span> {$vars['terms']}</div>";
