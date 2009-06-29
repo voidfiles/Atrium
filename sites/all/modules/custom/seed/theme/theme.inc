@@ -487,7 +487,16 @@ function theme_seed_crayon($id) {
     return $crayon[$id];
   }
   else {
-    $crayon[$id] = $id % 40;
+    $modulo = $id % 16;
+
+    // Try 5 times to avoid color collision
+    $try = 0;
+    while (in_array($modulo, $crayon, TRUE) && $try < 5) {
+      $modulo = ($modulo + 1) % 16;
+      $try++;
+    }
+
+    $crayon[$id] = $modulo;
     return $crayon[$id];
   }
 }
@@ -506,7 +515,7 @@ function theme_seed_crayon_popup($id, $label, $color = NULL) {
 
   $output .= "<span class='crayon-popup'>";
   $output .= "<span class='crayon-popup-label'>";
-  if ($crayon) {
+  if (isset($crayon)) {
     $output .= "<span class='crayon-marker crayon-{$crayon}' style='{$style}'></span>";
   }
   $output .= $label;
