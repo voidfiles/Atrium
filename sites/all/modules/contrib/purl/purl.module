@@ -542,13 +542,12 @@ function purl_goto($path = '', $options = array(), $http_response_code = 302) {
   //
   // Under certain circumstances, (e.g. a modifier being stale or deleted from
   // the DB), purl_goto() can be left hanging in an infinite redirect loop. We
-  // can detect this by comparing the rewritten URL with a canonical URL -- if
-  // they are identical, we are entering a loop and should abort.
+  // can detect this by comparing the current URL with a rewritten URL. If they
+  // are identical, we are entering a loop.
   if (isset($options['purl'])) {
-    $eject_options = $options;
-    unset($eject_options['purl']);
-    $eject_url = url($path, $eject_options);
-    if ($eject_url == $url) {
+    $current_url = url($_GET['q'], array('absolute' => TRUE, 'query' => drupal_query_string_encode($_GET, array('q'))));
+    if ($url == $current_url) {
+      watchdog('purl', 'Infinite redirect prevented.', array(), WATCHDOG_INFO);
       return;
     }
   }
