@@ -127,6 +127,24 @@ function _atrium_intranet_filter_default_formats() {
     ),
   );
 
+  // Exported format: Messaging plain text
+  $formats[] = array(
+    'name' => 'Messaging plain text',
+    'roles' => array(),
+    'filters' => array(
+      '0' => array(
+        'module' => 'filter',
+        'delta' => '1',
+        'weight' => '-10',
+      ),
+      '1' => array(
+        'module' => 'messaging',
+        'delta' => '1',
+        'weight' => '-9',
+      ),
+    ),
+  );
+
   // Exported format: Textile
   $formats[] = array(
     'name' => 'Textile',
