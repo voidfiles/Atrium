@@ -28,6 +28,14 @@ function features_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'features.admin.inc',
   );
+  $items['admin/build/features/cache-clear'] = array(
+    'title' => 'Clear caches',
+    'description' => 'Page callback for clearing caches after modules are enabled.',
+    'page callback' => 'features_cache_clear',
+    'page arguments' => array(),
+    'type' => MENU_CALLBACK,
+    'file' => 'features.admin.inc',
+  );
   $items['admin/build/features/manage'] = array(
     'title' => 'Manage',
     'description' => 'Enable and disable features.',

@@ -99,46 +99,24 @@ div.form-item-counter span.counter {
 /**
  * Crayon coloring
  */
-.crayon-0  {background-color: #69f;}
-.crayon-20 {background-color: #69f;}
-.crayon-1  {background-color: #cf6;}
-.crayon-21 {background-color: #cf6;}
-.crayon-2  {background-color: #fc6;}
-.crayon-22 {background-color: #fc6;}
-.crayon-3  {background-color: #f6c;}
-.crayon-23 {background-color: #f6c;}
-.crayon-4  {background-color: #9cf;}
-.crayon-24 {background-color: #9cf;}
-.crayon-5  {background-color: #c9f;}
-.crayon-25 {background-color: #c9f;}
-.crayon-6  {background-color: #ccc;}
-.crayon-26 {background-color: #ccc;}
-.crayon-7  {background-color: #f99;}
-.crayon-27 {background-color: #f99;}
-.crayon-8  {background-color: #99f;}
-.crayon-28 {background-color: #99f;}
-.crayon-9  {background-color: #f69;}
-.crayon-29 {background-color: #f69;}
-.crayon-10 {background-color: #6f9;}
-.crayon-30 {background-color: #6f9;}
-.crayon-11 {background-color: #9fc;}
-.crayon-31 {background-color: #9fc;}
-.crayon-12 {background-color: #f96;}
-.crayon-32 {background-color: #f96;}
-.crayon-13 {background-color: #ff9;}
-.crayon-33 {background-color: #ff9;}
-.crayon-14 {background-color: #cc9;}
-.crayon-34 {background-color: #cc9;}
-.crayon-15 {background-color: #c6f;}
-.crayon-35 {background-color: #c6f;}
-.crayon-16 {background-color: #999;}
-.crayon-36 {background-color: #999;}
-.crayon-17 {background-color: #f9f;}
-.crayon-37 {background-color: #f9f;}
-.crayon-18 {background-color: #f9c;}
-.crayon-38 {background-color: #f9c;}
-.crayon-19 {background-color: #ff6;}
-.crayon-39 {background-color: #ff6;}
+.crayon-0  {background-color: #e00;}
+.crayon-1  {background-color: #fa0;}
+.crayon-2  {background-color: #6e0;}
+.crayon-3  {background-color: #0c9;}
+.crayon-4  {background-color: #06c;}
+.crayon-5  {background-color: #66c;}
+.crayon-6  {background-color: #c08;}
+
+.crayon-7  {background-color: #c66;}
+.crayon-8  {background-color: #654;}
+.crayon-9  {background-color: #088;}
+.crayon-10 {background-color: #246;}
+.crayon-11 {background-color: #668;}
+.crayon-12 {background-color: #5a5;}
+.crayon-13 {background-color: #933;}
+
+.crayon-14 {background-color: #aaa;}
+.crayon-15 {background-color: #555;}
 
 .crayon-swatch {
   width:30px;

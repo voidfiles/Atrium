@@ -11,6 +11,8 @@ stylesheets[screen][] = "forms.css"
 stylesheets[screen][] = "style.css"
 stylesheets[screen][] = "theme.css"
 
+stylesheets[print][] = "print-custom.css"
+
 scripts[] = "js/coldbrew.js"
 
 regions[right] = "Right sidebar"

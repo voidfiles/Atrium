@@ -382,34 +382,37 @@ function casetracker_case_form_common(&$form, $default_project = NULL) {
     );
   }
 
-  $options = casetracker_user_options();
-
-  $form['casetracker']['assign_to'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Assign to'),
-    '#autocomplete_path' => 'casetracker_autocomplete',
-    '#required' => TRUE,
-    '#size' => 12,
-  );
-  if (count($options) < 20) {
-    $normalized = array();
-    foreach ($options as $name) {
-      $normalized[$name] = $name;
-    }
-    $form['casetracker']['assign_to'] = array(
-    '#type' => 'radios',
-    '#title' => t('Assign to'),
-    '#required' => TRUE,
-    '#options' => $normalized,
-    );
-  }
-
+  // Retrieve the assign_to default value.
   if (isset($node->casetracker->assign_to)) {
-    $form['casetracker']['assign_to']['#default_value'] = is_numeric($node->casetracker->assign_to) ? casetracker_get_name($node->casetracker->assign_to) : $node->casetracker->assign_to;
+    $default_assign_to = is_numeric($node->casetracker->assign_to) ? casetracker_get_name($node->casetracker->assign_to) : $node->casetracker->assign_to;
   }
   else {
-    $form['casetracker']['assign_to']['#default_value'] = variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous')));
+    $default_assign_to = variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous')));
   }
+
+  $form['casetracker']['assign_to'] = array(
+    '#title' => t('Assign to'),
+    '#required' => TRUE,
+  );
+
+  // Use different widgets based on the potential assignees.
+  $options = drupal_map_assoc(casetracker_user_options());
+  if (count($options) < 25) {
+    $form['casetracker']['assign_to']['#type'] = 'radios';
+    $form['casetracker']['assign_to']['#options'] = $options;
+  }
+  else if (count($options) < 50) {
+    $form['casetracker']['assign_to']['#type'] = 'select';
+    $form['casetracker']['assign_to']['#options'] = $options;
+  }
+  else {
+    $form['casetracker']['assign_to']['#type'] = 'textfield';
+    $form['casetracker']['assign_to']['#autocomplete_path'] = 'casetracker_autocomplete';
+    $form['casetracker']['assign_to']['#size'] = 12;
+  }
+
+  // Set the default value if it is valid.
+  $form['casetracker']['assign_to']['#default_value'] = in_array($default_assign_to, $options, TRUE) ? $default_assign_to : NULL;
 
   $case_status_options = casetracker_realm_load('status');
   $default_status = !empty($node->casetracker->case_status_id) ? $node->casetracker->case_status_id : variable_get('casetracker_default_case_status', key($case_status_options));
@@ -614,22 +617,22 @@ function casetracker_case_state_delete($csid = NULL) {
  */
 
 /**
- * Retrieve a pipe delimited string of autocomplete suggestions for existing
- * users. Stolen from user_autocomplete. Eventually this will be expanded to
- * include OG specific users subscribed to a project.
+ * Retrieve autocomplete suggestions for assign to user options.
+ *
+ * @TODO: In order to get this down to 1 query and respect any custom
+ * views selected for use as user option filters, we need to:
+ * - Submit a patch to the Views user name filter/argument handler to support LIKE filtering.
+ * - Ensure that the custom view uses this handler or add it if does not.
+ * - Generate the query & result set using this modified View.
  */
 function casetracker_autocomplete($string) {
   $matches = array();
-  $group = module_exists('og') ? og_get_group_context() : NULL;
-  if ($group) {
-    $gid = $group->nid;
-    $result = db_query_range("SELECT u.name FROM {users} u LEFT JOIN {og_uid} ou ON u.uid = ou.uid WHERE LOWER(name) LIKE LOWER('%s%%') AND u.status > 0 AND ou.nid = %d", $string, $gid, 0, 10);
-  }
-  else {
-    $result = db_query_range("SELECT name FROM {users} WHERE LOWER(name) LIKE LOWER('%s%%')", $string, 0, 10);
-  }
+  $options = casetracker_user_options();
+  $result = db_query_range("SELECT name FROM {users} WHERE LOWER(name) LIKE LOWER('%s%%')", $string, 0, 10);
   while ($user = db_fetch_object($result)) {
-    $matches[$user->name] = check_plain($user->name);
+    if (in_array($user->name, $options, TRUE)) {
+      $matches[$user->name] = check_plain($user->name);
+    }
   }
   drupal_json($matches);
 }

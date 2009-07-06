@@ -186,15 +186,14 @@ function purl_url_rewrite(&$path, &$options, $original) {
       $processor = purl_get_processor($method);
       $local_modifiers = purl_modifiers($method);
 
+      $provider = $id = NULL;
       foreach ($local_modifiers as $k => $v) {
         if ($v['provider'] == $options['purl']['provider']) {
           // If an id is NULL it simply indicates that the method doesn't need
           // to cache them, for example PURL_PAIR.
-          if ($v['id'] === null) {
-            $v['id'] = $options['purl']['id'];
-            break;
-          }
-          elseif ($v['id'] == $options['purl']['id']) {
+          if (($v['id'] === null) || ($v['id'] == $options['purl']['id'])) {
+            $provider = $options['purl']['provider'];
+            $id = $options['purl']['id'];
             break;
           }
         }
@@ -208,8 +207,10 @@ function purl_url_rewrite(&$path, &$options, $original) {
       //     unset($elements[$i]);
       //   }
       // }
-      $e = new purl_path_element($processor, $k, $v['provider'], $v['id']);
-      $elements = array($e);
+      if (isset($provider) && isset($id)) {
+        $e = new purl_path_element($processor, $k, $provider, $id);
+        $elements = array($e);
+      }
     }
     foreach ($elements as $e) {
       $e->processor->rewrite($path, $options, $e);
@@ -536,6 +537,21 @@ function purl_goto($path = '', $options = array(), $http_response_code = 302) {
   }
 
   $url = url($path, $options);
+
+  // purl_goto() EJECTOR:
+  //
+  // Under certain circumstances, (e.g. a modifier being stale or deleted from
+  // the DB), purl_goto() can be left hanging in an infinite redirect loop. We
+  // can detect this by comparing the current URL with a rewritten URL. If they
+  // are identical, we are entering a loop.
+  if (isset($options['purl'])) {
+    $current_url = url($_GET['q'], array('absolute' => TRUE, 'query' => drupal_query_string_encode($_GET, array('q'))));
+    if ($url == $current_url) {
+      watchdog('purl', 'Infinite redirect prevented.', array(), WATCHDOG_INFO);
+      return;
+    }
+  }
+
   // Remove newlines from the URL to avoid header injection attacks.
   $url = str_replace(array("\n", "\r"), '', $url);
 

@@ -149,6 +149,7 @@ function _strongarm_lockdown(&$form, $pattern = '', $position = STRONGARM_PATTER
       // it is highly likely we have a match. Disable the field.
       if (isset($form[$elem]['#default_value']) && $var_conf[$key] == $form[$elem]['#default_value']) {
         $form[$elem]['#disabled'] = TRUE;
+        $form[$elem]['#value'] = $form[$elem]['#default_value'];
       }
       if (!isset($form[$elem]['#attributes']['class'])) {
         $form[$elem]['#attributes']['class'] = "strongarm";

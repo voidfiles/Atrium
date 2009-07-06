@@ -267,6 +267,9 @@ function atrium_dashboard_context_active_contexts_alter(&$contexts) {
   // Filter out blocks that aren't enabled for this space type.
   if (!empty($contexts['spaces-dashboard-overview'])) {
     foreach ($contexts['spaces-dashboard-overview']->block as $key => $block) {
+      // This casting is not ideal. We need to consolidate block array/object
+      // usage in context and Drupal in general.
+      $block = (array) $block;
       if (isset($block['spaces']) && !in_array($space->type, $block['spaces'])) {
         unset($contexts['spaces-dashboard-overview']->block[$key]);
       }

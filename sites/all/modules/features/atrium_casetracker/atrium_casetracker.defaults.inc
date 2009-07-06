@@ -424,6 +424,9 @@ function _atrium_casetracker_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_casetracker',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'All cases');
   $handler->override_option('empty', 'No cases found.');
   $handler->override_option('items_per_page', 25);
@@ -1297,6 +1300,7 @@ function _atrium_casetracker_views_default_views() {
     t('Project cases'),
     t('Project cases (newest)'),
     t('Newest cases'),
+    t('more'),
   );
 
   $views[$view->name] = $view;
@@ -1338,12 +1342,13 @@ function _atrium_casetracker_views_default_views() {
       'relationship' => 'none',
     ),
     'case_count' => array(
-      'label' => 'Open cases:',
+      'label' => 'Total cases',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'link_class' => '',
         'alt' => '',
         'prefix' => '',
         'suffix' => '',
@@ -1352,19 +1357,17 @@ function _atrium_casetracker_views_default_views() {
         'max_length' => '',
         'word_boundary' => 1,
         'ellipsis' => 1,
+        'strip_tags' => 0,
         'html' => 0,
       ),
-      'type' => 'status-6',
+      'type' => '0',
       'exclude' => 0,
-      'set_precision' => FALSE,
-      'precision' => 0,
-      'decimal' => '.',
-      'separator' => ',',
-      'prefix' => '',
-      'suffix' => '',
       'id' => 'case_count',
       'table' => 'casetracker_case',
       'field' => 'case_count',
+      'override' => array(
+        'button' => 'Override',
+      ),
       'relationship' => 'none',
     ),
   ));
@@ -1425,6 +1428,9 @@ function _atrium_casetracker_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_casetracker',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Projects');
   $handler->override_option('empty', 'No projects found.');
   $handler->override_option('items_per_page', 40);
@@ -1435,7 +1441,7 @@ function _atrium_casetracker_views_default_views() {
     'columns' => '2',
     'alignment' => 'vertical',
   ));
-  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler = $view->new_display('page', 'Projects', 'page_1');
   $handler->override_option('path', 'casetracker/projects');
   $handler->override_option('menu', array(
     'type' => 'tab',
@@ -1518,7 +1524,6 @@ function _atrium_casetracker_views_default_views() {
     t('Defaults'),
     t('Projects'),
     t('No projects found.'),
-    t('Page'),
     t('Archived projects'),
     t('No archived projects found.'),
   );
@@ -1632,6 +1637,9 @@ function _atrium_casetracker_views_default_views() {
   $handler->override_option('access', array(
     'type' => 'none',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('items_per_page', 0);
   $translatables['atrium_ct_assignee_options'] = array(
     t('Defaults'),
@@ -1717,6 +1725,9 @@ function _atrium_casetracker_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('cache', array(
     'type' => 'none',
   ));
   $handler->override_option('items_per_page', 0);
