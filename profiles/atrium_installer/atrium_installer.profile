@@ -249,6 +249,12 @@ function atrium_installer_profile_tasks(&$task, $url) {
     drupal_flush_all_caches();
     db_query("UPDATE {blocks} SET status = 0, region = ''"); // disable all DB blocks
 
+    // Revert the filter that messaging provides to our default.  
+    $component = 'filter';
+    $module = 'atrium_intranet';
+    module_load_include('inc', 'features', "features.{$component}");
+    module_invoke($component, 'features_revert', $module);
+
     // Get out of this batch and let the installer continue
     $task = 'profile-finished';
   }
