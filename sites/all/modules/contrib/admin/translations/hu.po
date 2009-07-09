@@ -1,17 +1,18 @@
-# Hungarian translation of admin (6.x-1.0-alpha5)
+# Hungarian translation of admin (6.x-1.0-beta1)
 # Copyright (c) 2009 by the Hungarian translation team
 # Generated from files:
 #  admin.admin.inc,v 1.1.2.3 2009/06/15 04:31:31 yhahn
-#  admin.module,v 1.1.2.9 2009/06/15 03:39:30 yhahn
+#  admin.module,v 1.1.2.12 2009/06/21 14:21:46 yhahn
 #  admin.info,v 1.1.2.2 2009/06/08 00:55:33 yhahn
 #  admin/theme/page.tpl.php: n/a
 #  admin/toolbar/admin-toolbar.tpl.php: n/a
 #  slate.info,v 1.1.2.1 2009/06/15 03:18:56 yhahn
+#  admin/toolbar/theme.inc: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: admin (6.x-1.0-alpha5)\n"
-"POT-Creation-Date: 2009-06-18 20:18+0200\n"
+"Project-Id-Version: admin (6.x-1.0-beta1)\n"
+"POT-Creation-Date: 2009-06-25 18:25+0200\n"
 "PO-Revision-Date: 2009-06-13 20:49+0200\n"
 "Last-Translator: Balogh Zoltán\n"
 "Language-Team: Hungarian http://forditas.mindworks.hu\n"
@@ -32,11 +33,11 @@ msgstr "Súly"
 msgid "Operations"
 msgstr "Műveletek"
 
-#: admin.module:250
+#: admin.module:254
 msgid "Delete"
 msgstr "Törlés"
 
-#: admin.module:268
+#: admin.module:272
 msgid "Configure"
 msgstr "Beállítás"
 
@@ -44,7 +45,7 @@ msgstr "Beállítás"
 msgid "Administration"
 msgstr "Adminisztráció"
 
-#: admin.module:242
+#: admin.module:246
 msgid "Edit"
 msgstr "Szerkesztés"
 
@@ -84,23 +85,23 @@ msgstr ""
 "Ha ez bekapcsolt, akkor ez az elem megjelenik az admin menüben minden "
 "lap tetején."
 
-#: admin.module:302
+#: admin.module:306
 msgid "Edit view"
 msgstr "Nézet szerkesztése"
 
-#: admin.module:417
+#: admin.module:422
 msgid "Hello <strong>!username</strong>"
 msgstr "Üdvözlet <strong>!username</strong>"
 
-#: admin.module:421
+#: admin.module:426
 msgid "Logout"
 msgstr "Kilépés"
 
-#: admin.module:175
+#: admin.module:179
 msgid "admin menu"
 msgstr "admin menü"
 
-#: admin.module:175
+#: admin.module:179
 msgid "admin inline"
 msgstr "admin beágyazva"
 
@@ -134,4 +135,8 @@ msgstr "Slate"
 #: theme/slate.info:0
 msgid "Slate theme. Provided/managed by the admin module."
 msgstr "Slate smink. Szolgáltatja/kezeli az admin modul."
+
+#: toolbar/theme.inc:20
+msgid "View all"
+msgstr "Mindet megnéz"
 

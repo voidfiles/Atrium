@@ -71,6 +71,8 @@ hr { display:none; }
     list-style:none;
     }
 
+  #content ul.vertical-tabs-list { margin:-1px -100% -1px 0; }
+
 /**
  * Branding ===========================================================
  */
@@ -347,7 +349,7 @@ ul.secondary {
   }
 
 #footer {
-  text-align:right;
+  text-align:center;
   border-top:1px solid #ccc;
   padding:19px 20px 40px;
   font-size:11px;
@@ -505,51 +507,6 @@ table tr.selected td {
   background:#ffc;
   border-color:#eeb;
   }
-
-/**
- * Menus ==============================================================
- */
-div.block ul.menu a {
-  background:#f4f4f4;
-  display:block;
-  line-height:20px;
-  padding:4px 4px 4px 10px;
-
-  border-top:1px solid #fff;
-  border-bottom:1px solid #ddd;
-  }
-
-div.block ul.menu a.active {
-  margin-left:-1px;
-  padding-left:10px;
-  border-top-color:#fff;
-
-  background:#fff;
-  color:#333;
-
-  font-weight:bold;
-  }
-
-/**
- * We can safely stop at 8 levels of nesting, as the menu system does
- * not allow depths of greather than 8.
- */
-div.block ul.menu li li a {
-  background:#eee;
-  font-size:11px;
-  padding-left:20px;
-
-  border-top-color:#eee;
-  border-bottom-color:#ddd;
-  border-right:0px;
-  }
-
-div.block ul.menu li li li a { padding-left:30px; }
-div.block ul.menu li li li li a { padding-left:40px; }
-div.block ul.menu li li li li li a { padding-left:50px; }
-div.block ul.menu li li li li li li a { padding-left:60px; }
-div.block ul.menu li li li li li li li a { padding-left:70px; }
-div.block ul.menu li li li li li li li li a { padding-left:80px; }
 
 /**
  * Pagers =============================================================

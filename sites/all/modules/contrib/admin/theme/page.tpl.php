@@ -20,7 +20,7 @@
   <?php endif; ?>
 
   <div id='branding' class='clear-block reverse limiter'>
-    <?php if ($site_name): ?><h1 class='site-name'><?php print truncate_utf8($site_name, 25, FALSE, TRUE); ?></h1><?php endif; ?>
+    <?php if ($site_name): ?><h1 class='site-name'><?php print l(truncate_utf8($site_name, 25, FALSE, TRUE), '<front>'); ?></h1><?php endif; ?>
     <?php if ($breadcrumb) print $breadcrumb; ?>
     <div class='right'>
       <?php if ($help): ?><?php print l(t('Need help?'), 'admin/help', array('attributes' => array('class' => 'help-toggle'))) ?><?php endif; ?>

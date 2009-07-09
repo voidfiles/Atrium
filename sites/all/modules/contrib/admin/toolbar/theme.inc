@@ -15,7 +15,7 @@ function admin_preprocess_admin_toolbar(&$vars) {
       $id = str_replace('/', '-', $href);
 
       // If we aren't on the top level menu, provide a way to get to the top level page.
-      if ($depth > 0) {
+      if ($depth > 0 && !empty($links)) {
         $links['view-all'] = array(
           'title' => t('View all'),
           'href' => $href,

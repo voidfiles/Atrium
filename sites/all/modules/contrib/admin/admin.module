@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.module,v 1.1.2.12 2009/06/21 14:21:46 yhahn Exp $
+// $Id: admin.module,v 1.1.2.15 2009/07/08 17:37:24 yhahn Exp $
 
 /**
  * Implementation of hook_init().
@@ -21,8 +21,15 @@ function admin_init() {
   if (variable_get('node_admin_theme', 0) && (strpos($_GET['q'], 'node/add') === 0 || strpos($_GET['q'], 'admin/content/add') === 0 || (arg(0) == 'node' && arg(2) == 'edit'))) {
     _admin_init_theme();
   }
-  else if (arg(0) == 'admin' && !in_array($_GET['q'], array('admin/build/block', 'admin/build/block/list')) && variable_get('admin_theme', 'slate') == 'slate') {
-    _admin_init_theme();
+  else if (arg(0) == 'admin' && variable_get('admin_theme', 'slate') == 'slate') {
+    if (strpos($_GET['q'], 'admin/build/block') === 0) {
+      if (in_array(arg(3), array('configure', 'delete', 'add'), TRUE)) {
+        _admin_init_theme();
+      }
+    }
+    else {
+      _admin_init_theme();
+    }
   }
   else if (function_exists('admin_theme_init') && $GLOBALS['custom_theme'] == 'slate') {
     _admin_init_theme();
@@ -30,13 +37,39 @@ function admin_init() {
 }
 
 /**
+ * Menu access callback for admin landing pages.
+ */
+function admin_landing_page_access($path) {
+  $item = db_fetch_array(db_query("SELECT mlid, menu_name FROM {menu_links} ml WHERE ml.router_path = '%s' AND module = 'system'", $path));
+  $result = db_query("
+    SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+    FROM {menu_links} ml
+    LEFT JOIN {menu_router} m ON ml.router_path = m.path
+    WHERE ml.plid = %d AND ml.menu_name = '%s' AND hidden = 0", $item['mlid'], $item['menu_name']);
+  $access = FALSE;
+  while ($item = db_fetch_array($result)) {
+    _menu_link_translate($item);
+    if ($item['access']) {
+      $access = TRUE;
+      break;
+    }
+  }
+  return $access;
+}
+
+/**
  * Implementation of hook_menu_alter().
  */
 function admin_menu_alter(&$items) {
-  // Move all admin/* items to admin menu links.
   foreach ($items as $path => $item) {
+    // Move all admin/* items to admin menu links.
     if (strpos($path, 'admin') === 0) {
       $items[$path]['menu_name'] = 'admin';
+    }
+    // Smarter access callback for poorly checked landing pages
+    if ($item['access arguments'] === array('access administration pages') && in_array($item['page callback'], array('system_admin_menu_block_page', 'system_settings_overview'))) {
+      $items[$path]['access callback'] = 'admin_landing_page_access';
+      $items[$path]['access arguments'] = array($path);
     }
   }
 
@@ -46,33 +79,14 @@ function admin_menu_alter(&$items) {
   $items['admin/build/themes/admin']['weight'] = 10;
   unset($items['admin/settings/admin']);
 
-  // Gather site settings under local tasks
-  $items['admin/settings/site'] =
-  $items['admin/settings/site/information'] =
-  $items['admin/settings/site-information'];
-  unset($items['admin/settings/site-information']);
+  // Add in a routing item for admin/content/add
+  $items['admin/content/add'] = $items['node/add'];
+  $items['admin/content/add']['page callback'] = 'drupal_goto';
+  $items['admin/content/add']['page arguments'] = array('node/add');
+  $items['admin/content/add']['description'] = 'Create new content on your site.';
+  $items['admin/content/add']['weight'] = -20;
+  $items['admin/content/node']['weight'] = -19;
 
-  $items['admin/settings/site']['title'] = 'Site settings';
-  $items['admin/settings/site/information']['title'] = 'Information';
-  $items['admin/settings/site/information']['type'] = MENU_DEFAULT_LOCAL_TASK;
-
-  $items['admin/settings/site/clean-urls'] = $items['admin/settings/clean-urls'];
-  $items['admin/settings/site/clean-urls']['type'] = MENU_LOCAL_TASK;
-  $items['admin/settings/site/clean-urls']['weight'] = 10;
-  unset($items['admin/settings/clean-urls']);
-
-  $items['admin/settings/site/error-reporting'] = $items['admin/settings/error-reporting'];
-  $items['admin/settings/site/error-reporting']['type'] = MENU_LOCAL_TASK;
-  $items['admin/settings/site/error-reporting']['weight'] = 10;
-  unset($items['admin/settings/error-reporting']);
-
-  $items['admin/settings/site/file-system'] = $items['admin/settings/file-system'];
-  $items['admin/settings/site/file-system']['type'] = MENU_LOCAL_TASK;
-  $items['admin/settings/site/file-system']['weight'] = 10;
-  unset($items['admin/settings/file-system']);
-
-  // Generate additional items for use in the menu
-  $items = array_merge($items, admin_menu_clone_items('node/add', 'admin/content/add', $items));
   $items = array_merge($items, admin_menu_clone_items('admin/build/themes', 'admin/themes', $items));
   $items = array_merge($items, admin_menu_clone_items('admin/build/modules', 'admin/modules', $items));
 
@@ -98,7 +112,7 @@ function admin_menu_alter(&$items) {
     'admin/settings/filters' => '',
     'admin/settings/language' => '',
     'admin/settings/performance' => '',
-    'admin/settings/site' => '',
+    'admin/settings/site-information' => '',
 
     'admin/themes' => 'Appearance',
     'admin/modules' => '',
@@ -110,11 +124,6 @@ function admin_menu_alter(&$items) {
       $items[$path]['options']['admin'] = TRUE;
     }
   }
-
-  // Apparently node/add has no description. Add one.
-  $items['admin/content/add']['description'] = 'Create new content on your site.';
-  $items['admin/content/add']['weight'] = -20;
-  $items['admin/content/node']['weight'] = -19;
 }
 
 /**
