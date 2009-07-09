@@ -624,6 +624,46 @@ function _atrium_intranet_user_default_permissions() {
     ),
   );
 
+  // Exported permission: view imagecache fileview
+  $permissions[] = array(
+    'name' => 'view imagecache fileview',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view imagecache spaces-logo
+  $permissions[] = array(
+    'name' => 'view imagecache spaces-logo',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view imagecache user-m
+  $permissions[] = array(
+    'name' => 'view imagecache user-m',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: view imagecache user-s
+  $permissions[] = array(
+    'name' => 'view imagecache user-s',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
   // Exported permission: view revisions
   $permissions[] = array(
     'name' => 'view revisions',
