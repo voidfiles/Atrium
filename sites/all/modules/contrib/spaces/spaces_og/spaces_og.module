@@ -325,13 +325,8 @@ if (function_exists('spaces_menu')) {
       global $user;
       switch ($op) {
         case 'menu':
-          if ($is_active) {
-            if (drupal_is_front_page()) {
-              $this->redirect('home');
-            }
-            else if (!$user->uid && (arg(0) != 'user') && (arg(0) != 'openid')) {
-              drupal_goto('user/login');
-            }
+          if ($is_active && drupal_is_front_page()) {
+            $this->redirect('home');
           }
           break;
         case 'node':
