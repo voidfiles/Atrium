@@ -245,7 +245,7 @@ function xref_view($nodetype, $nid, $fieldname = null, $viewname = null) {
         'validate_argument_php' => '',
       ),
     ));
-    $view->set_arguments(array($nid));
+    $view->pre_execute(array($nid));
     $view->execute();
     if (count($view->result)) {
       $output = $view->render();
