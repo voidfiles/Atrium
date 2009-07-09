@@ -62,6 +62,12 @@ function atrium_calendar_strongarm() {
     $conf['show_diff_inline_'. $type] = FALSE;
   }
 
+  $conf['node_options_feed_ical'] = array('status');
+  $conf['notifications_content_type_feed_ical'] = array();
+
+  $conf['node_options_feed_ical_item'] = array('status');
+  $conf['notifications_content_type_feed_ical_item'] = array();
+
   // Uploads only on events
   $conf['upload_event'] = TRUE;
   $conf['upload_feed_ical'] =
