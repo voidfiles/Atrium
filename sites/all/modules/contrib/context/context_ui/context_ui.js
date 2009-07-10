@@ -1,4 +1,4 @@
-// $Id: context_ui.js,v 1.3.2.5 2009/03/12 14:22:02 yhahn Exp $
+// $Id: context_ui.js,v 1.3.2.5.2.2 2009/07/10 14:09:00 yhahn Exp $
 
 if (typeof(Drupal) == "undefined" || !Drupal.context_ui) {
   Drupal.context_ui = {};
@@ -49,7 +49,7 @@ Drupal.behaviors.context_ui = function(context) {
       var bid = $(this).parents('tr').eq(0).remove().attr('id');
 
       // Return this block to the selector
-      $('div.context-ui-block-selector input[@value='+bid+']').attr('checked', 0).parents('div.form-item').eq(0).show();
+      $('div.context-ui-block-selector input[value='+bid+']').attr('checked', 0).parents('div.form-item').eq(0).show();
 
       // Set region value
       Drupal.context_ui.regionblocks(region);
@@ -58,7 +58,7 @@ Drupal.behaviors.context_ui = function(context) {
 
     // Hide blocks in the selector that are enabled
     var bid = $(this).parents('tr').eq(0).attr('id');
-    $('div.context-ui-block-selector input[@value='+bid+']').parents('div.form-item').eq(0).hide();
+    $('div.context-ui-block-selector input[value='+bid+']').parents('div.form-item').eq(0).hide();
     $(this).addClass('contextui-processed');
   });
 
@@ -83,7 +83,7 @@ Drupal.behaviors.context_ui = function(context) {
   $('table#context-ui-blocks td.display a:not(.contextui-processed)').each(function() {
     $(this).click(function() {
       var hash = Drupal.context_ui.getHash($(this).attr('href'));
-      var region = hash.replace('_', '-');
+      var region = hash.replace(/_/g, '-');
 
       var selected = $("div.context-ui-block-selector input:checked");
       if (selected.size() > 0) {
@@ -119,7 +119,7 @@ Drupal.behaviors.context_ui = function(context) {
         var parent = $(this).parents('div.widget');
         var hash = parent.attr('id').substr(7); // 7 == strlen('widget-');
         var list = '';
-        $('input[@checked]', parent).each(function() {
+        $('input[checked]', parent).each(function() {
           var label = $(this).parents('label').text();
           list = list + "<li>"+ label +"</li>";
         });

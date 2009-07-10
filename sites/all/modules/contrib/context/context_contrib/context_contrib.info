@@ -4,3 +4,9 @@ description = "Provides integration with Context on behalf of the following cont
 dependencies[] = context
 package = Context
 core = "6.x"
+; Information added by drupal.org packaging script on 2009-07-10
+version = "6.x-2.0-beta3"
+core = "6.x"
+project = "context"
+datestamp = "1247237721"
+
