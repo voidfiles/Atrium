@@ -10,8 +10,6 @@ body.spaces-design #header,
 body.spaces-design #console,
 body.spaces-design #branding form input.form-text { background-color:<?php print $downshift ?>; }
 
-body.spaces-design #branding,
-body.spaces-design #navigation,
 body.spaces-design #navigation ul.space-links li a,
 body.spaces-design #branding form input.form-text { border-color:<?php print $upshift ?>; }
 </style>
