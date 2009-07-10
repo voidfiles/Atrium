@@ -1,0 +1,36 @@
+/* Float swaps */
+#features-menu,
+#features-menu li a span.icon,
+#features-menu li.active a span.label,
+#features-menu li.active a:hover span.label,
+
+#branding a.spaces-logo,
+#branding h1.space-title a,
+
+#global div.picture,
+#global ul.links,
+
+div.dropdown-blocks div.block div.item-list li { float:right; }
+
+#navigation ul.space-links,
+#branding div.search,
+#global ul.dropdown { float:left; }
+
+/* Margin swaps */
+#features-menu li,
+#navigation ul.space-links li a {
+  margin-right:0px;
+  margin-left:5px;
+  }
+
+/**
+ * Dropdown blocks.
+ */
+#header div.dropdown-blocks div.block div.block-content,
+#header div.dropdown-blocks div#block-help-help div.block-content { padding:19px 199px 19px 19px; }
+
+#header div.dropdown-blocks div.block h2.block-title {
+  left:auto;
+  right:5px;
+  padding:0px 15px 9px 0px;
+  }

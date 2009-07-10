@@ -90,7 +90,8 @@ div#block-help-help.hidden { display:none; }
 div.dropdown-blocks div.block { display:none; }
 
 div.dropdown-blocks div.block div.item-list li {
-  width:25%; float:left;
+  width:25%;
+  float:left;
   white-space:nowrap;
   overflow:hidden;
   }
@@ -218,12 +219,6 @@ div.dropdown-blocks div.block div.item-list li a {
   float:right;
   position:relative;
   }
-
-  #branding div.search span.crayon-popup {
-    line-height:15px;
-    left:25px;
-    bottom:20px;
-    }
 
   #branding form * { display:inline; }
 

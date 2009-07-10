@@ -320,7 +320,7 @@ body.one-sidebar div#main {
   }
 
 #content div.block-content {
-  clear:left;
+  clear:both;
   background:#fff;
   padding:5px 0px 0px;
   }
