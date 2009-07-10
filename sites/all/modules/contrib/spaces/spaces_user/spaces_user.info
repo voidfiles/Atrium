@@ -4,10 +4,3 @@ description = "Provides integration between Spaces and User"
 package = "Spaces"
 core = "6.x"
 dependencies[] = spaces
-
-; Information added by drupal.org packaging script on 2009-06-26
-version = "6.x-2.0-beta1"
-core = "6.x"
-project = "spaces"
-datestamp = "1246024934"
-

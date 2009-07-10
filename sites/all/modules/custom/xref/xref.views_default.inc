@@ -58,11 +58,12 @@ $handler->override_option('fields', array(
   ),
 ));
 $handler->override_option('sorts', array(
-  'title' => array(
-    'order' => 'ASC',
-    'id' => 'title',
+  'created' => array(
+    'order' => 'DESC',
+    'granularity' => 'second',
+    'id' => 'created',
     'table' => 'node',
-    'field' => 'title',
+    'field' => 'created',
     'relationship' => 'none',
   ),
 ));
@@ -99,6 +100,9 @@ $handler->override_option('filters', array(
 $handler->override_option('access', array(
   'type' => 'none',
 ));
+$handler->override_option('cache', array(
+  'type' => 'none',
+));
 $handler->override_option('items_per_page', 5);
 $handler->override_option('use_pager', '1');
 $handler->override_option('style_plugin', 'table');
@@ -128,5 +132,8 @@ $handler->override_option('style_options', array(
   ),
   'default' => '-1',
 ));
+$translatables['xref'] = array(
+  t('Defaults'),
+);
 return $view;
 }

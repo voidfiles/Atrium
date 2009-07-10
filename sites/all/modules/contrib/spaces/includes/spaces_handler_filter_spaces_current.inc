@@ -1,6 +1,11 @@
 <?php
 /**
- * Spaces view filter handler. 
+ * Spaces view filter handler.
+ * 
+ * This filter delegates filtering to the 'views_filter' method on the calling space object.
+ * Refer to the 'space_og' class in the Spaces OG module for an example implementation.  If
+ * you are creating your own space type by implementing the 'space' interface, you can use
+ * as-is or modify the 'views_filter' method for the purposes of your space type.
  */
 class spaces_handler_filter_spaces_current extends views_handler_filter {
   /**

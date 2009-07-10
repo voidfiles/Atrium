@@ -270,6 +270,7 @@ function spaces_preset_form_submit($form, &$form_state) {
  * Form for exporting a spaces preset.
  */
 function spaces_preset_export(&$form_state, $type, $id) {
+  module_load_include('inc', 'features', 'features.export');
   // Get the preset definition
   $presets = spaces_presets($type);
   $preset = $presets[$id];

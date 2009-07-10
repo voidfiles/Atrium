@@ -1,8 +1,14 @@
 <?php
-// $Id: spaces_plugin_access_spaces_feature.inc,v 1.1.2.3.2.1 2009/04/06 18:59:22 yhahn Exp $
+// $Id: spaces_plugin_access_spaces_feature.inc,v 1.1.2.3.2.2 2009/06/27 19:05:53 developmentseed Exp $
 
 /**
  * Provides access control for views by checking against the current space's feature settings.
+ * 
+ * This access plugin delegates access control first to spaces_feature_access() which 
+ * will check whether the user can first access content, then the active space type's 
+ * 'feature_access' method will be called.  If implementing your own space type you have
+ * the ability to define your own access control.  See 'space_og' class in Spaces OG
+ * module for an example implementation.
  */
 class spaces_plugin_access_spaces_feature extends views_plugin_access {
   function access($account) {

@@ -1,0 +1,67 @@
+/**
+ * Texturify-background.
+ */
+body.spaces-design { background:url(images/texture.jpg) repeat; }
+
+body.spaces-design #page,
+body.spaces-design #navigation,
+body.spaces-design #page-header { background:transparent; }
+
+/**
+ * Custom skin.
+ */
+.atrium-skin { background-image:url(images/sprite_skin.png); }
+
+/**
+ * Custom icons.
+ */
+.views-field-feature span.spaces-feature,
+#features-menu li a span.icon { background-image:url(images/sprite_icons.png); }
+
+/**
+ * This skin provides an additional sprite for active menu item icons.
+ */
+#features-menu li.active a span.icon { background-image:url(images/sprite_icons_active.png); }
+
+/**
+ * CSS adjustments ====================================================
+ */
+#page { border-bottom:0px; }
+
+#navigation ul.space-links { padding:15px 0px 0px; }
+
+#navigation ul.space-links li a { border-color:#fff; }
+
+#footer {
+  border-top:0px;
+  padding:80px 0px 40px;
+  background:url(images/footer.png) repeat-x;
+  }
+
+#footer div.limiter {
+  text-align:center;
+  color:#666;
+  }
+
+  #footer div.limiter a { color:#000; }
+
+#features-menu li a {
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  }
+
+#features-menu li.active a,
+#features-menu li.active a.active { padding:10px; }
+
+#features-menu li a span.label,
+#features-menu li a:hover span.label { color:#333; }
+
+#features-menu li.active a span.label,
+#features-menu li.active a:hover span.label { color:#fff; }
+
+#features-menu li.active {
+  border:0px;
+  height:60px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  }
