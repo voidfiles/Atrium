@@ -176,7 +176,7 @@ function spaces_taxonomy_spaces_types() {
     'taxonomy' => array(
       'class' => 'space_taxonomy',
       'title' => t('Term space'),
-      'custom prefixes' => TRUE,
+      'custom purl' => TRUE,
     ),
   );
 }
@@ -262,8 +262,8 @@ function _spaces_taxonomy_form_submit($form, &$form_state) {
     if (isset($form_state['values']['purl']['value'])) {
       $space->purl = $form_state['values']['purl']['value'];
     }
-    if (isset($form_state['values']['spaces_preset'])) {
-      $space->preset = $form_state['values']['spaces_preset'];
+    if (isset($form_state['values']['preset'])) {
+      $space->preset = $form_state['values']['preset'];
     }
     $result = spaces_save($space);
   }

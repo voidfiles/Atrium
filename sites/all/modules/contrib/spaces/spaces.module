@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.module,v 1.25.4.33.2.18 2009/06/26 13:39:37 yhahn Exp $
+// $Id: spaces.module,v 1.25.4.33.2.19 2009/06/27 19:05:53 developmentseed Exp $
 
 define('SPACES_FEATURE_DISABLED', 0);
 
@@ -763,6 +763,16 @@ function spaces_types($reset = false) {
 
 /**
  * Gather an array of spaces presets from the DB.
+ * 
+ * Spaces presets allow for easier space instantiation by the user in the UI.
+ * A spaces preset lets you define which features are enabled and diabled and
+ * pre-configure settings for a space instance, all of which a user would 
+ * normally have to take care of in the UI.  The result of a spaces_preset
+ * is a radio button on the UI that the user can select in order to use 
+ * a defined preset for the instance of a space they are about to create.
+ * Spaces presets can be built in the UI and then exported to code by
+ * implementing hook_spaces_presets which should define and return the 
+ * array exported from the UI on admin/build/space
  *
  * @param $type
  *   Optional space type to filter results by.
