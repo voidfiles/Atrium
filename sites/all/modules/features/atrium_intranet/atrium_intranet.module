@@ -126,7 +126,7 @@ function atrium_intranet_strongarm() {
   $conf['notifications_team_max_options'] = 200;
 
   // Allowed HTML & default filter format settings
-  $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Textile'));
+  $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Markdown'));
   if ($format) {
     $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <td> <tr>';
     $conf['filter_default_format'] = $format;

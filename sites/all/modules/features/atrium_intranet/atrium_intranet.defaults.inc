@@ -145,40 +145,35 @@ function _atrium_intranet_filter_default_formats() {
     ),
   );
 
-  // Exported format: Textile
+  // Exported format: Markdown
   $formats[] = array(
-    'name' => 'Textile',
-    'roles' => array(
-      '0' => 'anonymous user',
-      '1' => 'authenticated user',
-      '2' => 'admin',
-      '3' => 'manager',
-    ),
+    'name' => 'Markdown',
+    'roles' => array(),
     'filters' => array(
       '0' => array(
         'module' => 'filter',
         'delta' => '0',
-        'weight' => '0',
+        'weight' => '-10',
       ),
       '1' => array(
         'module' => 'filter',
         'delta' => '2',
-        'weight' => '1',
+        'weight' => '-9',
       ),
       '2' => array(
-        'module' => 'textile',
+        'module' => 'markdown',
         'delta' => '0',
-        'weight' => '2',
+        'weight' => '-8',
       ),
       '3' => array(
         'module' => 'codefilter',
         'delta' => '0',
-        'weight' => '3',
+        'weight' => '-7',
       ),
       '4' => array(
         'module' => 'filter',
         'delta' => '3',
-        'weight' => '10',
+        'weight' => '-6',
       ),
     ),
   );
