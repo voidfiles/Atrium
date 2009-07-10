@@ -24,3 +24,7 @@ admin[admin menu] = 1
 admin[admin inline] = 0
 
 features[] = ""
+
+spaces_design_site = "#44aa55"
+spaces_design_og = "#3399aa"
+spaces_design_user = "#992244"

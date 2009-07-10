@@ -46,7 +46,7 @@ function ginkgo_settings($settings) {
     '#type' => 'textfield',
     '#size' => '7',
     '#maxlength' => '7',
-    '#default_value' => !empty($settings['color_site']) ? $settings['color_site'] : '#44aa55',
+    '#default_value' => !empty($settings['color_site']) ? $settings['color_site'] : '',
     '#suffix' => '<div class="colorpicker" id="edit-color-site-colorpicker"></div>',
     '#attributes' => array('class' => 'colorpicker'),
   );
@@ -55,7 +55,7 @@ function ginkgo_settings($settings) {
     '#type' => 'textfield',
     '#size' => '7',
     '#maxlength' => '7',
-    '#default_value' => !empty($settings['color_og']) ? $settings['color_og'] : '#3399aa',
+    '#default_value' => !empty($settings['color_og']) ? $settings['color_og'] : '',
     '#suffix' => '<div class="colorpicker" id="edit-color-og-colorpicker"></div>',
     '#attributes' => array('class' => 'colorpicker'),
   );
@@ -64,7 +64,7 @@ function ginkgo_settings($settings) {
     '#type' => 'textfield',
     '#size' => '7',
     '#maxlength' => '7',
-    '#default_value' => !empty($settings['color_user']) ? $settings['color_user'] : '#992244',
+    '#default_value' => !empty($settings['color_user']) ? $settings['color_user'] : '',
     '#suffix' => '<div class="colorpicker" id="edit-color-user-colorpicker"></div>',
     '#attributes' => array('class' => 'colorpicker'),
   );
