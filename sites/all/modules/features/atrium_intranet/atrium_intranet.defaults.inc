@@ -151,7 +151,7 @@ function _atrium_intranet_filter_default_formats() {
     'roles' => array(),
     'filters' => array(
       '0' => array(
-        'module' => 'filter',
+        'module' => 'markdown',
         'delta' => '0',
         'weight' => '-10',
       ),
@@ -161,7 +161,7 @@ function _atrium_intranet_filter_default_formats() {
         'weight' => '-9',
       ),
       '2' => array(
-        'module' => 'markdown',
+        'module' => 'filter',
         'delta' => '0',
         'weight' => '-8',
       ),
