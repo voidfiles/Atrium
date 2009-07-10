@@ -1,0 +1,19 @@
+; $Id$
+name = "Scene"
+description = "Example skin for Open Atrium."
+version = "0.1"
+core = "6.x"
+atrium = "1.x"
+engine = "phptemplate"
+base theme = "ginkgo"
+
+stylesheets[screen][] = "scene.css"
+
+admin[admin menu] = 1
+admin[admin inline] = 0
+
+features[] = ""
+
+spaces_design_site = "#226688"
+spaces_design_og = "#bb2233"
+spaces_design_user = "#686058"
