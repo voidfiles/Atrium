@@ -105,7 +105,7 @@ function _atrium_installer_atrium_modules() {
     // Atrium features
     'atrium_blog', 'atrium_book', 'atrium_calendar', 'atrium_dashboard', 'atrium_casetracker', 'atrium_profile', 'atrium_shoutbox',
     // Formats
-    'codefilter', 'textile',
+    'codefilter', 'markdown',
     // Others
     'comment_upload', 'diff', 'prepopulate', 'xref',
     // Spaces design customizer
