@@ -116,9 +116,10 @@ function atrium_intranet_strongarm() {
   $conf['upload_uploadsize_default'] = 20;
 
   $conf['upload_usersize_2'] =
-  $conf['upload_usersize_3'] =
-  $conf['upload_usersize_4'] =
   $conf['upload_usersize_default'] = 200;
+
+  $conf['upload_usersize_3'] =
+  $conf['upload_usersize_4'] = 500;
 
   $conf['upload_list_default'] = 1;
 
