@@ -661,6 +661,7 @@ function spaces_og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
         $space = !empty($node->space) ? $node->space : spaces_load('og', $node->nid);
         $space->purl = is_array($node->purl) && !empty($node->purl['value']) ? $node->purl['value'] : $space->purl;
         $space->preset = isset($node->preset) ? $node->preset : $space->preset;
+        $space->group = $node;
 
         // Save that shiz
         spaces_save($space);
