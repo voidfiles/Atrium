@@ -1,6 +1,5 @@
 name = "Atrium"
 description = "Provides functionality specific to Atrium."
-dependencies[] = "admin"
 dependencies[] = "book"
 dependencies[] = "comment"
 dependencies[] = "imagecache"
