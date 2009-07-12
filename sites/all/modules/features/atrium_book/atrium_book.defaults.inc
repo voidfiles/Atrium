@@ -391,6 +391,9 @@ function _atrium_book_views_default_views() {
     'type' => 'spaces_feature',
     'spaces_feature' => 'atrium_book',
   ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
   $handler->override_option('title', 'Latest changes');
   $handler->override_option('items_per_page', 25);
   $handler->override_option('use_pager', '1');
@@ -401,19 +404,23 @@ function _atrium_book_views_default_views() {
     'sticky' => 0,
     'order' => 'asc',
     'columns' => array(
+      'feature' => 'feature',
       'changed' => 'changed',
       'title' => 'title',
       'name' => 'name',
       'log' => 'title',
     ),
     'info' => array(
+      'feature' => array(
+        'separator' => '',
+      ),
       'changed' => array(
         'sortable' => 0,
         'separator' => '',
       ),
       'title' => array(
         'sortable' => 0,
-        'separator' => '',
+        'separator' => '<br/>',
       ),
       'name' => array(
         'sortable' => 0,
