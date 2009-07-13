@@ -142,10 +142,10 @@ function atrium_installer_profile_tasks(&$task, $url) {
     $modules = _atrium_installer_core_modules();
     $modules = array_merge($modules, _atrium_installer_atrium_modules());
     // If not English, install core_translation module and l10n_client?
-    if (!empty($install_locale) && ($install_locale != 'en')) {        
+    if (!empty($install_locale) && ($install_locale != 'en')) {
       $modules[] = 'core_translation';
       $modules[] = 'l10n_client';
-    }    
+    }
     $files = module_rebuild_cache();
     $operations = array();
     foreach ($modules as $module) {
@@ -192,6 +192,11 @@ function atrium_installer_profile_tasks(&$task, $url) {
   // @todo Review all the cache/rebuild options at the end, some of them may not be needed
   // @todo Review for localization, the time zone cannot be set that way either
   if ($task == 'intranet-configure') {
+    // Disable the english locale if using a different default locale.
+    if (!empty($install_locale) && ($install_locale != 'en')) {
+      db_query("DELETE FROM {languages} WHERE language = 'en'");
+    }
+
     // Remove default input filter formats
     $result = db_query("SELECT * FROM {filter_formats} WHERE name IN ('%s', '%s')", 'Filtered HTML', 'Full HTML');
     while ($row = db_fetch_object($result)) {
