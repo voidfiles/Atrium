@@ -141,10 +141,9 @@ function atrium_installer_profile_tasks(&$task, $url) {
   if ($task == 'profile') {
     $modules = _atrium_installer_core_modules();
     $modules = array_merge($modules, _atrium_installer_atrium_modules());
-    // If not English, install core_translation module and l10n_client?
+    // If not English, install core_translation module.
     if (!empty($install_locale) && ($install_locale != 'en')) {
       $modules[] = 'core_translation';
-      $modules[] = 'l10n_client';
     }
     $files = module_rebuild_cache();
     $operations = array();
@@ -264,22 +263,6 @@ function atrium_installer_profile_tasks(&$task, $url) {
     $task = 'profile-finished';
   }
   return $output;
-}
-
-/**
- * Implementation of hook_form_alter() for install_configure.
- */
-function atrium_installer_form_install_configure_alter(&$form, $form_state) {
-  // Autofill values when working locally (e.g. hostname is localhost, dev, etc.)
-  if (strpos($_SERVER['SERVER_NAME'], '.') === FALSE) {
-    $form['submit']['#weight'] = -10;
-    $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
-    $form['site_information']['site_mail']['#default_value'] = 'info@developmentseed.org';
-    $form['admin_account']['account']['name']['#default_value'] = 'admin';
-    $form['admin_account']['account']['mail']['#default_value'] = 'info@developmentseed.org';
-    $form['admin_account']['account']['pass']['#default_value'] = 'admin';
-    $form['admin_account']['account']['pass']['#type'] = 'value';
-  }
 }
 
 /**
