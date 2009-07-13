@@ -129,7 +129,7 @@ function atrium_intranet_strongarm() {
   // Allowed HTML & default filter format settings
   $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Markdown'));
   if ($format) {
-    $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <object> <embed> <table> <caption> <thead> <th> <td> <tr>';
+    $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <strike> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <table> <caption> <thead> <th> <td> <tr>';
     $conf['filter_default_format'] = $format;
   }
 
