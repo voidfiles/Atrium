@@ -1,5 +1,5 @@
 <?php
-// $Id: context_ui.admin.inc,v 1.1.2.7.2.6 2009/07/10 14:02:12 yhahn Exp $
+// $Id: context_ui.admin.inc,v 1.1.2.7.2.7 2009/07/13 00:51:24 yhahn Exp $
 
 /**
  * Page callback for context_ui admin landing page.
@@ -854,9 +854,14 @@ function context_ui_form_process($form) {
   $context->status = 1; // all user defined contexts have status 1
 
   // Retrieve values for conditions and reactions
-  foreach (array_keys(context_conditions() + context_reactions()) as $id) {
+  foreach (context_conditions() + context_reactions() as $id => $element) {
     if (is_array($form['items'][$id])) {
-      $items = array_keys(array_filter($form['items'][$id]));
+      if ($element['#type'] == 'checkboxes') {
+        $items = array_keys(array_filter($form['items'][$id]));
+      }
+      else {
+        $items = array_filter($form['items'][$id]);
+      }
     }
     else {
       $items = isset($form['items'][$id]) ? $form['items'][$id] : '';
