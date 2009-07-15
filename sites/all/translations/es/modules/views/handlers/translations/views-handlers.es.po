@@ -1,32 +1,32 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  views_handler_argument_string.inc,v 1.4 2009/01/07 21:30:31 merlinofchaos
-#  views_handler_field_numeric.inc,v 1.5 2009/04/07 22:59:14 merlinofchaos
-#  views_handler_filter_string.inc,v 1.7 2009/01/27 20:40:29 merlinofchaos
-#  views_handler_field.inc,v 1.14 2009/04/08 05:23:56 merlinofchaos
-#  views_handler_sort_date.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
-#  views_handler_filter_numeric.inc,v 1.7 2009/03/25 17:29:33 merlinofchaos
 #  views_handler_filter.inc,v 1.6 2009/04/07 23:05:29 merlinofchaos
+#  views_handler_field_date.inc,v 1.2 2009/02/21 23:36:42 merlinofchaos
+#  views_handler_filter_in_operator.inc,v 1.6 2009/01/31 19:38:59 merlinofchaos
 #  views_handler_argument.inc,v 1.7 2009/02/20 20:12:38 merlinofchaos
 #  views_handler_argument_date.inc,v 1.3 2009/03/24 22:28:26 merlinofchaos
 #  views_handler_argument_many_to_one.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #  views_handler_argument_null.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #  views_handler_argument_numeric.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
+#  views_handler_argument_string.inc,v 1.4 2009/01/07 21:30:31 merlinofchaos
+#  views_handler_field.inc,v 1.14 2009/04/08 05:23:56 merlinofchaos
 #  views_handler_field_boolean.inc,v 1.2 2009/01/30 00:01:41 merlinofchaos
-#  views_handler_field_date.inc,v 1.2 2009/02/21 23:36:42 merlinofchaos
+#  views_handler_field_numeric.inc,v 1.5 2009/04/07 22:59:14 merlinofchaos
 #  views_handler_field_prerender_list.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #  views_handler_filter_date.inc,v 1.3 2008/11/26 19:01:44 merlinofchaos
-#  views_handler_filter_in_operator.inc,v 1.6 2009/01/31 19:38:59 merlinofchaos
 #  views_handler_filter_many_to_one.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
+#  views_handler_filter_numeric.inc,v 1.7 2009/03/25 17:29:33 merlinofchaos
+#  views_handler_filter_string.inc,v 1.7 2009/01/27 20:40:29 merlinofchaos
 #  views_handler_relationship.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #  views_handler_sort.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
+#  views_handler_sort_date.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #  views_handler_sort_formula.inc,v 1.1 2008/09/03 19:21:28 merlinofchaos
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: 2009-05-14 23:15+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -34,53 +34,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: views/handlers/views_handler_argument_string.inc:60
-msgid "Case"
-msgstr "Caso"
-
-#: views/handlers/views_handler_field_numeric.inc:70
-msgid "Text to put after the number, such as currency symbol."
-msgstr "Texto para poner tras el número, como un símbolo de moneda."
-
-#: views/handlers/views_handler_filter_string.inc:58
-msgid "Starts with"
-msgstr ""
-
-#: views/handlers/views_handler_filter_string.inc:40
-msgid "Contains"
-msgstr ""
-
-#: views/handlers/views_handler_field_numeric.inc:38
-msgid "Precision"
-msgstr ""
-
-#: views/handlers/views_handler_field_numeric.inc:62
-msgid "Prefix"
-msgstr ""
-
-#: views/handlers/views_handler_field_numeric.inc:68
-msgid "Suffix"
-msgstr ""
-
-#: views/handlers/views_handler_field.inc:194
-msgid "Text"
-msgstr "Texto"
-
-#: views/handlers/views_handler_field.inc:304
-msgid "Maximum length"
-msgstr "Longitud máxima"
-
-#: views/handlers/views_handler_sort_date.inc:26
-msgid "Granularity"
-msgstr "Granularity"
-
-#: views/handlers/views_handler_filter_numeric.inc:253
-msgid "@min and @max"
-msgstr "@min y @max"
-
 #: views/handlers/views_handler_filter.inc:213
 msgid "Hide"
 msgstr "Ocultar"
+
+#: views/handlers/views_handler_field_date.inc:24
+msgid "Date format"
+msgstr "Formato de fecha"
+
+#: views/handlers/views_handler_field_date.inc:30
+msgid "Time ago"
+msgstr "Tiempo transcurrido"
+
+#: views/handlers/views_handler_field_date.inc:37
+msgid "Custom date format"
+msgstr "Formato de fecha personalizado"
+
+#: views/handlers/views_handler_field_date.inc:38
+msgid ""
+"If \"Custom\", see <a "
+"href=\"http://us.php.net/manual/en/function.date.php\" "
+"target=\"_blank\">the PHP docs</a> for date formats. If \"Time ago\" "
+"this is the the number of different units to display, which defaults "
+"to two."
+msgstr ""
+"Si el valor es \"Personalizado\", vea <a "
+"href=\"http://us.php.net/manual/en/function.date.php\" "
+"target=\"_blank\">los documentos de PHP</a> para formatos de fecha. Si "
+"el valor es \"Tiempo transcurrido\" esto es el número de diferentes "
+"unidades a mostrar que por defecto es dos."
+
+#: views/handlers/views_handler_filter_in_operator.inc:15
+msgid "Options"
+msgstr "Opciones"
 
 #: views/handlers/views_handler_argument.inc:121
 msgid ""
@@ -752,6 +738,10 @@ msgstr "Minuto"
 #: views/handlers/views_handler_sort_date.inc:30
 msgid "Hour"
 msgstr "Hora"
+
+#: views/handlers/views_handler_sort_date.inc:31
+msgid "Day"
+msgstr "Día"
 
 #: views/handlers/views_handler_sort_date.inc:32
 msgid "Month"

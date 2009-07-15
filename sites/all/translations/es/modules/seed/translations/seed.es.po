@@ -1,14 +1,14 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_custom (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/seed/seed.module: n/a
-#  gravlax_base/seed/seed.admin.inc: n/a
-#  gravlax_base/seed/seed.info: n/a
+#  custom/seed/seed.module: n/a
+#  custom/seed/seed.admin.inc: n/a
+#  custom/seed/seed.info: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -24,45 +24,83 @@ msgstr "Página no encontrada"
 msgid "The requested page could not be found."
 msgstr "No se ha encontrado la página solicitada."
 
+#: seed/seed.admin.inc:142,118,105,21
+msgid "Default"
+msgstr "Predeterminado"
+
+#: seed/seed.admin.inc:70
+msgid "Weight"
+msgstr "Peso"
+
+#: seed/seed.module:362
+msgid "Time"
+msgstr "Hora"
+
+#: seed/seed.admin.inc:156
+msgid "Yes"
+msgstr "Si"
+
+#: seed/seed.admin.inc:156
+msgid "No"
+msgstr "No"
+
+#: seed/seed.module:261
+msgid "Edit"
+msgstr "Editar"
+
+#: seed/seed.info:0
+msgid "Other"
+msgstr "Otros"
+
+#: seed/seed.module:41
+msgid "Basic"
+msgstr "Básico"
+
 #: seed/seed.admin.inc:70
 msgid "Custom label"
-msgstr ""
+msgstr "Etqueta personalizada"
 
 #: seed/seed.admin.inc:99
 msgid "Form settings"
-msgstr ""
+msgstr "Opciones de formulario"
 
 #: seed/seed.module:31
 msgid "Seed settings"
-msgstr ""
+msgstr "Opciones de Seed"
 
 #: seed/seed.module:32
 msgid "Settings for the DS customization module seed."
-msgstr ""
+msgstr "Opciones para \"seed\", el módulo de personalización de DS."
 
 #: seed/seed.admin.inc:22
 msgid "Field style: comma separated"
-msgstr ""
+msgstr "Estilo de campo: separados por comas"
 
 #: seed/seed.admin.inc:23
 msgid "Field style: unordered list"
-msgstr ""
+msgstr "Estilo de campo: lista sin orden"
 
 #: seed/seed.admin.inc:58
 msgid "There are no vocabularies enabled for this content type."
-msgstr ""
+msgstr "No hay vocabularios habilitados para este tipo de contenido."
+
+#: seed/seed.admin.inc:70
+msgid "Vocabulary"
+msgstr "Vocabulario"
 
 #: seed/seed.admin.inc:70
 msgid "Page view"
-msgstr ""
+msgstr "Vista de página"
 
 #: seed/seed.module:153
 msgid "Custom Page Title on Homepage"
-msgstr ""
+msgstr "Título de página personalizado en la página de inicio"
 
 #: seed/seed.module:155
 msgid "Leave blank to use title of view on homepage"
 msgstr ""
+"Deje en blanco para utilizar el título de la vista en la página de "
+"inicio"
 
 #: seed/seed.module:247
 msgid "Print"
@@ -70,73 +108,77 @@ msgstr "Imprimir"
 
 #: seed/seed.module:253
 msgid "Print entire section"
-msgstr ""
+msgstr "Imprimir la sección completa"
 
 #: seed/seed.admin.inc:104
 msgid "Item display"
-msgstr ""
+msgstr "Presentación de elemento"
 
 #: seed/seed.admin.inc:105
 msgid "Numbered"
-msgstr ""
+msgstr "Numerado"
 
 #: seed/seed.admin.inc:111
 msgid "Node attachment settings"
-msgstr ""
+msgstr "Opciones de adjuntos de Nodos"
 
 #: seed/seed.admin.inc:117
 msgid "Image Attachments Display"
-msgstr ""
+msgstr "Mostrar Imágenes Adjuntas"
 
 #: seed/seed.admin.inc:118
 msgid "Use ThickBox"
-msgstr ""
+msgstr "Usar ThickBox"
 
 #: seed/seed.admin.inc:127
 msgid "ImageCache Setting"
-msgstr ""
+msgstr "ImageCache Opciones"
 
 #: seed/seed.admin.inc:133
 msgid "Images Per Row"
-msgstr ""
+msgstr "Imágenes por Línea"
 
 #: seed/seed.admin.inc:141
 msgid "Audio Attachments Display"
-msgstr ""
+msgstr "Mostrar Adjuntos de Audio"
 
 #: seed/seed.admin.inc:142
 msgid "Use Audio Player"
-msgstr ""
+msgstr "Utilizar Reproductor de Audio"
 
 #: seed/seed.admin.inc:150
 msgid "Book settings"
-msgstr ""
+msgstr "Opciones del Libro"
 
 #: seed/seed.module:50
 msgid "Taxonomy display"
-msgstr ""
+msgstr "Mostrar taxonomía"
 
 #: seed/seed.module:0
 msgid "seed"
-msgstr ""
+msgstr "seed"
 
 #: seed/seed.info:0
 msgid "Seed"
-msgstr ""
+msgstr "Seed"
+
+#: seed/seed.module:361
+msgid "Day"
+msgstr "Día"
 
 #: seed/seed.admin.inc:155
 msgid "Display book navigation under node content"
-msgstr ""
+msgstr "Muestra la navegación de libro bajo el contenido del nodo"
 
 #: seed/seed.module:363
 msgid "Within current month"
-msgstr ""
+msgstr "En el mes actual"
 
 #: seed/seed.module:364
 msgid "After current month"
-msgstr ""
+msgstr "Tras el mes actual"
 
 #: seed/seed.info:0
 msgid "Provides UI customizations and niceties."
-msgstr ""
+msgstr "Proporciona personalización de UI y otras opciones."
 

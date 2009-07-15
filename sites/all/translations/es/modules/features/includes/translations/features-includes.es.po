@@ -1,15 +1,15 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  features.content.inc,v 1.1.2.4 2009/04/25 01:09:25 yhahn
-#  features.context.inc,v 1.1.2.8 2009/04/25 01:09:25 yhahn
-#  features.imagecache.inc,v 1.1.2.8 2009/04/25 01:09:25 yhahn
-#  features.views.inc,v 1.1.2.7 2009/05/06 05:57:17 yhahn
+#  features.content.inc,v 1.1.2.5 2009/05/31 02:44:04 yhahn
+#  features.context.inc,v 1.1.2.9 2009/05/31 02:44:04 yhahn
+#  features.imagecache.inc,v 1.1.2.9 2009/05/31 02:44:04 yhahn
+#  features.views.inc,v 1.1.2.8 2009/05/31 02:44:04 yhahn
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -17,19 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: features/includes/features.content.inc:119
+#: features/includes/features.content.inc:174
+msgid ""
+"Field <strong>!field</strong> was not created for "
+"<strong>!type</strong> because a conflict was detected for the "
+"following properties: <em>!list</em>"
+msgstr ""
+
+#: features/includes/features.content.inc:137
 msgid "Could not load default fields."
 msgstr ""
 
-#: features/includes/features.context.inc:133
+#: features/includes/features.context.inc:155
 msgid "Could not load default contexts."
 msgstr ""
 
-#: features/includes/features.imagecache.inc:83
+#: features/includes/features.imagecache.inc:92
 msgid "Could not load default imagecache presets."
 msgstr ""
 
-#: features/includes/features.views.inc:154
+#: features/includes/features.views.inc:161
 msgid ""
 "The view <strong>!view_name</strong> will not be exported with your "
 "feature because it is provided by <strong>!module</strong> which has "

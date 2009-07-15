@@ -1,16 +1,16 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/og/includes/og.xmlrpc.inc: n/a
+#  contrib/og/includes/og.xmlrpc.inc: n/a
 #  og.admin.inc,v 1.15 2008/11/19 04:23:49 weitzman
-#  gravlax_base/og/includes/og.panelscontent.inc: n/a
+#  contrib/og/includes/og.panelscontent.inc: n/a
 #  og.panelscontext.inc,v 1.4 2008/10/29 20:02:28 dww
 #  og.rules.inc,v 1.4 2009/01/02 03:58:21 weitzman
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -21,14 +21,6 @@ msgstr ""
 #: og/includes/og.xmlrpc.inc:52,37,17
 msgid "Wrong username or password."
 msgstr "Error en el nombre del usuario o en la contraseña."
-
-#: og/includes/og.admin.inc:79
-msgid "Required"
-msgstr "Obligatorio"
-
-#: og/includes/og.admin.inc:15
-msgid "Content types"
-msgstr "Tipos de contenido"
 
 #: og/includes/og.admin.inc:11
 msgid ""
@@ -326,6 +318,10 @@ msgstr ""
 #: og/includes/og.panelscontent.inc:57
 msgid "Show a grid of user pictures."
 msgstr "Mostrar una grilla de imágenes de usuario."
+
+#: og/includes/og.panelscontent.inc:231,68
+msgid "Welcome"
+msgstr "Bienvenido"
 
 #: og/includes/og.panelscontent.inc:83
 msgid "Welcome statement goes here."

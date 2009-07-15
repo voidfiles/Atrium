@@ -1,0 +1,86 @@
+# Spanish translation of atrium_features (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  features/atrium_blog/atrium_blog.defaults.inc: n/a
+#  features/atrium_blog/atrium_blog.module: n/a
+#  features/atrium_blog/atrium_blog.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_features (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:17+0200\n"
+"PO-Revision-Date: 2009-05-30 19:52+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: atrium_blog/atrium_blog.defaults.inc:886
+msgid "Recent comments"
+msgstr "Comentarios recientes"
+
+#: atrium_blog/atrium_blog.defaults.inc:710
+msgid "Feed"
+msgstr "Feed"
+
+#: atrium_blog/atrium_blog.defaults.inc:152
+msgid "Blog post"
+msgstr "Envío de blog"
+
+#: atrium_blog/atrium_blog.defaults.inc:711
+msgid "Blog teaser"
+msgstr "Extracto de blog"
+
+#: atrium_blog/atrium_blog.defaults.inc:712
+msgid "Blog teaser (list)"
+msgstr "Extracto de blog (lista)"
+
+#: atrium_blog/atrium_blog.defaults.inc:887
+msgid "No comments found."
+msgstr "No hay comentarios."
+
+#: atrium_blog/atrium_blog.defaults.inc:71
+msgid "Referenced Page"
+msgstr "Página enlazada"
+
+#: atrium_blog/atrium_blog.module:0
+msgid "atrium_blog"
+msgstr ""
+
+#: atrium_blog/atrium_blog.info:0
+msgid "Atrium Blog"
+msgstr "Blog de Atrium"
+
+#: atrium_blog/atrium_blog.module:27,12
+msgid ""
+"The blog lets your team communicate by posting updates and discussing "
+"issues. It is great place for sharing progress, discussing challenges, "
+"and exploring ideas."
+msgstr ""
+"El blog permite que su equipo se comunique enviando actualizaciones y "
+"discutiendo temas. Es un gran lugar para compartir el progreso, "
+"discutir retos y explorar ideas."
+
+#: atrium_blog/atrium_blog.module:13
+msgid ""
+"To start a conversation navigate to the blog and click the \"Add blog "
+"post\" button. You will need to enter a title and some body content to "
+"your post. Then click \"Save\"."
+msgstr ""
+"Para iniciar una conversación navegue hasta el blog y haga click en "
+"el botón \"Crear blog\". Necesitará introducir un título y algún "
+"contenido en el envío. Seguidamente haga click en \"Guardar\"."
+
+#: atrium_blog/atrium_blog.module:22
+msgid ""
+"Post an entry to the blog of this group. The post will be shared will "
+"all team members on the blog, and they will be able to reply to it. "
+"You can optionally notify other group members by checking their name "
+"in the notifications field."
+msgstr ""
+"Crear una entrada de blog para este grupo. El envío será compartido "
+"con todos los miembros del equipo en el blog, y también podrán "
+"contestar. Opcionalmente pude notificar a otros miembros del grupo "
+"marcando su nombre en el campo de Notificaciones."
+

@@ -1,15 +1,15 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  devel.module,v 1.258.2.50 2009/04/02 18:05:20 jjeff
 #  devel_node_access.module,v 1.15.2.13 2009/02/25 16:31:13 salvis
 #  devel_generate.inc,v 1.14.2.12 2009/04/09 19:22:56 weitzman
-#  devel_generate.module,v 1.11.2.10 2009/04/09 18:48:14 weitzman
 #  devel_generate_batch.inc,v 1.1.2.5 2009/02/02 21:00:52 drewish
-#  gravlax_base/devel/devel_themer.module: n/a
+#  devel_generate.module,v 1.11.2.10 2009/04/09 18:48:14 weitzman
+#  contrib/devel/devel_themer.module: n/a
 #  macro.module,v 1.4.2.3 2008/12/24 02:28:16 weitzman
 #  devel.install,v 1.24.2.5 2008/12/14 06:25:21 dww
-#  gravlax_base/devel/devel_themer.install: n/a
+#  contrib/devel/devel_themer.install: n/a
 #  devel.info,v 1.5.2.1 2008/06/13 03:25:20 weitzman
 #  devel_generate.info,v 1.5.2.1 2008/05/17 03:49:30 weitzman
 #  devel_node_access.info,v 1.7.2.1 2008/05/17 03:49:30 weitzman
@@ -18,8 +18,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -38,10 +38,6 @@ msgstr "%message en %file en la línea %line."
 #: devel/devel.module:1778
 msgid "Count"
 msgstr "Número"
-
-#: devel/devel_node_access.module:256,230
-msgid "node"
-msgstr "nodo"
 
 #: devel/devel_node_access.module:80
 msgid "Rebuild permissions"
@@ -68,22 +64,6 @@ msgstr "correcto"
 #: devel/devel_node_access.module:463
 msgid "username"
 msgstr "nombre de usuario"
-
-#: devel/devel_generate.module:132,62
-msgid "Now"
-msgstr "Ahora"
-
-#: devel/devel.module:1433
-msgid "TRUE"
-msgstr ""
-
-#: devel/devel.module:1433
-msgid "FALSE"
-msgstr ""
-
-#: devel/devel.module:1047
-msgid "Execute"
-msgstr ""
 
 #: devel/devel_generate.inc:22
 msgid "Users deleted."

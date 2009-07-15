@@ -1,14 +1,14 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_custom (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/openidadmin/openidadmin.module: n/a
-#  gravlax_base/openidadmin/openidadmin.info: n/a
+#  custom/openidadmin/openidadmin.module: n/a
+#  custom/openidadmin/openidadmin.info: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
-"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
+"PO-Revision-Date: 2009-05-13 15:58+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -19,49 +19,58 @@ msgstr ""
 msgid "OpenID identities"
 msgstr "Identidades OpenID"
 
+#: openidadmin/openidadmin.module:73
+msgid "Add"
+msgstr "Añadir"
+
 #: openidadmin/openidadmin.module:51
 msgid ""
 "You may add a list op OpenID's for this user account. These identities "
 "will skip any authentication and will be just linked to this account."
 msgstr ""
+"Puede añadir una lista de OpenIDs para esta cuenta de usuario. Estas "
+"identidades serán asociadas a la cuenta de usuario sin comprobación "
+"previa."
 
 #: openidadmin/openidadmin.module:69
 msgid "List of OpenIDs"
-msgstr ""
+msgstr "Lista de OpenIDs"
 
 #: openidadmin/openidadmin.module:71
 msgid "Add a list of OpenIDs for this account, one per line."
-msgstr ""
+msgstr "Añadir una lista de OpenIDs para esta cuenta, uno por línea."
 
 #: openidadmin/openidadmin.module:86
 msgid ""
 "The OpenID %identity is already in use on this site for the user "
 "!name."
 msgstr ""
+"El OpenID %identity ya está siendo usado en este sitio por el usuario "
+"!name."
 
 #: openidadmin/openidadmin.module:100
 msgid "One OpenID has been added."
 msgid_plural "@count OpenIDs have been added."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un OpenID ha sido añadido."
+msgstr[1] "@count OpenIDs han sido añadidos."
 
 #: openidadmin/openidadmin.module:59
 msgid "add list of open ids"
-msgstr ""
+msgstr "añadir lista de OpenIDs"
 
 #: openidadmin/openidadmin.module:25
 msgid "Add list"
-msgstr ""
+msgstr "Añadir lista"
 
 #: openidadmin/openidadmin.module:0
 msgid "openidadmin"
-msgstr ""
+msgstr "openidadmin"
 
 #: openidadmin/openidadmin.info:0
 msgid "OpenID Admin"
-msgstr ""
+msgstr "OpenID Admin"
 
 #: openidadmin/openidadmin.info:0
 msgid "Allows bulk operations for OpenID administration."
-msgstr ""
+msgstr "Permite operaciones en masa para la administración de OpenID."
 

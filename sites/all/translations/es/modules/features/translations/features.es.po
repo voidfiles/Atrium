@@ -1,16 +1,16 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  features.export.inc,v 1.1.2.17 2009/04/10 15:37:11 yhahn
-#  features.admin.inc,v 1.1.2.10 2009/04/20 18:17:52 yhahn
-#  features.module,v 1.1.2.20 2009/05/12 03:11:57 yhahn
+#  features.export.inc,v 1.1.2.21 2009/06/05 05:15:20 yhahn
+#  features.admin.inc,v 1.1.2.15 2009/06/07 15:43:57 yhahn
+#  features.module,v 1.1.2.23 2009/06/07 15:43:57 yhahn
 #  features.install,v 1.1 2009/03/13 21:59:23 yhahn
 #  features.info,v 1.1 2009/03/13 21:59:23 yhahn
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -18,63 +18,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: features/features.export.inc:170
+#: features/features.export.inc:175
 msgid "Previous"
-msgstr ""
+msgstr "Previo"
 
-#: features/features.admin.inc:45
+#: features/features.admin.inc:48
 msgid "Unmet dependencies: !dependencies"
 msgstr ""
 
-#: features/features.admin.inc:50
+#: features/features.admin.inc:76
 msgid "Unavailable"
 msgstr ""
 
-#: features/features.admin.inc:67
+#: features/features.admin.inc:88
 msgid "Re-export"
 msgstr ""
 
-#: features/features.admin.inc:228
+#: features/features.admin.inc:279
 msgid "Please install the diff module to view changes."
 msgstr ""
 
-#: features/features.admin.inc:233
+#: features/features.admin.inc:284
 msgid "No changes have been made to this feature."
 msgstr ""
 
-#: features/features.admin.inc:248
-msgid "State"
-msgstr ""
-
-#: features/features.export.inc:9
+#: features/features.export.inc:11
 msgid "Step 1: provide basic information"
 msgstr ""
 
-#: features/features.export.inc:10
+#: features/features.export.inc:12
 msgid "Step 2: choose sources"
 msgstr ""
 
-#: features/features.export.inc:11
+#: features/features.export.inc:13
 msgid "Step 3: confirm components"
 msgstr ""
 
-#: features/features.export.inc:12
+#: features/features.export.inc:14
 msgid "Step 4: download your feature"
 msgstr ""
 
-#: features/features.export.inc:22
+#: features/features.export.inc:24
 msgid "Update your feature: !module_name"
 msgstr ""
 
-#: features/features.export.inc:44
+#: features/features.export.inc:46
 msgid "Provide a name for your feature."
 msgstr ""
 
-#: features/features.export.inc:52
+#: features/features.export.inc:54
 msgid "Machine-readable name"
 msgstr ""
 
-#: features/features.export.inc:53
+#: features/features.export.inc:55
 msgid ""
 "Provide a machine-readable name for your feature. This may only "
 "contain lowercase letters, numbers and underscores. <strong>It should "
@@ -82,39 +78,20 @@ msgid ""
 "modules.</strong>"
 msgstr ""
 
-#: features/features.export.inc:60
+#: features/features.export.inc:62
 msgid "Provide a description for your feature."
 msgstr ""
 
-#: features/features.export.inc:118
-msgid "This module does not support any options."
-msgstr ""
-
-#: features/features.export.inc:126
+#: features/features.export.inc:144
 msgid "Module dependencies"
 msgstr ""
 
-#: features/features.export.inc:160
+#: features/features.export.inc:165
 msgid "Download feature"
 msgstr ""
 
-#: features/features.export.inc:177
+#: features/features.export.inc:182
 msgid "You should resolve all errors with your feature before continuing."
-msgstr ""
-
-#: features/features.export.inc:681
-msgid "Auto-detected components"
-msgstr ""
-
-#: features/features.export.inc:681
-msgid "Select additional components"
-msgstr ""
-
-#: features/features.module:298
-msgid ""
-"Field <strong>!field</strong> was not created for "
-"<strong>!type</strong> because a conflict was detected for the "
-"following properties: <em>!list</em>"
 msgstr ""
 
 #: features/features.module:25
@@ -163,5 +140,31 @@ msgstr ""
 
 #: features/features.info:0
 msgid "Provides feature management for Drupal."
+msgstr ""
+
+#: features/features.admin.inc:65
+msgid "Incompatible with: !conflicts"
+msgstr ""
+
+#: features/features.admin.inc:93
+msgid "Checking..."
+msgstr ""
+
+#: features/features.admin.inc:94
+msgid "Check"
+msgstr ""
+
+#: features/features.admin.inc:181
+msgid ""
+"The feature !module cannot be enabled because it conflicts with "
+"!conflict."
+msgstr ""
+
+#: features/features.export.inc:122
+msgid "This module does not support additional options."
+msgstr ""
+
+#: features/features.module:81
+msgid "Javascript status call back."
 msgstr ""
 

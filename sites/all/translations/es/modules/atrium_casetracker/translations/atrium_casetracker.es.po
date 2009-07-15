@@ -1,0 +1,198 @@
+# Spanish translation of atrium_features (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  features/atrium_casetracker/atrium_casetracker.module: n/a
+#  features/atrium_casetracker/atrium_casetracker.defaults.inc: n/a
+#  features/atrium_casetracker/atrium_casetracker.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_features (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:17+0200\n"
+"PO-Revision-Date: 2009-05-30 19:53+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: atrium_casetracker/atrium_casetracker.module:331
+msgid "Type"
+msgstr "Tipo"
+
+#: atrium_casetracker/atrium_casetracker.module:321
+msgid "!time ago"
+msgstr "Hace !time"
+
+#: atrium_casetracker/atrium_casetracker.module:332
+msgid "Last updated"
+msgstr "Última actualización"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1236
+msgid "All cases"
+msgstr "Todos los casos"
+
+#: atrium_casetracker/atrium_casetracker.module:330
+msgid "Priority"
+msgstr "Prioridad"
+
+#: atrium_casetracker/atrium_casetracker.module:20
+msgid "Choose the project that your case applies to."
+msgstr "Seleccione el proyecto al que pertenece la incidencia."
+
+#: atrium_casetracker/atrium_casetracker.module:21
+msgid "Fill in a descriptive title and summary of the issue."
+msgstr "Introduzca un título y un resumen descriptivos de la incidencia."
+
+#: atrium_casetracker/atrium_casetracker.module:22
+msgid ""
+"Choose a status, priority and type for the case. Assign the case to a "
+"user and consider notifying any others who might be interested in the "
+"case."
+msgstr ""
+"Elija un estado, prioridad y tipo para la incidencia. Asigne la "
+"incidencia a un usuario y considere notificar a otros que puedan estar "
+"interesados."
+
+#: atrium_casetracker/atrium_casetracker.module:36
+msgid "!add_projects to keep your cases organized."
+msgstr "!add_projects para organizar sus incidencias."
+
+#: atrium_casetracker/atrium_casetracker.module:36
+msgid "Add projects"
+msgstr "Añadir proyectos"
+
+#: atrium_casetracker/atrium_casetracker.module:37
+msgid ""
+"!add_cases to assign tasks or assignments to yourself and others for "
+"completion."
+msgstr "!add_cases para asignar tareas a sí mismo y a otros."
+
+#: atrium_casetracker/atrium_casetracker.module:37
+msgid "Add cases"
+msgstr "Añadir incidencias"
+
+#: atrium_casetracker/atrium_casetracker.module:39
+msgid ""
+"The history of a case - who it's been assigned to, its status and its "
+"priority - can be tracked viewing its comment thread."
+msgstr ""
+"La historia de una incidencia - a quién ha sido asignada, su estado y "
+"su prioridad- puede ser seguida viendo el hilo de los comentarios."
+
+#: atrium_casetracker/atrium_casetracker.module:269
+msgid "Filter results"
+msgstr "Filtrar resultados"
+
+#: atrium_casetracker/atrium_casetracker.module:316
+msgid "assigned to !user"
+msgstr "asignado a !user"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1237
+msgid "No cases found."
+msgstr "No se han encontrado casos"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1238
+msgid "My cases"
+msgstr "Mis incidencias"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1239
+msgid "There are no cases assigned to you."
+msgstr "No tiene ningún caso asignado."
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1240
+msgid "Project cases"
+msgstr "Incidencias del proyecto"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1241
+msgid "Project cases (newest)"
+msgstr "Incidencias del proyecto (nuevas)"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1242
+msgid "Newest cases"
+msgstr "Últimas incidencias"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1463
+msgid "No projects found."
+msgstr "No se han encontrado proyectos"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1462
+msgid "Projects"
+msgstr "Proyectos"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1465
+msgid "Archived projects"
+msgstr "Proyectos archivados"
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:1466
+msgid "No archived projects found."
+msgstr "No hay proyectos archivados."
+
+#: atrium_casetracker/atrium_casetracker.module:0
+msgid "atrium_casetracker"
+msgstr ""
+
+#: atrium_casetracker/atrium_casetracker.defaults.inc:81
+msgid ""
+"The casetracker lets you assign tasks to yourself and others and track "
+"the progress on a project."
+msgstr ""
+"El gestor de incidencias le permite asignar tareas a sí mismo y a "
+"otros y seguir el progreso de un proyecto."
+
+#: atrium_casetracker/atrium_casetracker.module:18
+msgid "Tips for adding and editing cases:"
+msgstr "Consejos para añadir y editar casos:"
+
+#: atrium_casetracker/atrium_casetracker.module:26
+msgid ""
+"Projects can be used to organize cases and collect resources and "
+"documentations about ongoing work. You can organize <strong>book "
+"pages</strong> in a hierarchy under each project and view all of the "
+"cases that belong to a certain project in the case tracker."
+msgstr ""
+"Los proyectos pueden ser utilizados para organizar casos y recolectar "
+"recursos y documentacion sobre el trabajo en curso. Puede organizar "
+"las <strong>páginas de libro</strong> jerárquicamente bajo cada "
+"proyecto y ver todos los casos que pertenecen a un cierto proyecto en "
+"el gestor de incidencias."
+
+#: atrium_casetracker/atrium_casetracker.module:34
+msgid ""
+"The case tracker gives you a way to track progress on your "
+"<strong>projects</strong> and assign <strong>cases</strong> to "
+"yourself and others."
+msgstr ""
+"El Gestor de Incidencias le proporciona un modo de seguir el progreso "
+"de sus <strong>proyectos</strong> y asignar <strong>casos</strong> a "
+"sí mismo y a otros."
+
+#: atrium_casetracker/atrium_casetracker.module:38
+msgid ""
+"Cases can be <strong>reassigned</strong>, <strong>postponed</strong>, "
+"and <strong>closed</strong>, among other actions."
+msgstr ""
+"Los casos o incidencias pueden ser <strong>reasignados</strong>, "
+"<strong>pospuestos</strong>, y <strong>cerrados</strong> entre otras "
+"acciones."
+
+#: atrium_casetracker/atrium_casetracker.module:179
+msgid "Atrium: Case Tracker filter"
+msgstr "Atrium: filtro del Gestor de Incidencias"
+
+#: atrium_casetracker/atrium_casetracker.module:180
+msgid "Atrium: Case Tracker book"
+msgstr "Atrium: Libro del Gestor de Incidencias"
+
+#: atrium_casetracker/atrium_casetracker.info:0
+msgid "Atrium Case Tracker"
+msgstr "Gestor de Incidencias de Atrium"
+
+#: atrium_casetracker/atrium_casetracker.info:0
+msgid ""
+"The casetracker lets you assign tasks to yourself and others and track "
+"the progress on a project. "
+msgstr ""
+"El gestor de incidencias le permite asignar tareas a sí mismo y a "
+"otros y seguir el progreso de un proyecto. "
+

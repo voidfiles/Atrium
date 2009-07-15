@@ -1,17 +1,17 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  aggregator.views.inc,v 1.2 2009/04/07 23:07:31 merlinofchaos
+#  comment.views.inc,v 1.32 2009/04/08 06:38:41 merlinofchaos
 #  locale.views.inc,v 1.1 2009/02/23 22:20:04 merlinofchaos
 #  statistics.views.inc,v 1.9 2008/10/28 20:21:37 merlinofchaos
 #  user.views.inc,v 1.56 2009/02/06 20:54:53 merlinofchaos
 #  node.views.inc,v 1.93 2009/04/08 20:54:57 merlinofchaos
 #  poll.views.inc,v 1.4 2008/12/03 19:10:21 merlinofchaos
-#  profile.views.inc,v 1.9 2008/09/24 21:21:21 merlinofchaos
 #  taxonomy.views.inc,v 1.50 2009/01/08 00:36:02 merlinofchaos
 #  upload.views.inc,v 1.15 2008/11/24 19:58:31 merlinofchaos
 #  book.views.inc,v 1.5 2008/12/02 19:37:08 merlinofchaos
-#  comment.views.inc,v 1.32 2009/04/08 06:38:41 merlinofchaos
+#  profile.views.inc,v 1.9 2008/09/24 21:21:21 merlinofchaos
 #  search.views.inc,v 1.17 2009/02/23 23:30:38 merlinofchaos
 #  system.views.inc,v 1.7 2008/09/03 19:21:29 merlinofchaos
 #  translation.views.inc,v 1.8 2009/01/07 23:13:46 merlinofchaos
@@ -19,8 +19,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: 2009-05-14 23:15+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,10 @@ msgstr ""
 #: views/modules/aggregator.views.inc:26
 msgid "Aggregator"
 msgstr "Agregador"
+
+#: views/modules/comment.views.inc:22,26,400,411
+msgid "Comment"
+msgstr "Comentario"
 
 #: views/modules/locale.views.inc:56
 msgid "Location"
@@ -48,10 +52,6 @@ msgstr "Nombre del host"
 msgid "Roles"
 msgstr "Roles"
 
-#: views/modules/node.views.inc:196,188
-msgid "Promoted to front page"
-msgstr "Promocionado a la página principal"
-
 #: views/modules/node.views.inc:438
 msgid "Log message"
 msgstr "Mensaje de registro"
@@ -59,10 +59,6 @@ msgstr "Mensaje de registro"
 #: views/modules/poll.views.inc:20
 msgid "Poll"
 msgstr "Encuesta"
-
-#: views/modules/profile.views.inc:40,20
-msgid "Profile"
-msgstr "Perfil"
 
 #: views/modules/node.views.inc:355
 msgid "user"
@@ -76,11 +72,19 @@ msgstr "Nombre del vocabulario"
 msgid "upload"
 msgstr "cargar"
 
+#: views/modules/upload.views.inc:25,113
+msgid "Upload"
+msgstr "Upload"
+
 #: views/modules/user.views.inc:113
 msgid "Picture"
 msgstr "Imagen"
 
-#: views/modules/aggregator.views.inc:299,31
+#: views/modules/node.views.inc:272
+msgid "In the form of CCYYMMDD."
+msgstr "Con la forma CCDDMMAA."
+
+#: views/modules/aggregator.views.inc:31,299
 msgid "Aggregator item"
 msgstr ""
 
@@ -292,7 +296,7 @@ msgstr ""
 msgid "The Comment ID of the parent comment."
 msgstr ""
 
-#: views/modules/comment.views.inc:256,251
+#: views/modules/comment.views.inc:251,256
 msgid "Parent comment"
 msgstr ""
 
@@ -364,7 +368,7 @@ msgstr ""
 msgid "Display the comment as RSS."
 msgstr ""
 
-#: views/modules/locale.views.inc:121,105,92,75,55,28,23
+#: views/modules/locale.views.inc:23,28,55,75,92,105,121
 msgid "Locale source"
 msgstr ""
 
@@ -406,7 +410,7 @@ msgstr ""
 msgid "Provide a simple link to edit the translations."
 msgstr ""
 
-#: views/modules/locale.views.inc:185,175,159,146,134
+#: views/modules/locale.views.inc:134,146,159,175,185
 msgid "Locale target"
 msgstr ""
 
@@ -430,7 +434,7 @@ msgstr ""
 msgid "The ID of the parent translation."
 msgstr ""
 
-#: views/modules/locale.views.inc:194,186
+#: views/modules/locale.views.inc:186,194
 msgid "Plural"
 msgstr ""
 
@@ -446,7 +450,7 @@ msgstr ""
 msgid "Nid"
 msgstr ""
 
-#: views/modules/node.views.inc:418,86
+#: views/modules/node.views.inc:86,418
 msgid "The title of the node."
 msgstr ""
 
@@ -472,7 +476,7 @@ msgstr ""
 msgid "Whether or not the node is published."
 msgstr ""
 
-#: views/modules/node.views.inc:182,177
+#: views/modules/node.views.inc:177,182
 msgid "Published or admin"
 msgstr ""
 
@@ -488,7 +492,7 @@ msgstr ""
 msgid "Whether or not the node is moderated."
 msgstr ""
 
-#: views/modules/node.views.inc:234,225
+#: views/modules/node.views.inc:225,234
 msgid "Sticky"
 msgstr ""
 
@@ -548,7 +552,7 @@ msgstr ""
 msgid "In the form of WW (01 - 53)."
 msgstr ""
 
-#: views/modules/node.views.inc:334,329
+#: views/modules/node.views.inc:329,334
 msgid "Node revision"
 msgstr ""
 
@@ -600,27 +604,27 @@ msgstr ""
 msgid "Provide a simple link to delete the node revision."
 msgstr ""
 
-#: views/modules/node.views.inc:504
+#: views/modules/node.views.inc:529
 msgid "Has new content"
 msgstr "Tiene nuevo contenido"
 
-#: views/modules/node.views.inc:507
+#: views/modules/node.views.inc:532
 msgid "Show a marker if the node has new or updated content."
 msgstr ""
 
-#: views/modules/node.views.inc:510
+#: views/modules/node.views.inc:535
 msgid "Show only nodes that have new content."
 msgstr ""
 
-#: views/modules/node.views.inc:632,621
+#: views/modules/node.views.inc:648,659
 msgid "Display the node with standard node view."
 msgstr ""
 
-#: views/modules/node.views.inc:651
+#: views/modules/node.views.inc:678
 msgid "Node ID from URL"
 msgstr ""
 
-#: views/modules/node.views.inc:718
+#: views/modules/node.views.inc:745
 msgid ""
 "Display %display has no access control but does not contain a filter "
 "for published nodes."
@@ -728,7 +732,7 @@ msgstr ""
 msgid "The most recent time the node has been viewed."
 msgstr ""
 
-#: views/modules/statistics.views.inc:94,89
+#: views/modules/statistics.views.inc:89,94
 msgid "Access log"
 msgstr ""
 
@@ -772,7 +776,7 @@ msgstr ""
 msgid "Timestamp of when the page was visited."
 msgstr ""
 
-#: views/modules/system.views.inc:30,25
+#: views/modules/system.views.inc:25,30
 msgid "File"
 msgstr ""
 
@@ -847,7 +851,7 @@ msgstr ""
 msgid "Taxonomy terms are attached to nodes."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:201,97
+#: views/modules/taxonomy.views.inc:97,216
 msgid "The taxonomy term ID"
 msgstr ""
 
@@ -857,73 +861,73 @@ msgid ""
 "appear in views; you must add filters to reduce the result set."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:131
+#: views/modules/taxonomy.views.inc:131,135
 msgid "Taxonomy term name."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:140
+#: views/modules/taxonomy.views.inc:144
 msgid "The term weight field"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:152
+#: views/modules/taxonomy.views.inc:156
 msgid "Term description"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:153
+#: views/modules/taxonomy.views.inc:157
 msgid "The description associated with a taxonomy term."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:165
+#: views/modules/taxonomy.views.inc:169
 msgid "Filter the results of \"Taxonomy: Term\" to a particular vocabulary."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:203
+#: views/modules/taxonomy.views.inc:218
 msgid "All terms"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:204
+#: views/modules/taxonomy.views.inc:219
 msgid ""
 "Display all taxonomy terms associated with a node from specified "
 "vocabularies."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:258
+#: views/modules/taxonomy.views.inc:273
 msgid "Parent term"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:259
+#: views/modules/taxonomy.views.inc:274
 msgid ""
 "The parent term of the term. This can produce duplicate entries if you "
 "are using a vocabulary that allows multiple parents."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:291
+#: views/modules/taxonomy.views.inc:306
 msgid "Term synonym"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:292
+#: views/modules/taxonomy.views.inc:307
 msgid "Term synonyms may be used to find terms by alternate names."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:308
+#: views/modules/taxonomy.views.inc:323
 msgid "Term ID (with depth)"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:309
+#: views/modules/taxonomy.views.inc:324
 msgid "The depth filter is more complex, so provides fewer options."
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:319
+#: views/modules/taxonomy.views.inc:334
 msgid "Term ID depth modifier"
 msgstr ""
 
-#: views/modules/taxonomy.views.inc:320
+#: views/modules/taxonomy.views.inc:335
 msgid ""
 "Allows the \"depth\" for Taxonomy: Term ID (with depth) to be modified "
 "via an additional argument."
 msgstr ""
 
-#: views/modules/translation.views.inc:117,107,97,80,48,31
+#: views/modules/translation.views.inc:31,48,80,97,107,117
 msgid "Node translation"
 msgstr ""
 
@@ -939,7 +943,7 @@ msgstr ""
 msgid "The ID of the translation set the content belongs to."
 msgstr ""
 
-#: views/modules/translation.views.inc:98,74,69
+#: views/modules/translation.views.inc:69,74,98
 msgid "Source translation"
 msgstr ""
 
@@ -947,11 +951,11 @@ msgstr ""
 msgid "The source that this content was translated from."
 msgstr ""
 
-#: views/modules/translation.views.inc:91,84,81
+#: views/modules/translation.views.inc:81,84,91
 msgid "Translations"
 msgstr ""
 
-#: views/modules/translation.views.inc:85,82
+#: views/modules/translation.views.inc:82,85
 msgid "Versions of content in different languages."
 msgstr ""
 
@@ -1003,7 +1007,7 @@ msgstr ""
 msgid "The weight, used for sorting."
 msgstr ""
 
-#: views/modules/upload.views.inc:127,114
+#: views/modules/upload.views.inc:114,127
 msgid "Attached files"
 msgstr ""
 
@@ -1134,5 +1138,23 @@ msgstr ""
 
 #: views/modules/views.views.inc:41
 msgid "Provide custom text or link."
+msgstr ""
+
+#: views/modules/node.views.inc:487
+msgid "Node access"
+msgstr ""
+
+#: views/modules/node.views.inc:500
+msgid "Filter by access."
+msgstr ""
+
+#: views/modules/node.views.inc:503
+msgid ""
+"Filter for nodes by view access. <strong>Not necessary if you are "
+"using node as your base table.</strong>"
+msgstr ""
+
+#: views/modules/taxonomy.views.inc:204
+msgid "Relate a term to the node tagged with that term."
 msgstr ""
 

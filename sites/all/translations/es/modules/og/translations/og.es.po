@@ -1,14 +1,14 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  og.module,v 1.628 2009/03/31 13:30:54 weitzman
 #  og.install,v 1.71 2009/01/30 02:54:16 weitzman
-#  gravlax_base/og/og.info: n/a
+#  contrib/og/og.info: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -697,6 +697,10 @@ msgstr ""
 #: og/og.module:2579
 msgid "Request membership"
 msgstr "Solicitud de membresía"
+
+#: og/og.module:2600
+msgid "Create !type"
+msgstr "Crear !type"
 
 #: og/og.module:2601
 msgid "Add a new !type in this group."

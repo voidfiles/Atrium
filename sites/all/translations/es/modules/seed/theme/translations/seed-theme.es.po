@@ -1,13 +1,13 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_custom (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/seed/theme/views_ui_list_views.tpl.php: n/a
-#  gravlax_base/seed/theme/theme.inc: n/a
+#  custom/seed/theme/theme.inc: n/a
+#  custom/seed/theme/views_ui_list_views.tpl.php: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
 "PO-Revision-Date: 2009-05-30 19:52+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -15,21 +15,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
+#: seed/theme/theme.inc:582
+msgid "Preview"
+msgstr "Previsualizar"
+
+#: seed/theme/theme.inc:582
+msgid "Attachment"
+msgstr "Adjunto"
+
+#: seed/theme/theme.inc:582
+msgid "Size"
+msgstr "Tamaño"
+
 #: seed/theme/views_ui_list_views.tpl.php:13
 msgid "<em>@type</em> @base"
-msgstr ""
+msgstr "<em>@type</em> @base"
+
+#: seed/theme/views_ui_list_views.tpl.php:20
+msgid "Title: @title"
+msgstr "Título: @title"
+
+#: seed/theme/views_ui_list_views.tpl.php:23
+msgid "Path: !path"
+msgstr "Ruta: !path"
 
 #: seed/theme/theme.inc:114
 msgid "!time Today"
-msgstr ""
+msgstr "!time Hoy"
 
 #: seed/theme/theme.inc:119
 msgid "!time Yesterday"
-msgstr ""
+msgstr "!time Ayer"
 
 #: seed/theme/theme.inc:184
 msgid "!date (!count)"
-msgstr ""
+msgstr "!date (!count)"
 
 #: seed/theme/theme.inc:193
 msgid "Go"

@@ -1,18 +1,18 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  notifications.manage.inc,v 1.1.2.3.2.3 2009/04/24 17:19:40 jareyero
 #  notifications.module,v 1.6.2.9.2.50.2.8 2009/04/29 16:24:08 jareyero
-#  notifications.pages.inc,v 1.1.2.8.2.4 2009/04/22 14:58:18 jareyero
 #  notifications.admin.inc,v 1.5.2.6.2.19.2.5 2009/04/29 16:24:08 jareyero
-#  notifications.node.inc,v 1.1.2.2.2.1 2009/04/28 10:22:01 jareyero
 #  notifications.cron.inc,v 1.6.2.6.2.20.2.6 2009/04/29 16:24:08 jareyero
+#  notifications.node.inc,v 1.1.2.2.2.1 2009/04/28 10:22:01 jareyero
+#  notifications.pages.inc,v 1.1.2.8.2.4 2009/04/22 14:58:18 jareyero
 #  notifications.info,v 1.1.4.1 2008/04/13 18:02:39 jareyero
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: 2009-05-29 09:25+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -27,14 +27,6 @@ msgstr "Actualizar opciones"
 #: notifications/notifications.manage.inc:309
 msgid "The update has been performed."
 msgstr "Se ejecutó la actualización."
-
-#: notifications/notifications.module:146,51
-msgid "Overview"
-msgstr "General"
-
-#: notifications/notifications.manage.inc:219
-msgid "type"
-msgstr "tipo"
 
 #: notifications/notifications.manage.inc:388
 msgid "Show only items where"
@@ -83,34 +75,6 @@ msgstr "bloqueado"
 #: notifications/notifications.module:1454
 msgid "active"
 msgstr "activo"
-
-#: notifications/notifications.pages.inc:530
-msgid "Field type"
-msgstr "Tipo de campo"
-
-#: notifications/notifications.admin.inc:330,307,291
-msgid "Number"
-msgstr "Número"
-
-#: notifications/notifications.module:1392
-msgid "Long"
-msgstr "Largo"
-
-#: notifications/notifications.module:1386
-msgid "Short"
-msgstr "Corto"
-
-#: notifications/notifications.module:99
-msgid "Events"
-msgstr "Eventos"
-
-#: notifications/notifications.admin.inc:48
-msgid "Default settings"
-msgstr "Opciones por defecto"
-
-#: notifications/notifications.node.inc:64,20
-msgid "Not found"
-msgstr "No encontrado"
 
 #: notifications/notifications.admin.inc:15
 msgid "Notify poster of own posts"

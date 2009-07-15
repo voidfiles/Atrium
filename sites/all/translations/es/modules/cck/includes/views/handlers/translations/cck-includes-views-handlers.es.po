@@ -1,0 +1,51 @@
+# Spanish translation of atrium_contrib (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  content_handler_field.inc,v 1.1.2.14 2009/03/18 19:20:52 yched
+#  content_handler_field_multiple.inc,v 1.1.2.16 2009/03/17 22:58:06 yched
+#  content_handler_relationship.inc,v 1.1.2.3 2008/10/24 12:31:58 yched
+#  content_handler_sort.inc,v 1.1.2.6 2008/10/25 00:36:41 yched
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: cck/includes/views/handlers/content_handler_field.inc:60
+msgid "Widget label (@label)"
+msgstr ""
+
+#: cck/includes/views/handlers/content_handler_field.inc:67
+msgid "Custom label"
+msgstr "Etqueta personalizada"
+
+#: cck/includes/views/handlers/content_handler_field.inc:83
+msgid "Format"
+msgstr ""
+
+#: cck/includes/views/handlers/content_handler_field_multiple.inc:87
+msgid "Reversed (start from last values)"
+msgstr ""
+
+#: cck/includes/views/handlers/content_handler_relationship.inc:49
+msgid ""
+"The delta allows you to select which item in a multiple value field to "
+"key the relationship off of. Select \"1\" to use the first item, \"2\" "
+"for the second item, and so on. If you select \"All\", each item in "
+"the field will create a new row, which may appear to cause duplicates."
+msgstr ""
+
+#: cck/includes/views/handlers/content_handler_sort.inc:50
+msgid ""
+"The delta allows you to select which item in a multiple value field "
+"will be used for sorting. Select \"1\" to use the first item, \"2\" "
+"for the second item, and so on. If you select \"All\", each item in "
+"the field will create a new row, which may appear to cause duplicates."
+msgstr ""
+

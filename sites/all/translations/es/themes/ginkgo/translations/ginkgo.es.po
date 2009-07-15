@@ -1,0 +1,57 @@
+# Spanish translation of atrium_themes (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  themes/ginkgo/template.php: n/a
+#  themes/ginkgo/ginkgo.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_themes (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:17+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ginkgo/template.php:326
+msgid "new"
+msgstr "nuevo"
+
+#: ginkgo/template.php:329
+msgid "updated"
+msgstr "actualizado"
+
+#: ginkgo/template.php:410
+msgid "Preview"
+msgstr "Previsualizar"
+
+#: ginkgo/template.php:75
+msgid "Tagged"
+msgstr "Etiquetado"
+
+#: ginkgo/template.php:259,231
+msgid "Need help?"
+msgstr "Necesita ayuda?"
+
+#: ginkgo/template.php:277
+msgid "Hide"
+msgstr "Ocultar"
+
+#: ginkgo/template.php:338
+msgid "<a href=\"@link\" title=\"@title\">View more</a>"
+msgstr "<a href=\"@link\" title=\"@title\">Ver más</a>"
+
+#: ginkgo/ginkgo.info:0
+msgid "Ginkgo"
+msgstr "Ginkgo"
+
+#: ginkgo/ginkgo.info:0
+msgid "Next gen ginkgo (aka 'coldbrew')."
+msgstr "Nuevo ginkgo (aka 'coldbrew')."
+
+#: ginkgo/ginkgo.info:0
+msgid "Console"
+msgstr "Consola"
+

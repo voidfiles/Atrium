@@ -1,16 +1,16 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  theme.inc,v 1.72 2009/04/08 04:24:52 merlinofchaos
+#  views-ui-list-views.tpl.php,v 1.6 2008/10/28 18:11:43 merlinofchaos
 #  views-ui-edit-item.tpl.php,v 1.9 2008/08/08 16:57:44 merlinofchaos
 #  views-ui-edit-tab.tpl.php,v 1.11 2008/08/08 16:57:44 merlinofchaos
 #  views-ui-edit-view.tpl.php,v 1.10 2009/04/07 23:05:29 merlinofchaos
-#  views-ui-list-views.tpl.php,v 1.6 2008/10/28 18:11:43 merlinofchaos
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,14 @@ msgstr "@current de @max"
 #: views/theme/theme.inc:605
 msgid "››"
 msgstr "››"
+
+#: views/theme/views-ui-list-views.tpl.php:27
+msgid "Title: @title"
+msgstr "Título: @title"
+
+#: views/theme/views-ui-list-views.tpl.php:30
+msgid "Path: !path"
+msgstr "Ruta: !path"
 
 #: views/theme/views-ui-edit-item.tpl.php:32
 msgid "The style selected does not utilize fields."

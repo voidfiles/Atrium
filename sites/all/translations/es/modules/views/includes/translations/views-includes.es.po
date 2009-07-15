@@ -1,8 +1,7 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  ajax.inc,v 1.19 2008/09/22 20:50:58 merlinofchaos
-#  form.inc,v 1.10 2008/06/25 21:10:10 merlinofchaos
 #  view.inc,v 1.151 2009/02/18 01:41:34 merlinofchaos
 #  plugins.inc,v 1.152 2009/01/07 23:31:12 merlinofchaos
 #  admin.inc,v 1.154 2009/04/07 20:48:28 merlinofchaos
@@ -12,8 +11,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: 2009-05-30 19:51+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -24,15 +23,6 @@ msgstr ""
 #: views/includes/ajax.inc:83
 msgid "Error"
 msgstr "Error"
-
-#: views/includes/form.inc:249
-msgid ""
-"Validation error, please try again. If this error persists, please "
-"contact the site administrator."
-msgstr ""
-"Error de validación; por favor inténtelo de nuevo. Si este error "
-"persiste, por favor póngase en contacto con el administrador del "
-"sitio."
 
 #: views/includes/view.inc:2081
 msgid "Filters"
@@ -54,13 +44,9 @@ msgstr "filtro"
 msgid "No fields available."
 msgstr "No hay campos disponibles."
 
-#: views/includes/admin.inc:299
-msgid "Order"
-msgstr "Ordenar"
-
-#: views/includes/admin.inc:483
-msgid "Display"
-msgstr ""
+#: views/includes/admin.inc:580
+msgid "View type"
+msgstr "Tipo de vista."
 
 #: views/includes/admin.inc:36
 msgid ""

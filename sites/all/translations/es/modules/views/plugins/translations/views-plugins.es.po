@@ -1,8 +1,7 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  views_plugin_display_page.inc,v 1.5 2009/01/27 18:40:31 merlinofchaos
-#  views_plugin_display.inc,v 1.20 2009/04/07 22:48:04 merlinofchaos
 #  views_plugin_access_none.inc,v 1.1 2008/09/08 22:50:17 merlinofchaos
 #  views_plugin_access_perm.inc,v 1.3 2009/01/07 23:31:13 merlinofchaos
 #  views_plugin_access_role.inc,v 1.2 2009/01/07 23:31:13 merlinofchaos
@@ -10,6 +9,7 @@
 #  views_plugin_argument_default_php.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
 #  views_plugin_argument_validate.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
 #  views_plugin_argument_validate_php.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
+#  views_plugin_display.inc,v 1.20 2009/04/07 22:48:04 merlinofchaos
 #  views_plugin_display_attachment.inc,v 1.3 2009/01/06 04:45:39 merlinofchaos
 #  views_plugin_display_block.inc,v 1.2 2008/11/19 19:50:54 merlinofchaos
 #  views_plugin_display_feed.inc,v 1.3 2008/09/30 18:52:15 merlinofchaos
@@ -24,8 +24,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -36,14 +36,6 @@ msgstr ""
 #: views/plugins/views_plugin_display_page.inc:236,319
 msgid "Menu"
 msgstr "Menú"
-
-#: views/plugins/views_plugin_display.inc:653
-msgid "Unlimited"
-msgstr "Ilimitado"
-
-#: views/plugins/views_plugin_display.inc:606
-msgid "Style"
-msgstr ""
 
 #: views/plugins/views_plugin_access_none.inc:9
 msgid "Unrestricted"
@@ -164,7 +156,7 @@ msgstr ""
 msgid "Change this display's pager setting."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:824,652
+#: views/plugins/views_plugin_display.inc:652,824
 msgid "Items per page"
 msgstr ""
 
@@ -180,16 +172,12 @@ msgstr ""
 msgid "Specify whether this display will provide a \"more\" link."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:851,668
+#: views/plugins/views_plugin_display.inc:668,851
 msgid "Distinct"
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:848,670
+#: views/plugins/views_plugin_display.inc:670,848
 msgid "Display only distinct items, without duplicates."
-msgstr ""
-
-#: views/plugins/views_plugin_display.inc:683
-msgid "Access"
 msgstr ""
 
 #: views/plugins/views_plugin_display.inc:685
@@ -216,7 +204,7 @@ msgstr ""
 msgid "Allow the exposed form to appear in a block instead of the view."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:931,723
+#: views/plugins/views_plugin_display.inc:723,931
 msgid "Empty text"
 msgstr ""
 
@@ -341,13 +329,13 @@ msgstr ""
 msgid "Access restrictions"
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:956,876
+#: views/plugins/views_plugin_display.inc:876,956
 msgid ""
 "You may also adjust the !settings for the currently selected style by "
 "clicking on the icon."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:1001,956,876
+#: views/plugins/views_plugin_display.inc:876,956,1001
 msgid "settings"
 msgstr ""
 
@@ -355,7 +343,7 @@ msgstr ""
 msgid "Access options"
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:918,902
+#: views/plugins/views_plugin_display.inc:902,918
 msgid "Display even if view has no result"
 msgstr ""
 
@@ -471,11 +459,11 @@ msgstr ""
 msgid "Theming information (display)"
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:1184,1155,1126,1099
+#: views/plugins/views_plugin_display.inc:1099,1126,1155,1184
 msgid "Back to !info."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:1184,1155,1126,1099
+#: views/plugins/views_plugin_display.inc:1099,1126,1155,1184
 msgid "theming information"
 msgstr ""
 
@@ -507,7 +495,7 @@ msgstr ""
 msgid "This is an alternative template for this style."
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:1183,1154
+#: views/plugins/views_plugin_display.inc:1154,1183
 msgid "Theming information (row style)"
 msgstr ""
 
@@ -515,7 +503,7 @@ msgstr ""
 msgid "This display has no row style theming information"
 msgstr ""
 
-#: views/plugins/views_plugin_display.inc:1186,1163
+#: views/plugins/views_plugin_display.inc:1163,1186
 msgid "This is the default theme template used for this row style."
 msgstr ""
 
@@ -635,10 +623,6 @@ msgstr ""
 
 #: views/plugins/views_plugin_display_block.inc:68
 msgid "Block settings"
-msgstr ""
-
-#: views/plugins/views_plugin_display_block.inc:82
-msgid "Admin"
 msgstr ""
 
 #: views/plugins/views_plugin_display_block.inc:106

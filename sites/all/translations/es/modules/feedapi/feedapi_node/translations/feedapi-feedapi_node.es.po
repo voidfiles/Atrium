@@ -1,0 +1,163 @@
+# Spanish translation of atrium_contrib (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  feedapi_node.module,v 1.1.2.18.2.22 2008/12/30 10:23:06 aronnovak
+#  feedapi_node.install,v 1.1.2.13.2.9 2009/02/03 11:04:29 aronnovak
+#  feedapi_node.info,v 1.1.2.1.2.2 2008/04/11 19:42:51 aronnovak
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: feedapi/feedapi_node/feedapi_node.module:16
+msgid "Processor for FeedAPI, transforms items into nodes."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:18
+msgid "FeedAPI Node - create nodes from feed items"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:91
+msgid "Feed items"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:102
+msgid "Feed:"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:108
+msgid "Original article"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:155
+msgid "Node type of feed items"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:158
+msgid "Choose the node type for feed item nodes created by this feed."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:162
+msgid "Created date of item nodes"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:163
+msgid "Retrieve from feed"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:163
+msgid "Use time of download"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:168
+msgid "Promoted items"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:169
+msgid ""
+"The newest N items per feed will be promoted to front page. Leave "
+"empty and FeedAPI does not alter the promote property of the feed "
+"items."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:174
+msgid "Duplicates"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:175
+msgid ""
+"If you choose \"check for duplicates on all feeds\", a feed item will "
+"not be created if it already exists on *ANY* feed. Instead, the "
+"existing feed item will be linked to the feed. If you are not sure, "
+"choose the first option."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:176
+msgid "Check for duplicates only within feed"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:176
+msgid "Check for duplicates on all feeds"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:306
+msgid "Please disable FeedAPI for !item content-type."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:385
+msgid "No nid on feed item to delete."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:408
+msgid ""
+"!deleted feed items of !total could be deleted before script time out "
+"- click <em>Remove items</em> again to delete more."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:416
+msgid "!count feed items have been deleted."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:419
+msgid "There where no feed items to delete"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.module:0
+msgid "feedapi_node"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:9
+msgid "Stores additional information about feed item nodes."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:15
+msgid "Primary Key: The feed item node's nid."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:20
+msgid "Link to the feed item."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:26
+msgid "Post date of the feed item, as a Unix timestamp."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:32
+msgid "Import date of the feed item, as a Unix timestamp."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:37
+msgid "Unique identifier for the feed item."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:49
+msgid "Bridge table; maps feed items to feeds."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:55
+msgid "The {feedapi}.nid to which the feed item is being assigned."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:61
+msgid "The feed item's {feedapi_node_item}.nid."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.install:101
+msgid "Items from these feeds will be turned into nodes."
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.info:0
+msgid "FeedAPI Node"
+msgstr ""
+
+#: feedapi/feedapi_node/feedapi_node.info:0
+msgid "Creates nodes from feed items."
+msgstr ""
+

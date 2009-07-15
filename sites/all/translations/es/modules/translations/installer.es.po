@@ -1,40 +1,61 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
+#  admin.admin.inc,v 1.1.2.1 2009/06/07 07:03:52 yhahn
+#  comment_upload.module,v 1.7.2.23 2009/04/21 16:41:04 netaustin
+#  performance.module,v 1.2.2.23 2009/02/21 20:02:36 kbahey
+#  theme.inc,v 1.1.2.4 2009/06/05 04:18:48 yhahn
+#  contrib/mailhandler/mailhandler.admin.inc: n/a
+#  contrib/mailhandler/mailhandler.install: n/a
+#  messaging_debug.module,v 1.1.2.4.2.11.2.1 2009/04/29 16:24:40 jareyero
+#  contrib/messaging/messaging_phpmailer/messaging_phpmailer.module: n/a
+#  notifications_ui.pages.inc,v 1.1.2.3 2009/04/15 16:08:14 jareyero
+#  contrib/spaces/spaces_site/spaces_site.module: n/a
+#  contrib/spaces/spaces_taxonomy/spaces_taxonomy.module: n/a
+#  contrib/spaces/spaces_user/spaces_user.module: n/a
+#  content_profile_registration.module,v 1.1.2.25 2009/01/07 11:02:28 fago
+#  date_copy.module,v 1.16.2.1.2.10 2008/11/01 13:06:26 karens
+#  date_tools.module,v 1.1.2.15 2009/05/11 02:23:56 karens
 #  devel_node_access.module,v 1.15.2.13 2009/02/25 16:31:13 salvis
 #  views_handler_field_comment_link.inc,v 1.2 2008/09/10 00:16:14 merlinofchaos
 #  views_handler_field_node_link.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos
 #  views_handler_field_user_link.inc,v 1.1 2008/09/03 19:21:30 merlinofchaos
 #  imageapi_gd.install,v 1.8 2008/08/01 18:52:22 dopry
-#  gravlax_base/spaces/spaces_og/spaces_og.module: n/a
-#  gravlax_base/spaces/spaces_blog/spaces_blog.info: n/a
-#  gravlax_base/spaces/spaces_admin.inc: n/a
-#  gravlax_base/spaces/spaces.theme.inc: n/a
-#  features.info,v 1.1 2009/03/13 21:59:23 yhahn
+#  contrib/textile/textile.install: n/a
+#  content.install,v 1.85.2.30 2008/11/07 16:24:58 yched
+#  date_api.install,v 1.16.2.1.2.19 2009/03/21 10:18:00 karens
+#  date_timezone.install,v 1.7.2.2.2.6 2008/09/06 14:20:10 karens
+#  parser_simplepie.install,v 1.1.2.6.2.6 2008/09/10 08:27:52 aronnovak
+#  notifications.node.inc,v 1.1.2.2.2.1 2009/04/28 10:22:01 jareyero
+#  features.module,v 1.1.2.23 2009/06/07 15:43:57 yhahn
 #  features.install,v 1.1 2009/03/13 21:59:23 yhahn
-#  features.module,v 1.1.2.20 2009/05/12 03:11:57 yhahn
-#  messaging_debug.info,v 1.1.4.1.2.1 2009/04/29 16:24:40 jareyero
-#  performance.info,v 1.2 2008/10/20 20:29:18 kbahey
-#  macro.info,v 1.4 2008/01/15 04:02:28 weitzman
-#  devel_themer.info,v 1.3.2.1 2008/09/23 03:13:50 weitzman
-#  devel_node_access.info,v 1.7.2.1 2008/05/17 03:49:30 weitzman
-#  devel_generate.info,v 1.5.2.1 2008/05/17 03:49:30 weitzman
-#  devel.info,v 1.5.2.1 2008/06/13 03:25:20 weitzman
+#  features.info,v 1.1 2009/03/13 21:59:23 yhahn
+#  contrib/spaces/spaces.theme.inc: n/a
+#  contrib/spaces/spaces_admin.inc: n/a
+#  contrib/spaces/spaces_blog/spaces_blog.info: n/a
+#  contrib/spaces/spaces_og/spaces_og.module: n/a
 #  devel.install,v 1.24.2.5 2008/12/14 06:25:21 dww
-#  gravlax_base/devel/devel_themer.install: n/a
+#  devel.info,v 1.5.2.1 2008/06/13 03:25:20 weitzman
+#  devel_generate.info,v 1.5.2.1 2008/05/17 03:49:30 weitzman
+#  devel_node_access.info,v 1.7.2.1 2008/05/17 03:49:30 weitzman
+#  devel_themer.info,v 1.3.2.1 2008/09/23 03:13:50 weitzman
+#  macro.info,v 1.4 2008/01/15 04:02:28 weitzman
+#  performance.info,v 1.2 2008/10/20 20:29:18 kbahey
+#  messaging_debug.info,v 1.1.4.1.2.1 2009/04/29 16:24:40 jareyero
+#  contrib/devel/devel_themer.install: n/a
 #  imageapi.install,v 1.7 2008/12/21 23:08:39 drewish
 #  imagecache.install,v 1.25 2009/01/06 19:48:59 drewish
 #  messaging.module,v 1.7.2.8.2.27.2.6 2009/04/30 10:42:35 jareyero
-#  messaging_phpmailer.info,v 1.1.2.1.2.2 2009/01/26 15:51:40 jareyero
 #  messaging_phpmailer.install,v 1.1.2.1.2.2 2009/01/22 18:53:39 jareyero
+#  messaging_phpmailer.info,v 1.1.2.1.2.2 2009/01/26 15:51:40 jareyero
 #  og.install,v 1.71 2009/01/30 02:54:16 weitzman
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc: n/a
-#  gravlax_base/og/modules/og_access/og_access.info: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc: n/a
+#  contrib/og/modules/og_access/og_access.info: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +63,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: devel/devel_node_access.module:418,463,256,230; views/modules/comment/views_handler_field_comment_link.inc:34; views/modules/node/views_handler_field_node_link.inc:35; views/modules/user/views_handler_field_user_link.inc:38
+#: admin/admin.admin.inc:60; comment_upload/comment_upload.module:69; devel/performance/performance.module:47; features/theme/theme.inc:45; mailhandler/mailhandler.admin.inc:132,122; mailhandler/mailhandler.install:157; messaging/messaging_debug/messaging_debug.module:143; messaging/messaging_phpmailer/messaging_phpmailer.module:61; notifications/notifications_ui/notifications_ui.pages.inc:102; spaces/spaces_site/spaces_site.module:63; spaces/spaces_taxonomy/spaces_taxonomy.module:67; spaces/spaces_user/spaces_user.module:78
+msgid "Enabled"
+msgstr "Activo"
+
+#: content_profile/modules/content_profile_registration.module:161; date/date_copy/date_copy.module:540,530; date/date_tools/date_tools.module:1270,1260; devel/devel_node_access.module:418,463,256,230; views/modules/comment/views_handler_field_comment_link.inc:34; views/modules/node/views_handler_field_node_link.inc:35; views/modules/user/views_handler_field_user_link.inc:38
 msgid "view"
 msgstr "ver"
 
-#: imageapi/imageapi_gd.install:33,13
+#: imageapi/imageapi_gd.install:33,13; textile/textile.install:16
 msgid "Not installed"
 msgstr "No instalado"
 
@@ -72,11 +97,89 @@ msgstr "Reconstruir permisos"
 msgid "administer nodes"
 msgstr "administrar nodos"
 
-#: spaces/spaces_og/spaces_og.module:552,541; spaces/spaces_blog/spaces_blog.info:0; spaces/spaces_admin.inc:551; spaces/spaces.theme.inc:153; features/features.info:0; features/features.install:17; features/features.module:24
+#: cck/content.install:10
+msgid "CCK - No Views integration"
+msgstr ""
+
+#: cck/content.install:11
+msgid ""
+"CCK integration with Views module requires Views 6.x-2.0-rc2 or "
+"greater."
+msgstr ""
+
+#: date/date_api.install:237
+msgid ""
+"The Date API module requires the <a href=\"@link\">Date PHP4 "
+"module</a> for PHP versions less than 5.2."
+msgstr ""
+"El módulo Date API requiere el <a href=\"@link\">módulo Date "
+"PHP4</a> para versiones de PHP menores a 5.2."
+
+#: date/date_api.install:241
+msgid "Date API requirements"
+msgstr "Requerimientos de Date API"
+
+#: date/date_timezone/date_timezone.install:45
+msgid "The Date Timezone module requires you to !link."
+msgstr ""
+
+#: date/date_timezone/date_timezone.install:45
+msgid "set the site timezone name"
+msgstr ""
+
+#: date/date_timezone/date_timezone.install:51
+msgid "The !link may not be correct."
+msgstr ""
+
+#: date/date_timezone/date_timezone.install:51
+msgid "site timezone name"
+msgstr ""
+
+#: date/date_timezone/date_timezone.install:58
+msgid "Date Timezone requirements"
+msgstr ""
+
+#: feedapi/parser_simplepie/parser_simplepie.install:17
+msgid "FeedAPI SimplePie"
+msgstr ""
+
+#: feedapi/parser_simplepie/parser_simplepie.install:18
+msgid ""
+"Obtain the !simplepie package and copy simplepie.inc to the "
+"parser_simplepie directory."
+msgstr ""
+
+#: feedapi/parser_simplepie/parser_simplepie.install:21
+msgid "simplepie.inc file missing"
+msgstr ""
+
+#: feedapi/parser_simplepie/parser_simplepie.install:27
+msgid "SimplePie Parser"
+msgstr ""
+
+#: feedapi/parser_simplepie/parser_simplepie.install:31
+msgid "Installed correctly"
+msgstr ""
+
+#: mailhandler/mailhandler.install:155
+msgid "IMAP"
+msgstr ""
+
+#: mailhandler/mailhandler.install:156
+msgid ""
+"Mailhandler requires that PHP's !ext is enabled in order to function "
+"properly."
+msgstr ""
+
+#: mailhandler/mailhandler.install:157; notifications/notifications.node.inc:64,20
+msgid "Not found"
+msgstr "No encontrado"
+
+#: features/features.module:24; features/features.install:17; features/features.info:0; spaces/spaces.theme.inc:153; spaces/spaces_admin.inc:551; spaces/spaces_blog/spaces_blog.info:0; spaces/spaces_og/spaces_og.module:552,541
 msgid "Features"
 msgstr "Funcionalidades"
 
-#: messaging/messaging_debug/messaging_debug.info:0; devel/performance/performance.info:0; devel/macro.info:0; devel/devel_themer.info:0; devel/devel_node_access.info:0; devel/devel_generate.info:0; devel/devel.info:0; devel/devel.install:40
+#: devel/devel.install:40; devel/devel.info:0; devel/devel_generate.info:0; devel/devel_node_access.info:0; devel/devel_themer.info:0; devel/macro.info:0; devel/performance/performance.info:0; messaging/messaging_debug/messaging_debug.info:0
 msgid "Development"
 msgstr ""
 
@@ -205,7 +308,7 @@ msgstr ""
 msgid "Modules administration"
 msgstr ""
 
-#: messaging/messaging_phpmailer/messaging_phpmailer.info:0; messaging/messaging_phpmailer/messaging_phpmailer.install:37
+#: messaging/messaging_phpmailer/messaging_phpmailer.install:37; messaging/messaging_phpmailer/messaging_phpmailer.info:0
 msgid "Messaging PHPMailer"
 msgstr ""
 
@@ -226,14 +329,14 @@ msgstr ""
 msgid "Organic groups group type"
 msgstr "Tipo de grupo Grupos Orgánicos"
 
-#: og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc:11; og/og.install:450
+#: og/og.install:450; og/modules/og_views/includes/og_views_handler_filter_og_type_all.inc:11
 msgid ""
 "You have no node types which are acting as groups. See the notes "
 "section of the !readme_file and the content types fieldset at top of "
 "<a href=\"!settings\">OG settings</a>."
 msgstr ""
 
-#: og/modules/og_access/og_access.info:0; og/og.install:457
+#: og/og.install:457; og/modules/og_access/og_access.info:0
 msgid "Organic groups access control"
 msgstr "Control de acceso de Grupos orgánicos"
 

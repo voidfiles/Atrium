@@ -1,0 +1,93 @@
+# Spanish translation of atrium_custom (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  custom/litecal/litecal_plugin_style_litecal.inc: n/a
+#  custom/litecal/litecal.theme.inc: n/a
+#  custom/litecal/litecal.module: n/a
+#  custom/litecal/litecal.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
+"PO-Revision-Date: 2009-06-03 13:03+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: litecal/litecal_plugin_style_litecal.inc:59
+msgid "Disabled"
+msgstr "Desactivado"
+
+#: litecal/litecal_plugin_style_litecal.inc:44
+msgid "None"
+msgstr "Ninguna"
+
+#: litecal/litecal.theme.inc:91
+msgid "+ Add"
+msgstr "+ Añadir"
+
+#: litecal/litecal_plugin_style_litecal.inc:32
+msgid "Full calendar"
+msgstr "Calendario completo"
+
+#: litecal/litecal_plugin_style_litecal.inc:33
+msgid "Compact calendar"
+msgstr "Calendario compacto"
+
+#: litecal/litecal_plugin_style_litecal.inc:36
+msgid "Display style"
+msgstr "Estilo de presentación"
+
+#: litecal/litecal_plugin_style_litecal.inc:37
+msgid "Choose the display style for this litecal."
+msgstr "Seleccione el estilo de presentación para este minicalendario."
+
+#: litecal/litecal_plugin_style_litecal.inc:68
+msgid "Quickadd type"
+msgstr ""
+
+#: litecal/litecal_plugin_style_litecal.inc:69
+msgid "Choose the content type to use for quick event add links."
+msgstr ""
+"Seleccione el tipo de contenido para usar en los enlaces de añadir "
+"evento rápidamente."
+
+#: litecal/litecal_plugin_style_litecal.inc:93
+msgid ""
+"The litecal style requires you to add a <strong>Date argument</strong> "
+"to your view."
+msgstr ""
+"El estilo de litecal requiere que añada un <strong>Argumento de "
+"fecha</strong> a su vista."
+
+#: litecal/litecal.module:44
+msgid "Litecal."
+msgstr ""
+
+#: litecal/litecal.module:98
+msgid "Previous"
+msgstr "Previo"
+
+#: litecal/litecal.module:101
+msgid "Next"
+msgstr "Próx."
+
+#: litecal/litecal.module:0
+msgid "litecal"
+msgstr ""
+
+#: litecal/litecal.info:0
+msgid "A lite clean calendar UI."
+msgstr "Una UI para calendario más limpia y ligera."
+
+#: litecal/litecal_plugin_style_litecal.inc:49
+msgid "Color by"
+msgstr "Color por"
+
+#: litecal/litecal_plugin_style_litecal.inc:50
+msgid "Choose a field to be used for coloring items."
+msgstr "Elija un campo para colorear los elementos."
+

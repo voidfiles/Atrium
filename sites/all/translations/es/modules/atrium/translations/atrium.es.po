@@ -1,14 +1,15 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_custom (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/trees/trees.module: n/a
-#  gravlax_base/trees/trees.admin.inc: n/a
-#  gravlax_base/trees/trees.info: n/a
+#  custom/atrium/atrium.module: n/a
+#  custom/atrium/atrium.admin.inc: n/a
+#  custom/atrium/atrium.pages.inc: n/a
+#  custom/atrium/atrium.info: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
 "PO-Revision-Date: 2009-05-30 19:52+0200\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -16,235 +17,292 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: trees/trees.module:125,96
+#: atrium/atrium.module:375
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: atrium/atrium.module:463
+msgid "Search"
+msgstr "Buscar"
+
+#: atrium/atrium.admin.inc:129
+msgid "Update"
+msgstr "Actualizar"
+
+#: atrium/atrium.module:111
 msgid "Administration"
 msgstr "Administración"
 
-#: trees/trees.module:383
+#: atrium/atrium.pages.inc:72
 msgid "No help is available for module %module."
 msgstr "No hay ayuda para el módulo %module."
 
-#: trees/trees.module:117
+#: atrium/atrium.module:102
 msgid "Help"
 msgstr "Ayuda"
 
-#: trees/trees.admin.inc:12
+#: atrium/atrium.admin.inc:12
 msgid "Permissions"
 msgstr "Permisos"
 
-#: trees/trees.module:485
+#: atrium/atrium.admin.inc:153
+msgid "Submit"
+msgstr "Enviar"
+
+#: atrium/atrium.module:424
 msgid "Documents"
 msgstr "Documentos"
 
-#: trees/trees.admin.inc:13
-msgid "Input filter formats"
-msgstr ""
+#: atrium/atrium.pages.inc:48
+msgid "Create !type"
+msgstr "Crear !type"
 
-#: trees/trees.admin.inc:67,23
+#: atrium/atrium.module:94
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: atrium/atrium.admin.inc:13
+msgid "Input filter formats"
+msgstr "Formatos de los filtros de entrada"
+
+#: atrium/atrium.admin.inc:67,23
 msgid "No modules were found that implement a permission map."
 msgstr ""
+"No se ha encontrado ningún módulo que implemente un mapa de "
+"permisos."
 
-#: trees/trees.admin.inc:71,27
+#: atrium/atrium.admin.inc:71,27
 msgid "More than 1 module implements a permission map."
-msgstr ""
+msgstr "Mas de un módulo implementa un mapa de permisos."
 
-#: trees/trees.admin.inc:52
-msgid ""
-"The permissions for this instance of 8 Trees have been updated. "
-"Permission map used: <strong>!module</strong>."
-msgstr ""
-
-#: trees/trees.admin.inc:55
-msgid ""
-"There was an error maintaining the permissions of this instance of 8 "
-"Trees."
-msgstr ""
-
-#: trees/trees.admin.inc:99
-msgid ""
-"The filter formats this instance of 8 Trees have been updated. Filter "
-"formats used: <strong>!module</strong>."
-msgstr ""
-
-#: trees/trees.admin.inc:119
+#: atrium/atrium.admin.inc:119
 msgid "Updates"
-msgstr ""
+msgstr "Actualizaciones"
 
-#: trees/trees.admin.inc:120
+#: atrium/atrium.admin.inc:120
 msgid "Run the selected scripts to ensure your site is up to date."
 msgstr ""
+"Ejecutar los scripts seleccionados para asegurar que su sitio está "
+"actualizado."
 
-#: trees/trees.admin.inc:135
+#: atrium/atrium.admin.inc:135
 msgid "Clear caches"
-msgstr ""
+msgstr "Borrar cachés"
 
-#: trees/trees.admin.inc:136
+#: atrium/atrium.admin.inc:136
 msgid "When your site has been updated you may need to clear Drupal's caches."
 msgstr ""
+"Cuando su sitio haya sido actualizado puede necesitar borrar los "
+"caches de Drupal."
 
-#: trees/trees.admin.inc:140
+#: atrium/atrium.admin.inc:140
 msgid "Clear all caches"
-msgstr ""
+msgstr "Borrar todos los cachés"
 
-#: trees/trees.admin.inc:169
+#: atrium/atrium.admin.inc:193
 msgid "All site caches have been cleared"
-msgstr ""
+msgstr "Todos los caches del sitio han sido borrados"
 
-#: trees/trees.module:15
+#: atrium/atrium.module:15
 msgid ""
 "This !type is <strong>archived</strong>. You may not add or alter any "
 "of its content."
 msgstr ""
+"Este !type está <strong>archivado</strong>. No puede añadir o editar "
+"su contenido."
 
-#: trees/trees.module:66,17
+#: atrium/atrium.module:66,17
 msgid "To reactivate this !type, !link."
-msgstr ""
+msgstr "Para reactivar este !type, !link."
 
-#: trees/trees.module:66,17
+#: atrium/atrium.module:66,17
 msgid "click here"
-msgstr ""
+msgstr "haga click aquí"
 
-#: trees/trees.module:64
+#: atrium/atrium.module:64
 msgid "This !type is <strong>archived</strong>."
-msgstr ""
+msgstr "Este !type está <strong>archivado</strong>."
 
-#: trees/trees.module:111
+#: atrium/atrium.module:95
 msgid "Custom login page."
-msgstr ""
+msgstr "Página de inicio personalizada."
 
-#: trees/trees.module:118
+#: atrium/atrium.module:103
 msgid "Information and help about using the site."
-msgstr ""
+msgstr "Información y ayuda sobre el uso del sitio."
 
-#: trees/trees.module:126
-msgid "Configuration options for 8 Trees."
-msgstr ""
-
-#: trees/trees.module:136
-msgid "Maintenance scripts for 8 Trees."
-msgstr ""
-
-#: trees/trees.module:188
-msgid "Trees: Book"
-msgstr ""
-
-#: trees/trees.module:252
+#: atrium/atrium.module:266
 msgid ""
 "This !type is currently <strong>active</strong>. You can archive it to "
 "hide it from listings and prevent others from adding to or altering "
 "its content. You can always undo this action by reactivating the "
 "!type."
 msgstr ""
+"El !type está actualmente <strong>activado</strong>. Puede archivarlo "
+"para ocultarlo en los listados y evitar que otros cambien su "
+"contenido. Siempre puede deshacer esta acción reactivando el !type."
 
-#: trees/trees.module:255
+#: atrium/atrium.module:269
 msgid ""
 "This !type is currently <strong>archived</strong>. You can reactivate "
 "it to allow others to add and alter its content."
 msgstr ""
+"Este !type está actualmente <strong>archivado</strong>. Puede "
+"reactivarlo para permitir que otros cambien su contenido."
 
-#: trees/trees.module:264
+#: atrium/atrium.module:278
 msgid "Archive this !type"
-msgstr ""
+msgstr "Archivar este !type"
 
-#: trees/trees.module:145,436,264
+#: atrium/atrium.module:132,375,278
 msgid "Reactivate"
-msgstr ""
+msgstr "Reactivar"
 
-#: trees/trees.module:303
+#: atrium/atrium.module:333
 msgid "2 weeks ago"
 msgstr "hace 2 semanas"
 
-#: trees/trees.module:304
+#: atrium/atrium.module:334
 msgid "1 month ago"
 msgstr "hace un mes"
 
-#: trees/trees.module:305
+#: atrium/atrium.module:335
 msgid "6 month ago"
 msgstr "hace 6 meses"
 
-#: trees/trees.module:306
+#: atrium/atrium.module:336
 msgid "Anytime"
 msgstr "Desde siempre"
 
-#: trees/trees.module:320
+#: atrium/atrium.pages.inc:9
 msgid "Please Login"
-msgstr ""
+msgstr "Por favor, inicie sesión"
 
-#: trees/trees.module:354
+#: atrium/atrium.pages.inc:43
 msgid "Welcome to !sitename"
 msgstr "Bienvenido a !sitename"
 
-#: trees/trees.module:358
+#: atrium/atrium.pages.inc:47
 msgid "Create your first !type to get started."
 msgstr "Cree su primer !type para empezar."
 
-#: trees/trees.module:362
+#: atrium/atrium.pages.inc:51
 msgid ""
 "The site administator has not finished setting up this site. Please be "
 "patient and try again later."
 msgstr ""
+"El administrador del sitio todavía no ha terminado de configurarlo. "
+"Por favor sea paciente y pruebe otra vez más tarde."
 
-#: trees/trees.module:413
+#: atrium/atrium.module:352
 msgid "The !type !title has been archived."
-msgstr ""
+msgstr "El !type !title ha sido archivado."
 
-#: trees/trees.module:425
+#: atrium/atrium.module:364
 msgid "The !type !title has been reactivated."
-msgstr ""
+msgstr "The !type !title ha sido reactivado."
 
-#: trees/trees.module:436
+#: atrium/atrium.module:375
 msgid "Are you sure you want to reactivate %title?"
-msgstr ""
+msgstr "Está seguro de que quiere reactivar %title?"
 
-#: trees/trees.module:577
+#: atrium/atrium.module:516
 msgid "all content"
-msgstr ""
+msgstr "todo el contenido"
 
-#: trees/trees.module:571
+#: atrium/atrium.module:510
 msgid "this !type"
-msgstr ""
+msgstr "este !type"
 
-#: trees/trees.module:574
+#: atrium/atrium.module:513
 msgid "this user"
-msgstr ""
+msgstr "este usuario"
 
-#: trees/trees.module:616
+#: atrium/atrium.module:555
 msgid "Please add your first !type to get started."
 msgstr "Por favor, añada su primer !type para comenzar."
 
-#: trees/trees.module:621
+#: atrium/atrium.module:560
 msgid "There is currently no content to view in this section."
-msgstr ""
+msgstr "No hay contenido para mostrar en esta sección"
 
-#: trees/trees.module:642
+#: atrium/atrium.module:581
 msgid "My Account"
 msgstr "Mi Cuenta"
 
-#: trees/trees.module:645
+#: atrium/atrium.module:584
 msgid "Logout"
 msgstr "Salir"
 
-#: trees/trees.module:161
-msgid "administer trees"
-msgstr ""
-
-#: trees/trees.module:146
+#: atrium/atrium.module:133
 msgid "Reactivate confirmation for unpublished nodes."
-msgstr ""
+msgstr "Confirmar reactivación para nodos no publicados."
 
-#: trees/trees.module:0
-msgid "trees"
-msgstr ""
-
-#: trees/trees.info:0
-msgid "Provides functionality specific to 8 Trees."
-msgstr ""
-
-#: trees/trees.module:289
+#: atrium/atrium.module:318
 msgid "Show in recent activity views"
-msgstr ""
+msgstr "Mostrar en la vista de actividades recientes"
 
-#: trees/trees.module:290
+#: atrium/atrium.module:319
 msgid "Show this content type in activity streams, update lists, etc."
 msgstr ""
+"Mostrar este tipo de contenido en las actividades, listas de "
+"actualizaciones, etc."
+
+#: atrium/atrium.admin.inc:52
+msgid ""
+"The permissions for this instance of Atrium have been updated. "
+"Permission map used: <strong>!module</strong>."
+msgstr ""
+"Los permisos de esta instancia de Atrium han sido actualizados. Mapa "
+"de permisos utilizados: <strong>!module</strong>"
+
+#: atrium/atrium.admin.inc:55
+msgid ""
+"There was an error maintaining the permissions of this instance of "
+"Atrium."
+msgstr ""
+"Ha ocurrido un error al mantener los permisos de esta instancia de "
+"Atrium."
+
+#: atrium/atrium.admin.inc:99
+msgid ""
+"The filter formats this instance of Atrium have been updated. Filter "
+"formats used: <strong>!module</strong>."
+msgstr ""
+"Los filtros de formato en esta instancia de Atrium han sido "
+"actualizados. Filtros de formato usados: <strong>!module</strong>"
+
+#: atrium/atrium.admin.inc:146
+msgid "Show all administration pages"
+msgstr "Mostrar todas las páginas de administración"
+
+#: atrium/atrium.admin.inc:147
+msgid "Enable this to access all of Drupal's administration pages."
+msgstr ""
+"Active esto para acceder a todas las páginas de administración de "
+"Drupal."
+
+#: atrium/atrium.module:202
+msgid "Atrium: Book"
+msgstr "Atrium: Libro"
+
+#: atrium/atrium.module:148
+msgid "administer atrium"
+msgstr "administrar atrium"
+
+#: atrium/atrium.module:112
+msgid "Configuration options for Atrium."
+msgstr "Opciones de configuración de Atrium."
+
+#: atrium/atrium.module:123
+msgid "Maintenance scripts for Atrium."
+msgstr "Scripts de mantenimiento de Atrium."
+
+#: atrium/atrium.module:0
+msgid "atrium"
+msgstr "atrium"
+
+#: atrium/atrium.info:0
+msgid "Provides functionality specific to Atrium."
+msgstr "Proporciona funcionalidad específica de Atrium"
 

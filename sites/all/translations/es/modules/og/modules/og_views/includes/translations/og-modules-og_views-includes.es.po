@@ -1,19 +1,18 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_is_active.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_is_admin.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelink.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_is_admin.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_handler_filter_og_type.inc: n/a
-#  gravlax_base/og/modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_field_og_is_active.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_field_og_managelink.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_field_og_managelinkadmin.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_field_og_managelinkmy.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_filter_og_is_admin.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_handler_filter_og_type.inc: n/a
+#  contrib/og/modules/og_views/includes/og_views_plugin_argument_validate_og_group_types.inc: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -24,10 +23,6 @@ msgstr ""
 #: og/modules/og_views/includes/og_views_handler_field_og_is_active.inc:11
 msgid "approval needed"
 msgstr ""
-
-#: og/modules/og_views/includes/og_views_handler_field_og_is_admin.inc:12
-msgid "admin"
-msgstr "admr."
 
 #: og/modules/og_views/includes/og_views_handler_field_og_managelink.inc:30
 msgid "Remove membership"

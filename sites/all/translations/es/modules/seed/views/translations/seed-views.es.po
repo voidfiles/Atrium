@@ -1,13 +1,13 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_custom (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
-#  gravlax_base/seed/views/seed_handler_field_markup.inc: n/a
-#  gravlax_base/seed/views/seed_handler_field_date.inc: n/a
+#  custom/seed/views/seed_handler_field_markup.inc: n/a
+#  custom/seed/views/seed_handler_field_date.inc: n/a
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:13+0200\n"
+"Project-Id-Version: atrium_custom (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:16+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -17,17 +17,19 @@ msgstr ""
 
 #: seed/views/seed_handler_field_markup.inc:13
 msgid "Text length (in characters)"
-msgstr ""
+msgstr "Longitud del texto (en caracteres)"
 
 #: seed/views/seed_handler_field_markup.inc:15
 msgid ""
 "Enter 0 or leave blank to use full text. Truncating strings will have "
 "their HTML formatting stripped."
 msgstr ""
+"Introduzca 0 ó deje en blanco para utilizar el texto completo. El "
+"HTML será filtrado en las cadenas truncadas."
 
 #: seed/views/seed_handler_field_date.inc:21
 msgid "Day only"
-msgstr ""
+msgstr "Sólo día"
 
 #: seed/views/seed_handler_field_date.inc:22
 msgid "Time only"

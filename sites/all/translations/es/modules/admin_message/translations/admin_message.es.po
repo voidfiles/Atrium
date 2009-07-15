@@ -1,0 +1,113 @@
+# Spanish translation of atrium_contrib (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  contrib/admin_message/admin-message-node.tpl.php: n/a
+#  admin_message.module,v 1.2 2009/03/06 03:02:41 ultimateboy
+#  admin_message.install,v 1.2 2009/03/06 03:02:41 ultimateboy
+#  admin_message.info,v 1.2 2009/03/06 03:02:41 ultimateboy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: admin_message/admin-message-node.tpl.php:4
+msgid "Close this message"
+msgstr "Cerrar este mensaje"
+
+#: admin_message/admin_message.module:87
+msgid "Admin messages"
+msgstr "Mensajes del administrador"
+
+#: admin_message/admin_message.module:136
+msgid "Message visibility"
+msgstr "Visibilidad de mensajes"
+
+#: admin_message/admin_message.module:144
+msgid "Show message (sticky)"
+msgstr "Mostrar mensaje (persistente)"
+
+#: admin_message/admin_message.module:149
+msgid "Always show this message to new users"
+msgstr "Mostrar siempre este mensaje para nuevos usuarios"
+
+#: admin_message/admin_message.module:160
+msgid ""
+"Show if the following PHP code returns <code>true</code> (PHP-mode, "
+"experts only)"
+msgstr ""
+"Mostrar si el siguiente código PHP devuelve <code>true</code> (Modo "
+"PHP, sólo expertos)"
+
+#: admin_message/admin_message.module:161
+msgid ""
+"Enter PHP code between %php. Note that executing incorrect PHP-code "
+"can break your Drupal site."
+msgstr ""
+"Introducir código PHP entre %php. Tenga en cuenta que ejecutar "
+"código PHP incorrecto puede romper su sitio Drupal."
+
+#: admin_message/admin_message.module:191
+msgid ""
+"Use admin messages to display messages, usually status messages or "
+"similar to logged in users."
+msgstr ""
+"Utilice los mensajes del administrador para mostrar avisos, "
+"normalemente mensajes de estado o similares para usuarios registrados."
+
+#: admin_message/admin_message.module:0,219
+msgid "admin_message"
+msgstr "admin_message"
+
+#: admin_message/admin_message.module:221
+msgid "create "
+msgstr "crear "
+
+#: admin_message/admin_message.module:225,224,223,222,221
+msgid " content"
+msgstr " contenido"
+
+#: admin_message/admin_message.module:222
+msgid "delete own "
+msgstr "eliminar propios "
+
+#: admin_message/admin_message.module:223
+msgid "delete any "
+msgstr "eliminar todos "
+
+#: admin_message/admin_message.module:224
+msgid "edit own "
+msgstr "editar propios "
+
+#: admin_message/admin_message.module:225
+msgid "edit any "
+msgstr "editar todos "
+
+#: admin_message/admin_message.module:226
+msgid "close admin messages"
+msgstr "cerrar mensajes del administrador"
+
+#: admin_message/admin_message.install:50,43,40,30,23,16,13
+msgid "TODO"
+msgstr "PENDIENTE"
+
+#: admin_message/admin_message.install:73
+msgid ""
+"<em>Admin message</em> was installed. Enable the block \"Admin "
+"messages\" to display messages to users."
+msgstr ""
+"<em>Mensajes de administrador</em> ha sido instalado. Active el bloque "
+"\"Mensajes de administrador\" para mostrar mensajes a los usuarios."
+
+#: admin_message/admin_message.info:0
+msgid "Display messages that can be individually closed by logged in users."
+msgstr ""
+"Mostrar mensajes que pueden ser cerrados individualmente por usuarios "
+"registrados."
+

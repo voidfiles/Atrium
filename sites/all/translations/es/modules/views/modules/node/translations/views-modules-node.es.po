@@ -1,18 +1,18 @@
-# Spanish translation of gravlax_base (6.x-0.3)
+# Spanish translation of atrium_contrib (6.x-0.2)
 # Copyright (c) 2009 by the Spanish translation team
 # Generated from files:
 #  views_plugin_row_node_rss.inc,v 1.6 2009/04/07 22:02:40 merlinofchaos
-#  views_plugin_row_node_view.inc,v 1.3 2009/04/08 20:54:58 merlinofchaos
 #  views_handler_argument_dates_various.inc,v 1.4 2009/01/08 00:25:19 merlinofchaos
 #  views_handler_argument_node_type.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos
 #  views_handler_field_history_user_timestamp.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos
 #  views_handler_field_node.inc,v 1.3 2009/01/30 00:01:42 merlinofchaos
 #  views_plugin_argument_validate_node.inc,v 1.1 2008/09/03 19:21:29 merlinofchaos
+#  views_plugin_row_node_view.inc,v 1.3 2009/04/08 20:54:58 merlinofchaos
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gravlax_base (6.x-0.3)\n"
-"POT-Creation-Date: 2009-06-03 13:12+0200\n"
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -23,10 +23,6 @@ msgstr ""
 #: views/modules/node/views_plugin_row_node_rss.inc:129
 msgid "read more"
 msgstr "leer más"
-
-#: views/modules/node/views_plugin_row_node_view.inc:53
-msgid "Full node"
-msgstr "Nodo completo"
 
 #: views/modules/node/views_handler_argument_dates_various.inc:167
 msgid "Week @week"

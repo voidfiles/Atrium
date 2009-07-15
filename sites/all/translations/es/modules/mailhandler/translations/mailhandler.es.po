@@ -1,0 +1,539 @@
+# Spanish translation of atrium_contrib (6.x-0.2)
+# Copyright (c) 2009 by the Spanish translation team
+# Generated from files:
+#  contrib/mailhandler/mailhandler.admin.inc: n/a
+#  contrib/mailhandler/mailhandler.retrieve.inc: n/a
+#  mailhandler.module,v 1.96.2.3 2008/10/26 21:43:24 zstolar
+#  contrib/mailhandler/mailhandler.install: n/a
+#  contrib/mailhandler/mailhandler.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: atrium_contrib (6.x-0.2)\n"
+"POT-Creation-Date: 2009-06-18 16:33+0200\n"
+"PO-Revision-Date: 2009-05-30 19:50+0200\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: mailhandler/mailhandler.admin.inc:40
+msgid "The e-mail address to which users should send their submissions."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:46
+msgid "Second E-mail address"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:48
+msgid ""
+"Optional. The e-mail address to which modules should send generated "
+"content."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:301,53
+msgid "Folder"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:55
+msgid ""
+"Optional. The folder where the mail is stored. If you want this "
+"mailbox to read from a local folder, give the full path. Leave domain, "
+"port, name, and pass empty below. Remember to set the folder to "
+"readable and writable by the webserver."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:60
+msgid "POP3 or IMAP Mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:63
+msgid ""
+"If you wish to retrieve mail from a POP3 or IMAP mailbox instead of a "
+"Folder, select POP3 or IMAP. Also, complete the Mailbox items below."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:68
+msgid "Mailbox domain"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:70
+msgid "The domain of the server used to collect mail."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:75
+msgid "Mailbox port"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:78
+msgid ""
+"The port of the mailbox used to collect mail (usually 110 for POP3, "
+"143 for IMAP)."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:83
+msgid "Mailbox username"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:85
+msgid ""
+"This username is used while logging into this mailbox during mail "
+"retrieval."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:90
+msgid "Mailbox password"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:92
+msgid ""
+"The password corresponding to the username above. Consider using a "
+"non-vital password, since this field is stored without encryption in "
+"the database."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:98
+msgid "Extra commands"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:100
+msgid ""
+"Optional. In some circumstances you need to issue extra commands to "
+"connect to your mail server (e.g. \"/notls\", \"/novalidate-cert\" "
+"etc.). See documentation for <a "
+"href=\"http://php.net/imap_open\">imap_open</a>. Begin the string with "
+"a \"/\", separating each subsequent command with another \"/\"."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:105
+msgid "Mime preference"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:111
+msgid ""
+"When a user sends an e-mail containing both HTML and plain text parts, "
+"use this part as the node body."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:116
+msgid "Security"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:117
+msgid "Require password"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:119
+msgid ""
+"Disable security if your site does not require a password in the "
+"Commands section of incoming e-mails. Note: Security=Enabled and Mime "
+"preference=HTML is an unsupported combination."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:122
+msgid "Send error replies"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:122
+msgid ""
+"Send helpful replies to all unsuccessful e-mail submissions. Consider "
+"disabling when a listserv posts to this mailbox."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:124
+msgid "From header"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:124
+msgid ""
+"Use this e-mail header to determine the author of the resulting node. "
+"Admins usually leave this field blank (thus using the "
+"<strong>From</strong> header), but <strong>Sender</strong> is also "
+"useful when working with listservs."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:126
+msgid "Default commands"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:126
+msgid ""
+"A set of commands which are added to each message. One command per "
+"line. See <a href=\"@link\">Commands</a>."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:128
+msgid "Signature separator"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:128
+msgid ""
+"All text after this string will be discarded. A typical value is "
+"<strong>\"-- \"</strong> that is two dashes followed by a blank in an "
+"otherwise empty line. Leave blank to include signature text in nodes."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:130
+msgid "Delete messages after they are processed?"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:130
+msgid ""
+"Uncheck this box to leave read messages in the mailbox. They will not "
+"be processed again unless they become marked as unread."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:132
+msgid "Cron processing"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:132
+msgid "Select disable to temporarily stop cron processing for this mailbox."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:146
+msgid "Save mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:202,151
+msgid "Test connection"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:189
+msgid "Mailbox port must be an integer."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:196
+msgid ""
+"The local folder has to be readable and writable by owner of the "
+"webserver process, e.g. nobody."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:220
+msgid "Mailbox %mailbox updated."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:224
+msgid "Mailbox %mailbox added."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:255
+msgid "Do you wish to delete mailbox %mailbox?"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:268
+msgid "Mailbox %mailbox deleted"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:288
+msgid "%c connection to %m failed."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:291
+msgid "Mailhandler could not access local folder: %m"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:301
+msgid "Mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:308
+msgid "Retrieve and process pending e-mails in this mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:309
+msgid "Edit this mailbox configuration"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:310
+msgid "Add a new mailbox, using this mailbox configuration as a template"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:311
+msgid "Delete this mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:316
+msgid "No mailboxes have been defined."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:331
+msgid "Default content type"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:334
+msgid ""
+"If an incoming message does not specify a particular content type, "
+"then use this type as a default."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:339
+msgid "Cron maximum message retrieval"
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:341
+msgid ""
+"To prevent timeout errors from large mailboxes you can limit the "
+"maximum number of messages that will be processed during each cron "
+"run. This is a global setting and applies to all mailboxes. A value of "
+"zero means that no limit will be applied. Some trial and error may be "
+"needed to find the optimum setting."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:365
+msgid "The value should a positive integer, or zero."
+msgstr ""
+
+#: mailhandler/mailhandler.admin.inc:267
+msgid "Mailhandler: Mailbox %mailbox deleted"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:27
+msgid "Retrieving message @current of @total."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:39
+msgid "There are no messages to retrieve for %mail."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:408
+msgid ""
+"Sorry, your comment experienced an error and was not posted. Possible "
+"reasons are that you have insufficient permission to post comments or "
+"the node is no longer open for comments."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:469
+msgid "The e-mail address !from may not update !type items."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:479
+msgid "The e-mail address !from may not create !type items."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:485
+msgid "Your submission is invalid:"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:509
+msgid "Email submission to !site_name failed - !subject"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:514
+msgid ""
+"You sent:\n"
+"\n"
+"From: !from\n"
+"Subject: !subject\n"
+"Body:\n"
+"!body"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:120
+msgid "Could not fetch structure for message number %msg_number"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:128
+msgid ""
+"Maximum recursion depths met in mailhander_get_structure_part for "
+"message number %msg_number."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:152
+msgid ""
+"Could not fetch mime type for message part. Defaulting to "
+"application/octet-stream."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:187
+msgid "No Data!!"
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:411
+msgid "Comment submission failure: %subject."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:466
+msgid "Updated %title by %from."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:470
+msgid "Node submission failure: %from may not update %type items."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:476
+msgid "Added %title by %from."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:480
+msgid "Node submission failure: %from may not create %type items."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:486
+msgid "Node submission failure: validation error."
+msgstr ""
+
+#: mailhandler/mailhandler.retrieve.inc:26
+msgid "Preparing to retrieve 1 message..."
+msgid_plural "Preparing to retrieve @count messages..."
+msgstr[0] ""
+msgstr[1] ""
+
+#: mailhandler/mailhandler.retrieve.inc:587
+msgid "1 message retrieved for %mailbox."
+msgid_plural "@count messages retrieved for %mailbox."
+msgstr[0] ""
+msgstr[1] ""
+
+#: mailhandler/mailhandler.module:47,39
+msgid "Manage mailboxes and retrieve messages."
+msgstr ""
+
+#: mailhandler/mailhandler.module:116,63,54
+msgid "Add mailbox"
+msgstr "Añadir buzón de correo"
+
+#: mailhandler/mailhandler.module:81
+msgid "Edit mailbox"
+msgstr ""
+
+#: mailhandler/mailhandler.module:100
+msgid ""
+"Set the default content type for incoming messages and set the cron "
+"limit."
+msgstr ""
+
+#: mailhandler/mailhandler.module:120
+msgid ""
+"Use this to add the terms <em>term1</em> and <em>term2</em> to the "
+"node.<br />\n"
+"                      Both of the terms should already exist. In case "
+"they do not exist already, they will be quietly ommitted"
+msgstr ""
+
+#: mailhandler/mailhandler.module:123
+msgid ""
+"Similar to the above: adds the terms <em>term1</em> and <em>term2</em> "
+"to the node, but uses the vocabulary with the vocabulary id "
+"<em>v</em>. For example <em>taxonomy[3]</em> will chose only terms "
+"from the vocabulary which id is 3.<br />\n"
+"                      In case some of the terms do not exist already, "
+"the behavior will depend on whether the vocabulary is a free tagging "
+"vocabulary or not. If it is a free tagging vocabulary, the term will "
+"be added, otherwise, it will be quietly ommitted"
+msgstr ""
+
+#: mailhandler/mailhandler.module:135
+msgid ""
+"The mailhandler module allows registered users to create or edit nodes "
+"and comments via e-mail. Users may post taxonomy terms, teasers, and "
+"other post attributes using the mail commands capability.  This module "
+"is useful because e-mail is the preferred method of communication by "
+"community members."
+msgstr ""
+
+#: mailhandler/mailhandler.module:136
+msgid ""
+"The mailhandler module requires the use of a custom mailbox.  "
+"Administrators can add mailboxes that should be customized to meet the "
+"needs of a mailing list. This mailbox will then be checked on every "
+"cron job. Administrators may also initiate a manual retrieval of "
+"messages."
+msgstr ""
+
+#: mailhandler/mailhandler.module:137
+msgid ""
+"This is particularly useful when you want multiple sets of default "
+"commands. For example , if you want to authenticate based on a "
+"non-standard mail header like Sender: which is useful for accepting "
+"submissions from a listserv. Authentication is usually based on the "
+"From: e-mail address.  Administrators can edit the individual "
+"mailboxes when they administer mailhandler."
+msgstr ""
+
+#: mailhandler/mailhandler.module:138
+msgid ""
+"<p>You can</p>\n"
+"<ul>\n"
+"<li><a href=\"@run-cron\">run cron</a> to retrieve messages from all "
+"cron enabled mailboxes.</li>\n"
+"<li>list mailboxes at <a href=\"@admin-mailhandler\">Administer "
+"&gt;&gt; Content management &gt;&gt; Mailhandler</a>.</li>\n"
+"<li>add a mailbox at <a href=\"@admin-mailhandler-add\">Administer "
+"&gt;&gt; Content management &gt;&gt; Mailhandler &gt;&gt; Add  "
+"mailbox.</a></li>\n"
+"<li>set default commands, (password, type, taxonomy, promote, status), "
+"for how to work with incoming mail at <a "
+"href=\"%admin-mailhandler\">Administer &gt;&gt; Content management "
+"&gt;&gt; Mailhandler</a> and select <strong>edit</strong> for the "
+"email address being handled.  Set commands in the default command "
+"field.</li>\n"
+"<li>post email, such as from a mailing list, to a forum by adding the "
+"term id (number found in the URL) to the default commands using "
+"<strong>tid: #</strong>.</li>\n"
+"<li>alter mailhandler settings (default content type and cron "
+"threshold) at <a href=\"@admin-mailhandler-settings\">Administer "
+"&gt;&gt; Site configuration &gt;&gt; Mailhandler</a>.</li>\n"
+"</ul>"
+msgstr ""
+
+#: mailhandler/mailhandler.module:153
+msgid "Useful Commands"
+msgstr ""
+
+#: mailhandler/mailhandler.module:155
+msgid ""
+"For more information please read the configuration and customization "
+"handbook <a href=\"%mailhandler\">Mailhandler page</a>."
+msgstr ""
+
+#: mailhandler/mailhandler.module:158
+msgid ""
+"The mailhandler module allows registered users to create or edit nodes "
+"and comments via email. Authentication is usually based on the From: "
+"email address. There is also an email filter that can be used to "
+"prettify incoming email. Users may post taxonomy terms, teasers, and "
+"other node parameters using the Command capability."
+msgstr ""
+
+#: mailhandler/mailhandler.module:160
+msgid ""
+"Add a mailbox whose mail you wish to import into Drupal. Can be IMAP, "
+"POP3, or local folder."
+msgstr ""
+
+#: mailhandler/mailhandler.module:162
+msgid ""
+"Edit the mailbox whose mail you wish to import into Drupal. Can be "
+"IMAP, POP3, or local folder."
+msgstr ""
+
+#: mailhandler/mailhandler.module:164
+msgid ""
+"The mailhandler module allows registered users to create or edit nodes "
+"and comments via e-mail."
+msgstr ""
+
+#: mailhandler/mailhandler.module:26
+msgid "administer mailhandler"
+msgstr ""
+
+#: mailhandler/mailhandler.install:23
+msgid "Mailhandler table"
+msgstr ""
+
+#: mailhandler/mailhandler.install:155
+msgid "IMAP"
+msgstr ""
+
+#: mailhandler/mailhandler.install:156
+msgid ""
+"Mailhandler requires that PHP's !ext is enabled in order to function "
+"properly."
+msgstr ""
+
+#: mailhandler/mailhandler.info:0
+msgid "Accepts submissions via e-mail."
+msgstr ""
+
