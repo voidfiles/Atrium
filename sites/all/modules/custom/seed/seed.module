@@ -158,10 +158,6 @@ function seed_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  */
 function seed_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
-    // Special case -- we need to help views and add in our JS because of Views' AJAX handling.
-    case 'views_ui_edit_view_form':
-      drupal_add_js(drupal_get_path('module', 'seed') .'/theme/collapse.js', 'theme');
-      break;
     case 'system_site_information_settings':
     // Allow for custom page title on site front page
       $form['front_page_title']['#type'] = 'textfield'; 
