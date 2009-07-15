@@ -204,7 +204,7 @@ function atrium_installer_profile_tasks(&$task, $url) {
     }
 
     // Eliminate the access content perm from anonymous users.
-    db_query("UPDATE permission set perm = '' WHERE rid = 1");
+    db_query("UPDATE {permission} set perm = '' WHERE rid = 1");
 
     // Create user picture directory
     $picture_path = file_create_path(variable_get('user_picture_path', 'pictures'));
