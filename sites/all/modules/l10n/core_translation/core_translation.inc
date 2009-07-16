@@ -131,7 +131,7 @@ function core_translation_system_themes_form_submit($form, &$form_state) {
  */
 function core_translation_l10n_client_import_package_form_submit($form, &$form_state) {
   // First clean up strings and set up default batch
-  l10n_client_import_package_form_submit($form, &$form_state);
+  l10n_client_import_package_form_submit($form, $form_state);
   // Then we add our own batch for more imports.
   include_once 'includes/locale.inc';
   foreach (array_filter($form_state['values']['langcodes']) as $langcode) {
