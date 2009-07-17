@@ -5,7 +5,7 @@ div.view-atrium-profile li div.views-field-mail,
 #views-bulk-operations-dropdown,
 #views-bulk-operations-submit,
 div.grouped div.grouped-left,
-div.view-messaging-shoutbox-shouts div.views-field-picture,
+div.view-atrium-shoutbox-shouts div.views-field-picture,
 div.diff-inline-controls span.diff-inline-legend,
 div.more-link a,
 div.node-links ul li span,
@@ -47,13 +47,14 @@ div.pager ul.pager-links,
 body.one-sidebar #page div.limiter { background-image: url(images/page-rtl.png); }
 
 /**
- *
+ * Swapped margins, borders
  */
 #page-header div.context-links a {
   margin-left:0px;
   margin-right:5px;
   }
 
+div.view-atrium-shoutbox-shouts div.views-field-picture,
 #page ul.secondary-tabs a {
   margin-right:0px;
   margin-left:5px;
@@ -85,3 +86,12 @@ div.view-atrium-profile li div .field-content { padding:5px 100px 5px 5px; }
 div.view h3,
 div.item-list h3,
 table caption { text-align:right; }
+
+/**
+ * Remove letter-spacing hacks.
+ */
+#content div.view-empty,
+#content div.spaces-empty,
+ul.multistep li span,
+ul.multistep li a,
+div.view-atrium-profile div.views-field-name { letter-spacing:0px; }

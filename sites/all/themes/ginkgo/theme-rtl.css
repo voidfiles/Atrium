@@ -17,11 +17,15 @@ div.dropdown-blocks div.block div.item-list li { float:right; }
 #global ul.dropdown { float:left; }
 
 /* Margin swaps */
+#global div.picture,
 #features-menu li,
 #navigation ul.space-links li a {
   margin-right:0px;
   margin-left:5px;
   }
+
+/* Logo alignment */
+#branding a.spaces-logo { background-position:100% 50%; }
 
 /**
  * Dropdown blocks.

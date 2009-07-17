@@ -249,8 +249,7 @@ div.mission {
   body.one-sidebar #page div.limiter { background: #fff url(images/page.png) -780px 0px repeat-y; }
   body.archived #page div.limiter { opacity: .5; }
 
-div#main { padding:0px 20px; }
-div#content { padding:20px 0px; }
+div#main { padding:20px; }
 
 body.one-sidebar div#main {
   overflow:hidden;
@@ -876,12 +875,16 @@ div.shoutform div.shoutbox-input {
   }
 
 /* Page view */
-div.view-messaging-shoutbox-shouts div.views-field-picture {
+div.view-atrium-shoutbox-shouts div.views-field-picture {
   margin-right:5px;
   float:left;
   }
 
-div.view-messaging-shoutbox-shouts div.views-field-name { line-height:30px; }
+div.view-atrium-shoutbox-shouts div.views-field-name {
+  padding:0px;
+  margin:0px;
+  line-height:30px;
+  }
 
 #right div.block-messaging_shoutbox form { padding:0px; }
 
