@@ -104,7 +104,6 @@ form div.form div.buttons {
  * FIELDSETS  =========================================================
  */
 div.fieldset,
-div.view-filters,
 form table {
   background: #f8f8f8 url(images/bleeds.png) 0% 100% repeat-x;
   border:1px solid #ddd;

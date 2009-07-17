@@ -900,6 +900,20 @@ div.view-atrium-shoutbox-shouts div.views-field-name {
 /**
  * Views ==============================================================
  */
+div.view-header,
+div.view-filters {
+  background: #f8f8f8 url(images/bleeds.png) 0% 100% repeat-x;
+  border:1px solid #ddd;
+  margin:0px 0px 10px;
+  }
+
+  div.view-header { padding:14px; }
+  div.view-filters { padding:0px 9px; }
+
+  #right div.view-header {
+    padding:9px;
+    background:#fff;
+    }
 
 /* Style plugin grouped headings */
 div.view h3,
@@ -974,8 +988,6 @@ td.views-field-title div.views-field-title {
   float:left;
   padding:0px 5px 0px 0px;
   }
-
-div.view-filters { padding:0px 10px; }
 
 /* New marker */
 .node a.new,
