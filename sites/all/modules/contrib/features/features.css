@@ -11,7 +11,7 @@ table.features .admin-loading,
 table.features tr.disabled { color:#999; }
 
   table.features a.configure { float:right; font-style:italic; }
-  table.features div.feature { float:left; }
+  table.features div.feature { float:left; width:85%; }
   table.features div.feature strong { font-size:13px; }
   table.features div.feature div.description { font-size:11px; margin:0px; }
 
