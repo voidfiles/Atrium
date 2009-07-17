@@ -17,7 +17,7 @@ a {
 
 div.limiter { width:960px; }
 
-body.not-logged-in div.limiter { width:560px; }
+body.anonymous-login div.limiter { width:560px; }
 
 /**
  * "Power" hover classes ==============================================

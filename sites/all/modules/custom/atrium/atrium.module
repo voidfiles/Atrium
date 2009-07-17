@@ -527,10 +527,9 @@ function atrium_theme_registry_alter(&$theme_registry) {
 function atrium_preprocess_page(&$vars) {
   // User picture, user links
   global $user;
-  if ($user->uid != 0) {
-    $vars['picture'] = theme('user_picture', $user);
-    $vars['user_links'] = theme('links', atrium_user_links());
-  }
+  $vars['picture'] = ($user->uid != 0) ? theme('user_picture', $user) : '';
+  $vars['user_links'] = theme('links', atrium_user_links());
+
   if (user_access('access content') && user_access('search content')) {
     if ($space = spaces_get_space()) {
       switch ($space->type) {
@@ -597,19 +596,29 @@ function atrium_preprocess_views_view(&$vars) {
  * User-related links.
  */
 function atrium_user_links() {
+  global $user;
   $links = array();
 
-  // Set account class to active if in user's space
-  $account_class = '';
-  global $user;
-  $space = spaces_get_space();
-  if ($space && $space->type == 'user' && $space->sid == $user->uid) {
-    $account_class = 'active';
-  }
-  $links["account {$account_class}"] = array('title' => t('My Account'), 'href' => 'user/'. $user->uid, '#weight' => -10);
+  // User is logged in
+  if ($user->uid) {
+    // Set account class to active if in user's space
+    $account_class = '';
+    $space = spaces_get_space();
+    if ($space && $space->type == 'user' && $space->sid == $user->uid) {
+      $account_class = 'active';
+    }
+    $links["account {$account_class}"] = array('title' => t('My Account'), 'href' => 'user/'. $user->uid, '#weight' => -10);
 
-  // Logout
-  $links['logout'] = array('title' => t('Logout'), 'href' => 'logout', '#weight' => 10, 'query' => 'destination=user/login');
+    // Logout
+    $links['logout'] = array('title' => t('Logout'), 'href' => 'logout', '#weight' => 10, 'query' => 'destination=user/login');
+  }
+  // Provide login/register links for anonymous users
+  else {
+    $links['login'] = array('title' => t('Login'), 'href' => 'user/login');
+    if (variable_get('user_register', 1)) {
+      $links['register'] = array('title' => t('Register'), 'href' => 'user/register');
+    }
+  }
 
   // Allow others to add or alter links
   drupal_alter('atrium_user_links', $links);
