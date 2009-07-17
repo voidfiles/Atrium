@@ -208,7 +208,7 @@ function atrium_intranet_context_links_alter(&$links) {
       }
       break;
     case 'members':
-      if (module_exists('ucreate')) {
+      if (module_exists('ucreate') && user_access('create users')) {
         $links['atrium_users'] = array(
           'title' => t('User account'),
           'href' => 'user/add',
