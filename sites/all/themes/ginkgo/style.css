@@ -22,7 +22,7 @@ body.anonymous-login div.limiter { width:560px; }
 /**
  * "Power" hover classes ==============================================
  */
-ul.multistep li.active,
+ul.multistep li.active-step,
 .form-text:focus,
 .form-textarea:focus,
 .form-select:focus,
@@ -1154,8 +1154,8 @@ ul.multistep li a {
   ul.multistep li.last span,
   ul.multistep li.last a { border-right:0px; }
 
-  ul.multistep li.active a,
-  ul.multistep li.active span { color:#333; }
+  ul.multistep li.active-step a,
+  ul.multistep li.active-step span { color:#333; }
 
 /**
  * DL =================================================================
