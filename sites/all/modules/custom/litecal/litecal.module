@@ -338,7 +338,7 @@ class litecal_timespan {
    */
   function convert($from, $to) {
     // Ensure the times are within the timespan
-    if (litecal_date_difference($from, $this->to) < 0 && litecal_date_difference($to, $this->from) > 0) {
+    if (litecal_date_difference($to, $this->from, $this->unit) >= 0 && litecal_date_difference($from, $this->to, $this->unit) < 0 ) {
       $x = 0;
 
       if (litecal_date_difference($from, $this->from) >= 0) {
@@ -348,7 +348,8 @@ class litecal_timespan {
         $start = 0;
       }
 
-      if (litecal_date_difference($to, $this->to) < 0) {
+      if (litecal_date_difference($to, $this->to, $this->unit) < 0) {
+        litecal_date_difference($to, $this->to, $this->unit);
         $end = litecal_date_difference($to, $this->from, $this->unit);
       }
       else {
@@ -356,8 +357,8 @@ class litecal_timespan {
       }
 
       $item = new litecal_timeitem($start, $end, LITECAL_ITEM);
-      $item->starts = litecal_date_difference($from, $this->from) >= 0 ? TRUE : FALSE;
-      $item->ends = litecal_date_difference($to, $this->to) <= 0 ? TRUE : FALSE;
+      $item->starts = litecal_date_difference($from, $this->from, $this->unit) >= 0 ? TRUE : FALSE;
+      $item->ends = litecal_date_difference($to, $this->to, $this->unit) < 0 ? TRUE : FALSE;
       return $item;
     }
     return FALSE;
