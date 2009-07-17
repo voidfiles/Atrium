@@ -609,7 +609,7 @@ function atrium_user_links() {
   $links["account {$account_class}"] = array('title' => t('My Account'), 'href' => 'user/'. $user->uid, '#weight' => -10);
 
   // Logout
-  $links['logout'] = array('title' => t('Logout'), 'href' => 'logout', '#weight' => 10);
+  $links['logout'] = array('title' => t('Logout'), 'href' => 'logout', '#weight' => 10, 'query' => 'destination=user/login');
 
   // Allow others to add or alter links
   drupal_alter('atrium_user_links', $links);
