@@ -739,9 +739,9 @@ function _spaces_og_form_alter_group(&$form, $form_state) {
   _spaces_og_make_hidden($form['og_directory']);
   _spaces_og_make_hidden($form['themes']);
 
-  // Add context prefix form
+  // Add purl form
   // This case handles node previews
-  if (!empty($form_state['node_preview']) && !empty($form['#node']->purl['value'])) {
+  if (isset($form_state['node_preview'])) {
     $form['purl'] = purl_form('spaces_og', $form['#node']->nid, $form['#node']->purl['value']);
   }
   // Regular edit form
@@ -752,6 +752,11 @@ function _spaces_og_form_alter_group(&$form, $form_state) {
   // Add presets form
   $nid = isset($form['#node']->nid) ? $form['#node']->nid : NULL;
   $space = spaces_load('og', $nid);
+
+  // Preserve value on preview
+  if (isset($form_state['node_preview'])) {
+    $space->preset = $form_state['values']['preset'];
+  }
   $form['spaces_preset'] = spaces_form_presets($space);
 
   // Pass existing space through
