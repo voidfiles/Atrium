@@ -1033,7 +1033,7 @@ function _spaces_og_group_options($type, $uid = 0) {
   }
   $result = db_query(
     "SELECT og.nid, n.title
-    FROM {og}
+    FROM {og} og
       JOIN {node} n ON og.nid = n.nid
       JOIN {spaces_features} sf ON sf.sid = og.nid
       $join
