@@ -8,3 +8,6 @@ engine = "phptemplate"
 base theme = "ginkgo"
 
 stylesheets[screen][] = "thin.css"
+
+admin[admin menu] = 1
+admin[admin inline] = 0
