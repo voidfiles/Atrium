@@ -128,7 +128,7 @@ function atrium_menu() {
     'file' => 'atrium.pages.inc',
   );
   $items['admin/atrium'] = array(
-    'title' => 'Administration',
+    'title' => 'Maintenance',
     'description' => 'Configuration options for Atrium.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('atrium_admin'),
