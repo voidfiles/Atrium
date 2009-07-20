@@ -216,14 +216,6 @@ function atrium_intranet_context_links_alter(&$links) {
       }
       break;
   }
-  // Re-path node add page when in the admin section
-  if (arg(0) == 'admin') {
-    foreach ($links as $k => $v) {
-      if (strpos($v['href'], 'node/add') === 0) {
-        $links[$k]['href'] = 'admin/content/add'. substr($links[$k]['href'], 8);
-      }
-    }
-  }
 }
 
 /**
