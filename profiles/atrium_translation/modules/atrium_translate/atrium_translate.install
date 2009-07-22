@@ -1,4 +1,4 @@
-<?php 
+<?php
 // *Id*
 /**
  * @file
@@ -12,7 +12,7 @@ define('ATRIUM_VERSION', '1.0-beta1');
 define('ATRIUM_L10N_SERVER', 'https://translate.openatrium.com');
 define('ATRIUM_L10N_DIRECTORY', 'translations');
 define('ATRIUM_L10N_DOWNLOAD_PATH', '/sites/translate.openatrium.com/files/translations');
-// Make fixed version for 
+// Make fixed version for
 define('ATRIUM_L10N_DOWNLOAD_FILE', '%module-6.x-' . ATRIUM_VERSION . '-%locale.po');
 
 require_once './profiles/atrium_translation/modules/l10n_update/l10n_update.inc';
@@ -24,7 +24,7 @@ function atrium_translate_requirements($phase) {
   $t = get_t();
   // Get current locale. We only support one at a time
   $locale = _atrium_translate_locale();
-  
+
   if ($phase == 'install') {
     $requirements['translation'] = array(
       'title' => $t('Translation is available'),
@@ -41,7 +41,11 @@ function atrium_translate_requirements($phase) {
       return $requirements;
     }
     else {
-      if ($languages = l10n_update_get_language_list(ATRIUM_L10N_SERVER)) {
+      // Server test. see: http://drupal.org/node/527484
+      $uri = parse_url(ATRIUM_L10N_SERVER);
+      $fp = @fsockopen('ssl://'. $uri['host'], 443, $errno, $errstr, 20);
+
+      if ($fp && $languages = l10n_update_get_language_list(ATRIUM_L10N_SERVER)) {
         if (in_array($locale, $languages)) {
           $description[] = $t('The chosen language(%language) is available for downloading at the translation server. It will be downloaded automatically from %server.', $variables);
           $status = REQUIREMENT_OK;
@@ -52,6 +56,9 @@ function atrium_translate_requirements($phase) {
         }
       }
       else {
+        if (!$fp) {
+          $description[] = $t('Error') .': '. trim($errstr) .'<br />';
+        }
         $description[] = $t('It seems we cannot connect with the translation server at %server.', $variables);
         $status = REQUIREMENT_ERROR;
       }
@@ -60,19 +67,19 @@ function atrium_translate_requirements($phase) {
       $requirements['translation']['severity'] = $status;
       return $requirements;
     }
-    
+
   }
 }
 
 /**
  * Implementation of hook_install()
- * 
+ *
  * We do the initial language import on install
  */
 function atrium_translate_install() {
   // Set some variables for l10n_update to work with Atrium server
   variable_set('l10n_update_server', ATRIUM_L10N_SERVER);
-  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE); 
+  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
 }
 
 /**
@@ -82,7 +89,8 @@ function atrium_translate_install() {
  */
 function atrium_translate_create_batch($locale) {
   module_load_include('inc', 'l10_update');
-  
+  $batch_file = drupal_get_path('module', 'atrium_translate') . '/atrium_translate.inc';
+
   // First check for the default local file. If not there go for the remote one.
   if (is_readable($filename = _atrium_translate_default_file($locale))) {
     $file = new Stdclass();
@@ -92,8 +100,8 @@ function atrium_translate_create_batch($locale) {
   }
   else {
     $url = l10n_update_download_url('atrium', ATRIUM_VERSION, $locale);
-    $batch = l10n_update_download_create_batch($url, $locale);
-    return $batch;    
+    $batch = l10n_update_download_batch($url, $locale);
+    return $batch;
   }
 }
 
@@ -110,6 +118,6 @@ function _atrium_translate_default_file($locale) {
 function _atrium_translate_locale() {
   global $install_locale;
   global $language;
-  
+
   return isset($install_locale) ? $install_locale : $language->language;
 }
