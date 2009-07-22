@@ -63,7 +63,12 @@ function l10n_update_download_file($download_url, $destination = NULL) {
 }
 
 /**
- * Check remote l10n server
+ * Check remote l10n server.
+ * 
+ * We use the l10n_client_server here, which raises the question of whether we should
+ * allow posting translations to a server and getting them from a different one.
+ * 
+ * So no, we don't. Let's encourage contributions (and save settings).
  */
 function l10n_update_check_remote_server($server = NULL) {
   $t = get_t();
@@ -94,13 +99,13 @@ function l10n_update_check_remote_server($server = NULL) {
  * 
  */
 function l10n_update_get_language_list($server = NULL, $refresh = FALSE) {
-  if (!$refresh && ($languages = variable_get('atrium_supported_languages', NULL))) {
+  if (!$refresh && ($languages = variable_get('l10n_update_supported_languages', NULL))) {
     return $languages;
   }
   elseif ($response = l10n_update_check_remote_server($server)) {    
     if (empty($response['error']) && !empty($response['languages'])) {
       $languages = array_map('trim', explode(',', $response['languages']));
-      if ($refresh) variable_set('atrium_supported_languages', $languages);
+      if ($refresh) variable_set('l10n_update_supported_languages', $languages);
       return $languages;
     }    
   }
@@ -143,15 +148,25 @@ function l10n_update_download_url($module, $version, $locale) {
 /**
  * Create a batch to download and import
  */
-function l10n_update_download_batch($url, $locale) {
-  $t = get_t();
+function l10n_update_download_create_batch($url, $locale) {
   
-  $operations[] = array('_l10n_update_batch_download', array($url));
-  $operations[] = array('_l10n_update_batch_import', array($locale));
+  $operations[] = array('_l10n_update_batch_download_import', array($url, $locale));
+  //$operations[] = array('_l10n_update_batch_import', array($locale));
+
+  return l10n_update_create_batch($operations);
+}
+
+/**
+ * Create batch stub for this module
+ * 
+ * @return $batch
+ */
+function l10n_update_create_batch($operations = array()) {
+  $t = get_t();
   $batch = array(
     'operations'    => $operations,
-    'title'         => $t('Downloading and importing translation.'),
-    'init_message'  => $t('Downloading %url', array('%url' => $url)),
+    'title'         => $t('Updating translation.'),
+    'init_message'  => $t('Downloading and importing files.'),
     'error_message' => $t('Error importing interface translations'),
     'file'          => drupal_get_path('module', 'l10n_update') . '/l10n_update.inc',
     'finished'      => '_l10n_update_batch_finished',
@@ -159,14 +174,62 @@ function l10n_update_download_batch($url, $locale) {
   return $batch;
 }
 
-function _l10n_update_batch_download($url, &$context) {
+/**
+ * Some complex batch callback to handle the full download and import
+ * 
+ * Done this way so we pass variables from one step to the next
+ * and we can better handle errors
+ * 
+ * I love batch processes ;-)
+ */
+function _l10n_update_batch_download_import($url, $locale, &$context) {
   $t = get_t();
-  $context['results'][] = $url;
-  if ($file = l10n_update_download_file($url)) {
-    $context['sandbox']['file'] = $file;
-    $context['message'] = $t('Importing downloaded translation.');
-    $context['results'][] = $file;
+  if (!isset($context['sandbox']['step'])) {
+    $context['sandbox']['step'] = 0;
   }
+
+  switch ($context['sandbox']['step']) {
+    case 0: // Download message (for multiple downloads batch)
+      $context['message'] = $t('Downloading remote file from %url', array('%url' => $url));
+      $context['sandbox']['step'] = 1;
+      $context['finished'] = 0.1;
+      break;
+    case 1: // Download      
+      if ($file = l10n_update_download_file($url)) {
+        $context['sandbox']['file'] = $file;
+        $context['message'] = $t('Importing downloaded translation.');
+        $context['sandbox']['step'] = 2;
+        $context['results'][] = $url;
+      }
+      else {
+        $context['sandbox']['step'] = 10;
+      }
+      $context['finished'] = 0.5;      
+      break;
+    case 2: // Import
+      if (!empty($context['sandbox']['file'])) {
+        $file = $context['sandbox']['file'];
+        $context['results'][] = $file;
+        if (l10n_update_import_file($file, $locale)) {
+          $context['message'] = $t('Imported translation file.');
+          $context['finished'] = 1;
+        }
+        else {
+          $context['sandbox']['step'] = 10;
+        }
+        file_delete($file);
+      }
+      else {
+        // This should not happen, just in case
+        $context['sandbox']['step'] = 10;
+      }
+      break;    
+    case 10: // Error
+    default: // In case something goes really wrong
+      $context['finished'] = 1;
+      drupal_set_message($t('The download and import operation failed: %url', array('%url' => $url)));
+      break;
+  }      
 }
 
 function _l10n_update_batch_import($locale, &$context) {
