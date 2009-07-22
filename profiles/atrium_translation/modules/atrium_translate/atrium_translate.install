@@ -70,34 +70,32 @@ function atrium_translate_requirements($phase) {
  * We do the initial language import on install
  */
 function atrium_translate_install() {
-  module_load_include('inc', 'l10n_update');
-
-  $t = get_t();
-  $locale = _atrium_translate_locale();
-
   // Set some variables for l10n_update to work with Atrium server
   variable_set('l10n_update_server', ATRIUM_L10N_SERVER);
-  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
+  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE); 
+}
+
+/**
+ * Create batch for importing this language
+ * @param $locale
+ * @return unknown_type
+ */
+function atrium_translate_create_batch($locale) {
+  module_load_include('inc', 'l10_update');
+  $batch_file = drupal_get_path('module', 'atrium_translate') . '/atrium_translate.inc';
   
   // First check for the default local file. If not there go for the remote one.
-  if (is_readable($file = _atrium_translate_default_file($locale))) {
-    if (l10n_update_import_file($file, $locale)) {
-      watchdog('atrium', 'Successfully imported the language file %file', array('%file' => $file));
-    }
-    else {
-      watchdog('atrium', 'Error importing the language file %file', array('%file' => $file), WATCHDOG_ERROR);
-    }
+  if (is_readable($filename = _atrium_translate_default_file($locale))) {
+    $file = new Stdclass();
+    $file->filename = $filename;
+    $batch = _locale_batch_build(array($file));
+    return $batch;
   }
   else {
     $url = l10n_update_download_url('atrium', ATRIUM_VERSION, $locale);
-    if (l10n_update_download_import($url, $locale)) {
-      watchdog('atrium', 'Successfully downloaded and installed Atrium translation from %url.', array('%url' => $url));
-    }
-    else {
-      watchdog('atrium', 'Error downloading and installing Atrium translation from %url.', array('%url' => $url), WATCHDOG_ERROR);      
-    }
+    $batch = l10n_update_download_batch($url, $locale);
+    return $batch;    
   }
-
 }
 
 /**

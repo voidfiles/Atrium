@@ -37,8 +37,6 @@ function atrium_translation_profile_modules() {
   // To get some modules installed properly we need to have translations loaded
   // We also use it to check connectivity with the translation server on hook_requirements()
   if (!empty($install_locale) && ($install_locale != 'en')) {
-    // We need the locale module first
-    $modules[] = 'locale';
     $modules[] = 'l10n_update';
     $modules[] = 'atrium_translate';
   }
@@ -52,6 +50,7 @@ function atrium_translation_profile_modules() {
 function atrium_translation_profile_task_list() {
   $tasks = array(
     //'locale-extended-import' => st('Import more translations'),
+    'intranet-modules' => st('Install intranet modules'),
     'intranet-configure' => st('Intranet configuration'),
   );
   return $tasks;
@@ -62,12 +61,28 @@ function atrium_translation_profile_task_list() {
  */
 function atrium_translation_profile_tasks(&$task, $url) {
   global $install_locale;
-drupal_set_message("atrium_translation profile task=$task url=$url");  
+  
   // Just in case some of the future tasks adds some output
   $output = '';
 
   // Install some more modules and maybe localization helpers too
   if ($task == 'profile') {
+    if (!empty($install_locale) && ($install_locale != 'en')) {
+      module_load_install('atrium_translate');
+      $batch = atrium_translate_create_batch($install_locale);
+      $batch['finished'] = '_atrium_translation_locale_batch_finished';
+      // Remove temporary variables and set install task
+      variable_del('install_locale_batch_components');
+      variable_set('install_task', 'locale-remaining-batch');
+      batch_set($batch);
+      batch_process($url, $url);
+    }
+    $task = 'intranet-modules'; 
+  }
+  
+  // Install some more modules
+  if ($task == 'intranet-modules') {
+    $operations = array();
     $modules = _atrium_installer_core_modules();
     $modules = array_merge($modules, _atrium_installer_atrium_modules());
     // If not English, install core_translation module.
@@ -77,7 +92,7 @@ drupal_set_message("atrium_translation profile task=$task url=$url");
     }
     */
     $files = module_rebuild_cache();
-    $operations = array();
+    
     foreach ($modules as $module) {
       $operations[] = array('_install_module_batch', array($module, $files[$module]->info['name']));
     }
@@ -97,23 +112,7 @@ drupal_set_message("atrium_translation profile task=$task url=$url");
   // Import extended interface translations for all the enabled modules.
   // Our translations are in sites/all/translations, these are imported by core_translation module
   if ($task == 'locale-extended-import') {
-    if (!empty($install_locale) && ($install_locale != 'en')) {        
-      // @todo: Disable English
-      // @todo: Check content type/s translation options
-      include_once 'includes/locale.inc';
-      module_load_include('inc', 'core_translation');
 
-      $batch = core_translation_batch_by_language($install_locale, '_atrium_installer_locale_batch_finished');
-      if (!empty($batch)) {
-        // Remove temporary variable.
-        variable_del('install_locale_batch_components');
-        // Start a batch, switch to 'locale-batch' task. We need to
-        // set the variable here, because batch_process() redirects.
-        variable_set('install_task', 'locale-remaining-batch');
-        batch_set($batch);
-        batch_process($url, $url);
-      }
-    }
     // Found nothing to import or not foreign language, go to next task.
     $task = 'intranet-configure';
   }
@@ -194,6 +193,15 @@ drupal_set_message("atrium_translation profile task=$task url=$url");
     $task = 'profile-finished';
   }
   return $output;
+}
+
+/**
+ * Finished callback for the first locale import batch.
+ *
+ * Advance installer task to the configure screen.
+ */
+function _atrium_translation_locale_batch_finished($success, $results) {
+  variable_set('install_task', 'intranet-modules');
 }
 
 /**

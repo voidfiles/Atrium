@@ -26,7 +26,6 @@ function l10n_update_download_import($download_url, $locale, $mode = LOCALE_IMPO
  * @return unknown_type
  */
 function l10n_update_import_file($file, $locale, $mode = LOCALE_IMPORT_OVERWRITE) {   
-  $t = get_t();
   // If the file is a filepath, create a $file object
   if (is_string($file)) {
     $filepath = $file;
@@ -138,5 +137,52 @@ function l10n_update_download_url($module, $version, $locale) {
       '%locale' => $locale,
     );
     return strtr($path, $replace);
+  }
+}
+
+/**
+ * Create a batch to download and import
+ */
+function l10n_update_download_batch($url, $locale) {
+  $t = get_t();
+  
+  $operations[] = array('_l10n_update_batch_download', array($url));
+  $operations[] = array('_l10n_update_batch_import', array($locale));
+  $batch = array(
+    'operations'    => $operations,
+    'title'         => $t('Downloading and importing translation.'),
+    'init_message'  => $t('Downloading %url', array('%url' => $url)),
+    'error_message' => $t('Error importing interface translations'),
+    'file'          => drupal_get_path('module', 'l10n_update') . '/l10n_update.inc',
+    'finished'      => '_l10n_update_batch_finished',
+  );
+  return $batch;
+}
+
+function _l10n_update_batch_download($url, &$context) {
+  $t = get_t();
+  $context['results'][] = $url;
+  if ($file = l10n_update_download_file($url)) {
+    $context['sandbox']['file'] = $file;
+    $context['message'] = $t('Importing downloaded translation.');
+    $context['results'][] = $file;
+  }
+}
+
+function _l10n_update_batch_import($locale, &$context) {
+  $t = get_t();
+  
+  if (!empty($context['results'])) {
+    $file = array_shift($context['results']);
+    if (l10n_update_import_file($file, $locale)) {
+      $context['message'] = $t('Imported translation file.');
+    }
+    file_delete($file);
+  }
+}
+
+function _l10n_update_batch_finished($success, $results) {
+  if ($success) {
+    drupal_set_message(t('Successfully imported the translation file.'));
   }
 }
