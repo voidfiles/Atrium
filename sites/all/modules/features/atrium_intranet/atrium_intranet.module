@@ -506,16 +506,30 @@ function atrium_intranet_user($op, &$edit, &$account, $category = NULL) {
   switch ($op) {
     case 'categories':
       $categories = array();
-      $categories['picture'] = array(
-        'name' => 'picture',
-        'title' => 'Picture',
-        'weight' => 10,
-      );
-      $categories['theme_select'] = array(
-        'name' => 'theme_select',
-        'title' => 'Theme settings',
-        'weight' => 10,
-      );
+      // Check that user pictures are enabled.
+      if (variable_get('user_pictures', 0)) {
+        $categories['picture'] = array(
+          'name' => 'picture',
+          'title' => 'Picture',
+          'weight' => 10,
+        );
+      }
+      // Check that user can select a theme and that there are options for her to select from.
+      if (user_access('select different theme')) {
+        $enabled = array();
+        foreach (list_themes() as $theme) {
+          if ($theme->status && !empty($theme->info['atrium'])) {
+            $enabled[] = $theme;
+          }
+        }
+        if (count($enabled) > 1) {
+          $categories['theme_select'] = array(
+            'name' => 'theme_select',
+            'title' => 'Theme settings',
+            'weight' => 10,
+          );
+        }
+      }
       return $categories;
   }
 }
@@ -534,6 +548,9 @@ function atrium_intranet_user_profile_tab($form_state, $account, $tab) {
     else {
       $form[$k]['#access'] = FALSE;
     }
+  }
+  if (isset($form['delete'])) {
+    $form['delete']['#access'] = FALSE;
   }
   return $form;
 }
