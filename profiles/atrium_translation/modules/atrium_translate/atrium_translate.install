@@ -1,0 +1,118 @@
+<?php 
+// *Id*
+/**
+ * @file
+ *   Atrium translate install file
+ */
+
+// Atrium version. This should be defined somewhere else
+define('ATRIUM_VERSION', '1.0-beta1');
+
+// This module is specific for Atrium package so we already know some data
+define('ATRIUM_L10N_SERVER', 'https://translate.openatrium.com');
+define('ATRIUM_L10N_DIRECTORY', 'translations');
+define('ATRIUM_L10N_DOWNLOAD_PATH', '/sites/translate.openatrium.com/files/translations');
+// Make fixed version for 
+define('ATRIUM_L10N_DOWNLOAD_FILE', '%module-6.x-' . ATRIUM_VERSION . '-%locale.po');
+
+require_once './profiles/atrium_translation/modules/l10n_update/l10n_update.inc';
+
+/**
+ * Implementation of hook_requirements()
+ */
+function atrium_translate_requirements($phase) {
+  $t = get_t();
+  // Get current locale. We only support one at a time
+  $locale = _atrium_translate_locale();
+  
+  if ($phase == 'install') {
+    $requirements['translation'] = array(
+      'title' => $t('Translation is available'),
+    );
+    $file_path = _atrium_translate_default_file($locale);
+    $variables = array(
+      '%filepath' => $file_path,
+      '%server' => ATRIUM_L10N_SERVER,
+      '%language' => $locale,
+    );
+    if (is_readable($file_path)) {
+      $requirements['translation']['description'] = $t('A translation file has been found: %filepath', $variables);
+      $requirements['translation']['severity'] = REQUIREMENT_OK;
+      return $requirements;
+    }
+    else {
+      if ($languages = l10n_update_get_language_list(ATRIUM_L10N_SERVER)) {
+        if (in_array($locale, $languages)) {
+          $description[] = $t('The chosen language(%language) is available for downloading at the translation server. It will be downloaded automatically from %server.', $variables);
+          $status = REQUIREMENT_OK;
+        }
+        else {
+          $description[] = $t('The chosen language(%language) is not supported by the translation server %server.', $variables);
+          $status = REQUIREMENT_ERROR;
+        }
+      }
+      else {
+        $description[] = $t('It seems we cannot connect with the translation server at %server.', $variables);
+        $status = REQUIREMENT_ERROR;
+      }
+      $description[] = $t('Alternatively you can download a translation file and drop it into %filepath.', $variables);
+      $requirements['translation']['description'] = implode(' ', $description);
+      $requirements['translation']['severity'] = $status;
+      return $requirements;
+    }
+    
+  }
+}
+
+/**
+ * Implementation of hook_install()
+ * 
+ * We do the initial language import on install
+ */
+function atrium_translate_install() {
+  module_load_include('inc', 'l10n_update');
+
+  $t = get_t();
+  $locale = _atrium_translate_locale();
+
+  // Set some variables for l10n_update to work with Atrium server
+  variable_set('l10n_update_server', ATRIUM_L10N_SERVER);
+  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
+  
+  // First check for the default local file. If not there go for the remote one.
+  if (is_readable($file = _atrium_translate_default_file($locale))) {
+    if (l10n_update_import_file($file, $locale)) {
+      watchdog('atrium', 'Successfully imported the language file %file', array('%file' => $file));
+    }
+    else {
+      watchdog('atrium', 'Error importing the language file %file', array('%file' => $file), WATCHDOG_ERROR);
+    }
+  }
+  else {
+    $url = l10n_update_download_url('atrium', ATRIUM_VERSION, $locale);
+    if (l10n_update_download_import($url, $locale)) {
+      watchdog('atrium', 'Successfully downloaded and installed Atrium translation from %url.', array('%url' => $url));
+    }
+    else {
+      watchdog('atrium', 'Error downloading and installing Atrium translation from %url.', array('%url' => $url), WATCHDOG_ERROR);      
+    }
+  }
+
+}
+
+/**
+ * Path for the default Atrium file
+ */
+function _atrium_translate_default_file($locale) {
+  return ATRIUM_L10N_DIRECTORY . "/$locale.po";
+}
+
+/**
+ * Get current locale
+ */
+function _atrium_translate_locale() {
+  global $install_locale;
+  global $language;
+  
+  return isset($install_locale) ? $install_locale : $language->language;
+}

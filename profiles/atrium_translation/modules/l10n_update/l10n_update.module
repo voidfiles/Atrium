@@ -1,0 +1,93 @@
+<?php
+// *Id*
+/**
+ * @file
+ *   Download remote translations from server
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function l10n_update_menu() {
+  $items['admin/build/translate/update'] = array(
+    'title' => 'Update',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('l10n_update_import_form'),
+    'access arguments' => array('translate interface'),
+    'weight' => 20,
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Update form
+ * 
+ * @todo selectable packages
+ * @todo check language support in server
+ * @todo check file update dates
+ */
+function l10n_update_import_form() {
+  module_load_include('inc', 'l10n_update');
+
+  $packages = module_invoke_all('l10n_update');
+  $languages = locale_language_list('name');
+  // Skip English language
+  if (isset($languages['en'])) {
+    unset($languages['en']);
+  }
+  if ($packages && $languages) {
+    $form['modules'] = array(
+      '#title' => t('Packages'),
+      '#type' => 'fieldset',
+    );
+    $header = array(t('Module'), t('Version'), t('Download url'));
+    foreach ($packages as $name => $module) {
+      $rows[] = array(
+        $module['module'], $module['version'], 
+        l10n_update_download_url($module['module'], $module['version'], 'xx'),
+      );
+    }
+    $form['modules']['modules'] = array('#value' => theme('table', $header, $rows));
+    
+    $form['languages'] = array(
+      '#title' => t('Languages'),
+      '#type' => 'checkboxes',
+      '#options' => $languages,
+      '#description' => t('Select one or more languages to download and update.'),
+    );
+    $form['mode'] = array('#type' => 'radios',
+      '#title' => t('Mode'),
+      '#default_value' => LOCALE_IMPORT_KEEP,
+      '#options' => array(
+        LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
+        LOCALE_IMPORT_KEEP => t('Existing strings are kept, only new strings are added')
+      ),
+    );
+    $form['update'] = array(
+      '#type' => 'submit',
+      '#value' => t('Update'),
+    );
+  } else {
+    $form['warning'] = array('#value' => t('No packages to update.'));
+  }
+  return $form;
+}
+
+/**
+ * Update form
+ */
+function l10n_update_import_form_submit($form, $form_state) {
+  module_load_include('inc', 'l10n_update');
+  $packages = module_invoke_all('l10n_update');
+  $languages = array_filter($form_state['values']['languages']);
+  $mode = array_filter($form_state['values']['mode']);
+  if ($languages && $packages) {
+    foreach ($packages as $module) {
+      foreach ($languages as $lang) {
+        $url = l10n_update_download_url($module['module'], $module['version'], $lang);
+        l10n_update_download_import($url, $lang, $mode);
+      }
+    }
+  }
+}
