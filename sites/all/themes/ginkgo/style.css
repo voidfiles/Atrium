@@ -82,6 +82,8 @@ a.user-picture {
   top:20px;
   width:300px;
   z-index:1000;
+  overflow:scroll;
+  height:95%;
   }
 
   div.messages {
