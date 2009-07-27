@@ -81,13 +81,20 @@ function l10n_update_import_form_submit($form, $form_state) {
   module_load_include('inc', 'l10n_update');
   $packages = module_invoke_all('l10n_update');
   $languages = array_filter($form_state['values']['languages']);
-  $mode = array_filter($form_state['values']['mode']);
+  $mode = $form_state['values']['mode'];
   if ($languages && $packages) {
     foreach ($packages as $module) {
       foreach ($languages as $lang) {
         $url = l10n_update_download_url($module['module'], $module['version'], $lang);
-        l10n_update_download_import($url, $lang, $mode);
+        $operations[] = array('_l10n_update_batch_download_import', array($url, $lang));
       }
     }
+    if (!empty($operations)) {
+      $batch = l10n_update_create_batch($operations);
+      batch_set($batch);
+    }
+  }
+  else {
+    drupal_set_message(t('No packages or languages selected.'), 'error');
   }
 }
