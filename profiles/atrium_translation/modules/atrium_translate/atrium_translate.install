@@ -5,22 +5,14 @@
  *   Atrium translate install file
  */
 
-// Atrium version. This should be defined somewhere else
-define('ATRIUM_VERSION', '1.0-beta1');
-
-// This module is specific for Atrium package so we already know some data
-define('ATRIUM_L10N_SERVER', 'https://translate.openatrium.com');
-define('ATRIUM_L10N_DIRECTORY', 'translations');
-define('ATRIUM_L10N_DOWNLOAD_PATH', '/sites/translate.openatrium.com/files/translations');
-// Make fixed version for
-define('ATRIUM_L10N_DOWNLOAD_FILE', '%module-6.x-' . ATRIUM_VERSION . '-%locale.po');
-
-require_once './profiles/atrium_translation/modules/l10n_update/l10n_update.inc';
+require_once 'atrium_translate.inc';
+//require_once ATRIUM_L10N_UPDATE . '/l10n_update.inc';
 
 /**
  * Implementation of hook_requirements()
  */
 function atrium_translate_requirements($phase) {
+  _atrium_translate_include($phase);
   $t = get_t();
   // Get current locale. We only support one at a time
   $locale = _atrium_translate_locale();
@@ -41,11 +33,13 @@ function atrium_translate_requirements($phase) {
       return $requirements;
     }
     else {
-      // Server test. see: http://drupal.org/node/527484
-      $uri = parse_url(ATRIUM_L10N_SERVER);
-      $fp = @fsockopen('ssl://'. $uri['host'], 443, $errno, $errstr, 20);
-
-      if ($fp && $languages = l10n_update_get_language_list(ATRIUM_L10N_SERVER)) {
+      // Check server connectivity and available languages
+      if ($error = _atrium_translate_ping_server(ATRIUM_L10N_SERVER)) {
+        $description[] = $t('We cannot connect with the translation server at %server.', $variables);
+        $description[] = $error;
+        $status = REQUIREMENT_ERROR;        
+      }
+      elseif ($languages = l10n_update_get_language_list(ATRIUM_L10N_SERVER)) {
         if (in_array($locale, $languages)) {
           $description[] = $t('The chosen language(%language) is available for downloading at the translation server. It will be downloaded automatically from %server.', $variables);
           $status = REQUIREMENT_OK;
@@ -56,12 +50,10 @@ function atrium_translate_requirements($phase) {
         }
       }
       else {
-        if (!$fp) {
-          $description[] = $t('Error') .': '. trim($errstr) .'<br />';
-        }
-        $description[] = $t('It seems we cannot connect with the translation server at %server.', $variables);
+        $description[] = $t('We cannot get the language list from the server.');
         $status = REQUIREMENT_ERROR;
       }
+
       $description[] = $t('Alternatively you can download a translation file and drop it into %filepath.', $variables);
       $requirements['translation']['description'] = implode(' ', $description);
       $requirements['translation']['severity'] = $status;
@@ -79,7 +71,7 @@ function atrium_translate_requirements($phase) {
 function atrium_translate_install() {
   // Set some variables for l10n_update to work with Atrium server
   variable_set('l10n_update_server', ATRIUM_L10N_SERVER);
-  variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
+  //variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
 }
 
 /**
@@ -88,7 +80,7 @@ function atrium_translate_install() {
  * @return unknown_type
  */
 function atrium_translate_create_batch($locale) {
-  module_load_include('inc', 'l10_update');
+  _atrium_translate_include();
 
   // First check for the default local file. If not there go for the remote one.
   if (is_readable($filename = _atrium_translate_default_file($locale))) {
@@ -119,4 +111,37 @@ function _atrium_translate_locale() {
   global $language;
 
   return isset($install_locale) ? $install_locale : $language->language;
+}
+
+/**
+ * Ping the translation server
+ * 
+ * We cannot use drupal_http_request() at install, see http://drupal.org/node/527484
+ * 
+ * @return string
+ *   Error message if something went wrong
+ */
+function _atrium_translate_ping_server($url) {
+  $t = get_t();
+  $uri = parse_url($url);
+  $errno = $errstr = NULL;
+  $fp = @fsockopen('ssl://'. $uri['host'], 443, $errno, $errstr, 20);
+  if (!$fp) {
+    // 0 -> php_network_getaddresses: getaddrinfo failed: Name or service not known
+    return $t('Error' . $errno) .': '. trim($errstr) .'<br />';
+  }
+}
+
+/**
+ * Include l10n_update library
+ * 
+ * Helper function that resolves module file name before installing the modules
+ */
+function _atrium_translate_include($phase = 'runtime') {
+  if ($phase == 'runtime') {
+    module_load_include('inc', 'l10n_update');
+  }
+  elseif ($file = drupal_system_listing('l10n_update.inc$', 'modules')) {
+    require_once $file->filename;
+  }
 }

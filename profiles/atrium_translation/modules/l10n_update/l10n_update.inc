@@ -58,21 +58,15 @@ function l10n_update_download_file($download_url, $destination = NULL) {
   else {
     $variables['%tmpdir'] = file_directory_temp();
     watchdog('l10n_update', 'Error creating temporary file for download in %tmpdir. Remote file is %download_link.', $variables, WATCHDOG_ERROR);
-  }
-  
+  }  
 }
 
 /**
  * Check remote l10n server.
- * 
- * We use the l10n_client_server here, which raises the question of whether we should
- * allow posting translations to a server and getting them from a different one.
- * 
- * So no, we don't. Let's encourage contributions (and save settings).
  */
 function l10n_update_check_remote_server($server = NULL) {
   $t = get_t();
-  $server = $server ? $server : variable_get('l10n_client_server', NULL);  
+  $server = $server ? $server : variable_get('l10n_update_server', NULL);  
   if ($server) {
     $response = xmlrpc($server .'/xmlrpc.php', 'l10n.server.test', '2.0');
     if ($response && !empty($response['name']) && !empty($response['version'])) {
@@ -115,7 +109,6 @@ function l10n_update_get_language_list($server = NULL, $refresh = FALSE) {
  * Get names for the language list from locale system
  */
 function l10n_update_get_language_names($string_list) {
-  include_once './includes/locale.inc';
   $t = get_t();
   $language_codes = array_map('trim', explode(',', $string_list));
   $languages = _locale_get_predefined_list();
@@ -132,17 +125,102 @@ function l10n_update_get_language_names($string_list) {
 }
 
 /**
- * Get remote path for updating
+ * Get translation information about single project
  */
-function l10n_update_download_url($module, $version, $locale) {
-  if ($path = variable_get('l10n_update_path', NULL)) {
-    $replace = array(
-      '%module' => $module,
-      '%version' => $version,
-      '%locale' => $locale,
-    );
-    return strtr($path, $replace);
+function l10n_update_project_get_releases($name, $langcode, $version = NULL) {
+  $projects[] = array(
+    'name' => $name,
+    'info' => array(
+      'version' => $version,
+     ),
+  );
+  if ($updates = _l10n_update_fetch_releases($projects, $langcode)) {
+    return _l10n_update_extract_release($updates[$name], $langcode, $version);
   }
+}
+
+/**
+ * Get a given version from project releases
+ * 
+ * This one tries to find a perfect match first and if not it returns
+ * the first one which should be the most recent matching this version.
+ * 
+ * @param $project
+ *   Project data from update status
+ * @param $version
+ * @return unknown_type
+ */
+function _l10n_update_extract_release($project, $langcode, $version) {
+  if ($version && !empty($project['releases'][$langcode][$version])) {
+    return $project['releases'][$langcode][$version];
+  }
+  elseif (!empty($project['releases'][$langcode])) {
+    return current($project['releases'][$langcode]);
+  }
+}
+
+/**
+ * Get remote information about releases
+ * 
+ * Reuse the parser from update.fetch.inc
+ */
+function _l10n_update_fetch_releases($projects, $langcode) {
+  module_load_include('parser.inc', 'l10n_update');
+  $site_key = md5($base_url . drupal_get_private_key());
+  $data = array();
+  foreach ($projects as $project) {
+    if ($url = _l10n_update_build_fetch_url($project, $langcode, $site_key)) {
+      $xml = drupal_http_request($url);
+      if (isset($xml->data)) {
+        $data[] = $xml->data;
+      }
+    }
+  }
+  if ($data) {
+    $parser = new l10n_update_xml_parser;
+    $available = $parser->parse($data);
+    return $available;
+  }  
+}
+
+/**
+ * Generates the URL to fetch information about project updates.
+ *
+ * This figures out the right URL to use, based on the project's .info file
+ * and the global defaults. Appends optional query arguments when the site is
+ * configured to report usage stats.
+ *
+ * @param $project
+ *   The array of project information from update_get_projects().
+ * @param $site_key
+ *   The anonymous site key hash (optional).
+ *
+ * @see update_refresh()
+ * @see update_get_projects()
+ */
+function _l10n_update_build_fetch_url($project, $langcode, $site_key = '') {
+  if (!isset($project['info']['translate status url'])) {
+    $project['info']['translate status url'] = variable_get('l10n_update_server', NULL);
+  }
+  // If not url yet, return none
+  if (empty($project['info']['translate status url'])) {
+    return;
+  }
+  $name = $project['name'];
+  $url = $project['info']['translate status url'];
+  $url .= '/l10n/status/project/'. $name;
+  if (!empty($site_key)) {
+    $url .= (strpos($url, '?') === TRUE) ? '&' : '?';
+    $url .= 'site_key=';
+    $url .= drupal_urlencode($site_key);
+    if (!empty($project['info']['version'])) {
+      $url .= '&version=';
+      $url .= drupal_urlencode($project['info']['version']);
+    }
+    $url .= '&language=';
+    $url .= drupal_urlencode($langcode);
+  }
+  return $url;
 }
 
 /**
@@ -249,3 +327,4 @@ function _l10n_update_batch_finished($success, $results) {
     drupal_set_message(t('Successfully imported the translation file.'));
   }
 }
+

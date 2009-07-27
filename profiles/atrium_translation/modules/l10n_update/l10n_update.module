@@ -29,7 +29,7 @@ function l10n_update_menu() {
  */
 function l10n_update_import_form() {
   module_load_include('inc', 'l10n_update');
-
+  // For now we get package information provided by modules
   $packages = module_invoke_all('l10n_update');
   $languages = locale_language_list('name');
   // Skip English language
@@ -37,16 +37,30 @@ function l10n_update_import_form() {
     unset($languages['en']);
   }
   if ($packages && $languages) {
+    $updates = l10n_update_fetch_all($packages, $languages); 
+    $form['updates'] = array(
+      '#type' => 'value',
+      '#value' => $updates,
+    );
     $form['modules'] = array(
       '#title' => t('Packages'),
       '#type' => 'fieldset',
     );
-    $header = array(t('Module'), t('Version'), t('Download url'));
+    $header = array(t('Module'), t('Version'), t('Updates'));
     foreach ($packages as $name => $module) {
+      $title = t('<strong>%name</strong> (%version)', array('%name' => $module['name'], '%version' => $module['info']['version']));
       $rows[] = array(
-        $module['module'], $module['version'], 
-        l10n_update_download_url($module['module'], $module['version'], 'xx'),
+        array('data' => $title, 'colspan' => 3),
       );
+      if (!empty($updates[$name])) {
+        foreach ($updates[$name] as $lang => $release) {          
+          $rows[] = array(
+            $languages[$lang],
+            format_date($release['date']),
+            l(t('Download'), $release['download_link']),
+          ); 
+        }
+      }
     }
     $form['modules']['modules'] = array('#value' => theme('table', $header, $rows));
     
@@ -64,7 +78,7 @@ function l10n_update_import_form() {
         LOCALE_IMPORT_KEEP => t('Existing strings are kept, only new strings are added')
       ),
     );
-    $form['update'] = array(
+    $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Update'),
     );
@@ -85,7 +99,7 @@ function l10n_update_import_form_submit($form, $form_state) {
   if ($languages && $packages) {
     foreach ($packages as $module) {
       foreach ($languages as $lang) {
-        $url = l10n_update_download_url($module['module'], $module['version'], $lang);
+        $url = l10n_update_download_url($module['name'], $lang);
         $operations[] = array('_l10n_update_batch_download_import', array($url, $lang));
       }
     }
@@ -97,4 +111,26 @@ function l10n_update_import_form_submit($form, $form_state) {
   else {
     drupal_set_message(t('No packages or languages selected.'), 'error');
   }
+}
+
+/**
+ * Fetch update information for all projects / all languages
+ * 
+ * @return array()
+ *   Available releases indexed by project and language
+ */
+function l10n_update_fetch_all($projects, $languages) {
+  module_load_include('inc', 'l10n_update');
+  $langcode = implode(',', array_keys($languages));
+  $updates = array();
+  if ($available = _l10n_update_fetch_releases($projects, $langcode)) {
+    foreach ($projects as $project) {
+      foreach ($languages as $lang => $language) {
+        if (!empty($available[$project['name']]['releases'][$lang])) {
+          $updates[$project['name']][$lang] = _l10n_update_extract_release($available[$project['name']], $lang, $project['info']['version']);
+        }
+      }
+    }
+  }
+  return $updates;
 }
