@@ -15,6 +15,7 @@ function atrium_installer_profile_details() {
  * Implementation of hook_profile_modules().
  */
 function atrium_installer_profile_modules() {
+    global $install_locale;
   // Drupal core
   $modules = array(
     'block',
@@ -32,6 +33,13 @@ function atrium_installer_profile_modules() {
     'upload',
     'user',
   );
+  // If language is not English we add the 'atrium_translate' module the first
+  // To get some modules installed properly we need to have translations loaded
+  // We also use it to check connectivity with the translation server on hook_requirements()
+  if (!empty($install_locale) && ($install_locale != 'en')) {
+    $modules[] = 'l10n_update';
+    $modules[] = 'atrium_translate';
+  }
   return $modules;
 }
 
@@ -122,7 +130,7 @@ function _atrium_installer_atrium_modules() {
  */
 function atrium_installer_profile_task_list() {
   $tasks = array(
-    'locale-extended-import' => st('Import more translations'),
+    'intranet-modules' => st('Install intranet modules'),
     'intranet-configure' => st('Intranet configuration'),
   );
   return $tasks;
@@ -137,14 +145,25 @@ function atrium_installer_profile_tasks(&$task, $url) {
   // Just in case some of the future tasks adds some output
   $output = '';
 
-  // Install some more modules and maybe localization helpers too
+  // Download and install translation if needed
   if ($task == 'profile') {
+    if (!empty($install_locale) && ($install_locale != 'en') && module_exists('atrium_translate')) {
+      module_load_install('atrium_translate');
+      if ($batch = atrium_translate_create_batch($install_locale, 'install')) {
+        $batch['finished'] = '_atrium_installer_translate_batch_finished';
+        // Remove temporary variables and set install task
+        variable_del('install_locale_batch_components');
+        variable_set('install_task', 'locale-remaining-batch');
+        batch_set($batch);
+        batch_process($url, $url);
+      }
+    }
+    $task = 'intranet-modules'; 
+  }  
+  // Install some more modules and maybe localization helpers too
+  if ($task == 'intranet-modules') {
     $modules = _atrium_installer_core_modules();
     $modules = array_merge($modules, _atrium_installer_atrium_modules());
-    // If not English, install core_translation module.
-    if (!empty($install_locale) && ($install_locale != 'en')) {
-      $modules[] = 'core_translation';
-    }
     $files = module_rebuild_cache();
     $operations = array();
     foreach ($modules as $module) {
@@ -259,8 +278,17 @@ function atrium_installer_profile_tasks(&$task, $url) {
     module_load_include('inc', 'features', "features.{$component}");
     module_invoke($component, 'features_revert', $module);
 
-    // Get out of this batch and let the installer continue
-    $task = 'profile-finished';
+    // Get out of this batch and let the installer continue. If loaded translation,
+    // we skip the locale remaining batch and move on to the next.
+    // However, if we didn't make it with the translation file, or they downloaded
+    // an unsupported language, we let the standard locale do its work.
+    if (variable_get('atrium_translate_done', 0)) {
+      $task = 'finished';
+    }
+    else {
+      $task = 'profile-finished';
+    }
+    
   }
   return $output;
 }
@@ -271,15 +299,18 @@ function atrium_installer_profile_tasks(&$task, $url) {
  * Advance installer task to language import.
  */
 function _atrium_installer_profile_batch_finished($success, $results) {
-  variable_set('install_task', 'locale-extended-import');
+  variable_set('install_task', 'intranet-configure');
 }
+
 /**
  * Finished callback for the first locale import batch.
  *
  * Advance installer task to the configure screen.
  */
-function _atrium_installer_locale_batch_finished($success, $results) {
+function _atrium_installer_translate_batch_finished($success, $results) {
   include_once 'includes/locale.inc';
   _locale_batch_language_finished($success, $results);
-  variable_set('install_task', 'intranet-configure');
+  // Let the installer now we've already imported locales
+  variable_set('atrium_translate_done', 1);
+  variable_set('install_task', 'intranet-modules');
 }
