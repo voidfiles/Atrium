@@ -1,0 +1,111 @@
+<?php 
+// $Id$
+/**
+ * @file
+ *   Install file for l10n remote updates
+ */
+
+/**
+ * Implementation of hook_schema()
+ */
+function l10n_update_schema() {
+  $schema['l10n_update_project'] = array(
+    'description' => 'Update information for project translations.',
+    'fields' => array(
+      'name' => array(
+        'description' => 'A unique short name to identify the project.',
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE
+      ),
+      'version' => array(
+        'description' => 'Human readable name for project used on the interface.',
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'last_updated' => array(
+        'description' => 'Unix timestamp of last time project was updated.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'disp-width' => '11',
+        'default' => 0,
+      ),
+      'last_checked' => array(
+        'description' => 'Unix timestamp of last time project was updated.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'disp-width' => '11',
+        'default' => 0,
+      ),
+      'status' => array(
+        'description' => 'Status flag. TBD',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('name'),
+  );
+
+  $schema['l10n_update_download'] = array(
+    'description' => 'Download information for project translations.',
+    'fields' => array(
+      'project' => array(
+        'description' => 'A unique short name to identify the project.',
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE
+      ),      
+      'language' => array(
+        'description' => 'Reference to the {languages}.language for this translation.',
+        'type' => 'varchar',
+        'length' => '12',
+        'not null' => TRUE
+      ),
+      'import_date' => array(
+        'description' => 'Unix timestamp of the last file downloaded.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'disp-width' => '11',
+        'default' => 0,
+      ),
+      'download_date' => array(
+        'description' => 'Unix timestamp of the last file downloaded.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'disp-width' => '11',
+        'default' => 0,
+      ),
+      'download_link' => array(
+        'description' => 'Link to translation file for download.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'download_version' => array(
+        'description' => 'Version tag of the downloaded file.',
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('project', 'language'),
+  );    
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install()
+ */
+function l10n_update_install() {
+  drupal_install_schema('l10n_update');
+}
+
+/**
+ * Implementation of hook_install()
+ */
+function l10n_update_uninstall() {
+  drupal_uninstall_schema('l10n_remote');
+}
