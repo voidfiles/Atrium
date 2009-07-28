@@ -62,50 +62,6 @@ function l10n_update_download_file($download_url, $destination = NULL) {
 }
 
 /**
- * Check remote l10n server.
- */
-function l10n_update_check_remote_server($server = NULL) {
-  $t = get_t();
-  $server = $server ? $server : variable_get('l10n_update_server', NULL);  
-  if ($server) {
-    $response = xmlrpc($server .'/xmlrpc.php', 'l10n.server.test', '2.0');
-    if ($response && !empty($response['name']) && !empty($response['version'])) {
-      if (empty($response['supported']) || !$response['supported']) {
-        $response['error'] = $t('The given server could not handle the v2.0 remote submission API.');
-      }
-      else {
-        $response['message'] = $t('Verified that the specified server can handle remote string submissions. Supported languages: %languages.', array('%languages' => $response['languages']));
-      }
-    }
-    else {
-      $response['error'] = $t('Invalid localization server address specified. Make sure you specified the right server address.');
-    }
-  }
-  else {
-    $response['error'] = $t('No remote server URL found.');
-  }
-  return $response;
-}
-
-
-/**
- * Get supported language list from remote server
- * 
- */
-function l10n_update_get_language_list($server = NULL, $refresh = FALSE) {
-  if (!$refresh && ($languages = variable_get('l10n_update_supported_languages', NULL))) {
-    return $languages;
-  }
-  elseif ($response = l10n_update_check_remote_server($server)) {    
-    if (empty($response['error']) && !empty($response['languages'])) {
-      $languages = array_map('trim', explode(',', $response['languages']));
-      if ($refresh) variable_set('l10n_update_supported_languages', $languages);
-      return $languages;
-    }    
-  }
-}
-
-/**
  * Get names for the language list from locale system
  */
 function l10n_update_get_language_names($string_list) {
@@ -130,9 +86,31 @@ function l10n_update_get_language_names($string_list) {
 function l10n_update_project_get_release($name, $langcode, $version, $server = NULL) {
   $projects[] = _l10n_update_build_project($name, $version, $server);
   if ($updates = _l10n_update_fetch_releases($projects, $langcode)) {
-    return _l10n_update_extract_release($updates[$name], $langcode, $version);
+    return _l10n_update_project_release($updates[$name], $langcode, $version);
   }
 }
+
+/**
+ * Compare and get list of downloadable updates
+ */
+ function _l10n_update_compare($projects, $history, $available) {
+   $updates = array();
+   $langcodes = array_keys(l10n_update_language_list());
+   foreach ($projects as $project) {
+     $name = $project['name'];
+     $version = $project['info']['version'];
+     foreach ($langcodes as $lang) {
+       // If there is an available release for that project / version / language
+       if (!empty($available[$name]) && ($compare = _l10n_update_project_release($available[$name], $lang, $version))) {
+         $latest = !empty($history[$name]->updates[$lang]) ? $history[$name]->updates[$lang] : NULL;
+         if (!$latest || $latest->download_version != $compare['tag'] || $latest->download_date < $compare['date']) {
+           $updates[$name][$lang] = $compare;
+         }
+       }
+     }
+   }
+   return $updates;
+ }
 
 /**
  * Build project data as an array
@@ -159,7 +137,7 @@ function _l10n_update_build_project($name, $version = NULL, $server = NULL) {
  * @param $version
  * @return unknown_type
  */
-function _l10n_update_extract_release($project, $langcode, $version) {
+function _l10n_update_project_release($project, $langcode, $version) {
   if ($version && !empty($project['releases'][$langcode][$version])) {
     return $project['releases'][$langcode][$version];
   }
@@ -235,11 +213,9 @@ function _l10n_update_build_fetch_url($project, $langcode, $site_key = '') {
 /**
  * Create a batch to download and import
  */
-function l10n_update_download_create_batch($url, $locale) {
-  
+function l10n_update_download_create_batch($url, $locale) {  
   $operations[] = array('_l10n_update_batch_download_import', array($url, $locale));
   //$operations[] = array('_l10n_update_batch_import', array($locale));
-
   return l10n_update_create_batch($operations);
 }
 
@@ -319,6 +295,25 @@ function _l10n_update_batch_download_import($url, $locale, &$context) {
   }      
 }
 
+function _l10n_update_batch_history($project, $release) {
+  $save = array(
+    'project' => $project['name'],
+    'language' => $release['language'],
+    'import_date' => time(),
+    'download_date' => $release['date'],
+    'download_version' => $release['tag'],
+    'download_link' => $release['download_link']
+  );
+  // Update or write new record
+  if (db_result(db_query("SELECT project FROM {l10n_update_download} WHERE project = '%s' AND language = '%s'", $save['project'], $save['language']))) {
+    $update = array('project', 'language');
+  }
+  else {
+    $update = array();
+  }
+  drupal_write_record('l10n_update_download', $save, $update);
+}
+
 function _l10n_update_batch_import($locale, &$context) {
   $t = get_t();
   
@@ -335,6 +330,41 @@ function _l10n_update_batch_finished($success, $results) {
   if ($success) {
     drupal_set_message(t('Successfully imported the translation file.'));
   }
+}
+
+/**
+ * Fetch project info via XML from a central server.
+ */
+function _l10n_update_refresh() {
+  static $fail = array();
+  global $base_url;
+  module_load_include('inc', 'update', 'update.compare');
+
+  $available = array();
+  $data = array();
+  $projects = l10n_update_get_projects();
+  $languages = l10n_update_language_list();
+  $locales = implode(',', array_keys($languages));
+  
+  // Now that we have the list of projects, we should also clear our cache of
+  // available release data, since even if we fail to fetch new data, we need
+  // to clear out the stale data at this point.
+  cache_set('l10n_update_available_releases', NULL);
+  $max_fetch_attempts = variable_get('update_max_fetch_attempts', UPDATE_MAX_FETCH_ATTEMPTS);
+  
+  $available = _l10n_update_fetch_releases($projects, $locales);
+  
+  if (!empty($available) && is_array($available)) {
+    $frequency = variable_get('l10n_update_check_frequency', 1);
+    cache_set('l10n_update_available_releases', $available, 'cache', time() + (60 * 60 * 24 * $frequency));
+    watchdog('l10n_update', 'Attempted to fetch information about all available new releases and updates.', array(), WATCHDOG_NOTICE, l(t('view'), 'admin/reports/updates'));
+  }
+  else {
+    watchdog('l10n_update', 'Unable to fetch any information about available new releases and updates.', array(), WATCHDOG_ERROR, l(t('view'), 'admin/reports/updates'));
+  }
+  // Whether this worked or not, we did just (try to) check for updates.
+  variable_set('l10n_update_last_check', time());
+  return $available;
 }
 
 /**
