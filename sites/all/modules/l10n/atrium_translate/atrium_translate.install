@@ -52,7 +52,7 @@ function atrium_translate_requirements($phase) {
       }  
 
       $description[] = $t('Alternatively you can download a translation file and drop it into %filepath.', $variables);
-      $requirements['translation']['description'] = implode(' ', $description);
+      $requirements['translation']['description'] = implode('<br />', $description);
       $requirements['translation']['severity'] = $status;
       return $requirements;
     }
@@ -68,7 +68,8 @@ function atrium_translate_requirements($phase) {
 function atrium_translate_install() {
   // Set some variables for l10n_update to work with Atrium server
   variable_set('l10n_update_server', ATRIUM_L10N_SERVER);
-  //variable_set('l10n_update_path', ATRIUM_L10N_SERVER . ATRIUM_L10N_DOWNLOAD_PATH . '/' . ATRIUM_L10N_DOWNLOAD_FILE);
+  // Just in case they want to enable later the l10n_client module
+  variable_set('l10n_client_server', ATRIUM_L10N_SERVER);
 }
 
 /**

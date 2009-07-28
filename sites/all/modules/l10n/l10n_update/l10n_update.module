@@ -3,6 +3,9 @@
 /**
  * @file
  *   Download remote translations from server
+ *   
+ * @todo Implement updates on cron
+ * @todo Fetch information from info files
  */
 
 /**
@@ -30,36 +33,34 @@ function l10n_update_menu() {
 function l10n_update_import_form() {
   module_load_include('inc', 'l10n_update');
   // For now we get package information provided by modules
-  $packages = module_invoke_all('l10n_update');
-  $languages = locale_language_list('name');
-  // Skip English language
-  if (isset($languages['en'])) {
-    unset($languages['en']);
-  }
-  if ($packages && $languages) {
-    $updates = l10n_update_fetch_all($packages, $languages); 
-    $form['updates'] = array(
-      '#type' => 'value',
-      '#value' => $updates,
-    );
+  $projects = l10n_update_get_projects();
+  $languages = l10n_update_language_list('name');  
+
+  if ($projects && $languages) {
+    $history = l10n_update_refresh_history();
+    $available = l10n_update_available_releases();
+    $updates = _l10n_update_compare($projects, $history, $available);
+    
+    $form['updates'] = array('#type' => 'value', '#value' => $updates);
     $form['modules'] = array(
       '#title' => t('Packages'),
       '#type' => 'fieldset',
     );
-    $header = array(t('Module'), t('Version'), t('Updates'));
-    foreach ($packages as $name => $module) {
-      $title = t('<strong>%name</strong> (%version)', array('%name' => $module['name'], '%version' => $module['info']['version']));
+    $header = array(t('Module'), t('Current version'), t('Available update'), '');
+    foreach ($projects as $name => $project) {
+      $title = t('<strong>%name</strong> (%version)', array('%name' => $project['name'], '%version' => $project['info']['version']));
       $rows[] = array(
-        array('data' => $title, 'colspan' => 3),
+        array('data' => $title, 'colspan' => 4),
       );
-      if (!empty($updates[$name])) {
-        foreach ($updates[$name] as $lang => $release) {          
-          $rows[] = array(
-            $languages[$lang],
-            format_date($release['date']),
-            l(t('Download'), $release['download_link']),
-          ); 
-        }
+      foreach ($languages as $lang => $language) {
+        $current = isset($history[$name]->updates[$lang]) ? $history[$name]->updates[$lang] : NULL;
+        $update = isset($updates[$name][$lang]) ? $updates[$name][$lang] : NULL;
+        $rows[] = array(
+          $language,
+          $current ? l10n_update_tag_date($current->download_version, $current->download_date) : '',
+          $update ? l10n_update_tag_date($update['tag'], $update['date']) : '',          
+          $update ? l(t('Download'), $update['download_link']) : '',
+        ); 
       }
     }
     $form['modules']['modules'] = array('#value' => theme('table', $header, $rows));
@@ -83,7 +84,7 @@ function l10n_update_import_form() {
       '#value' => t('Update'),
     );
   } else {
-    $form['warning'] = array('#value' => t('No packages to update.'));
+    $form['warning'] = array('#value' => t('No projects or languages to update.'));
   }
   return $form;
 }
@@ -93,14 +94,19 @@ function l10n_update_import_form() {
  */
 function l10n_update_import_form_submit($form, $form_state) {
   module_load_include('inc', 'l10n_update');
-  $packages = module_invoke_all('l10n_update');
+  $projects = l10n_update_get_projects();
   $languages = array_filter($form_state['values']['languages']);
+  $updates = $form_state['values']['updates'];
   $mode = $form_state['values']['mode'];
-  if ($languages && $packages) {
-    foreach ($packages as $module) {
+  
+  if ($languages && $projects && $updates) {
+    foreach ($projects as $project) {
       foreach ($languages as $lang) {
-        $url = l10n_update_download_url($module['name'], $lang);
-        $operations[] = array('_l10n_update_batch_download_import', array($url, $lang));
+        if (!empty($updates[$project['name']][$lang])) {
+          $release = $updates[$project['name']][$lang];
+          $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang));
+          $operations[] = array('_l10n_update_batch_history', array($project, $release));
+        }
       }
     }
     if (!empty($operations)) {
@@ -119,18 +125,99 @@ function l10n_update_import_form_submit($form, $form_state) {
  * @return array()
  *   Available releases indexed by project and language
  */
-function l10n_update_fetch_all($projects, $languages) {
-  module_load_include('inc', 'l10n_update');
-  $langcode = implode(',', array_keys($languages));
-  $updates = array();
-  if ($available = _l10n_update_fetch_releases($projects, $langcode)) {
-    foreach ($projects as $project) {
-      foreach ($languages as $lang => $language) {
-        if (!empty($available[$project['name']]['releases'][$lang])) {
-          $updates[$project['name']][$lang] = _l10n_update_extract_release($available[$project['name']], $lang, $project['info']['version']);
-        }
-      }
+function l10n_update_available_releases($refresh = FALSE) {  
+  if (!$refresh && ($cache = cache_get('l10n_update_available_releases'))) {
+    return $cache->data;
+  }
+  else {
+    module_load_include('inc', 'l10n_update');
+    return _l10n_update_refresh();
+  }
+}
+
+/**
+ * Get list of projects
+ * 
+ * Atm, this is provided by modules implementing the l10n_update hook.
+ * But in the future we might be able to fetch it from install files.
+ */
+function l10n_update_get_projects() {
+  static $projects;  
+  if (!isset($projects)) {
+    $projects = module_invoke_all('l10n_update');
+  }
+  return $projects;
+}
+
+/**
+ * Get update history
+ * 
+ * Returns an array indexed by project name
+ * For each project there are updates indexed by language
+ */
+function l10n_update_get_history($refresh = FALSE) {
+  static $status;
+  
+  if ($refresh ||!isset($status)) {
+    $status = array();
+    $result = db_query("SELECT * FROM {l10n_update_project}");
+    while ($project = db_fetch_object($result)) {
+      $status[$project->name] = $project;
+    }
+    $result = db_query("SELECT * FROM {l10n_update_download}");
+    while ($update = db_fetch_object($result)) {
+      $status[$update->project]->updates[$update->language] = $update;
     }
   }
-  return $updates;
+  
+  return $status;
+}
+
+/**
+ * Refresh project information
+ */
+function l10n_update_refresh_history() {
+  $projects = l10n_update_get_projects();
+  $updates = l10n_update_get_history();
+  
+  $changes = 0;
+  foreach ($projects as &$project) {
+    $name = $project['name'];
+    if (empty($updates[$name])) {
+      // Project is not there, create it
+      $save = array('name' => $name, 'version' => $project['info']['version']);
+      drupal_write_record('l10n_update_project', $save);
+      $changes++;     
+    }
+    elseif ($updates[$name]->version != $project['info']['version']) {
+      // Update project version
+      $updates[$name]->version = $project['info']['version'];
+      drupal_write_record('l10n_update_project', $updates[$name], 'name');
+      $changes++;
+    }
+  }
+  // If any change it will be refreshed
+  return l10n_update_get_history($changes);
+}
+
+/**
+ * Get language list
+ */
+function l10n_update_language_list($field = 'name') {
+  $languages = locale_language_list('name');
+  // Skip English language
+  if (isset($languages['en'])) {
+    unset($languages['en']);
+  }
+  return $languages;
+}
+
+/**
+ * Format tag and release date
+ * @param $tag
+ * @param $date
+ * @return unknown_type
+ */
+function l10n_update_tag_date($tag, $date) {
+  return '<strong>' . check_plain($tag) . '</strong> (' . format_date($date, 'short') . ')';
 }
