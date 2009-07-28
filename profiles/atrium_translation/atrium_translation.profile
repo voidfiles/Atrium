@@ -10,7 +10,7 @@
 
 // We reuse some of the main installer functions, so:
 require_once './profiles/atrium_installer/atrium_installer.profile';
-require_once './profiles/atrium_translation/modules/l10n_update/l10n_update.inc';
+//require_once './profiles/atrium_translation/modules/l10n_update/l10n_update.inc';
 
 /**
  * Implementation of hook_profile_details().
@@ -69,13 +69,14 @@ function atrium_translation_profile_tasks(&$task, $url) {
   if ($task == 'profile') {
     if (!empty($install_locale) && ($install_locale != 'en')) {
       module_load_install('atrium_translate');
-      $batch = atrium_translate_create_batch($install_locale);
-      $batch['finished'] = '_atrium_translation_locale_batch_finished';
-      // Remove temporary variables and set install task
-      variable_del('install_locale_batch_components');
-      variable_set('install_task', 'locale-remaining-batch');
-      batch_set($batch);
-      batch_process($url, $url);
+      if ($batch = atrium_translate_create_batch($install_locale, 'install')) {
+        $batch['finished'] = '_atrium_translation_locale_batch_finished';
+        // Remove temporary variables and set install task
+        variable_del('install_locale_batch_components');
+        variable_set('install_task', 'locale-remaining-batch');
+        batch_set($batch);
+        batch_process($url, $url);
+      }
     }
     $task = 'intranet-modules'; 
   }

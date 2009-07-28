@@ -125,18 +125,27 @@ function l10n_update_get_language_names($string_list) {
 }
 
 /**
- * Get translation information about single project
+ * Get update information about single release
  */
-function l10n_update_project_get_releases($name, $langcode, $version = NULL) {
-  $projects[] = array(
-    'name' => $name,
-    'info' => array(
-      'version' => $version,
-     ),
-  );
+function l10n_update_project_get_release($name, $langcode, $version, $server = NULL) {
+  $projects[] = _l10n_update_build_project($name, $version, $server);
   if ($updates = _l10n_update_fetch_releases($projects, $langcode)) {
     return _l10n_update_extract_release($updates[$name], $langcode, $version);
   }
+}
+
+/**
+ * Build project data as an array
+ */
+function _l10n_update_build_project($name, $version = NULL, $server = NULL) {
+  $project = array(
+    'name' => $name,
+    'info' => array(
+      'version' => $version,
+      'translate status url' => $server ? $server : variable_get('l10n_update_server', NULL),
+    ),
+  );
+  return $project;
 }
 
 /**
@@ -165,12 +174,12 @@ function _l10n_update_extract_release($project, $langcode, $version) {
  * Reuse the parser from update.fetch.inc
  */
 function _l10n_update_fetch_releases($projects, $langcode) {
-  module_load_include('parser.inc', 'l10n_update');
-  $site_key = md5($base_url . drupal_get_private_key());
+  require_once 'l10n_update.parser.inc';
+  $site_key = l10n_update_get_site_key();
   $data = array();
   foreach ($projects as $project) {
     if ($url = _l10n_update_build_fetch_url($project, $langcode, $site_key)) {
-      $xml = drupal_http_request($url);
+      $xml = l10n_update_http_request($url);
       if (isset($xml->data)) {
         $data[] = $xml->data;
       }
@@ -328,3 +337,199 @@ function _l10n_update_batch_finished($success, $results) {
   }
 }
 
+/**
+ * Perform an HTTP request. Installer safe simplified version.
+ * 
+ * We cannot use drupal_http_request() at install, see http://drupal.org/node/527484
+ * 
+ * This is a flexible and powerful HTTP client implementation. Correctly handles
+ * GET, POST, PUT or any other HTTP requests. Handles redirects.
+ *
+ * @param $url
+ *   A string containing a fully qualified URI.
+ * @param $headers
+ *   An array containing an HTTP header => value pair.
+ * @param $method
+ *   A string defining the HTTP request to use.
+ * @param $data
+ *   A string containing data to include in the request.
+ * @param $retry
+ *   An integer representing how many times to retry the request in case of a
+ *   redirect.
+ * @return
+ *   An object containing the HTTP request headers, response code, headers,
+ *   data and redirect status.
+ */
+function l10n_update_http_request($url, $headers = array(), $method = 'GET', $data = NULL, $retry = 3) {
+  $result = new stdClass();
+
+  // Parse the URL and make sure we can handle the schema.
+  $uri = parse_url($url);
+
+  if ($uri == FALSE) {
+    $result->error = 'unable to parse URL';
+    return $result;
+  }
+
+  if (!isset($uri['scheme'])) {
+    $result->error = 'missing schema';
+    return $result;
+  }
+
+  switch ($uri['scheme']) {
+    case 'http':
+      $port = isset($uri['port']) ? $uri['port'] : 80;
+      $host = $uri['host'] . ($port != 80 ? ':'. $port : '');
+      $fp = @fsockopen($uri['host'], $port, $errno, $errstr, 15);
+      break;
+    case 'https':
+      // Note: Only works for PHP 4.3 compiled with OpenSSL.
+      $port = isset($uri['port']) ? $uri['port'] : 443;
+      $host = $uri['host'] . ($port != 443 ? ':'. $port : '');
+      $fp = @fsockopen('ssl://'. $uri['host'], $port, $errno, $errstr, 20);
+      break;
+    default:
+      $result->error = 'invalid schema '. $uri['scheme'];
+      return $result;
+  }
+
+  // Make sure the socket opened properly.
+  if (!$fp) {
+    // When a network error occurs, we use a negative number so it does not
+    // clash with the HTTP status codes.
+    $result->code = -$errno;
+    $result->error = trim($errstr);
+
+    // Mark that this request failed. This will trigger a check of the web
+    // server's ability to make outgoing HTTP requests the next time that
+    // requirements checking is performed.
+    // @see system_requirements()
+    // variable_set('drupal_http_request_fails', TRUE);
+
+    return $result;
+  }
+
+  // Construct the path to act on.
+  $path = isset($uri['path']) ? $uri['path'] : '/';
+  if (isset($uri['query'])) {
+    $path .= '?'. $uri['query'];
+  }
+
+  // Create HTTP request.
+  $defaults = array(
+    // RFC 2616: "non-standard ports MUST, default ports MAY be included".
+    // We don't add the port to prevent from breaking rewrite rules checking the
+    // host that do not take into account the port number.
+    'Host' => "Host: $host",
+    'User-Agent' => 'User-Agent: Drupal (+http://drupal.org/)',
+    'Content-Length' => 'Content-Length: '. strlen($data)
+  );
+
+  // If the server url has a user then attempt to use basic authentication
+  if (isset($uri['user'])) {
+    $defaults['Authorization'] = 'Authorization: Basic '. base64_encode($uri['user'] . (!empty($uri['pass']) ? ":". $uri['pass'] : ''));
+  }
+
+  // If the database prefix is being used by SimpleTest to run the tests in a copied
+  // database then set the user-agent header to the database prefix so that any
+  // calls to other Drupal pages will run the SimpleTest prefixed database. The
+  // user-agent is used to ensure that multiple testing sessions running at the
+  // same time won't interfere with each other as they would if the database
+  // prefix were stored statically in a file or database variable.
+  if (preg_match("/simpletest\d+/", $GLOBALS['db_prefix'], $matches)) {
+    $defaults['User-Agent'] = 'User-Agent: ' . $matches[0];
+  }
+
+  foreach ($headers as $header => $value) {
+    $defaults[$header] = $header .': '. $value;
+  }
+
+  $request = $method .' '. $path ." HTTP/1.0\r\n";
+  $request .= implode("\r\n", $defaults);
+  $request .= "\r\n\r\n";
+  $request .= $data;
+
+  $result->request = $request;
+
+  fwrite($fp, $request);
+
+  // Fetch response. If in test mode, don't fetch data;
+  $response = '';
+  while (!feof($fp) && $chunk = fread($fp, 1024)) {
+    $response .= $chunk;
+  }
+  fclose($fp);
+
+  // Parse response.
+  list($split, $result->data) = explode("\r\n\r\n", $response, 2);
+  $split = preg_split("/\r\n|\n|\r/", $split);
+
+  list($protocol, $code, $text) = explode(' ', trim(array_shift($split)), 3);
+  $result->headers = array();
+
+  // Parse headers.
+  while ($line = trim(array_shift($split))) {
+    list($header, $value) = explode(':', $line, 2);
+    if (isset($result->headers[$header]) && $header == 'Set-Cookie') {
+      // RFC 2109: the Set-Cookie response header comprises the token Set-
+      // Cookie:, followed by a comma-separated list of one or more cookies.
+      $result->headers[$header] .= ','. trim($value);
+    }
+    else {
+      $result->headers[$header] = trim($value);
+    }
+  }
+
+  $responses = array(
+    100 => 'Continue', 101 => 'Switching Protocols',
+    200 => 'OK', 201 => 'Created', 202 => 'Accepted', 203 => 'Non-Authoritative Information', 204 => 'No Content', 205 => 'Reset Content', 206 => 'Partial Content',
+    300 => 'Multiple Choices', 301 => 'Moved Permanently', 302 => 'Found', 303 => 'See Other', 304 => 'Not Modified', 305 => 'Use Proxy', 307 => 'Temporary Redirect',
+    400 => 'Bad Request', 401 => 'Unauthorized', 402 => 'Payment Required', 403 => 'Forbidden', 404 => 'Not Found', 405 => 'Method Not Allowed', 406 => 'Not Acceptable', 407 => 'Proxy Authentication Required', 408 => 'Request Time-out', 409 => 'Conflict', 410 => 'Gone', 411 => 'Length Required', 412 => 'Precondition Failed', 413 => 'Request Entity Too Large', 414 => 'Request-URI Too Large', 415 => 'Unsupported Media Type', 416 => 'Requested range not satisfiable', 417 => 'Expectation Failed',
+    500 => 'Internal Server Error', 501 => 'Not Implemented', 502 => 'Bad Gateway', 503 => 'Service Unavailable', 504 => 'Gateway Time-out', 505 => 'HTTP Version not supported'
+  );
+  // RFC 2616 states that all unknown HTTP codes must be treated the same as the
+  // base code in their class.
+  if (!isset($responses[$code])) {
+    $code = floor($code / 100) * 100;
+  }
+
+  switch ($code) {
+    case 200: // OK
+    case 304: // Not modified
+      break;
+    case 301: // Moved permanently
+    case 302: // Moved temporarily
+    case 307: // Moved temporarily
+      $location = $result->headers['Location'];
+
+      if ($retry) {
+        $result = l10n_update_http_request($result->headers['Location'], $headers, $method, $data, --$retry);
+        $result->redirect_code = $result->code;
+      }
+      $result->redirect_url = $location;
+
+      break;
+    default:
+      $result->error = $text;
+  }
+
+  $result->code = $code;
+  return $result;
+}
+
+/**
+ * Get a unique key for this site, not identifiable but usable to track the requests
+ * from the same server.
+ * 
+ * 
+ *
+ * We cannot use the private key before the database is created.
+ * 
+ * @return
+ *   The site key.
+ */
+function l10n_update_get_site_key() {
+  global $base_url;
+  
+  return md5('l10n_update' . $base_url . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_ADDR']);
+}

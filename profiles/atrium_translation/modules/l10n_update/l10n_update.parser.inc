@@ -8,7 +8,8 @@
  * 
  * @todo Update the server side and get rid of this
  */
-include_once drupal_get_path('module', 'update') . '/update.fetch.inc';
+// We do the include this way to be installer safe.
+require_once './modules/update/update.fetch.inc';
 
 class l10n_update_xml_parser extends update_xml_parser {
   function end($parser, $name) {
