@@ -123,6 +123,7 @@ function l10n_update_requirements($phase) {
       $requirements['l10n_update']['title'] = t('Translation update status');
       if ($projects && $languages) {
         module_load_include('inc', 'l10n_udpate');
+        $history = l10n_update_get_history();
         $updates = _l10n_update_compare($projects, $history, $available);
       }
       if ($updates) {
@@ -146,4 +147,6 @@ function l10n_update_requirements($phase) {
     }
     return $requirements;
   }
+  // We must always return array, the installer doesn't use module_invoke_all()
+  return array();
 }
