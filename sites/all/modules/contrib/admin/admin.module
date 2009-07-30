@@ -1,10 +1,15 @@
 <?php
-// $Id: admin.module,v 1.1.2.15 2009/07/08 17:37:24 yhahn Exp $
+// $Id: admin.module,v 1.1.2.23 2009/07/30 14:41:34 yhahn Exp $
 
 /**
  * Implementation of hook_init().
  */
 function admin_init() {
+  // Don't do anything if the user has no access.
+  if (!user_access('admin menu') && !user_access('admin inline')) {
+    return;
+  }
+
   $path = drupal_get_path('module', 'admin');
   drupal_add_js($path .'/toolbar/admin_toolbar.js');
   drupal_add_css($path .'/toolbar/admin_toolbar.css');
@@ -16,12 +21,14 @@ function admin_init() {
     // Conditionally include admin functions (form alters, etc.)
     module_load_include('inc', 'admin', 'admin.admin');
   }
+  
+  $admin_theme = variable_get('admin_theme', 'slate');
 
   // Initialize the slate theme. Bypass the theme system entirely so we can load our own theme into place.
   if (variable_get('node_admin_theme', 0) && (strpos($_GET['q'], 'node/add') === 0 || strpos($_GET['q'], 'admin/content/add') === 0 || (arg(0) == 'node' && arg(2) == 'edit'))) {
     _admin_init_theme();
   }
-  else if (arg(0) == 'admin' && variable_get('admin_theme', 'slate') == 'slate') {
+  else if (arg(0) == 'admin' && ($admin_theme == 'slate' || empty($admin_theme))) {
     if (strpos($_GET['q'], 'admin/build/block') === 0) {
       if (in_array(arg(3), array('configure', 'delete', 'add'), TRUE)) {
         _admin_init_theme();
@@ -40,21 +47,53 @@ function admin_init() {
  * Menu access callback for admin landing pages.
  */
 function admin_landing_page_access($path) {
-  $item = db_fetch_array(db_query("SELECT mlid, menu_name FROM {menu_links} ml WHERE ml.router_path = '%s' AND module = 'system'", $path));
-  $result = db_query("
-    SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
-    FROM {menu_links} ml
-    LEFT JOIN {menu_router} m ON ml.router_path = m.path
-    WHERE ml.plid = %d AND ml.menu_name = '%s' AND hidden = 0", $item['mlid'], $item['menu_name']);
-  $access = FALSE;
-  while ($item = db_fetch_array($result)) {
-    _menu_link_translate($item);
-    if ($item['access']) {
-      $access = TRUE;
-      break;
-    }
+  static $paths;
+  if (!isset($paths)) {
+    $cache = cache_get('admin_paths');
+    $paths = ($cache && !empty($cache->data)) ? $cache->data : array();
   }
-  return $access;
+  if (!isset($paths[$path])) {
+    $item = db_fetch_array(db_query("SELECT mlid, menu_name FROM {menu_links} ml WHERE ml.router_path = '%s' AND module = 'system'", $path));
+    $result = db_query("
+      SELECT m.load_functions, m.to_arg_functions, m.access_callback, m.access_arguments, m.page_callback, m.page_arguments, m.title, m.title_callback, m.title_arguments, m.type, m.description, ml.*
+      FROM {menu_links} ml
+      LEFT JOIN {menu_router} m ON ml.router_path = m.path
+      WHERE ml.plid = %d AND ml.menu_name = '%s' AND hidden = 0", $item['mlid'], $item['menu_name']);
+    $paths[$path] = FALSE;
+    while ($item = db_fetch_array($result)) {
+      $item['options'] = unserialize($item['options']);
+      if ($item['external']) {
+        if (!empty($item['options']['alter'])) {
+          drupal_alter('translated_menu_link', $item, $map);
+        }
+        if ($item['access']) {
+          $paths[$path] = TRUE;
+          break;
+        }
+      }
+      else {
+        $map = explode('/', $item['link_path']);
+        _menu_link_map_translate($map, $item['to_arg_functions']);
+        $item['href'] = implode('/', $map);
+        if (strpos($item['href'], '%') !== FALSE) {
+          continue;
+        }
+        if (!isset($item['access'])) {
+          if (!_menu_load_objects($item, $map)) {
+            continue;
+          }
+          _menu_check_access($item, $map);
+        }
+        if (!$item['access']) {
+          continue;
+        }
+        $paths[$path] = TRUE;
+        break;
+      }
+    }
+    cache_set('admin_paths', $paths);
+  }
+  return $paths[$path];
 }
 
 /**
@@ -62,12 +101,13 @@ function admin_landing_page_access($path) {
  */
 function admin_menu_alter(&$items) {
   foreach ($items as $path => $item) {
+    $args = explode('/', $path);
     // Move all admin/* items to admin menu links.
-    if (strpos($path, 'admin') === 0) {
+    if ($args && $args[0] === 'admin') {
       $items[$path]['menu_name'] = 'admin';
     }
     // Smarter access callback for poorly checked landing pages
-    if ($item['access arguments'] === array('access administration pages') && in_array($item['page callback'], array('system_admin_menu_block_page', 'system_settings_overview'))) {
+    if (!empty($item['access arguments']) && !empty($item['page callback']) && $item['access arguments'] === array('access administration pages') && in_array($item['page callback'], array('system_admin_menu_block_page', 'system_settings_overview'))) {
       $items[$path]['access callback'] = 'admin_landing_page_access';
       $items[$path]['access arguments'] = array($path);
     }
@@ -124,6 +164,7 @@ function admin_menu_alter(&$items) {
       $items[$path]['options']['admin'] = TRUE;
     }
   }
+  cache_clear_all('admin_paths', 'cache');
 }
 
 /**
@@ -158,11 +199,19 @@ function admin_menu_clone_items($search, $replace, $items) {
 }
 
 /**
+ * Implementation of hook_flush_caches().
+ */
+function admin_flush_caches() {
+  // Reinsert admin theme when caches are cleared.
+  _admin_theme_rebuild(TRUE);
+}
+
+/**
  * Implementation of hook_system_info_alter().
  * Throw a flag that tells us we need to reinstantiate the admin theme.
  */
 function admin_system_info_alter(&$info, &$theme) {
- static $once;
+  static $once;
   if (!isset($once)) {
     $once = TRUE;
     variable_set('admin_theme_invalidated', TRUE);
@@ -427,12 +476,26 @@ function admin_menu_tree() {
   // Add user-specific links
   global $user;
   $user_links = array();
-  $user_links[] = array(
-    'title' => t('Hello <strong>!username</strong>', array('!username' => $user->name)),
-    'href' => 'user',
-    'html' => TRUE
-  );
-  $user_links[] = array('title' => t('Logout'), 'href' => "logout");
+  if (empty($user->uid)) {
+    $user_links[] = array(
+      'title' => t('Login'),
+      'href' => 'user',
+      'html' => TRUE
+    );
+    $user_links[] = array(
+      'title' => t('Register'),
+      'href' => 'user/register',
+      'html' => TRUE
+    );
+  }
+  else {
+    $user_links[] = array(
+      'title' => t('Hello <strong>!username</strong>', array('!username' => $user->name)),
+      'href' => 'user',
+      'html' => TRUE
+    );
+    $user_links[] = array('title' => t('Logout'), 'href' => "logout");
+  }
   $links[0]['user'] = $user_links;
 
   return $links;
@@ -511,7 +574,8 @@ function admin_in_active_trail($path, $reset = FALSE) {
  * Rebuild the admin theme entry in the database.
  */
 function _admin_theme_rebuild($force = FALSE) {
-  if (arg(0) == 'admin') {
+  static $exists;
+  if (!isset($exists) && arg(0) == 'admin') {
     $exists = db_result(db_query("SELECT count(*) FROM {system} WHERE name = 'slate' AND type = 'theme'"));
     $force = !$exists ? TRUE : $force;
   }

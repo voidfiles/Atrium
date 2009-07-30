@@ -1,4 +1,4 @@
-/* $Id: admin_toolbar.css,v 1.1.2.2 2009/06/21 14:19:16 yhahn Exp $ */
+/* $Id: admin_toolbar.css,v 1.1.2.4 2009/07/30 14:43:19 yhahn Exp $ */
 
 /**
  * Aggressive resets so we can achieve a consistent look in
@@ -260,6 +260,11 @@ div.depth-1 span.icon { background:transparent url(icons.png) 0px 0px no-repeat;
 
 .path-admin-content-add span.icon { background-position:-60px 0px !important; }
 
+.path-admin-content-aggregator span.icon { background-position:-210px -150px !important; }
+
+.path-admin-settings-wysiwyg span.icon,
+.path-admin-settings-fckeditor span.icon,
+.path-admin-settings-tinymce span.icon,
 .path-admin-content-node span.icon { background-position:-90px 0px !important; }
 
 .path-admin-settings-date-time span.icon { background-position:-120px 0px !important; }
@@ -276,6 +281,7 @@ div.depth-1 span.icon { background:transparent url(icons.png) 0px 0px no-repeat;
 .path-admin-reports-search span.icon,
 .path-admin-settings-search span.icon { background-position:-30px -30px !important; }
 
+.path-admin-settings-devel span.icon,
 .path-admin-settings-site-maintenance span.icon { background-position:-90px -90px !important; }
 
 .path-admin-settings-site span.icon { background-position:-60px -90px !important; }
@@ -283,6 +289,8 @@ div.depth-1 span.icon { background:transparent url(icons.png) 0px 0px no-repeat;
 .path-admin-build-menu span.icon { background-position:-150px 0px !important; }
 
 .path-admin-content-book span.icon { background-position:-180px 0px !important; }
+
+.path-admin-content-forum span.icon { background-position:-90px -150px !important; }
 
 .path-admin-content-comment span.icon { background-position:-210px 0px !important; }
 
@@ -321,19 +329,57 @@ div.depth-1 span.icon { background:transparent url(icons.png) 0px 0px no-repeat;
 
 .path-admin-reports-status span.icon { background-position:-60px -30px !important; }
 
+
 .path-admin-user-rules span.icon { background-position:0px -120px !important; }
 
+.path-admin-user-captcha span.icon,
 .path-admin-user-permissions span.icon { background-position:-30px -120px !important; }
 
 .path-admin-user-roles span.icon { background-position:-60px -120px !important; }
 
+.path-admin-og span.icon,
 .path-admin-user-user span.icon { background-position:-90px -120px !important; }
 
+.path-admin-user-profile span.icon,
 .path-admin-user-settings span.icon { background-position:-150px -120px !important; }
 
 .path-admin-settings-logging span.icon { background-position:-150px -60px !important; }
+
+.path-admin-reports-hits span.icon { background-position:-60px -150px !important; }
 
 .path-admin-reports-updates span.icon { background-position:-150px -90px !important; }
 
 .path-admin-reports-dblog span.icon { background-position:-210px -120px !important; }
 
+.path-admin-reports-pages span.icon { background-position:0px -180px !important }
+
+.path-admin-reports-referrers span.icon { background-position:-180px -150px !important; }
+
+.path-admin-reports-settings span.icon { background-position:-210px -180px !important; }
+
+.path-admin-reports-visitors span.icon { background-position:-30px -180px !important; }
+
+.path-admin-settings-site-information span.icon { background-position:-60px -30px !important; }
+
+.path-admin-settings-file-system span.icon,
+.path-admin-content-backup_migrate span.icon { background-position:-60px -60px !important; }
+
+.path-admin-build-contact span.icon { background-position:-60px -180px !important; }
+
+.path-admin-settings-reroute_email span.icon,
+.path-admin-settings-smtp span.icon,
+.path-admin-content-simplenews span.icon { background-position:-210px -30px !important; }
+
+.path-admin-settings-blogapi span.icon { background-position:-90px -180px !important; }
+
+.path-admin-settings-simplenews span.icon { background-position:0px -150px !important; }
+
+.path-admin-settings-throttle span.icon { background-position:-120px -150px !important; }
+
+.path-admin-content-nodequeue span.icon { background-position:-180px -30px !important; }
+
+.path-admin-settings-clean-urls span.icon { background-position:-180px -180px !important; }
+
+.path-admin-build-path span.icon { background-position:-150px -180px !important; }
+
+.path-admin-settings-error-reporting span.icon { background-position:-150px -150px !important; }

@@ -1,5 +1,5 @@
 <?php
-// $Id: template.php,v 1.1.2.2 2009/06/15 03:18:56 yhahn Exp $
+// $Id: template.php,v 1.1.2.3 2009/07/14 11:35:03 karens Exp $
 
 /**
  * Display the list of available node types for node creation.
@@ -71,7 +71,16 @@ function slate_system_settings_form($form) {
  */
 function slate_node_form($form) {
   $buttons = '<div class="buttons">'. drupal_render($form['buttons']) .'</div>';
-  $sidebar = drupal_render($form['taxonomy']);
+  
+  // Allow modules to insert form elements into the sidebar,
+  // defaults to showing taxonomy in that location.
+  if (!$sidebar_fields = module_invoke_all('node_form_sidebar', $form, $form['#node'])) {
+    $sidebar_fields = array('taxonomy');
+  }
+  foreach ($sidebar_fields as $field) {
+    $sidebar .= drupal_render($form[$field]);
+  }
+  
   $main = drupal_render($form);
   return "<div class='node-form clear-block'>
     <div class='right'>{$buttons}{$sidebar}</div>

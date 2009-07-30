@@ -1,5 +1,5 @@
 <?php
-// $Id: admin.install,v 1.1.2.6 2009/06/19 02:27:00 yhahn Exp $
+// $Id: admin.install,v 1.1.2.7 2009/07/22 06:11:13 yhahn Exp $
 
 /**
  * Implementation of hook_install().
@@ -12,7 +12,7 @@ function admin_install() {
  * Implementation of hook_enable().
  */
 function admin_enable() {
-  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'", $items);
+  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'");
   while ($item = db_fetch_array($result)) {
     _menu_delete_item($item, TRUE);
   }
@@ -42,7 +42,7 @@ function admin_update_6002() {
     variable_set('admin_theme', 'slate');
   }
 
-  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'", $items);
+  $result = db_query("SELECT * FROM {menu_links} WHERE link_path LIKE 'admin%'");
   while ($item = db_fetch_array($result)) {
     _menu_delete_item($item, TRUE);
   }
