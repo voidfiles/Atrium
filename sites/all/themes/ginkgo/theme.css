@@ -424,19 +424,15 @@ body.page-not-found #page-header div.limiter { display:none; }
 
 body.page-access-denied div.access-denied,
 body.page-not-found div.not-found {
-  color:#fff;
-  font-size:24px;
+  font-size:32px;
   font-weight:300;
-  text-shadow:#4ff 0px 0px 15px;
-  text-align:center;
 
-  padding:200px 0px;
-  line-height:100px;
+  padding:140px 480px 140px 50px;
+  letter-spacing:-1px;
+  line-height:40px;
+  min-height:80px;
 
-  background:url(images/404.png) no-repeat;
+  background:url(images/404.png) 100% 50% no-repeat;
   }
 
-body.page-access-denied div.access-denied {
-  padding:25px 0px 375px;
-  background:url(images/403.png) no-repeat;
-  }
+body.page-access-denied div.access-denied { background-image:url(images/403.png); }
