@@ -338,14 +338,14 @@ function _l10n_update_batch_finished($success, $results) {
 function _l10n_update_refresh() {
   static $fail = array();
   global $base_url;
-  module_load_include('inc', 'update', 'update.compare');
 
   $available = array();
   $data = array();
   $projects = l10n_update_get_projects();
   $languages = l10n_update_language_list();
   $locales = implode(',', array_keys($languages));
-  
+  // Refresh history too
+  l10n_update_get_history(TRUE);
   // Now that we have the list of projects, we should also clear our cache of
   // available release data, since even if we fail to fetch new data, we need
   // to clear out the stale data at this point.

@@ -14,9 +14,27 @@
 function l10n_update_menu() {
   $items['admin/build/translate/update'] = array(
     'title' => 'Update',
+    'description' => 'Available updates',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('l10n_update_import_form'),
+    'page arguments' => array('l10n_update_admin_import_form'),
     'access arguments' => array('translate interface'),
+    'file' => 'l10n_update.admin.inc',
+    'weight' => 20,
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/build/translate/update/refresh'] = array(
+    'title' => 'Update',
+    'description' => 'Available updates',
+    'weight' => 10,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/build/translate/update/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'Update configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('l10n_update_admin_settings_form'),
+    'access arguments' => array('translate interface'),
+    'file' => 'l10n_update.admin.inc',
     'weight' => 20,
     'type' => MENU_LOCAL_TASK,
   );
@@ -24,98 +42,14 @@ function l10n_update_menu() {
 }
 
 /**
- * Update form
- * 
- * @todo selectable packages
- * @todo check language support in server
- * @todo check file update dates
+ * Implementation of hook_cron()
  */
-function l10n_update_import_form() {
-  module_load_include('inc', 'l10n_update');
-  // For now we get package information provided by modules
-  $projects = l10n_update_get_projects();
-  $languages = l10n_update_language_list('name');  
-
-  if ($projects && $languages) {
-    $history = l10n_update_refresh_history();
-    $available = l10n_update_available_releases();
-    $updates = _l10n_update_compare($projects, $history, $available);
-    
-    $form['updates'] = array('#type' => 'value', '#value' => $updates);
-    $form['modules'] = array(
-      '#title' => t('Packages'),
-      '#type' => 'fieldset',
-    );
-    $header = array(t('Module'), t('Current version'), t('Available update'), '');
-    foreach ($projects as $name => $project) {
-      $title = t('<strong>%name</strong> (%version)', array('%name' => $project['name'], '%version' => $project['info']['version']));
-      $rows[] = array(
-        array('data' => $title, 'colspan' => 4),
-      );
-      foreach ($languages as $lang => $language) {
-        $current = isset($history[$name]->updates[$lang]) ? $history[$name]->updates[$lang] : NULL;
-        $update = isset($updates[$name][$lang]) ? $updates[$name][$lang] : NULL;
-        $rows[] = array(
-          $language,
-          $current ? l10n_update_tag_date($current->download_version, $current->download_date) : '',
-          $update ? l10n_update_tag_date($update['tag'], $update['date']) : '',          
-          $update ? l(t('Download'), $update['download_link']) : '',
-        ); 
-      }
-    }
-    $form['modules']['modules'] = array('#value' => theme('table', $header, $rows));
-    
-    $form['languages'] = array(
-      '#title' => t('Languages'),
-      '#type' => 'checkboxes',
-      '#options' => $languages,
-      '#description' => t('Select one or more languages to download and update.'),
-    );
-    $form['mode'] = array('#type' => 'radios',
-      '#title' => t('Mode'),
-      '#default_value' => LOCALE_IMPORT_KEEP,
-      '#options' => array(
-        LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
-        LOCALE_IMPORT_KEEP => t('Existing strings are kept, only new strings are added')
-      ),
-    );
-    $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Update'),
-    );
-  } else {
-    $form['warning'] = array('#value' => t('No projects or languages to update.'));
-  }
-  return $form;
-}
-
-/**
- * Update form
- */
-function l10n_update_import_form_submit($form, $form_state) {
-  module_load_include('inc', 'l10n_update');
-  $projects = l10n_update_get_projects();
-  $languages = array_filter($form_state['values']['languages']);
-  $updates = $form_state['values']['updates'];
-  $mode = $form_state['values']['mode'];
-  
-  if ($languages && $projects && $updates) {
-    foreach ($projects as $project) {
-      foreach ($languages as $lang) {
-        if (!empty($updates[$project['name']][$lang])) {
-          $release = $updates[$project['name']][$lang];
-          $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang));
-          $operations[] = array('_l10n_update_batch_history', array($project, $release));
-        }
-      }
-    }
-    if (!empty($operations)) {
-      $batch = l10n_update_create_batch($operations);
-      batch_set($batch);
-    }
-  }
-  else {
-    drupal_set_message(t('No packages or languages selected.'), 'error');
+function l10n_update_cron() {
+  if ($time = variable_get('l10n_update_check_frequency', 0)) {
+    if (time() - variable_get('l10n_update_last_check', 0) > $time) {
+      module_load_include('inc', 'l10n_update');
+      _l10n_update_refresh();
+    }    
   }
 }
 
@@ -213,11 +147,32 @@ function l10n_update_language_list($field = 'name') {
 }
 
 /**
- * Format tag and release date
- * @param $tag
- * @param $date
- * @return unknown_type
+ * Implementation of the hook_theme() registry.
  */
-function l10n_update_tag_date($tag, $date) {
-  return '<strong>' . check_plain($tag) . '</strong> (' . format_date($date, 'short') . ')';
+function l10n_update_theme() {
+  return array(
+    'l10n_update_project_status' => array(
+      'arguments' => array('projects' => NULL, 'languages' => NULL, 'history' => NULL, 'available' => NULL, 'updates' => NULL),
+      'file' => 'l10n_update.admin.inc',
+    ),
+    'l10n_update_tag_date' => array(
+      'arguments' => array('tag' => NULL, 'date' => NULL),
+      'file' => 'l10n_update.admin.inc',
+    ),
+    'l10n_update_version_status' => array(
+      'arguments' => array('status' => NULL),
+      'file' => 'l10n_update.admin.inc',    
+    ),
+  );
+}
+
+/**
+ * Prints a warning message when there is no data about available updates.
+ */
+function _l10n_update_no_data() {
+  $destination = drupal_get_destination();
+  return t('No information is available about potential new and updated translations for currently installed modules and themes. To check for updates, you may need to <a href="@run_cron">run cron</a> or you can <a href="@check_manually">check manually</a>. Please note that checking for available updates can take a long time, so please be patient.', array(
+    '@run_cron' => url('admin/reports/status/run-cron', array('query' => $destination)),
+    '@check_manually' => url('admin/build/translate/update', array('query' => $destination)),
+  ));
 }
