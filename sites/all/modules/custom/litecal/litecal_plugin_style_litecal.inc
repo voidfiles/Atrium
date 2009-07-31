@@ -60,7 +60,7 @@ class litecal_plugin_style_litecal extends views_plugin_style {
       foreach (content_types() as $type => $info) {
         foreach ($info['fields'] as $field) {
           if ($field['type'] == 'date') {
-            $options["{$field['type_name']}:{$field['field_name']}"] = $nodetypes[$field['type_name']]->name;
+            $options["{$field['type_name']}:{$field['field_name']}"] = check_plain($nodetypes[$field['type_name']]->name);
           }
         }
       }
