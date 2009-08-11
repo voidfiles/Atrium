@@ -1,8 +1,11 @@
 <?php
-// $Id: strongarm.module,v 1.1 2009/05/06 17:55:05 jmiccolis Exp $
+// $Id: strongarm.module,v 1.1.2.5 2009/08/03 14:06:52 yhahn Exp $
 
 define('STRONGARM_PATTERN_PREFIX', 0);
 define('STRONGARM_PATTERN_SUFFIX', 1);
+
+define('STRONGARM_MODE_STRONG', 0);
+define('STRONGARM_MODE_WEAK', 1);
 
 /**
  * Implementation of hook_boot().
@@ -10,30 +13,108 @@ define('STRONGARM_PATTERN_SUFFIX', 1);
  * set. Necessary for variables that are checked by modules on hook_init().
  */
 function strongarm_boot() {
-  global $conf;
-  $var_conf = strongarm_get_cache();
-  if (!empty($var_conf)) {
-    foreach ($var_conf as $k => $v) {
-      $conf[$k] = $v;
-    }
-  }
+  $var_conf = strongarm_get_conf(FALSE);
+  strongarm_set_conf($var_conf);
 }
 
 /**
  * Implementation of hook_init().
  */
 function strongarm_init() {
-  $var_conf = strongarm_get_cache();
-  if (empty($var_conf)) {
-    strongarm_set_cache(TRUE);
+  $var_conf = strongarm_get_conf();
+  strongarm_set_conf($var_conf);
+
+  // Display a status message if any variables are overridden.
+  if ($_GET['q'] != 'admin/settings/strongarm' && variable_get('strongarm_mode', STRONGARM_MODE_STRONG) == STRONGARM_MODE_WEAK) {
+    $overridden = strongarm_overridden_vars();
+    if (arg(0) == 'admin' && !empty($overridden) && user_access('administer site configuration') && variable_get('strongarm_show_messages', TRUE)) {
+      drupal_set_message(t('The following variables have overridden values: !vars. Manage these variables on the !strongarm_page.', array('!vars' => implode(', ', $overridden), '!strongarm_page' => l(t('Strongarm admin page'), 'admin/settings/strongarm'))), 'warning', FALSE);
+    }
   }
 }
 
 /**
- * Implementation of hook_flush_caches().
+ * Retrieve variable configuration from the cache.
  */
-function strongarm_flush_caches() {
-  strongarm_invalidate_cache();
+function strongarm_get_conf($bootstrapped = TRUE, $reset = FALSE) {
+  static $var_conf;
+  if (!isset($var_conf) || $reset) {
+    if (!$reset) {
+      $cache = cache_get('strongarm', 'cache');
+      $var_conf = $cache ? $cache->data : NULL;
+    }
+    if (!isset($var_conf) && $bootstrapped) {
+      // We don't use module_invoke_all() here since
+      // array_merge_recursive() can alter the desired structure of
+      // some variables.
+      foreach (module_implements('strongarm') as $module) {
+        $module_conf = module_invoke($module, 'strongarm');
+        foreach ($module_conf as $name => $value) {
+          if (isset($var_conf[$name])) {
+            if (is_array($value)) {
+              $var_conf[$name] = array_merge($var_conf[$name], $value);
+            }
+            else {
+              // Blow the earlier one away
+              $var_conf[$name] = $value;
+            }
+          }
+          else {
+            $var_conf[$name] = $value;
+          }
+        }
+      }
+      cache_set('strongarm', $var_conf);
+    }
+  }
+  return $var_conf;
+}
+
+/**
+ * Sets the global configuration. When in Weakarm mode, will log any
+ * values that have been overridden and leave their conf values alone.
+ */
+function strongarm_set_conf($var_conf = array()) {
+  if (!empty($var_conf)) {
+    global $conf;
+    foreach ($var_conf as $k => $v) {
+      // The variable is overridden -- let it be, but log the override if we are in Weakarm mode.
+      if ((variable_get('strongarm_mode', STRONGARM_MODE_STRONG) == STRONGARM_MODE_WEAK) && isset($conf[$k]) && $conf[$k] != $v) {
+        strongarm_overridden_vars($k);
+      }
+      else {
+        $conf[$k] = $v;
+      }
+    }
+  }
+}
+
+/**
+ * Log overridden values.
+ */
+function strongarm_overridden_vars($set = '') {
+  static $overridden = array();
+  if (!empty($set)) {
+    $overridden[$set] = $set;
+  }
+  return $overridden;
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function strongarm_menu() {
+  $items = array();
+  $items['admin/settings/strongarm'] = array(
+    'title' => 'Strongarm',
+    'description' => 'Manage Drupal variable settings that have been strongarmed.',
+    'page callback' => 'strongarm_admin_page',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'strongarm.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
 }
 
 /**
@@ -50,122 +131,37 @@ function strongarm_form_alter(&$form, &$form_state, $form_id) {
     $pattern = $form['#node_type']->type;
     $position = STRONGARM_PATTERN_SUFFIX;
   }
-
-  if (!empty($lockdown)) {
+  else if (arg(0) === 'admin' && $form_id != 'strongarm_admin_form') {
+    $lockdown = TRUE;
+  }
+  
+  if (!empty($lockdown) && variable_get('strongarm_mode', STRONGARM_MODE_STRONG) == STRONGARM_MODE_STRONG) {
+    module_load_include('inc', 'strongarm', 'strongarm.admin');
     drupal_add_css(drupal_get_path('module', 'strongarm') .'/strongarm.css');
-    $altered = _strongarm_lockdown($form, $pattern, $position);
-    if ($altered) {
-      drupal_set_message(t('The hilighted fields below may need to retain their current values for your site to operate properly. Settings may be disabled or reverted automatically if they are not compatible with one or more of your site\'s modules.'), 'warning');
+    if (_strongarm_lockdown($form, $pattern, $position) && variable_get('strongarm_show_message', TRUE)) {
+      drupal_set_message(t('The hilighted fields below may need to retain their current values for your site to operate properly. Settings may be disabled or reverted automatically if they are not compatible with one or more of your site\'s modules.'), 'warning', FALSE);
     }
+  }
+
+  // Clear strongarm & variable caches on modules page.
+  if ($form_id == 'system_module') {
+    strongarm_flush_caches();
   }
 }
 
 /**
- * Retrieve variable configuration from the cache.
+ * Implementation of hook_theme().
  */
-function strongarm_get_cache($reset = FALSE) {
-  static $conf;
-  if (!isset($conf) || $reset) {
-    $conf = array();
-    $cache = cache_get('strongarm', 'cache');
-    if ($cache) {
-      $conf = $cache->data;
-    }
-  }
-  return $conf;
+function strongarm_theme() {
+  return array(
+    'strongarm_admin_form' => array(),
+  );
 }
 
 /**
- * Set the variable configuration cache. Optionally overrides the global
- * $conf array as well to populate variable values.
+ * Implementation of hook_flush_caches().
  */
-function strongarm_set_cache($set_vars = FALSE) {
-  $var_conf = array();
-
-  // We don't use module_invoke_all() here since
-  // array_merge_recursive() can alter the desired structure of
-  // some variables.
-  foreach (module_implements('strongarm') as $module) {
-    $module_conf = module_invoke($module, 'strongarm');
-    foreach ($module_conf as $name => $value) {
-      if (isset($var_conf[$name])) {
-        if (is_array($value)) {
-          $var_conf[$name] = array_merge($var_conf[$name], $value);
-        }
-        else {
-          // Blow the earlier one away
-          $var_conf[$name] = $value;
-        }
-      }
-      else {
-        $var_conf[$name] = $value;
-      }
-    }
-  }
-  cache_set('strongarm', $var_conf);
-
-  if ($set_vars) {
-    global $conf;
-    if (!empty($var_conf)) {
-      foreach ($var_conf as $k => $v) {
-        $conf[$k] = $v;
-      }
-    }
-  }
-}
-
-/**
- * Invalidates the strongarm cache.
- */
-function strongarm_invalidate_cache() {
+function strongarm_flush_caches() {
+  cache_clear_all('variables', 'cache');
   cache_clear_all('strongarm', 'cache');
-}
-
-/**
- * Recursive function that hunts down form elements that are likely to
- * be related to strongarm'd variables and locks them down.
- */
-function _strongarm_lockdown(&$form, $pattern = '', $position = STRONGARM_PATTERN_PREFIX) {
-  $altered = FALSE;
-  $var_conf = strongarm_get_cache();
-
-  foreach (element_children($form) as $elem) {
-    $children = element_children($form[$elem]);
-    $key = $elem;
-
-    $match = FALSE;
-    if (isset($var_conf[$key])) {
-      $match = TRUE;
-    }
-    else if (!empty($pattern)) {
-      $key = ($position == STRONGARM_PATTERN_PREFIX) ? "{$pattern}_{$key}" : "{$key}_{$pattern}";
-      if (isset($var_conf[$key])) {
-        $match = TRUE;
-      }
-    }
-
-    if ($match) {
-      // If the default form value matches the strongarm value,
-      // it is highly likely we have a match. Disable the field.
-      if (isset($form[$elem]['#default_value']) && $var_conf[$key] == $form[$elem]['#default_value']) {
-        $form[$elem]['#disabled'] = TRUE;
-        $form[$elem]['#value'] = $form[$elem]['#default_value'];
-      }
-      if (!isset($form[$elem]['#attributes']['class'])) {
-        $form[$elem]['#attributes']['class'] = "strongarm";
-      }
-      else {
-        $form[$elem]['#attributes']['class'] .= " strongarm";
-      }
-
-      $altered = TRUE;
-    }
-
-    // If this is a tree'd element, recurse
-    if (!empty($form[$elem]['#tree']) || !empty($children)) {
-      $altered = $altered || _strongarm_lockdown($form[$elem], $pattern, $position);
-    }
-
-  }
-  return $altered;
 }
