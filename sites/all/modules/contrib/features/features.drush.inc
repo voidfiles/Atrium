@@ -1,5 +1,5 @@
 <?php
-// $Id: features.drush.inc,v 1.1.2.10 2009/06/11 21:25:39 jmiccolis Exp $
+// $Id: features.drush.inc,v 1.1.2.12 2009/08/11 15:02:45 yhahn Exp $
 
 /**
  * @file
@@ -82,24 +82,31 @@ function features_command_export() {
 
   if (count($args) == 1) {
     // Assume that the user intends to create a module with the same name as the
-    // "value" of the context.
-    $stub = array('context' => $args);
-    $split = explode('-', $args[0]);
-    $name = array_pop($split);
-    _features_command_export($stub, $name);
+    // "value" of the component.
+    list($source, $component) = explode(':', $args[0]);
+    $stub = array($source => array($component));
+    _features_command_export($stub, $component);
   }
   elseif (count($args) > 1) {
     // Assume that the user intends to create a new module based on a list of 
     // contexts. First argument is assumed to be the name.
     $name = array_shift($args);
-    $stub = array('context' => $args);
+    $stub = array();
+    foreach ($args as $v) {
+      list($source, $component) = explode(':', $v);
+      $stub[$source][] = $component;
+    }
     _features_command_export($stub, $name);
   }
   else {
-    // By default just show contexts that are available.
-    $rows = array(array(dt('Available contexts')));
-    foreach (context_enabled_contexts(NULL, TRUE) as $k => $c) {
-      $rows[] = array("{$c->namespace}-{$c->attribute}-{$c->value}");
+    drush_print(dt('Available sources'));
+    $rows = array(dt('Available sources'));
+    foreach (features_get_components(TRUE) as $component => $info) {
+      if ($options = features_invoke($component, 'features_export_options')) {
+        foreach ($options as $key => $value) {
+          $rows[] = array($component .':'. $key);
+        }
+      }
     }
     drush_print_table($rows, TRUE);
   }
@@ -174,6 +181,9 @@ function _features_command_export($stub, $module_name = NULL, $destination = 'si
       drush_op('mkdir', $directory);
     }
     foreach ($files as $extension => $file_contents) {
+      if (!in_array($extension, array('module', 'info'))) {
+        $extension .= '.inc';
+      }
       drush_op('file_put_contents', "{$directory}/{$module_name}.$extension", $file_contents);
     }
     drush_print(dt("Created module: !module in !directory", array('!module' => $module_name, '!directory' => $directory)));
@@ -222,12 +232,12 @@ function features_command_revert() {
       drush_print(dt('Skipping !component.', array('!component' => $component)));
       continue;
     }
-    module_load_include('inc', 'features', "features.{$component}");
-    if (!module_hook($component, 'features_revert')) {
+    features_include();
+    if (!features_hook($component, 'features_revert')) {
       drush_print(dt('Features does not know how to revert !component', array('!component' => $component)));
       continue;
     }
-    $result = module_invoke($component, 'features_revert', $module);
+    $result = features_invoke($component, 'features_revert', $module);
     if (!$result) {
       drush_print(dt('Revert !component failed.', array('!component' => $component)));
     }

@@ -1,12 +1,14 @@
 <?php
-// $Id: features.menu.inc,v 1.1.2.4 2009/06/10 01:06:09 yhahn Exp $
+// $Id: features.menu.inc,v 1.1.2.5 2009/08/11 15:02:45 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
  */
 function menu_features_api() {
   return array(
-    'default_hook' => 'menu_default_items',
+    'menu' => array(
+      'default_hook' => 'menu_default_items',
+    ),
   );
 }
 

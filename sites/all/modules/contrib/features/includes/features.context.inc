@@ -1,13 +1,15 @@
 <?php
-// $Id: features.context.inc,v 1.1.2.9 2009/05/31 02:44:04 yhahn Exp $
+// $Id: features.context.inc,v 1.1.2.10 2009/08/11 15:02:45 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
  */
 function context_features_api() {
   return array(
-    'feature_source' => TRUE,
-    'default_hook' => 'context_default_contexts',
+    'context' => array(
+      'feature_source' => TRUE,
+      'default_hook' => 'context_default_contexts',
+    ),
   );
 }
 

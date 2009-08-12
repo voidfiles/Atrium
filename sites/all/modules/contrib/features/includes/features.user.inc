@@ -1,12 +1,15 @@
 <?php
-// $Id: features.user.inc,v 1.1.2.2 2009/06/19 21:22:33 yhahn Exp $
+// $Id: features.user.inc,v 1.1.2.4 2009/08/11 15:42:07 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
  */
 function user_features_api() {
   return array(
-    'default_hook' => 'user_default_permissions',
+    'user' => array(
+      'feature_source' => TRUE,
+      'default_hook' => 'user_default_permissions',
+    )
   );
 }
 
@@ -30,6 +33,23 @@ function user_features_export($data, &$export, $module_name = '') {
 
   $pipe = array();
   return $pipe;
+}
+
+/**
+ * Implementation of hook_features_export_options().
+ */
+function user_features_export_options() {
+  $options = array();
+  foreach (module_list() as $module) {
+    $prefix = check_plain($module) .': ';
+    if ($permissions = module_invoke($module, 'perm')) {
+      foreach ($permissions as $permission) {
+        $options[$permission] = $prefix . check_plain($permission);
+      }
+    }
+  }
+  asort($options);
+  return $options;
 }
 
 /**

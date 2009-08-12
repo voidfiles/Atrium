@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.28 2009/06/21 21:03:56 yhahn Exp $
+// $Id: features.module,v 1.1.2.38 2009/08/11 19:31:00 yhahn Exp $
 
 /**
  * @file
@@ -14,6 +14,38 @@ define('FEATURES_MODULE_MISSING', -1);
 
 define('FEATURES_DEFAULT', 0);
 define('FEATURES_OVERRIDDEN', 1);
+
+/**
+ * Components with this 'default_file' flag will have exports written to the
+ * common defaults file 'MODULENAME.defaults.inc'. This is the default
+ * behavior.
+ */
+define('FEATURES_DEFAULTS_INCLUDED_COMMON', 0);
+
+/**
+ * Components with this 'default_file' flag will have exports written to a
+ * defaults based on the component name like 'MODULENAME.features.COMPONENT-NAME.inc'.
+ */
+define('FEATURES_DEFAULTS_INCLUDED', 1);
+
+/**
+ * Components with this 'default_file' flag must specify a filename for thier
+ * exports. Additionally a stub will NOT be written to 'MODULENAME.features.inc'
+ * allowing the file to be included directly by the implementing module.
+ */
+define('FEATURES_DEFAULTS_CUSTOM', 2);
+
+/**
+ * Components with this 'duplicates' flag may not have multiple features provide the
+ * same component key in their info files. This is the default behavior.
+ */
+define('FEATURES_DUPLICATES_CONFLICT', 0);
+
+/**
+ * Components with this 'duplicates' flag are allowed to have multiple features
+ * provide the same component key in their info files.
+ */
+define('FEATURES_DUPLICATES_ALLOWED', 1);
 
 /**
  * Implementation of hook_menu().
@@ -203,19 +235,29 @@ function features_flush_caches() {
  * load includes for those provided by features.
  */
 function features_include() {
+  // Check for implementing modules and make necessary inclusions.
+  foreach (module_implements('features_api') as $module) {
+    $info = module_invoke($module, 'features_api');
+    foreach ($info as $component) {
+      if (isset($component['file'])) {
+        require_once $component['file'];
+      }
+    }
+  }
+
+  // Always load the menu module include to be able to deal with menu items.
+  module_load_include('inc', 'features', "includes/features.menu");
+
   // Features provides integration on behalf of these modules.
-  $modules = array('block', 'content', 'context', 'filter', 'imagecache', 'menu', 'node', 'user', 'views');
-  foreach ($modules as $module) {
+  // Note that ctools is placed last because it implements hooks "dynamically" for other modules.
+  $modules = array('block', 'content', 'context', 'filter', 'imagecache', 'node', 'user', 'views', 'ctools');
+
+  foreach (array_filter($modules, 'module_exists') as $module) {
     module_load_include('inc', 'features', "includes/features.$module");
   }
 
-  // Check for any other implementing modules and make necessary inclusions.
-  foreach (module_implements('features_api') as $module) {
-    $info = module_invoke($module, 'features_api');
-    if (is_array($info) && !empty($info['file'])) {
-      require_once $info['file'];
-    }
-  }
+  // Clear static cache, since we've now included new implementers.
+  module_implements('features_api', FALSE, TRUE);
 }
 
 /**
@@ -242,13 +284,86 @@ function features_get_modules($name = NULL, $reset = FALSE) {
   return features_get_info('module', $name, $reset);
 }
 
+/**
+ * Returns the array of supported components.
+ *
+ * @param $feature_source
+ *   If set to to TRUE return feature sources only.
+ * @return An array of component labels keyed by the component names.
+ */
+function features_get_components($feature_source = FALSE) {
+  features_include();
+
+  $components = array();
+  foreach (module_implements('features_api') as $module) {
+    $info = module_invoke($module, 'features_api');
+
+    if ($feature_source) {
+      // Gather only components that are declared as feature sources.
+      foreach ($info as $k => $v) {
+        if ($v['feature_source']) {
+          $components[$k] = $v;
+        }
+      }
+    }
+    else {
+      $components = array_merge($components, $info);
+    }
+  }
+
+  return $components;
+}
+
+/**
+ * Like module_invoke() but for arbitrary callback base names.
+ */
+function features_invoke() {
+  $args = func_get_args();
+  $base = $args[0];
+  $hook = $args[1];
+  unset($args[0], $args[1]);
+  $function = $base .'_'. $hook;
+  if (features_hook($base, $hook)) {
+    return call_user_func_array($function, $args);
+  }
+}
+
+/**
+ * Like module_invoke_all() but for arbitrary callback base names.
+ */
+function features_invoke_all() {
+  $args = func_get_args();
+  $hook = $args[0];
+  unset($args[0]);
+  $return = array();
+  foreach (features_get_components() as $component => $info) {
+    $result = features_invoke($component, $hook);
+    if (isset($result) && is_array($result)) {
+      $return = array_merge_recursive($return, $result);
+    }
+    else if (isset($result)) {
+      $return[] = $result;
+    }
+  }
+  return $return;
+}
+
+/**
+ * Like module_hook() but for arbitrary callback base names.
+ */
+function features_hook($base, $hook) {
+  return function_exists($base .'_'. $hook);
+}
+
 function features_get_features($name = NULL, $reset = FALSE) {
   return features_get_info('feature', $name, $reset);
 }
 
 function features_get_info($type = 'module', $name = NULL, $reset = FALSE) {
-  $cache = cache_get('features_module_info');
-
+  static $cache;
+  if (!isset($cache)) {
+    $cache = cache_get('features_module_info');
+  }
   if (empty($cache) || $reset) {
     $data = array();
     $result = db_query("SELECT filename, name, type, status, throttle, schema_version FROM {system} WHERE type = 'module' ORDER BY name ASC");
@@ -298,14 +413,18 @@ function features_get_feature_title($feature) {
  * override actions for a given feature.
  */
 function features_access_override_actions($feature) {
-  // Find all overridden items
-  features_include();
-  module_load_include('inc', 'features', 'features.export');
-  $overrides = features_detect_overrides($feature);
-  if (!empty($overrides)) {
-    return user_access('administer site configuration');
+  static $access = array();
+  if (!isset($access[$feature->name])) {
+    // Set a value first. We may get called again from within features_detect_overrides().
+    $access[$feature->name] = FALSE;
+
+    // Find all overridden items
+    features_include();
+    module_load_include('inc', 'features', 'features.export');
+    $overrides = features_detect_overrides($feature);
+    $access[$feature->name] = !empty($overrides) && user_access('administer site configuration');
   }
-  return FALSE;
+  return $access[$feature->name];
 }
 
 /**
@@ -331,7 +450,7 @@ function features_form_system_modules_alter(&$form) {
  */
 function features_rebuild() {
   features_include();
-  module_invoke_all('features_rebuild');
+  features_invoke_all('features_rebuild');
 }
 
 /**

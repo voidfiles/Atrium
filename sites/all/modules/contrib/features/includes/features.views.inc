@@ -1,13 +1,16 @@
 <?php
-// $Id: features.views.inc,v 1.1.2.8 2009/05/31 02:44:04 yhahn Exp $
+// $Id: features.views.inc,v 1.1.2.10 2009/08/11 16:28:32 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
  */
 function views_features_api() {
   return array(
-    'feature_source' => TRUE,
-    'default_hook' => 'views_default_views',
+    'views' => array(
+      'feature_source' => TRUE,
+      'default_hook' => 'views_default_views',
+      'default_file' => FEATURES_DEFAULTS_INCLUDED,
+    ),
   );
 }
 
@@ -92,40 +95,42 @@ function views_features_export($data, &$export, $module_name = '') {
 
   foreach ($views as $view) {
     foreach ($view->display as $display) {
+      if (is_object($display->handler) && method_exists($display->handler, 'get_option')) {
 
-      // Handlers
-      foreach ($handlers as $handler) {
-        $items = $display->handler->get_option($handler);
-        if (!empty($items)) {
-          foreach ($items as $item) {
-            $module = $handler_dependencies[$item['table']];
-            $export['dependencies'][$module] = $module;
+        // Handlers
+        foreach ($handlers as $handler) {
+          $items = $display->handler->get_option($handler);
+          if (!empty($items)) {
+            foreach ($items as $item) {
+              $module = $handler_dependencies[$item['table']];
+              $export['dependencies'][$module] = $module;
+            }
           }
         }
-      }
 
-      // Plugins
-      foreach ($plugins as $plugin_type) {
-        switch ($plugin_type) {
-          case 'display':
-            $plugin_name = $display->display_plugin;
-            break;
-          case 'access':
-            $access = $display->handler->get_option("access");
-            if (!empty($access['type']) && $access['type'] != 'none') {
-              $plugin_name = $access['type'];
-            }
-            else {
-              $plugin_name = '';
-            }
-            break;
-          default:
-            $plugin_name = $display->handler->get_option("{$plugin_type}_plugin");
-            break;
-        }
-        if (!empty($plugin_name)) {
-          $module = $plugin_dependencies[$plugin_type][$plugin_name];
-          $export['dependencies'][$module] = $module;
+        // Plugins
+        foreach ($plugins as $plugin_type) {
+          switch ($plugin_type) {
+            case 'display':
+              $plugin_name = $display->display_plugin;
+              break;
+            case 'access':
+              $access = $display->handler->get_option("access");
+              if (!empty($access['type']) && $access['type'] != 'none') {
+                $plugin_name = $access['type'];
+              }
+              else {
+                $plugin_name = '';
+              }
+              break;
+            default:
+              $plugin_name = $display->handler->get_option("{$plugin_type}_plugin");
+              break;
+          }
+          if (!empty($plugin_name)) {
+            $module = $plugin_dependencies[$plugin_type][$plugin_name];
+            $export['dependencies'][$module] = $module;
+          }
         }
       }
     }

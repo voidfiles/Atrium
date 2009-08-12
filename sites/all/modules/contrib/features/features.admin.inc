@@ -1,5 +1,5 @@
 <?php
-// $Id: features.admin.inc,v 1.1.2.18 2009/06/21 21:03:56 yhahn Exp $
+// $Id: features.admin.inc,v 1.1.2.21 2009/08/11 19:02:13 yhahn Exp $
 
 /**
  * admin/build/features page callback.
@@ -272,7 +272,7 @@ function features_revert_form($form_state, $feature) {
   module_load_include('inc', 'features', 'features.export');
   $overrides = features_detect_overrides($feature);  
   foreach (array_keys($overrides) as $component) {
-    if (module_hook($component, 'features_revert')) {
+    if (features_hook($component, 'features_revert')) {
       $form['revert']['#options'][$component] = $component;
       $form['revert']['#default_value'][$component] = $component;
     }
@@ -289,7 +289,7 @@ function features_revert_form_submit(&$form, &$form_state) {
   $module = $form_state['values']['module'];
   foreach ($form_state['values']['revert'] as $component => $status) {
     if ($status) {
-      $result = module_invoke($component, 'features_revert', $module);
+      $result = features_invoke($component, 'features_revert', $module);
       if ($result) {
         drupal_set_message(t('Reverted all <strong>!component</strong> components for <strong>!module</strong>.', array('!component' => $component, '!module' => $module)));
       }
@@ -373,11 +373,15 @@ function features_feature_status($feature) {
  */
 function features_get_conflicts($reset = FALSE) {
   $conflicts = array();
-
+  $component_info = features_get_components();
   $map = features_get_component_map($reset);
+
   foreach ($map as $type => $components) {
     foreach ($components as $component => $modules) {
-      if (count($modules) > 1) {
+      if (isset($component_info[$type]['duplicates']) && $component_info[$type]['duplicates'] == FEATURES_DUPLICATES_ALLOWED) {
+        continue;
+      }
+      else if (count($modules) > 1) {
         foreach ($modules as $module) {
           if (!isset($conflicts[$module])) {
             $conflicts[$module] = array();

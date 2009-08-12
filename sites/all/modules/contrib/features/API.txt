@@ -1,4 +1,4 @@
-$Id: API.txt,v 1.1.2.2 2009/03/17 00:59:10 jmiccolis Exp $
+$Id: API.txt,v 1.1.2.3 2009/08/11 15:32:30 yhahn Exp $
 
 Features for Drupal 6.x
 API & code concepts documentation
@@ -13,6 +13,61 @@ This allows existing modules to be turned into features by hand by
 simply adding the components that belong to the feature to the .info
 file. It also allows for programmatic updating of code from database
 changes and reverting database changes back to code defaults.
+
+hook_features_api()
+-------------------
+This is the main info hook that features uses to determine what
+components your module provides and other behaviors you'd like to
+assign to each component.
+
+It should return an array keyed by component. Each component can
+define several attributes. Here is an example:
+
+  return array(
+    'mycomponent' => array(
+      'default_hook' => 'mycomponent_defaults',
+      'default_file' => FEATURES_DEFAULTS_INCLUDED,
+      'features_source' => TRUE,
+      'file' => drupal_get_path('module', 'mycomponent') .'/mycomponent.features.inc',
+    ),
+    'another_component' => array(
+      ...
+    ),
+  );
+
+Attributes:
+
+  'file': Optional path to a file to include which contains the rest
+    of the features API hooks for this module.
+
+  'default_hook': The defaults hook for your component that is called
+    when the cache of default components is generated. Examples include
+    hook_views_default_views() or hook_context_default_contexts().
+
+  'default_file': The file-writing behavior to use when exporting this
+    component. May be one of 3 constant values:
+
+    FEATURES_DEFAULTS_INCLUDED_COMMON: write hooks/components to
+      .defaults.inc with other components. This is the default behavior
+      if this key is not defined.
+
+    FEATURES_DEFAULTS_INCLUDED: write hooks/components to a component-
+      specific include named automatically by features.
+
+    FEATURES_DEFAULTS_CUSTOM: write hooks/components to a component-
+      specific include with a custom name provided.
+
+    If your module provides large amounts of code that should not be
+    parsed often (only on specific cache clears/rebuilds, for example)
+    you may want to use the 2nd or 3rd options to split your component
+    into its own include. For most purposes FEATURES_DEFAULTS_INCLUDED_COMMON
+    is an appropriate value.
+
+  'default_filename': The filename to use when 'default_file' is set to
+    FEATURES_DEFAULTS_CUSTOM.
+
+  'features_source': Boolean value for whether this component should be
+    offered as an option on the initial feature export form.
 
 hook_features_export()
 ----------------------

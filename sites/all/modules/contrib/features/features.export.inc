@@ -1,5 +1,5 @@
 <?php
-// $Id: features.export.inc,v 1.1.2.24 2009/06/22 03:20:46 yhahn Exp $
+// $Id: features.export.inc,v 1.1.2.33 2009/08/11 20:39:42 yhahn Exp $
 
 /**
  * Update form.
@@ -165,17 +165,15 @@ function features_export_form($form_state, $module = NULL) {
       drupal_add_js(drupal_get_path('module', 'features') .'/features.js');
       break;
 
-    // Choose a context ===============================================
+    // Choose a feature source ========================================
     case 1:
       $form['sources'] = array('#tree' => TRUE);
-      $modules = features_get_modules();
-      foreach (module_implements('features_api') as $module_name) {
-        $info = module_invoke($module_name, 'features_api');
-        if (!empty($info['feature_source']) && $options = module_invoke($module_name, 'features_export_options')) {
-          $form['sources'][$module_name] = array(
+      foreach (features_get_components(TRUE) as $component => $info) {
+        if ($options = features_invoke($component, 'features_export_options')) {
+          $form['sources'][$component] = array(
             '#type' => 'checkboxes',
             '#options' => $options,
-            '#title' => $modules[$module_name]->name,
+            '#title' => $component,
           );
         }
       }
@@ -194,30 +192,29 @@ function features_export_form($form_state, $module = NULL) {
       }
 
       // Display each set of components and options for adding to the components
-      foreach (module_implements('features_api') as $module_name) {
-        $module = features_get_modules($module_name);
-        $export_options = module_hook($module_name, 'features_export_options') ? module_invoke($module_name, 'features_export_options') : array();
-        $detected_components = !empty($export['features'][$module_name]) ? $export['features'][$module_name] : array();
+      foreach (features_get_components() as $component => $info) {
+        $export_options = features_hook($component, 'features_export_options') ? features_invoke($component, 'features_export_options') : array();
+        $detected_components = !empty($export['features'][$component]) ? $export['features'][$component] : array();
 
         if (!empty($detected_components) || !empty($export_options)) {
           if (!empty($detected_components)) {
-            $form['detected'][$module_name] = array(
+            $form['detected'][$component] = array(
               '#type' => 'markup',
               '#value' => theme('item_list', array_keys($detected_components)),
             );
           }
           if (!empty($export_options)) {
-            $form['added'][$module_name] = array(
+            $form['added'][$component] = array(
               '#type' => 'checkboxes',
-              '#title' => $module->info['name'],
+              '#title' => $component,
               '#options' => array_diff_key($export_options, $detected_components),
             );
           }
           else {
-            $form['added'][$module_name] = array(
+            $form['added'][$component] = array(
               '#type' => 'markup',
-              '#title' => $module->info['name'],
-              '#value' => "<em>". t('This module does not support additional options.') ."</em>",
+              '#title' => $component,
+              '#value' => "<em>". t('This component does not support additional options.') ."</em>",
             );
           }
         }
@@ -340,24 +337,25 @@ function features_export_form_submit($form, &$form_state) {
       $export = $form_state['storage']['export'];
 
       // Update export array based on what's been selected
-      foreach ($form_state['values']['added'] as $module_name => $items) {
-        foreach ($items as $item => $value) {
-          if ($value) {
-            $export['features'][$module_name][$item] = $item;
-          }
-          else if (!empty($export['features'][$module_name][$item])) {
-            unset($export['features'][$module_name][$item]);
+      foreach ($form_state['values']['added'] as $component => $items) {
+        if ($component == 'dependencies') {
+          foreach ($items as $item => $value) {
+            if ($value) {
+              $export['dependencies'][$item] = $item;
+            }
+            else if (!empty($export['dependencies'][$item])) {
+              unset($export['dependencies'][$item]);
+            }
           }
         }
-      }
-      // Update dependencies
-      if (!empty($form_state['values']['added']['dependencies'])) {
-        foreach ($form_state['values']['added']['dependencies'] as $item => $value) {
-          if ($value) {
-            $export['dependencies'][$item] = $item;
-          }
-          else if (!empty($export['dependencies'][$item])) {
-            unset($export['dependencies'][$item]);
+        else {
+          foreach ($items as $item => $value) {
+            if ($value) {
+              $export['features'][$component][$item] = $item;
+            }
+            else if (!empty($export['features'][$component][$item])) {
+              unset($export['features'][$component][$item]);
+            }
           }
         }
       }
@@ -398,8 +396,11 @@ function features_export_download_submit(&$form, &$form_state) {
  */
 function features_export_download_files($files, $module_name, $filename = '') {
   $tar = array();
-  foreach ($files as $path => $file_contents) {
-    $tar["{$module_name}/{$module_name}.$path"] = $file_contents;
+  foreach ($files as $extension => $file_contents) {
+    if (!in_array($extension, array('module', 'info'))) {
+      $extension .= '.inc';
+    }
+    $tar["{$module_name}/{$module_name}.$extension"] = $file_contents;
   }
   $tar = features_tar_create($tar);
 
@@ -440,10 +441,11 @@ function features_populate($items, $module_name) {
  */
 function _features_populate($pipe, &$export, $module_name = '') {
   features_include();
-  foreach ($pipe as $module => $data) {
-    if (module_hook($module, 'features_export')) {
-      $function = "{$module}_features_export";
-      // Pass module-specific data and export array (should be done by reference)
+  foreach ($pipe as $component => $data) {
+    if (features_hook($component, 'features_export')) {
+      // Pass module-specific data and export array.
+      // We don't use features_invoke() here since we need to pass $export by reference.
+      $function = "{$component}_features_export";
       $more = $function($data, $export, $module_name);
       // Allow for export functions to request additional exports.
       if (!empty($more)) {
@@ -488,7 +490,7 @@ function _features_export_minimize_dependencies($dependencies, $module_name = ''
       }
     }
   }
-  return $dependencies;
+  return drupal_map_assoc(array_unique($dependencies));
 }
 
 /**
@@ -506,6 +508,29 @@ function _features_export_maximize_dependencies($dependencies, $module_name = ''
 }
 
 /**
+ * Prepare a feature export into an array representing its files and default hooks.
+ */
+function features_export_prepare($export, $module_name, $reset = FALSE) {
+  features_include();
+  $code = array();
+
+  // Sort components to keep exported code consistent
+  ksort($export['features']);
+
+  foreach ($export['features'] as $component => $data) {
+    if (!empty($data)) {
+      // Sort the items so that we don't generate different exports based on order
+      asort($data);
+      if (features_hook($component, 'features_export_render')) {
+        $hooks = features_invoke($component, 'features_export_render', $module_name, $data, $export);
+        $code[$component] = $hooks;
+      }
+    }
+  }
+  return $code;
+}
+
+/**
  * Render feature export into an array representing its files.
  *
  * @param $export
@@ -519,10 +544,8 @@ function _features_export_maximize_dependencies($dependencies, $module_name = ''
  * @return array of info file and module file contents.
  */
 function features_export_render($export, $module_name, $reset = FALSE) {
-  features_include();
-
-  $code = array();
   $existing = features_get_modules($module_name, $reset);
+  $components = features_get_components();
 
   // Prepare info string -- if module exists, merge into its existing info file
   $info = $existing ? $existing->info : array('core' => '6.x', 'package' => 'Features', 'project' => $module_name);
@@ -535,30 +558,48 @@ function features_export_render($export, $module_name, $reset = FALSE) {
   if (!empty($export['conflicts'])) {
     unset($export['conflicts']);
   }
-  $code['info'] = features_export_info($export);
 
-  // Prepare the defaults & features files
-  $code['defaults.inc'] = $code['features.inc'] = array();
+  // Generate code by component, hook
+  $code = array();
+  $component_hooks = features_export_prepare($export, $module_name, $reset);
 
-  ksort($export['features']);
-  foreach ($export['features'] as $module => $data) {
-    if (!empty($data)) {
-      // Sort the items so that we don't generate different exports based on order
-      asort($data);
-      if (module_hook($module, 'features_export_render')) {
-        $hooks = module_invoke($module, 'features_export_render', $module_name, $data);
-        foreach ($hooks as $hook_name => $hook_code) {
-          $code['features.inc'][$hook_name] = features_export_render_features($module_name, $hook_name, $hook_code);
-          $code['defaults.inc'][$hook_name] = features_export_render_defaults($module_name, $hook_name, $hook_code);
-        }
+  // Group component code into their respective files
+  foreach ($component_hooks as $component => $hooks) {
+    $file = array('name' => 'defaults', 'stub' => true);
+    if (isset($components[$component]['default_file'])) {
+      switch ($components[$component]['default_file']) {
+        case FEATURES_DEFAULTS_INCLUDED:
+          $file['name'] = "features.$component";
+          break;
+        case FEATURES_DEFAULTS_CUSTOM:
+          $file['name'] = $components[$component]['default_filename'];
+          $file['stub'] = false;
+          break;
       }
     }
-  }
-  $code['features.inc'] = implode("\n\n", $code['features.inc']);
-  $code['features.inc'] = "<?php\n\n{$code['features.inc']}\n";
 
-  $code['defaults.inc'] = implode("\n\n", $code['defaults.inc']);
-  $code['defaults.inc'] = "<?php\n\n{$code['defaults.inc']}\n";
+    if (!isset($code[$file['name']])) {
+      $code[$file['name']] = array();
+    }
+
+    foreach ($hooks as $hook_name => $hook_code) {
+      if ($file['stub']) {
+        if (!isset($code['features'])) {
+          $code['features'] = array();
+        }
+        $code['features'][$hook_name] = features_export_render_features($module_name, $hook_name, $file['name']);
+      }
+      $code[$file['name']][$hook_name] = features_export_render_defaults($module_name, $hook_name, $hook_code);
+    }
+  }
+
+  // Finalize strings to be written to files
+  foreach ($code as $filename => $contents) {
+    $code[$filename] = "<?php\n\n". implode("\n\n", $contents) ."\n";
+  }
+
+  // Generate info file string
+  $code['info'] = features_export_info($export);
 
   // Prepare the module
   // If module exists, let it be and include it in the files
@@ -566,14 +607,14 @@ function features_export_render($export, $module_name, $reset = FALSE) {
     $code['module'] = file_get_contents($existing->filename);
   }
   // Add a stub module to include the defaults
-  else {
+  elseif (!empty($code['features'])) {
     $code['module'] = "<?php\n\ninclude_once('{$module_name}.features.inc');\n";
   }
   return $code;
 }
 
 /**
- * Detect the difference of a feature.
+ * Detect differences between DB and code components of a feature.
  */
 function features_detect_overrides($module) {
   static $cache;
@@ -586,60 +627,56 @@ function features_detect_overrides($module) {
       views_include('view');
     }
 
-    // Rebuild feature from .info file description.
+    // Retrieve default hooks
+    $default_hooks = features_get_default_hooks();
+
+    // Rebuild feature from .info file description and prepare an export from current DB state.
     $export = features_populate($module->info['features'], $module->name);
-
-    // Render and run an export of the current state.
-    $export = array_merge($export, $module->info);
-    $eval_namespace = "_features_comparison_{$module->name}";
-    $code = features_export_render($export, $eval_namespace);
-    $php = $code['defaults.inc'];
-    $php = substr_replace($php, '', strpos($php, "<?php"), 5);
-
-    ob_start();
-    eval($php);
-    ob_end_clean();
+    // $export = array_merge($export, $module->info);
+    $code = features_export_prepare($export, "_features_comparison_{$module->name}");
 
     $overridden = array();
 
-    // Retrieve default hooks & compare against eval'd versions
-    $export_functions = features_get_default_hooks();
+    // First, compare actual component sets and mark if different
+    if (sort(array_keys($export['features'])) != sort(array_keys($module->info['features']))) {
+      $overridden['components'] = array(
+        'default' => sort(array_keys($module->info['features'])),
+        'current' => sort(array_keys($export['features']))
+      );
+    }
 
-    // Merge items from both
+    // Merge items from both for comparison
     $merged = array_merge($export['features'], $module->info['features']);
 
-    foreach ($merged as $i => $data) {
-      if (isset($export_functions[$i])) {
-        // Call the eval'd function and collect results
-        // Use the underscore version of the function name as we don't want
-        // to go through module_load_include().
-        $fname = "_{$eval_namespace}_{$export_functions[$i]}";
-        if (function_exists($fname)) {
-          $current[$i] = call_user_func($fname);
-        }
+    foreach (array_keys($merged) as $component) {
+      if (isset($default_hooks[$component])) {
+        $default_hook = $default_hooks[$component];
 
+        // Eval the database version of the export
+        if (isset($code[$component][$default_hook])) {
+          $current[$component] = eval($code[$component][$default_hook]);
+        }
         // Call the existing in-code function and collect results
-        $fname = $module->name .'_'. $export_functions[$i];
-        if (function_exists($fname)) {
-          $default[$i] = call_user_func($fname);
+        if (module_hook($module->name, $default_hook)) {
+          $default[$component] = module_invoke($module->name, $default_hook);
         }
 
         // Compare, and push differences into the overrides array
-        if (isset($current[$i])) {
-          foreach ($current[$i] as $j => $k) {
+        if (isset($current[$component]) && is_array($current[$component])) {
+          foreach ($current[$component] as $j => $k) {
             // Special cases for objects -- some (views) provide their own
             // export methods which we need to respect.
-            if (is_object($current[$i][$j])) {
-              switch (get_class($current[$i][$j])) {
+            if (is_object($current[$component][$j])) {
+              switch (get_class($current[$component][$j])) {
                 case 'view':
-                  $a = $current[$i][$j]->export();
-                  if ($default[$i][$j]) {
-                    $b = $default[$i][$j]->export();
+                  $a = $current[$component][$j]->export();
+                  if ($default[$component][$j]) {
+                    $b = $default[$component][$j]->export();
                   }
                   break;
                 default:
-                  $a = features_var_export($current[$i][$j]);
-                  $b = features_var_export($default[$i][$j]);
+                  $a = features_var_export($current[$component][$j]);
+                  $b = features_var_export($default[$component][$j]);
                   break;
               }
               $a = _features_linetrim(explode("\n", $a));
@@ -648,12 +685,12 @@ function features_detect_overrides($module) {
               $different = $a !== $b;
             }
             else {
-              $different = $current[$i][$j] !== $default[$i][$j];
+              $different = $current[$component][$j] !== $default[$component][$j];
             }
             if ($different) {
-              $overridden[$i] = array(
-                'default' => $default[$i][$j],
-                'current' => $current[$i][$j],
+              $overridden[$component] = array(
+                'default' => $default[$component][$j],
+                'current' => $current[$component][$j],
               );
             }
           }
@@ -666,9 +703,7 @@ function features_detect_overrides($module) {
 }
 
 /**
- * Return an array of default hooks for each implementing module.
- * Currently this limits us to a single item per module.
- * @TODO: consider refactoring to allow more than 1 exportable type for a given module.
+ * Gets the available default hooks keyed by components.
  */
 function features_get_default_hooks() {
   static $hooks;
@@ -677,8 +712,10 @@ function features_get_default_hooks() {
     features_include();
     foreach (module_implements('features_api') as $module) {
       $info = module_invoke($module, 'features_api');
-      if (!empty($info['default_hook'])) {
-        $hooks[$module] = $info['default_hook'];
+      foreach ($info as $k => $v) {
+        if (isset($v['default_hook'])) {
+          $hooks[$k] = $v['default_hook'];
+        }
       }
     }
   }
@@ -688,15 +725,25 @@ function features_get_default_hooks() {
 /**
  * Return a code string representing an implementation of a module hook.
  * Includes the module's defaults .inc and calls the private helper function.
+ *
+ * @param $module
+ *   The name of the module being generated
+ * @param $hook
+ *   The name of the hook, without the "hook_" prefix. "hook_node_info" should
+ *   be "node_info"
+ * @param $filename
+ *   Name of the include file. For a module 'foo', and filename'defaults'
+ *   becomes 'foo.defaults.inc'.
  */
-function features_export_render_features($module, $hook, $code) {
+function features_export_render_features($module, $hook, $filename = 'defaults') {
   $output = array();
   $output[] = "/**";
   $output[] = " * Implementation of hook_{$hook}().";
   $output[] = " */";
   $output[] = "function {$module}_{$hook}() {";
-  $output[] = "  module_load_include('inc', '{$module}', '{$module}.defaults');";
-  $output[] = "  return _{$module}_{$hook}();";
+  $output[] = "  module_load_include('inc', '{$module}', '{$module}.{$filename}');";
+  $output[] = '  $args = func_get_args();';
+  $output[] = "  return call_user_func_array('_{$module}_{$hook}', ".'$args'.");";
   $output[] = "}";
   return implode("\n", $output);
 }
@@ -707,7 +754,7 @@ function features_export_render_features($module, $hook, $code) {
 function features_export_render_defaults($module, $hook, $code) {
   $output = array();
   $output[] = "/**";
-  $output[] = " * Helper to implemetation of hook_{$hook}().";
+  $output[] = " * Helper to implementation of hook_{$hook}().";
   $output[] = " */";
   $output[] = "function _{$module}_{$hook}() {";
   $output[] = $code;
