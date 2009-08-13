@@ -70,6 +70,8 @@ form div.form div.buttons {
   html.js input.throbbing { background-position:100% -13px; }
 
   /* Exceptions */
+  #edit-purl-value { width:auto; }
+
   #diff-inline-form select,
   #content div.filter-options select { padding:0px; }
 
