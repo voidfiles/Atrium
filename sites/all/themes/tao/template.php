@@ -41,6 +41,11 @@ function tao_css_stripped($match = array('modules/'), $exceptions = NULL) {
       }
     }
   }
+
+  // This servers to move the "all" CSS key to the front of the stack.
+  // Mainly useful because modules register their CSS as 'all', while
+  // Tao has a more media handling.
+  ksort($css);
   return $css;
 }
 
@@ -48,9 +53,14 @@ function tao_css_stripped($match = array('modules/'), $exceptions = NULL) {
  * Print all child pages of a book.
  */
 function tao_print_book_children($node) {
-  // Book recursive printing
+  // We use a semaphore here since this function calls and is called by the
+  // node_view() stack so that it may be called multiple times for a single book tree.
+  static $semaphore;
+
   if (module_exists('book') && book_type_is_allowed($node->type)) {
-    if (isset($_GET['print']) && isset($_GET['book_recurse'])) {
+    if (isset($_GET['print']) && isset($_GET['book_recurse']) && !isset($semaphore)) {
+      $semaphore = TRUE;
+
       $child_pages = '';
       $zomglimit = 0;
       $tree = array_shift(book_menu_subtree_data($node->book));
@@ -59,9 +69,14 @@ function tao_print_book_children($node) {
           _tao_print_book_children($link, $child_pages, $zomglimit);
         }
       }
+
+      unset($semaphore);
+
       return $child_pages;
     }
   }
+
+  return '';
 }
 
 /**

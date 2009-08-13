@@ -7,6 +7,8 @@
   </head>
   <body <?php print drupal_attributes($attr) ?>>
 
+  <?php if (!empty($admin)) print $admin ?>
+
   <?php if ($help || ($show_messages && $messages)): ?>
     <div id='console'><div class='limiter clear-block'>
       <?php print $help; ?>
