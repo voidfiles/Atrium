@@ -1,4 +1,5 @@
 <?php
+// $Id: context.install,v 1.1.2.1.2.5 2009/07/24 01:06:00 yhahn Exp $
 
 /**
  * Implementation of hook_install().
@@ -52,8 +53,6 @@ function context_schema() {
         'description' => t('Serialized storage of all associated context items.'),
         'type' => 'text',
         'size' => 'big',
-        'not null' => TRUE,
-        'default' => '',
       ),
     ),
     'unique keys' => array(

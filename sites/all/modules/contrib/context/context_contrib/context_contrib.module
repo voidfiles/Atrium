@@ -1,5 +1,5 @@
 <?php
-// $Id: context_contrib.module,v 1.1.2.2.2.1 2009/06/14 01:07:20 yhahn Exp $
+// $Id: context_contrib.module,v 1.1.2.2.2.2 2009/07/24 01:12:02 yhahn Exp $
 
 /**
  * Implementation of hook_context_conditions().
@@ -135,8 +135,8 @@ function _context_contrib_get_css_injector() {
 /**
  * Implementation hook_context_page_reaction() on behalf of css injector.
  */
-function css_injector_context_page_reaction($context) {
-  $css_rules= context_active_values('css_injector');
+function css_injector_context_page_reaction() {
+  $css_rules = context_active_values('css_injector');
   if (!empty($css_rules)) {
     foreach ($css_rules as $crid) {
       if ($css_rule = _css_injector_load_rule($crid)) {

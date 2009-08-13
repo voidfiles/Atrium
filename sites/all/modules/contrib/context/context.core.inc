@@ -1,4 +1,5 @@
 <?php
+// $Id: context.core.inc,v 1.1.2.3.2.17 2009/07/24 02:24:31 yhahn Exp $
 
 /**
  * Implementation of hook_theme().
@@ -31,7 +32,7 @@ function context_theme_registry_alter(&$theme_registry) {
   // has not overridden it. It is the responsibility of any themes
   // implementing theme_blocks() to take advantage of context block
   // visibility on their own.
-  if (!isset($theme_registry['blocks']['type']) || !in_array($theme_registry['blocks']['type'], array('base_theme_engine', 'theme_engine'))) {
+  if (!isset($theme_registry['blocks']['type']) || !in_array($theme_registry['blocks']['type'], array('base_theme_engine', 'theme_engine')) && !isset($theme_registry['blocks']['file'])) {
     unset($theme_registry['blocks']['preprocess functions']);
     $theme_registry['blocks']['function'] = 'context_blocks';
   }
@@ -80,7 +81,7 @@ function context_context_conditions() {
   // Book
   if (module_exists('book')) {
     $options = array();
-    foreach(book_get_books() as $book) {
+    foreach (book_get_books() as $book) {
       $options[$book['menu_name']] = $book['title'];
     }
     $items['book'] = array(
@@ -165,7 +166,7 @@ function context_condition_text_validate($element, &$form_state) {
       foreach ($items as $k => $v) {
         $v = trim($v);
         if (!empty($v)) {
-          $values[$v] = TRUE;
+          $values[$v] = $v;
         }
       }
       $id = end($element['#parents']);
@@ -225,7 +226,7 @@ function context_context_reactions() {
 
   // Implements context-based theme improvements
   $items['theme_section'] = array(
-    '#tree' => true,
+    '#tree' => TRUE,
     '#title' => t('Theme variables'),
     'title' => array(
       '#title' => t('Section title'),
@@ -241,7 +242,7 @@ function context_context_reactions() {
     ),
     'class' => array(
       '#title' => t('Section class'),
-      '#description' => t('Provides this text as an additional body class (in <strong>$body_classes</strong> in page.tpl.php) when this section is active. Note that there may only be <strong>one</strong> active section class at once.'),
+      '#description' => t('Provides this text as an additional body class (in <strong>$body_classes</strong> in page.tpl.php) when this section is active.'),
       '#type' => 'textfield',
       '#maxlength' => 64,
     ),
@@ -281,7 +282,7 @@ function context_nodeapi(&$node, $op, $teaser, $page) {
  * Implementation of hook_form_alter().
  */
 function context_form_alter(&$form, $form_state, $form_id) {
-  if (isset($form['#node']) && arg(0) != 'admin') { // Prevent this from firing on admin pages... damn form driven apis...
+  if ($form['#id'] === 'node-form' && arg(0) != 'admin') { // Prevent this from firing on admin pages... damn form driven apis...
     context_set_by_condition('node', $form['#node']->type);
   }
   if ($form_id == 'system_modules') {
@@ -530,7 +531,7 @@ function theme_context_links($links) {
  * Generates an array of links (suitable for use with theme_links)
  * to the node forms of types associated with current active contexts.
  */
-function context_links($reset = false) {
+function context_links($reset = FALSE) {
   static $links;
   if (!$links || $reset) {
     $links = array();
@@ -583,7 +584,15 @@ function context_preprocess_page(&$vars) {
   $info = context_active_values('theme_section');
   $vars['section_title'] = !empty($info['title']) ? $info['title'] : '';
   $vars['section_subtitle'] = !empty($info['subtitle']) ? $info['subtitle'] : '';
-  $vars['body_classes'] .= !empty($info['class']) ? ' '. $info['class'] : '';
+
+  // Merge body classes from *any* active contexts.
+  $classes = array();
+  foreach (context_active_contexts() as $context) {
+    if (!empty($context->theme_section['class'])) {
+      $classes[$context->theme_section['class']] = $context->theme_section['class'];
+    }
+  }
+  $vars['body_classes'] .= !empty($classes) ? ' '. implode(' ', $classes) : '';
 
   // If primary + secondary links are pointed at the same menu, provide
   // contextual trailing by default.
