@@ -141,16 +141,6 @@ function atrium_intranet_strongarm() {
 }
 
 /**
- * Implementation of hook_init().
- */
-function atrium_intranet_init() {
-  // Display a login message
-  if (!user_access('access content') && !in_array(arg(0), array('user', 'openid')) && !drupal_is_front_page()) {
-    drupal_set_message(l('Click here to login', 'user', array('query' => 'destination='.$_GET['q'])));
-  }
-}
-
-/**
  * Implementation of hook_views_api().
  */
 function atrium_intranet_views_api() {
@@ -173,6 +163,9 @@ function atrium_intranet_menu_alter(&$items) {
       unset($items[$path]);
     }
   }
+
+  // Replace default 403
+  $items['access-denied']['page callback'] = 'atrium_intranet_403';
 
   $dummy = array();
   $categories = module_invoke('atrium_intranet', 'user', 'categories', $dummy, $dummy);
@@ -219,109 +212,6 @@ function atrium_intranet_imagecache_default_presets_alter(&$presets) {
       $presets['spaces-logo']['actions'][0]['data']['height'] = 40;
     }
   }
-}
-
-/**
- * Implementation of hook_spaces_presets().
- */
-function atrium_intranet_spaces_presets() {
-  $items = array();
-  $items['atrium_og_private'] = array (
-    'name' => 'Private group',
-    'description' => t('A simple private group with a blog, document library and dashboard.'),
-    'type' => 'og',
-    'preset' => array (
-      'features' => array (
-        'atrium_blog' => SPACES_OG_PRIVATE,
-        'atrium_book' => SPACES_OG_PRIVATE,
-        'atrium_calendar' => SPACES_FEATURE_DISABLED,
-        'atrium_dashboard' => SPACES_OG_PRIVATE,
-      ),
-      'settings' => array (
-        'home' => 'dashboard',
-      ),
-      'og' => array(
-        'og_selective' => OG_CLOSED,
-        'og_directory' => OG_DIRECTORY_NEVER,
-        'og_register' => OG_REGISTRATION_ALWAYS,
-        'og_private' => defined(OG_PRIVATE_GROUPS_ALWAYS) ? OG_PRIVATE_GROUPS_ALWAYS : 1,
-      ),
-    ),
-  );
-  $items['atrium_og_public'] = array (
-    'name' => 'Public group',
-    'description' => t('A simple public group with a blog, document library and dashboard.'),
-    'type' => 'og',
-    'preset' => array (
-      'features' => array (
-        'atrium_blog' => SPACES_OG_PUBLIC,
-        'atrium_book' => SPACES_OG_PUBLIC,
-        'atrium_calendar' => SPACES_FEATURE_DISABLED,
-        'atrium_dashboard' => SPACES_OG_PUBLIC,
-      ),
-      'settings' => array (
-        'home' => 'dashboard',
-      ),
-      'og' => array(
-        'og_selective' => OG_OPEN,
-        'og_directory' => OG_DIRECTORY_ALWAYS,
-        'og_register' => OG_REGISTRATION_ALWAYS,
-        'og_private' => defined(OG_PRIVATE_GROUPS_NEVER) ? OG_PRIVATE_GROUPS_NEVER : 0,
-      ),
-    ),
-  );
-  $items['atrium_user_simple'] = array (
-    'name' => 'Simple profile',
-    'description' => t('A simple profile with a blog, calendar and dashboard.'),
-    'type' => 'user',
-    'preset' => array (
-      'features' => array (
-        'atrium_blog' => '1',
-        'atrium_book' => '0',
-        'atrium_calendar' => '1',
-        'atrium_dashboard' => '1',
-      ),
-      'settings' => array (
-        'home' => 'profile',
-      ),
-      'locked' => array (
-        'features' => array (
-          'atrium_blog' => 1,
-          'atrium_book' => 0,
-          'atrium_calendar' => 1,
-          'atrium_dashboard' => 1,
-        ),
-        'settings' => array (
-          'home' => 1,
-        ),
-      ),
-      'user' => array (),
-    ),
-  );
-  $items['atrium_intranet'] = array (
-    'name' => 'Basic intranet',
-    'description' => t('A basic intranet hub setup.'),
-    'type' => 'site',
-    'preset' => array (
-      'features' => array (
-        'atrium_intranet' => 1,
-        'atrium_dashboard' => 1,
-      ),
-      'settings' => array (
-        'home' => 'home',
-      ),
-      'locked' => array (
-        'features' => array (
-          'atrium_intranet' => 1,
-          'atrium_dashboard' => 1,
-        ),
-        'settings' => array (
-          'home' => 0,
-        ),
-      ),
-    ),
-  );
-  return $items;
 }
 
 /**
@@ -545,4 +435,17 @@ function atrium_intranet_user_profile_tab($form_state, $account, $tab) {
     $form['delete']['#access'] = FALSE;
   }
   return $form;
+}
+
+/**
+ * 403 page.
+ */
+function atrium_intranet_403() {
+  // If we're in intranet mode, send anonymous users to a login screen.
+  global $user;
+  if (!$user->uid && !user_access('access content')) {
+    drupal_goto('user/login', 'destination='. $_REQUEST['q']);
+  }
+
+  return "<div class='access-denied'>". t('You are not authorized to access this page.') ."</div>";
 }

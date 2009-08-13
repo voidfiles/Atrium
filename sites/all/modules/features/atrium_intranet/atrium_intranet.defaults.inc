@@ -148,7 +148,12 @@ function _atrium_intranet_filter_default_formats() {
   // Exported format: Markdown
   $formats[] = array(
     'name' => 'Markdown',
-    'roles' => array(),
+    'roles' => array(
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+      '2' => 'admin',
+      '3' => 'manager',
+    ),
     'filters' => array(
       '0' => array(
         'module' => 'markdown',
@@ -261,6 +266,118 @@ function _atrium_intranet_menu_default_items() {
 
 
   return $items;
+}
+
+/**
+ * Helper to implementation of hook_spaces_presets().
+ */
+function _atrium_intranet_spaces_presets() {
+  $presets = array();
+
+  // Exported preset: atrium_intranet
+  $presets[atrium_intranet] = array(
+    'name' => 'Basic intranet',
+    'description' => 'A basic intranet hub setup.',
+    'type' => 'site',
+    'preset' => array(
+      'features' => array(
+        'atrium_intranet' => 1,
+        'atrium_dashboard' => 1,
+      ),
+      'settings' => array(
+        'home' => 'home',
+      ),
+      'locked' => array(
+        'features' => array(
+          'atrium_intranet' => 1,
+          'atrium_dashboard' => 1,
+        ),
+        'settings' => array(
+          'home' => 0,
+        ),
+      ),
+    ),
+  );
+
+  // Exported preset: atrium_og_private
+  $presets[atrium_og_private] = array(
+    'name' => 'Private group',
+    'description' => 'A simple private group with a blog, document library and dashboard.',
+    'type' => 'og',
+    'preset' => array(
+      'features' => array(
+        'atrium_blog' => 1,
+        'atrium_book' => 1,
+        'atrium_calendar' => 0,
+        'atrium_dashboard' => 1,
+      ),
+      'settings' => array(
+        'home' => 'dashboard',
+      ),
+      'og' => array(
+        'og_selective' => 3,
+        'og_directory' => 0,
+        'og_register' => 1,
+        'og_private' => 1,
+      ),
+    ),
+  );
+
+  // Exported preset: atrium_og_public
+  $presets[atrium_og_public] = array(
+    'name' => 'Public group',
+    'description' => 'A simple public group with a blog, document library and dashboard.',
+    'type' => 'og',
+    'preset' => array(
+      'features' => array(
+        'atrium_blog' => 2,
+        'atrium_book' => 2,
+        'atrium_calendar' => 0,
+        'atrium_dashboard' => 2,
+      ),
+      'settings' => array(
+        'home' => 'dashboard',
+      ),
+      'og' => array(
+        'og_selective' => 0,
+        'og_directory' => 1,
+        'og_register' => 1,
+        'og_private' => 0,
+      ),
+    ),
+  );
+
+  // Exported preset: atrium_user_simple
+  $presets[atrium_user_simple] = array(
+    'name' => 'Simple profile',
+    'description' => 'A simple profile with a blog, calendar and dashboard.',
+    'type' => 'user',
+    'preset' => array(
+      'features' => array(
+        'atrium_blog' => '1',
+        'atrium_book' => '0',
+        'atrium_calendar' => '1',
+        'atrium_dashboard' => '1',
+      ),
+      'settings' => array(
+        'home' => 'profile',
+      ),
+      'locked' => array(
+        'features' => array(
+          'atrium_blog' => 1,
+          'atrium_book' => 0,
+          'atrium_calendar' => 1,
+          'atrium_dashboard' => 1,
+        ),
+        'settings' => array(
+          'home' => 1,
+        ),
+      ),
+      'user' => array(),
+    ),
+  );
+
+  return $presets;
 }
 
 /**
