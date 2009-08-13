@@ -60,8 +60,8 @@
     <?php if (!empty($custom_layout)): ?>
       <?php print $content ?>
     <?php else: ?>
+      <?php if ($mission): ?><div class="mission"><?php print $mission ?></div><?php endif; ?>
       <div id='main' class='clear-block'>
-          <?php if ($mission): ?><div id="mission">'<?php $mission ?></div><?php endif; ?>
           <div id='content' class='clear-block'><?php print $content ?></div>
       </div>
       <?php if ($right): ?>

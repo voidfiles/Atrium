@@ -65,7 +65,11 @@ function ginkgo_preprocess_page(&$vars) {
   // Add a smarter body class than "not logged in" for determining whether
   // we are on a login/password/user registration related page.
   global $user;
-  $vars['attr']['class'] .= (!$user->uid && arg(0) == 'user') ? ' anonymous-login' : '';
+  $vars['mission'] = '';
+  if (!$user->uid && arg(0) == 'user') {
+    $vars['attr']['class'] .= ' anonymous-login';
+    $vars['mission'] = filter_xss_admin(variable_get('site_mission', ''));
+  }
 
   // Theme specific settings
   $settings = theme_get_settings('ginkgo');
