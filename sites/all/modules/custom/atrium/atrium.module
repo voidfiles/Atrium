@@ -3,6 +3,53 @@
 include_once('atrium.features.inc');
 
 /**
+ * The default site mode of Atrium - only authenticated users may
+ * access content and registration is not allowed.
+ */
+define('ATRIUM_SITEMODE_PRIVATE', 0);
+
+/**
+ * Anonymous users may view public content and user registration is
+ * open to the public.
+ */
+define('ATRIUM_SITEMODE_PUBLIC', 1);
+
+/**
+ * Anonymous users may view public content and user registration is
+ * moderated.
+ */
+define('ATRIUM_SITEMODE_CONTROLLED', 2);
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function atrium_strongarm() {
+  $conf = array();
+
+  // User registration. Default to no registration.
+  $space = spaces_load('site', 1);
+  $conf['user_register'] = 0; 
+  if (isset($space->settings['atrium_sitemode'])) {
+    switch ($space->settings['atrium_sitemode']) {
+      case ATRIUM_SITEMODE_CONTROLLED:
+        $conf['user_register'] = 2;
+        break;
+      case ATRIUM_SITEMODE_PUBLIC:
+        $conf['user_register'] = 1;
+        break;
+    }
+  }
+
+  $conf['user_signatures'] = FALSE;
+  $conf['user_pictures'] = TRUE;
+  $conf['user_picture_path'] = 'pictures';
+  $conf['user_picture_dimensions'] = '500x500';
+  $conf['user_picture_file_size'] = '500';
+
+  return $conf;
+}
+
+/**
  * Implementation of hook_init().
  */
 function atrium_init() {
@@ -94,6 +141,18 @@ function atrium_features_menu_links_alter(&$links) {
  */
 function atrium_space_links_alter(&$links) {
   $links = atrium_skin_links($links);
+}
+
+/**
+ * Implementation of hook_spaces_settings().
+ */
+function atrium_spaces_settings() {
+  return array(
+    'atrium_sitemode' => array(
+      'class' => 'atrium_setting_sitemode',
+      'file' => drupal_get_path('module', 'atrium') .'/atrium.spaces.inc',
+    ),
+  );
 }
 
 /**
