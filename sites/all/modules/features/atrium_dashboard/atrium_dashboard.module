@@ -177,12 +177,14 @@ function atrium_dashboard_context_links_alter(&$links) {
  * Implementation of hook_atrium_user_links_alter().
  */
 function atrium_dashboard_atrium_user_links_alter(&$links) {
-  $links['home'] = array(
-    'title' => t('Home'),
-    'href' => 'home',
-    'purl' => array('disabled' => TRUE),
-    '#weight' => -10,
-  );
+  if (user_access('access content')) {
+    $links['home'] = array(
+      'title' => t('Home'),
+      'href' => 'home',
+      'purl' => array('disabled' => TRUE),
+      '#weight' => -10,
+    );
+  }
 }
 
 /**
