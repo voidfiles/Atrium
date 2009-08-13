@@ -3,23 +3,17 @@
 include_once('atrium.features.inc');
 
 /**
- * Implementation of hook_help().
+ * Implementation of hook_init().
  */
-function atrium_help($path) {
+function atrium_init() {
   // Alert the user that they are browsing an archived group.
-  // This could be in hook_init(), but hook_help() occurs later in the stack
-  // and is actually more stable for this sort of thing.
-  static $once;
-  if (!isset($once)) {
-    $once = TRUE;
-    $space = spaces_get_space();
-    if ($space && atrium_is_archived($space)) {
-      $message = t('This !type is <strong>archived</strong>. You may not add or alter any of its content.', array('!type' => atrium_get_typename('group')));
-      if (node_access('update', $space->group)) {
-        $message .= ' '. t('To reactivate this !type, !link.', array('!type' => atrium_get_typename('group'), '!link' => l(t('click here'), "node/$space->sid/reactivate")));
-      }
-      drupal_set_message($message);
+  $space = spaces_get_space();
+  if ($space && atrium_is_archived($space)) {
+    $message = t('This !type is <strong>archived</strong>. You may not add or alter any of its content.', array('!type' => atrium_get_typename('group')));
+    if (node_access('update', $space->group)) {
+      $message .= ' '. t('To reactivate this !type, !link.', array('!type' => atrium_get_typename('group'), '!link' => l(t('click here'), "node/$space->sid/reactivate")));
     }
+    drupal_set_message($message);
   }
 }
 
@@ -29,10 +23,7 @@ function atrium_help($path) {
 function atrium_is_archived($space = NULL) {
   switch ($space->type) {
     case 'og':
-      if (!$space->group->status) {
-        return TRUE;
-      }
-      break;
+      return !$space->group->status;
   }
   return FALSE;
 }
