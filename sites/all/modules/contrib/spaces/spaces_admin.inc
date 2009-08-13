@@ -23,15 +23,18 @@ function spaces_preset_default_form(&$form_state) {
         '#type' => 'radios',
         '#options' => array(),
       );
-      foreach ($presets as $id => $preset) {      
+      foreach ($presets as $id => $preset) {
         // Add radio for use when choosing default
         if (!$preset['disabled']) {
-          $form['types'][$type]['default']['#options'][$id] = $preset['name'];
+          $form['types'][$type]['default']['#options'][$id] = '';
+        }
 
-          // Set as default if it is
-          if ($id == $default_presets[$type]) {
-            $form['types'][$type]['default']['#default_value'] = $id;
-          }
+        // Add name for display via theme function
+        $form['types'][$type]['name'][$id] = array('#type' => 'markup', '#value' => $preset['name']);
+
+        // Set as default if it is
+        if ($id == $default_presets[$type]) {
+          $form['types'][$type]['default']['#default_value'] = $id;
         }
 
         // Build links for each preset
@@ -40,10 +43,22 @@ function spaces_preset_default_form(&$form_state) {
           $links[] = $preset['disabled'] ? l(t('Enable'), 'admin/build/spaces/presets/enable/'. $type .'/'. $id) : l(t('Disable'), 'admin/build/spaces/presets/disable/'. $type .'/'. $id);
         }
         else {
-          $links[] = l(t('Edit'), 'admin/build/spaces/presets/edit/'. $type .'/'. $id);
-          $links[] = l(t('Export'), 'admin/build/spaces/presets/export/'. $type .'/'. $id);
-          $links[] = $preset['disabled'] ? l(t('Enable'), 'admin/build/spaces/presets/enable/'. $type .'/'. $id) : l(t('Disable'), 'admin/build/spaces/presets/disable/'. $type .'/'. $id);
-          $links[] = l(t('Delete'), 'admin/build/spaces/presets/delete/'. $type .'/'. $id);
+          if (empty($preset['disabled'])) {
+            $links[] = l(t('Edit'), 'admin/build/spaces/presets/edit/'. $type .'/'. $id);
+            $links[] = l(t('Export'), 'admin/build/spaces/presets/export/'. $type .'/'. $id);
+            $links[] = l(t('Disable'), 'admin/build/spaces/presets/disable/'. $type .'/'. $id);
+          }
+          else {
+            $links[] = l(t('Enable'), 'admin/build/spaces/presets/enable/'. $type .'/'. $id);
+          }
+          switch ($preset['storage']) {
+            case SPACES_PRESET_NORMAL:
+              $links[] = l(t('Delete'), 'admin/build/spaces/presets/delete/'. $type .'/'. $id);
+              break;
+            case SPACES_PRESET_OVERRIDDEN:
+              $links[] = l(t('Revert'), 'admin/build/spaces/presets/delete/'. $type .'/'. $id);
+              break;
+          }
         }
         $links = implode(' | ', $links);
 
@@ -66,12 +81,6 @@ function spaces_preset_default_form(&$form_state) {
     '#value' => t('Save defaults'),
     '#submit' => array('spaces_preset_default_form_submit'),
   );
-  $form['reset'] = array(
-    '#type' => 'submit',
-    '#value' => t('Clear defaults'),
-    '#submit' => array('spaces_preset_default_form_reset'),
-  );
-
   return $form;
 }
 
@@ -80,7 +89,6 @@ function spaces_preset_default_form(&$form_state) {
  */
 function spaces_preset_default_form_submit($form, &$form_state) {
   $default_presets = variable_get('spaces_default_presets', array());
-  
   foreach (spaces_types() as $type => $dummy) {
     if (isset($form_state['values']['types'][$type]['default']) && !empty($form_state['values']['types'][$type]['default'])) {
       $default_presets[$type] = $form_state['values']['types'][$type]['default'];
@@ -91,14 +99,6 @@ function spaces_preset_default_form_submit($form, &$form_state) {
   }
   variable_set('spaces_default_presets', $default_presets);
   drupal_set_message(t('Spaces preset defaults were saved successfully.'));
-}
-
-/**
- * Submit handler for spaces_preset_default_form().
- */
-function spaces_preset_default_form_reset($form, &$form_state) {
-  variable_del('spaces_default_presets');
-  drupal_set_message(t('Spaces preset defaults were cleared successfully.'));
 }
 
 /**
@@ -251,6 +251,7 @@ function spaces_preset_form_submit($form, &$form_state) {
 
   // Setting features & locks is easy
   $preset['features'] = $form_state['values']['features'];
+  $preset['weights'] = $form_state['values']['weights'];
   $preset['locked'] = $form_state['values']['locked'];
 
   // Set setting values
@@ -274,8 +275,10 @@ function spaces_preset_export(&$form_state, $type, $id) {
   // Get the preset definition
   $presets = spaces_presets($type);
   $preset = $presets[$id];
-  $preset['type'] = $type;
+
+  // Clear out extraneous flags
   unset($preset['disabled']);
+  unset($preset['storage']);
 
   // Do some niceties to the export
   $export = features_var_export($preset);
@@ -344,8 +347,7 @@ function spaces_preset_load($type, $id) {
 
 function spaces_preset_delete($type, $preset) {
   $success = db_query("DELETE FROM {spaces_presets} WHERE type = '%s' AND id = '%s'", $type, $preset);
-  $message = $success ? t('The preset !preset was deleted successfully.', array('!preset' => $preset)) : t('An error occurred while trying to delete !preset.', array('!preset' => $preset));
-  drupal_set_message($message);
+  return $success;
 }
 
 function spaces_preset_disable($type, $preset) {
@@ -410,7 +412,11 @@ function spaces_preset_delete_form(&$form, $type, $preset_id) {
 function spaces_preset_delete_form_submit($form, &$form_state) {
   $type = $form_state['values']['type'];
   $preset = $form_state['values']['preset'];
-  spaces_preset_delete($type, $preset);
+
+  $success = spaces_preset_delete($type, $preset);
+  $message = $success ? t('The preset !preset was deleted successfully.', array('!preset' => $preset)) : t('An error occurred while trying to delete !preset.', array('!preset' => $preset));
+  drupal_set_message($message);
+
   $form_state['redirect'] = 'admin/build/spaces';
 }
 

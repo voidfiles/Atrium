@@ -187,6 +187,13 @@ if (function_exists('spaces_menu')) {
           global $user;
           $account = $object;
 
+          // Bail if we're editing a user profile and destination is set --
+          // it's likely we came from an admin view or other page where the user
+          // expects to return successfully to the specified destination.
+          if (isset($_GET['destination']) && arg(0) == 'user' && arg(2) == 'edit') {
+            return;
+          }
+
           // Always send user visitors to the user's space if trying to view the profile.
           // @TODO: This is very greedy -- may need reconsideration
           if (!$is_active) {

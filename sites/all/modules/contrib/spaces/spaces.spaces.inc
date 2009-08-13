@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.spaces.inc,v 1.1.2.1 2009/06/26 13:39:38 yhahn Exp $
+// $Id: spaces.spaces.inc,v 1.1.2.3 2009/08/12 22:46:59 yhahn Exp $
 
 /**
  * Provides a homepage setting for each space.
@@ -17,7 +17,15 @@ class space_setting_home implements space_setting {
 
   function form($space, $value = array()) {
     $options = array(0 => '---');
+
+    // This is exceedingly hackish but effective way of ensuring that
+    // the link options provided are correct, especially when being
+    // generated on preset forms.
+    $original = spaces_get_space();
+    spaces_set_space($space, TRUE);
     $links = features_menu_links();
+    spaces_set_space($original, TRUE);
+
     $form = array();
     if (count($links)) {
       foreach ($links as $link) {
@@ -148,12 +156,6 @@ class space_customizer_block implements space_customizer {
    * Implementation of form().
    */
   function form($space, $feature) {
-    $master_form = array(
-      '#theme' => 'spaces_block_customizer_settings_form',
-      'contexts' => array('#tree' => TRUE),
-      'defaults' => array('#tree' => TRUE),
-    );
-
     global $theme_key;
     init_theme();
     $regions = system_region_list($theme_key);
@@ -162,6 +164,9 @@ class space_customizer_block implements space_customizer {
     $feature_contexts = drupal_map_assoc(spaces_features_items('context', $feature));
     $contexts = context_enabled_contexts();
     $contexts = array_intersect_key($contexts, $feature_contexts);
+
+    $master_contexts = array();
+    $master_defaults = array();
 
     foreach ($contexts as $identifier => $context) {
       if (!empty($context->block)) {
@@ -228,11 +233,22 @@ class space_customizer_block implements space_customizer {
           }
         }
 
-        $master_form['contexts'][$identifier] = $form;
-        $master_form['defaults'][$identifier] = $defaults;
+        $master_contexts[$identifier] = $form;
+        $master_defaults[$identifier] = $defaults;
       }
     }
-    return $master_form;
+
+    if (!empty($master_contexts) && !empty($master_defaults)) {
+      $master_form = array(
+        '#theme' => 'spaces_block_customizer_settings_form',
+        'contexts' => array_merge(array('#tree' => TRUE), $master_contexts),
+        'defaults' => array_merge(array('#tree' => TRUE), $master_defaults),
+      );
+      return $master_form;
+    }
+    else {
+      return NULL;
+    }
   }
 
   /**

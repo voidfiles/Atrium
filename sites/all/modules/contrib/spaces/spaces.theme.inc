@@ -92,38 +92,27 @@ function theme_spaces_preset_default_form($form) {
     $rows = array();
     if (!empty($form['types'][$type]['info'])) {
       foreach (element_children($form['types'][$type]['info']) as $preset) {
-        // Determine if this preset is enabled
-        if ($form['types'][$type]['info'][$preset]['#value']['disabled']) {
-          $preset_option = $form['types'][$type]['info'][$preset]['#value']['name'];
-          $disabled = TRUE;
-        }
-        else {
-          $preset_option = drupal_render($form['types'][$type]['default'][$preset]);
-          $disabled = FALSE;
-        }
-
-        // Build table row
-        $row = array(
+        $rows[] = array(
           'data' => array(
-            $preset_option,
-            $preset,
+            drupal_render($form['types'][$type]['default'][$preset]),
+            drupal_render($form['types'][$type]['name'][$preset]),
             $form['types'][$type]['info'][$preset]['#value']['description'],
             $form['types'][$type]['info'][$preset]['#value']['links'],
           ),
-          'class' =>  $disabled ? 'disabled' : '',
+          'class' => !empty($form['types'][$type]['info'][$preset]['#value']['disabled']) ? 'disabled' : '',
         );
-
-        $rows[] = $row;
       }
     }
-    $rows[] = array(array(
-      'data' => "<div class='buttons'>". l(t('Add preset'), 'admin/build/spaces/presets/add/'. $type, array('attributes' => array('class' => 'button'))) ."</div>",
-      'colspan' => 4,
-    ));
+    $rows[] = array(
+      array(
+        'data' => "<div class='buttons'>". l(t('Add preset'), 'admin/build/spaces/presets/add/'. $type, array('attributes' => array('class' => 'button'))) ."</div>",
+        'colspan' => 4,
+      )
+    );
 
     // Add type heading and preset table to output
     $output .= "<h3>{$form['types'][$type]['#title']}</h3>";
-    $output .= theme('table', array(t('Default'), t('ID'), t('Description'), ''), $rows, array('class' => 'spaces-admin'));
+    $output .= theme('table', array('', t('Preset'), t('Description'), ''), $rows, array('class' => 'spaces-admin'));
   }
   $output .= drupal_render($form['buttons']);
   $output .= drupal_render($form);

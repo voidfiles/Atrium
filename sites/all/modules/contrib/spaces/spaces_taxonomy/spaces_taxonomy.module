@@ -16,7 +16,7 @@ if (function_exists('spaces_menu')) {
      */
     function __construct($type, $sid = NULL, $is_active = FALSE) {
       if ($sid) {
-        if ($term = taxonomy_get_term($tid)) {
+        if ($term = taxonomy_get_term($sid)) {
           $this->title = $term->name;
           $this->term = $term;
         }
@@ -47,7 +47,12 @@ if (function_exists('spaces_menu')) {
      * Implementation of space->feature_access().
      */
     function feature_access($feature = NULL) {
-      return true;
+      if (isset($this->features[$feature])) {
+        if ($this->features[$feature] != SPACES_FEATURE_DISABLED) {
+          return TRUE;
+        }
+      }
+      return FALSE;
     }
 
     /**
@@ -108,23 +113,17 @@ if (function_exists('spaces_menu')) {
     function redirect($op = 'home') {
       switch ($op) {
         case 'home':
-          if ($this->prefix) {
-            // use the menu path of the selected feature as homepage
+          if (!empty($this->purl)) {
+            // Use the menu path of the selected feature as homepage
             if ($home = $this->settings['home']) {
-              $features = spaces_features();
-              if (is_array($features[$home]->spaces['menu'])) {
-                reset($features[$home]->spaces['menu']);
-                $item = current($features[$home]->spaces['menu']);
-                $home_path = $item['href'];
-                purl_goto($home_path, array('purl' => array('provider' => 'spaces_taxonomy', 'id' => $this->sid)));
+              if (menu_get_item($home)) {
+                purl_goto($home, array('purl' => array('provider' => 'spaces_taxonomy', 'id' => $this->sid)));
               }
             }
-            // send the user to the features page if no homepage is set
-            else {
-              if (user_access('administer spaces')) {
-                drupal_set_message(t("Please setup your taxonomy space by enabling at least 1 feature and choosing a homepage setting."));
-                purl_goto('spaces/features', array('purl' => array('provider' => 'spaces_taxonomy', 'id' => $this->sid)));
-              }
+            // The previous checks fail, there is no valid homepage set
+            if ($this->admin_access() && user_access('configure spaces features')) {
+              drupal_set_message(t("Please setup your taxonomy space by choosing a homepage setting."));
+              purl_goto("spaces/features", array('purl' => array('provider' => 'spaces_taxonomy', 'id' => $this->sid)));
             }
           }
           else if (user_access('administer spaces')) {
@@ -144,16 +143,42 @@ if (function_exists('spaces_menu')) {
      * Implementation of space->menu_access().
      */
     function menu_access($op, $object = NULL, $is_active = TRUE) {
-      // @TODO test that the node is in the correct taxonomy space
-      return TRUE;
+      switch ($op) {
+        case 'node':
+          if ($is_active) {
+            $node = $object;
+            $form = !isset($node->nid) || isset($node->date) ? TRUE : FALSE;
+
+            $node_types = spaces_features_map('node');
+            // If the feature is spaces-related, see whether this feature is enabled for this space before allowing access.
+            if (!empty($node_types[$node->type])) {
+              $feature = $node_types[$node->type];
+              if ($this->feature_access($feature)) {
+                return TRUE;
+              }
+              else {
+                return FALSE;
+              }
+            }
+          }
+          return TRUE;
+        case 'menu':
+        case 'user':
+          return TRUE;
+      }
     }
 
     /**
      * Implementation of space->router().
      */
     function router($op, $object = NULL, $is_active = TRUE) {
-      // @TODO test that the node is in the correct taxonomy space
-      return;
+      switch ($op) {
+        case 'menu':
+          if ($is_active && drupal_is_front_page()) {
+            $this->redirect('home');
+          }
+          break;
+      }
     }
 
     // Spaces Taxonomy views filter

@@ -514,7 +514,7 @@ function spaces_og_menu() {
   $items['user/%user/groups'] = array(
     'title' => 'Groups',
     'title callback' => 'spaces_og_menu_title',
-    'title arguments' => array(1, 'Groups'),
+    'title arguments' => array(1),
 
     'page callback' => 'drupal_get_form',
     'page arguments' => array('spaces_og_user_groups_form', 1),
@@ -560,12 +560,9 @@ function spaces_og_menu() {
 /**
  * Menu title callback for nicer user account tab titles.
  */
-function spaces_og_menu_title($account, $title = '') {
+function spaces_og_menu_title($account) {
   global $user;
-  if ($user->uid == $account->uid) {
-    return t('My !title', array('!title' => $title));
-  }
-  return $title;
+  return ($user->uid == $account->uid) ? t('My groups') : t('Groups');
 }
 
 /**
@@ -691,6 +688,12 @@ function spaces_og_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
  */
 function spaces_og_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
+    case 'node_delete_confirm':
+      $node = node_load($form['nid']['#value']);
+      if (og_is_group_type($node->type)) {
+        $form['#submit'][] = '_spaces_og_node_delete_confirm_submit';
+      }
+      break;
     default:
       if ($form['#id'] == 'node-form' && (arg(0) .'/'. arg(1) != 'admin/content')) {
         // GROUP NODES
@@ -766,6 +769,13 @@ function _spaces_og_form_alter_group(&$form, $form_state) {
 
   // Add custom submit handler
   $form['#submit'][] = '_spaces_og_group_node_form_submit';
+}
+
+/**
+ * Custom submit handler for group delete confirmation.
+ */
+function _spaces_og_node_delete_confirm_submit($form, &$form_state) {
+  purl_disable(TRUE);
 }
 
 /**
