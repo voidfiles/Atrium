@@ -247,16 +247,6 @@ function _atrium_profile_content_default_fields() {
 function _atrium_profile_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: access user profiles
-  $permissions[] = array(
-    'name' => 'access user profiles',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
   // Exported permission: create profile content
   $permissions[] = array(
     'name' => 'create profile content',
