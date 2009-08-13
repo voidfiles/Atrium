@@ -65,14 +65,6 @@ function atrium_intranet_strongarm() {
   $conf['feedapi_allow_html_all'] = FALSE;
   $conf['feedapi_allowed_html_tags'] = '<div> <h1> <h2> <h3> <h4> <h5> <h6> <img> <a> <b> <br> <dd> <dl> <dt> <em> <i> <li> <ol> <p> <strong> <u> <ul>';
 
-  // User variables
-  $conf['user_register'] = 0; // No registration
-  $conf['user_signatures'] = FALSE;
-  $conf['user_pictures'] = TRUE;
-  $conf['user_picture_path'] = 'pictures';
-  $conf['user_picture_dimensions'] = '500x500';
-  $conf['user_picture_file_size'] = '500';
-
   // Views
   $conf['views_no_hover_links'] = TRUE;
 

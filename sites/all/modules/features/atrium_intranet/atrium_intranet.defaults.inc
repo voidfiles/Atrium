@@ -277,26 +277,6 @@ function _atrium_intranet_user_default_permissions() {
     ),
   );
 
-  // Exported permission: access comments
-  $permissions[] = array(
-    'name' => 'access comments',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
-  // Exported permission: access content
-  $permissions[] = array(
-    'name' => 'access content',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
   // Exported permission: add list of open ids
   $permissions[] = array(
     'name' => 'add list of open ids',
