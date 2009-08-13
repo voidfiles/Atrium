@@ -1,4 +1,4 @@
-$Id: README.txt,v 1.1.2.1 2009/03/15 04:55:18 yhahn Exp $
+$Id: README.txt,v 1.1.2.2 2009/08/13 15:05:09 yhahn Exp $
 
 Persistent URL for Drupal 6.x
 
@@ -47,26 +47,26 @@ you can realistically get some prefixing working.
 Overview:
 
 1. Register your module as a prefix provider using
-   hook_PURL_provider().
+   hook_purl_provider().
 
 2. Implement some method of providing valid prefixes either by entering
-   them into the database using PURL_form() and
-   PURL_api() or providing them programatically via
-   hook_PURL_prefixes().
+   them into the database using purl_form() and
+   purl_api() or providing them programatically via
+   hook_purl_modifiers().
 
 3. Implement the reactive behavior you would like in your module's
-   callback described in hook_PURL_provider().
+   callback described in hook_purl_provider().
 
 The details:
 
 1. Your module registers itself as a prefix provider via
-   hook_PURL_provider().
+   hook_purl_provider().
 
 2. Your module allows the user to enter a prefix to associate with a
    certain organic group (e.g. group nid 43 = 'knitting').
    NOTE: spaces/spaces_og actually provides this functionality.
 
-3. On hook_init(), PURL_init finds any registered prefixes
+3. On hook_init(), purl_init() finds any registered prefixes
    and fires the associated provider's callback. In our example,
    PURL would pass to spaces_og's callback nid 43.
 
