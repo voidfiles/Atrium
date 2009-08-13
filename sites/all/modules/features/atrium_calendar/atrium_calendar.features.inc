@@ -5,7 +5,8 @@
  */
 function atrium_calendar_content_default_fields() {
   module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_content_default_fields();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_content_default_fields', $args);
 }
 
 /**
@@ -13,7 +14,8 @@ function atrium_calendar_content_default_fields() {
  */
 function atrium_calendar_context_default_contexts() {
   module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_context_default_contexts();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_context_default_contexts', $args);
 }
 
 /**
@@ -21,15 +23,17 @@ function atrium_calendar_context_default_contexts() {
  */
 function atrium_calendar_menu_default_items() {
   module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_menu_default_items();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_menu_default_items', $args);
 }
 
 /**
  * Implementation of hook_node_info().
  */
 function atrium_calendar_node_info() {
-  module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_node_info();
+  module_load_include('inc', 'atrium_calendar', 'atrium_calendar.features.node');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_node_info', $args);
 }
 
 /**
@@ -37,13 +41,15 @@ function atrium_calendar_node_info() {
  */
 function atrium_calendar_user_default_permissions() {
   module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_user_default_permissions();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_user_default_permissions', $args);
 }
 
 /**
  * Implementation of hook_views_default_views().
  */
 function atrium_calendar_views_default_views() {
-  module_load_include('inc', 'atrium_calendar', 'atrium_calendar.defaults');
-  return _atrium_calendar_views_default_views();
+  module_load_include('inc', 'atrium_calendar', 'atrium_calendar.features.views');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_calendar_views_default_views', $args);
 }

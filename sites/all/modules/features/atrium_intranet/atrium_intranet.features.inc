@@ -5,7 +5,8 @@
  */
 function atrium_intranet_context_default_contexts() {
   module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_context_default_contexts();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_context_default_contexts', $args);
 }
 
 /**
@@ -13,7 +14,8 @@ function atrium_intranet_context_default_contexts() {
  */
 function atrium_intranet_filter_default_formats() {
   module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_filter_default_formats();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_filter_default_formats', $args);
 }
 
 /**
@@ -21,7 +23,8 @@ function atrium_intranet_filter_default_formats() {
  */
 function atrium_intranet_imagecache_default_presets() {
   module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_imagecache_default_presets();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_imagecache_default_presets', $args);
 }
 
 /**
@@ -29,15 +32,17 @@ function atrium_intranet_imagecache_default_presets() {
  */
 function atrium_intranet_menu_default_items() {
   module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_menu_default_items();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_menu_default_items', $args);
 }
 
 /**
  * Implementation of hook_node_info().
  */
 function atrium_intranet_node_info() {
-  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_node_info();
+  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.features.node');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_node_info', $args);
 }
 
 /**
@@ -45,13 +50,15 @@ function atrium_intranet_node_info() {
  */
 function atrium_intranet_user_default_permissions() {
   module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_user_default_permissions();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_user_default_permissions', $args);
 }
 
 /**
  * Implementation of hook_views_default_views().
  */
 function atrium_intranet_views_default_views() {
-  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.defaults');
-  return _atrium_intranet_views_default_views();
+  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.features.views');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_intranet_views_default_views', $args);
 }

@@ -5,7 +5,8 @@
  */
 function atrium_shoutbox_context_default_contexts() {
   module_load_include('inc', 'atrium_shoutbox', 'atrium_shoutbox.defaults');
-  return _atrium_shoutbox_context_default_contexts();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_shoutbox_context_default_contexts', $args);
 }
 
 /**
@@ -13,7 +14,8 @@ function atrium_shoutbox_context_default_contexts() {
  */
 function atrium_shoutbox_menu_default_items() {
   module_load_include('inc', 'atrium_shoutbox', 'atrium_shoutbox.defaults');
-  return _atrium_shoutbox_menu_default_items();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_shoutbox_menu_default_items', $args);
 }
 
 /**
@@ -21,13 +23,15 @@ function atrium_shoutbox_menu_default_items() {
  */
 function atrium_shoutbox_user_default_permissions() {
   module_load_include('inc', 'atrium_shoutbox', 'atrium_shoutbox.defaults');
-  return _atrium_shoutbox_user_default_permissions();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_shoutbox_user_default_permissions', $args);
 }
 
 /**
  * Implementation of hook_views_default_views().
  */
 function atrium_shoutbox_views_default_views() {
-  module_load_include('inc', 'atrium_shoutbox', 'atrium_shoutbox.defaults');
-  return _atrium_shoutbox_views_default_views();
+  module_load_include('inc', 'atrium_shoutbox', 'atrium_shoutbox.features.views');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_shoutbox_views_default_views', $args);
 }

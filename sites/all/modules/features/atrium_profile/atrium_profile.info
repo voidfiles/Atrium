@@ -3,7 +3,6 @@ description = "A profile lets you share personal information about yourself with
 dependencies[] = "atrium"
 dependencies[] = "date_api"
 dependencies[] = "features"
-dependencies[] = "node"
 dependencies[] = "text"
 dependencies[] = "user"
 dependencies[] = "views"

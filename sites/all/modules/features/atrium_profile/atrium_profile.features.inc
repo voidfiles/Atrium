@@ -5,15 +5,17 @@
  */
 function atrium_profile_content_default_fields() {
   module_load_include('inc', 'atrium_profile', 'atrium_profile.defaults');
-  return _atrium_profile_content_default_fields();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_profile_content_default_fields', $args);
 }
 
 /**
  * Implementation of hook_node_info().
  */
 function atrium_profile_node_info() {
-  module_load_include('inc', 'atrium_profile', 'atrium_profile.defaults');
-  return _atrium_profile_node_info();
+  module_load_include('inc', 'atrium_profile', 'atrium_profile.features.node');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_profile_node_info', $args);
 }
 
 /**
@@ -21,13 +23,15 @@ function atrium_profile_node_info() {
  */
 function atrium_profile_user_default_permissions() {
   module_load_include('inc', 'atrium_profile', 'atrium_profile.defaults');
-  return _atrium_profile_user_default_permissions();
+  $args = func_get_args();
+  return call_user_func_array('_atrium_profile_user_default_permissions', $args);
 }
 
 /**
  * Implementation of hook_views_default_views().
  */
 function atrium_profile_views_default_views() {
-  module_load_include('inc', 'atrium_profile', 'atrium_profile.defaults');
-  return _atrium_profile_views_default_views();
+  module_load_include('inc', 'atrium_profile', 'atrium_profile.features.views');
+  $args = func_get_args();
+  return call_user_func_array('_atrium_profile_views_default_views', $args);
 }
