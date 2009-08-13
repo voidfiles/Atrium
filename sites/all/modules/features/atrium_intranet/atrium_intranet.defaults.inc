@@ -738,15 +738,6 @@ function _atrium_intranet_user_default_permissions() {
     ),
   );
 
-  // Exported permission: view revisions
-  $permissions[] = array(
-    'name' => 'view revisions',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
   // Exported permission: view uploaded files
   $permissions[] = array(
     'name' => 'view uploaded files',
@@ -754,15 +745,6 @@ function _atrium_intranet_user_default_permissions() {
       '0' => 'authenticated user',
       '1' => 'admin',
       '2' => 'manager',
-    ),
-  );
-
-  // Exported permission: view users outside groups
-  $permissions[] = array(
-    'name' => 'view users outside groups',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
     ),
   );
 
