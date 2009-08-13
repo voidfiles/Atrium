@@ -5,6 +5,7 @@
  */
 class atrium_setting_sitemode implements space_setting {
   var $id;
+  var $types;
 
   function __construct($id = NULL) {
     $this->id = 'atrium_sitemode';
@@ -38,34 +39,81 @@ class atrium_setting_sitemode implements space_setting {
     $roles = _user_features_get_roles();
     switch ($value) {
       case ATRIUM_SITEMODE_PRIVATE:
-        $this->ensure_perm($roles, 'authenticated user', 'access content');
-        $this->ensure_perm($roles, 'authenticated user', 'access comments');
-        $this->remove_perm($roles, 'anonymous user', 'access content');
-        $this->remove_perm($roles, 'anonymous user', 'access comments');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access user profiles');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access content');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access comments');
+        _atrium_ensure_perm($roles, 'authenticated user', 'view revisions');
+
+        _atrium_remove_perm($roles, 'anonymous user', 'access user profiles');
+        _atrium_remove_perm($roles, 'anonymous user', 'access content');
+        _atrium_remove_perm($roles, 'anonymous user', 'access comments');
+        _atrium_remove_perm($roles, 'anonymous user', 'view revisions');
         break;
       case ATRIUM_SITEMODE_PUBLIC:
       case ATRIUM_SITEMODE_CONTROLLED:
-        $this->ensure_perm($roles, 'authenticated user', 'access content');
-        $this->ensure_perm($roles, 'authenticated user', 'access comments');
-        $this->ensure_perm($roles, 'anonymous user', 'access content');
-        $this->ensure_perm($roles, 'anonymous user', 'access comments');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access user profiles');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access content');
+        _atrium_ensure_perm($roles, 'authenticated user', 'access comments');
+        _atrium_ensure_perm($roles, 'authenticated user', 'view revisions');
+
+        _atrium_ensure_perm($roles, 'anonymous user', 'access user profiles');
+        _atrium_ensure_perm($roles, 'anonymous user', 'access content');
+        _atrium_ensure_perm($roles, 'anonymous user', 'access comments');
+        _atrium_ensure_perm($roles, 'anonymous user', 'view revisions');
         break;
     }
     _user_features_save_roles($roles);
 
     return $value;
   }
+}
 
-  function ensure_perm(&$roles, $role, $perm) {
-    if (!in_array($perm, $roles[$role]['perm'])) {
-      $roles[$role]['perm'][] = $perm;
-    }
+/**
+ * Implementation of space_setting.
+ */
+class atrium_setting_members implements space_setting {
+  var $id;
+  var $types;
+
+  function __construct($id = NULL) {
+    $this->id = 'atrium_members';
+    $this->types = array('site');
   }
 
-  function remove_perm(&$roles, $role, $perm) {
-    if (in_array($perm, $roles[$role]['perm'])) {
-      $position = array_search($perm, $roles[$role]['perm']);
-      unset($roles[$role]['perm'][$position]);
+  function form($space, $value = array()) {
+    $form = array(
+      '#title' => t('Members'),
+      '#type' => 'select',
+      '#description' => t('Choose the access mode for the member directory and profiles. Administrators and managers will be able to see all members regardless of this setting.'),
+      '#options' => array(
+        ATRIUM_MEMBERS_ALL => t('Users can view all members'),
+        ATRIUM_MEMBERS_GROUP => t('Users can only view members that belong to their groups')
+      ),
+      '#default_value' => !empty($value) ? $value : 0,
+    );
+    return $form;
+  }
+
+  function validate($space, $value) { }
+
+  function submit($space, $value) {
+    features_include();
+    $roles = _user_features_get_roles();
+    switch ($value) {
+      case ATRIUM_MEMBERS_ALL:
+        _atrium_ensure_perm($roles, 'authenticated user', 'view users outside groups');
+        _atrium_ensure_perm($roles, 'anonymous user', 'view users outside groups');
+        _atrium_ensure_perm($roles, 'manager', 'view users outside groups');
+        _atrium_ensure_perm($roles, 'admin', 'view users outside groups');
+        break;
+      case ATRIUM_MEMBERS_GROUP:
+        _atrium_remove_perm($roles, 'authenticated user', 'view users outside groups');
+        _atrium_remove_perm($roles, 'anonymous user', 'view users outside groups');
+        _atrium_ensure_perm($roles, 'manager', 'view users outside groups');
+        _atrium_ensure_perm($roles, 'admin', 'view users outside groups');
+        break;
     }
+    _user_features_save_roles($roles);
+    return $value;
   }
 }

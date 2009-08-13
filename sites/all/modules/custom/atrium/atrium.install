@@ -1,8 +1,10 @@
 <?php
 
-// Update to resolve install profile namespace collision.
+/**
+ * Update to resolve install profile namespace collision.
+ */
 function atrium_update_6001() {
-  if (variable_get('install_profile', false) == 'atrium') {
+  if (variable_get('install_profile', FALSE) == 'atrium') {
     variable_set('install_profile', 'atrium_installer');
   }
   return array();

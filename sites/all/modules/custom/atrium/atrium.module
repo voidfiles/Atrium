@@ -21,23 +21,53 @@ define('ATRIUM_SITEMODE_PUBLIC', 1);
 define('ATRIUM_SITEMODE_CONTROLLED', 2);
 
 /**
+ * Users may view all members of the site.
+ */
+define('ATRIUM_MEMBERS_ALL', 0);
+
+/**
+ * Users may only view members that belong to their groups.
+ */
+define('ATRIUM_MEMBERS_GROUP', 1);
+
+
+/**
  * Implementation of hook_strongarm().
  */
 function atrium_strongarm() {
   $conf = array();
 
   // User registration. Default to no registration.
+  // We use variable set here because this value *can* be changed, but
+  // we want to provide a sensible default. We also alter key content
+  // permissions here if no setting value is found.
   $space = spaces_load('site', 1);
-  $conf['user_register'] = 0; 
-  if (isset($space->settings['atrium_sitemode'])) {
-    switch ($space->settings['atrium_sitemode']) {
-      case ATRIUM_SITEMODE_CONTROLLED:
-        $conf['user_register'] = 2;
-        break;
-      case ATRIUM_SITEMODE_PUBLIC:
-        $conf['user_register'] = 1;
-        break;
-    }
+  if (!isset($space->settings['atrium_sitemode'])) {
+    variable_set('user_register', 0);
+
+    // Toggle access content, comments perms
+    features_include();
+    $roles = _user_features_get_roles();
+    _atrium_ensure_perm($roles, 'authenticated user', 'access user profiles');
+    _atrium_ensure_perm($roles, 'authenticated user', 'access content');
+    _atrium_ensure_perm($roles, 'authenticated user', 'access comments');
+    _atrium_ensure_perm($roles, 'authenticated user', 'view revisions');
+
+    _atrium_ensure_perm($roles, 'anonymous user', 'access user profiles');
+    _atrium_remove_perm($roles, 'anonymous user', 'access content');
+    _atrium_remove_perm($roles, 'anonymous user', 'access comments');
+    _atrium_remove_perm($roles, 'anonymous user', 'view revisions');
+
+    _user_features_save_roles($roles);
+  }
+  if (!isset($space->settings['atrium_members'])) {
+    features_include();
+    $roles = _user_features_get_roles();
+    _atrium_remove_perm($roles, 'authenticated user', 'view users outside groups');
+    _atrium_remove_perm($roles, 'anonymous user', 'view users outside groups');
+    _atrium_ensure_perm($roles, 'manager', 'view users outside groups');
+    _atrium_ensure_perm($roles, 'admin', 'view users outside groups');
+    _user_features_save_roles($roles);
   }
 
   $conf['user_signatures'] = FALSE;
@@ -45,7 +75,6 @@ function atrium_strongarm() {
   $conf['user_picture_path'] = 'pictures';
   $conf['user_picture_dimensions'] = '500x500';
   $conf['user_picture_file_size'] = '500';
-
   return $conf;
 }
 
@@ -150,6 +179,10 @@ function atrium_spaces_settings() {
   return array(
     'atrium_sitemode' => array(
       'class' => 'atrium_setting_sitemode',
+      'file' => drupal_get_path('module', 'atrium') .'/atrium.spaces.inc',
+    ),
+    'atrium_members' => array(
+      'class' => 'atrium_setting_members',
       'file' => drupal_get_path('module', 'atrium') .'/atrium.spaces.inc',
     ),
   );
@@ -555,6 +588,25 @@ function atrium_search_form_submit($form, &$form_state) {
 }
 
 /**
+ * Helper function to ensure a permission exists in a roles array for a given role/perm.
+ */
+function _atrium_ensure_perm(&$roles, $role, $perm) {
+  if (!in_array($perm, $roles[$role]['perm'])) {
+    $roles[$role]['perm'][] = $perm;
+  }
+}
+
+/**
+ * Helper function to remove a permission from a roles array for a given role/perm.
+ */
+function _atrium_remove_perm(&$roles, $role, $perm) {
+  if (in_array($perm, $roles[$role]['perm'])) {
+    $position = array_search($perm, $roles[$role]['perm']);
+    unset($roles[$role]['perm'][$position]);
+  }
+}
+
+/**
  * THEME & UI  FUNCTIONS ==============================================
  */
 
@@ -664,9 +716,9 @@ function atrium_user_links() {
   }
   // Provide login/register links for anonymous users
   else {
-    $links['login'] = array('title' => t('Login'), 'href' => 'user/login');
+    $links['login'] = array('title' => t('Login'), 'href' => 'user/login', 'purl' => array('disabled' => TRUE));
     if (variable_get('user_register', 1)) {
-      $links['register'] = array('title' => t('Register'), 'href' => 'user/register');
+      $links['register'] = array('title' => t('Register'), 'href' => 'user/register', 'purl' => array('disabled' => TRUE));
     }
   }
 
