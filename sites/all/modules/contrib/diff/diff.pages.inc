@@ -397,10 +397,11 @@ function diff_inline_diff($node, $target_vid) {
   $old = db_fetch_object(db_query("SELECT body, format FROM {node_revisions} WHERE nid = %d AND vid = %d", $node->nid, $target_vid));
   $old->body = check_markup($old->body, $old->format, FALSE);
 
-  $new = preg_split('/(<[^>]+?>)/', $new->body, -1, PREG_SPLIT_DELIM_CAPTURE);
-  $old = preg_split('/(<[^>]+?>)/', $old->body, -1, PREG_SPLIT_DELIM_CAPTURE);
+  $new = preg_split('/(<[^>]+?>| )/', $new->body, -1, PREG_SPLIT_DELIM_CAPTURE);
+  $old = preg_split('/(<[^>]+?>| )/', $old->body, -1, PREG_SPLIT_DELIM_CAPTURE);
 
   $diff = new Diff($old, $new);
+  $diff->edits = _diff_inline_process_edits($diff->edits);
 
   // Assemble highlighted output
   $output = '';
@@ -420,8 +421,10 @@ function diff_inline_diff($node, $target_vid) {
         }
         break;
       default:
+        $chunk->closing = _diff_inline_process_chunk($chunk->closing);
+
         foreach ($chunk->closing as $i => $piece) {
-          if (strpos($piece, '<') === 0 && substr($piece, strlen($piece) - 1) === '>') {
+          if ($piece === ' ' || (strpos($piece, '<') === 0 && substr($piece, strlen($piece) - 1) === '>')) {
             $output .= $piece;
           }
           else {
@@ -432,4 +435,76 @@ function diff_inline_diff($node, $target_vid) {
     }
   }
   return $output;
+}
+
+/**
+ * Merge chunk segments between tag delimiters.
+ */
+function _diff_inline_process_chunk($chunk) {
+  $processed = array();
+  $j = 0;
+  foreach ($chunk as $i => $piece) {
+    $next = isset($chunk[$i+1]) ? $chunk[$i+1] : NULL;
+    if (strpos($piece, '<') === 0 && substr($piece, strlen($piece) - 1) === '>') {
+      $processed[$j] = $piece;
+      $j++;
+    }
+    else if (isset($next) && strpos($next, '<') === 0 && substr($next, strlen($next) - 1) === '>') {
+      $processed[$j] .= $piece;
+      $j++;
+    }
+    else {
+      $processed[$j] .= $piece;
+    }
+  }
+  return $processed;
+}
+
+/**
+ * Merge copy and equivalent edits into intelligible chunks.
+ */
+function _diff_inline_process_edits($edits) {
+  $processed = array();
+  $j = 0;
+
+  // Make two passes -- first merge space delimiter copies back into their originals.
+  foreach ($edits as $i => $chunk) {
+    $prev = isset($edits[$i-1]) ? $edits[$i-1] : NULL;
+    $next = isset($edits[$i+1]) ? $edits[$i+1] : NULL;
+    if (!isset($prev)) {
+      $processed[$j] = $chunk;
+      $j++;
+    }
+    else if ($chunk->type == 'copy' && $chunk->orig === array(' ') && isset($prev) && isset($next) && $prev->type == $next->type) {
+      $processed[$j]->orig = array_merge($processed[$j]->orig, $chunk->orig);
+      $processed[$j]->closing = array_merge($processed[$j]->closing, $chunk->closing);
+    }
+    else {
+      $j++;
+      $processed[$j] = $chunk;
+    }
+  }
+
+  $j = 0;
+  $edits = $processed;
+  $processed = array();
+
+  // Second, merge equivalent chunks into each other.
+  foreach ($edits as $i => $chunk) {
+    $prev = isset($edits[$i-1]) ? $edits[$i-1] : NULL;
+    $next = isset($edits[$i+1]) ? $edits[$i+1] : NULL;
+    if (!isset($prev)) {
+      $processed[$j] = $chunk;
+      $j++;
+    }
+    else if (isset($prev) && $chunk->type == $prev->type) {
+      $processed[$j]->orig = array_merge($processed[$j]->orig, $chunk->orig);
+      $processed[$j]->closing = array_merge($processed[$j]->closing, $chunk->closing);
+    }
+    else {
+      $j++;
+      $processed[$j] = $chunk;
+    }
+  }
+  return $processed;
 }
