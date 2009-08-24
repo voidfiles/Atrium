@@ -15,9 +15,9 @@ function atrium_installer_profile_details() {
  * Implementation of hook_profile_modules().
  */
 function atrium_installer_profile_modules() {
-    global $install_locale;
-  // Drupal core
+  global $install_locale;
   $modules = array(
+     // Drupal core
     'block',
     'comment',
     'dblog',
@@ -32,22 +32,6 @@ function atrium_installer_profile_modules() {
     'trigger',
     'upload',
     'user',
-  );
-  // If language is not English we add the 'atrium_translate' module the first
-  // To get some modules installed properly we need to have translations loaded
-  // We also use it to check connectivity with the translation server on hook_requirements()
-  if (!empty($install_locale) && ($install_locale != 'en')) {
-    $modules[] = 'l10n_update';
-    $modules[] = 'atrium_translate';
-  }
-  return $modules;
-}
-
-/**
- * Returns an array list of core atrium modules.
- */
-function _atrium_installer_core_modules() {
-  return array(
     // Admin
     'admin',
     // Views
@@ -81,10 +65,20 @@ function _atrium_installer_core_modules() {
     // Atrium
     'atrium',
   );
+
+  // If language is not English we add the 'atrium_translate' module the first
+  // To get some modules installed properly we need to have translations loaded
+  // We also use it to check connectivity with the translation server on hook_requirements()
+  if (!empty($install_locale) && ($install_locale != 'en')) {
+    $modules[] = 'l10n_update';
+    $modules[] = 'atrium_translate';
+  }
+
+  return $modules;
 }
 
 /**
- * Returns an array list of dsi modules.
+ * Returns an array list of atrium features (and supporting) modules.
  */
 function _atrium_installer_atrium_modules() {
   return array(
@@ -132,6 +126,7 @@ function atrium_installer_profile_task_list() {
   $tasks = array(
     'intranet-modules' => st('Install intranet modules'),
     'intranet-configure' => st('Intranet configuration'),
+    'intranet-check' => st('Check configuration'),
   );
   return $tasks;
 }
@@ -140,7 +135,7 @@ function atrium_installer_profile_task_list() {
  * Implementation of hook_profile_tasks().
  */
 function atrium_installer_profile_tasks(&$task, $url) {
-  global $install_locale;
+  global $profile, $install_locale;
   
   // Just in case some of the future tasks adds some output
   $output = '';
@@ -162,8 +157,7 @@ function atrium_installer_profile_tasks(&$task, $url) {
   }  
   // Install some more modules and maybe localization helpers too
   if ($task == 'intranet-modules') {
-    $modules = _atrium_installer_core_modules();
-    $modules = array_merge($modules, _atrium_installer_atrium_modules());
+    $modules = _atrium_installer_atrium_modules();
     $files = module_rebuild_cache();
     $operations = array();
     foreach ($modules as $module) {
@@ -184,6 +178,7 @@ function atrium_installer_profile_tasks(&$task, $url) {
 
   // Import extended interface translations for all the enabled modules.
   // Our translations are in sites/all/translations, these are imported by core_translation module
+  // Note: this is not used atm, we keep the code here just in case we add this to language install
   if ($task == 'locale-extended-import') {
     if (!empty($install_locale) && ($install_locale != 'en')) {        
       // @todo: Disable English
@@ -255,21 +250,11 @@ function atrium_installer_profile_tasks(&$task, $url) {
     // Set a default footer message.
     variable_set('site_footer', '&copy; 2009 '. l('Development Seed', 'http://www.developmentseed.org', array('absolute' => TRUE)));
 
-    // Theme
-    // @TODO: this actually does not work -- by the time we get here
-    // the _system_theme_data() static cache has been populated.
-    // We rebuild system_theme_data() on the welcome callback (default frontpage)
-    // so this works on the first page load.
+    // Set default theme. This needes some more set up on next page load
+    // We cannot do everything here because of _system_theme_data() static cache
     system_theme_data();
     db_query("UPDATE {system} SET status = 0 WHERE type = 'theme' and name ='%s'", 'garland');
     variable_set('theme_default', 'ginkgo');
-
-    // Rebuild key tables/caches
-    menu_rebuild();
-    module_rebuild_cache(); // Detects the newly added bootstrap modules
-    node_access_rebuild();
-    drupal_get_schema('system', TRUE); // Clear schema DB cache
-    drupal_flush_all_caches();
     db_query("UPDATE {blocks} SET status = 0, region = ''"); // disable all DB blocks
 
     // Revert the filter that messaging provides to our default.  
@@ -277,7 +262,28 @@ function atrium_installer_profile_tasks(&$task, $url) {
     $module = 'atrium_intranet';
     module_load_include('inc', 'features', "features.{$component}");
     module_invoke($component, 'features_revert', $module);
-
+    
+    // We want to do the next step on a new page load so we don't advance this task
+    variable_set('install_task', 'intranet-check');
+    drupal_goto('install.php', 'locale='. $install_locale .'&profile='. $profile);
+  }  
+  
+  // Final step, last configuration checks, cache rebuilds, etc..
+  // This runs after a page reload (see previous step) so we have fresh static caches
+  if ($task == 'intranet-check') {
+    // Rebuild key tables/caches
+    module_rebuild_cache(); // Detects the newly added bootstrap modules
+    node_access_rebuild();
+    drupal_get_schema(NULL, TRUE); // Clear schema DB cache
+    drupal_flush_all_caches();    
+    system_theme_data();  // Rebuild theme cache.
+     _block_rehash();      // Rebuild block cache.
+    views_invalidate_cache(); // Rebuild the views.
+    // This one is done by the installer alone
+    //menu_rebuild();       // Rebuild the menu.
+    features_rebuild();   // Features rebuild scripts.
+    variable_set('atrium_install', 1);
+    
     // Get out of this batch and let the installer continue. If loaded translation,
     // we skip the locale remaining batch and move on to the next.
     // However, if we didn't make it with the translation file, or they downloaded
@@ -287,10 +293,9 @@ function atrium_installer_profile_tasks(&$task, $url) {
     }
     else {
       $task = 'profile-finished';
-    }
-    
+    }    
   }
-  return $output;
+
 }
 
 /**
@@ -313,4 +318,27 @@ function _atrium_installer_translate_batch_finished($success, $results) {
   // Let the installer now we've already imported locales
   variable_set('atrium_translate_done', 1);
   variable_set('install_task', 'intranet-modules');
+}
+
+/**
+ * Alter some forms implementing hooks in system module namespace
+ * 
+ * This is a trick for hooks to get called, otherwise we cannot alter forms
+ */
+
+// Set Atrium as default profile
+function system_form_install_select_profile_form_alter(&$form, $form_state) {
+  foreach($form['profile'] as $key => $element) {
+    $form['profile'][$key]['#value'] = 'atrium_installer';
+  }
+}
+
+/**
+ * Set English as default language.
+ * 
+ * If no language selected, the installation crashes. I guess English should be the default 
+ * but it isn't in the default install. @todo research, core bug?
+ */
+function system_form_install_select_locale_form_alter(&$form, $form_state) {
+  $form['locale']['en']['#value'] = 'en';
 }
