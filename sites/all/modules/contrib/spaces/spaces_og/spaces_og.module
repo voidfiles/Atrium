@@ -55,8 +55,10 @@ if (function_exists('spaces_menu')) {
               continue;
             }
 
-            db_query("UPDATE {og_ancestry} og INNER JOIN {node} n ON og.nid = n.nid
-                      SET is_public = %d WHERE og.group_nid = %d 
+            db_query("UPDATE {og_access_post} og_p 
+                      INNER JOIN {og_ancestry} og_a ON og_p.nid = og_a.nid
+                      INNER JOIN {node} n ON og_p.nid = n.nid
+                      SET og_public = %d WHERE og_a.group_nid = %d 
                       AND n.type = '%s'", $is_public, $this->group->nid, $type);
           }
         }
