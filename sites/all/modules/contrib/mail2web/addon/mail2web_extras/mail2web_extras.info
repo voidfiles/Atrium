@@ -1,0 +1,11 @@
+name = Mail to Web Extras
+description = Extra junk cleaners for mail2web
+package = "Notifications"
+dependencies[] = mail2web
+core = 6.x
+; Information added by drupal.org packaging script on 2009-08-11
+version = "6.x-1.0-beta3"
+core = "6.x"
+project = "mail2web"
+datestamp = "1249949746"
+

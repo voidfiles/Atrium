@@ -14,6 +14,8 @@ function atrium_welcome() {
     $install_state = variable_get('atrium_install', 0);
     switch ($install_state) {
       // Stage 0: Clear out messages & theme cache, reload.
+      // We shouldn't get here anymore if the installer runs fine.
+      // @todo clean up this first step.
       case 0:
         system_theme_data();  // Rebuild theme cache.
         _block_rehash();      // Rebuild block cache.
