@@ -1,5 +1,5 @@
 <?php
-// $Id: context.core.inc,v 1.1.2.3.2.17 2009/07/24 02:24:31 yhahn Exp $
+// $Id: context.core.inc,v 1.1.2.3.2.19 2009/08/26 04:38:14 yhahn Exp $
 
 /**
  * Implementation of hook_theme().
@@ -320,15 +320,19 @@ function context_user($op, &$edit, &$account, $category = NULL) {
  * theme registry. See context_theme_registry_alter().
  */
 function context_blocks($region) {
+  // Bail if this region is disabled.
+  $disabled_regions = context_active_values('theme_regiontoggle');
+  if (!empty($disabled_regions) && in_array($region, $disabled_regions)) {
+    return '';
+  }
+
   $output = "";
   if ($list = context_block_list($region)) {
     foreach ($list as $key => $block) {
       $output .= theme("block", $block);
     }
   }
-  // Add any content assigned to this region through drupal_set_content() calls.
-  $output .= drupal_get_content($region);
-  return $output;
+  return $output . drupal_get_content($region);
 }
 
 /**
@@ -337,12 +341,10 @@ function context_blocks($region) {
 function context_block_list($region) {
   static $blocks;
   static $context_blocks;
-  static $disabled_regions;
 
   if (!isset($context_blocks)) {
     $blocks = array();
     $context_blocks = array();
-    $disabled_regions = array();
 
     // Store all active context blocks when first called
     $context_blocks = array();
@@ -350,7 +352,6 @@ function context_block_list($region) {
       $block = (object) $block;
       $context_blocks["{$block->module}-{$block->delta}"] = $block;
     }
-    $disabled_regions = context_active_values('theme_regiontoggle');
 
     global $user, $theme_key;
     $rids = array_keys($user->roles);
@@ -438,11 +439,6 @@ function context_block_list($region) {
     }
   }
 
-  // Kill blocks in disabled regions
-  foreach ($disabled_regions as $r) {
-    unset($blocks[$r]);
-  }
-
   // ==================================================================
   // The block rendering code below is identical to block_list().
   // ==================================================================
@@ -516,7 +512,8 @@ function _context_block_sort($a, $b) {
 function theme_context_links($links) {
   $output = '';
   foreach ($links as $link) {
-    $options = array_merge_recursive($link, array('attributes' => array('class' => 'button')));
+    $options = $link;
+    $options['attributes']['class'] = isset($link['attributes']['class']) ? $link['attributes']['class'] : 'button';
     if (!empty($link['custom'])) {
       $output .= l($link['title'], $link['href'], $options);
     }
