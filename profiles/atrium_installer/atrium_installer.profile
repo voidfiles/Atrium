@@ -154,6 +154,18 @@ function atrium_installer_profile_tasks(&$task, $url) {
       }
     }
     $task = 'intranet-modules';
+
+    if (function_exists('drush_verify_cli')) {
+      /**
+       * When running the installer through Drush, it is depending
+       * on the fact that it can return from this function and prepare the
+       * system for the next install task.
+       *
+       * When running the Batch API interactively, the redirect will have
+       * the same result.
+       */
+       return true;
+    }
   }
 
   // We are running a batch install of the profile's modules.
