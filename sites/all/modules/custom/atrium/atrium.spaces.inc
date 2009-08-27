@@ -36,7 +36,7 @@ class atrium_setting_sitemode implements space_setting {
 
     // Toggle access content, comments perms
     features_include();
-    $roles = _user_features_get_roles();
+    $roles = _features_get_roles();
     switch ($value) {
       case ATRIUM_SITEMODE_PRIVATE:
         _atrium_ensure_perm($roles, 'authenticated user', 'access user profiles');
@@ -98,7 +98,7 @@ class atrium_setting_members implements space_setting {
 
   function submit($space, $value) {
     features_include();
-    $roles = _user_features_get_roles();
+    $roles = _features_get_roles();
     switch ($value) {
       case ATRIUM_MEMBERS_ALL:
         _atrium_ensure_perm($roles, 'authenticated user', 'view users outside groups');
