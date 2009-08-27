@@ -591,7 +591,7 @@ function atrium_search_form_submit($form, &$form_state) {
  * Helper function to ensure a permission exists in a roles array for a given role/perm.
  */
 function _atrium_ensure_perm(&$roles, $role, $perm) {
-  if (!in_array($perm, $roles[$role]['perm'])) {
+  if (!isset($roles[$role]['perm']) || !in_array($perm, $roles[$role]['perm'])) {
     $roles[$role]['perm'][] = $perm;
   }
 }
