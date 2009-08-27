@@ -126,8 +126,7 @@ function atrium_installer_profile_task_list() {
     $tasks['intranet-translation-batch'] = st('Download and import translation');
   }
   $tasks['intranet-modules-batch'] = st('Install intranet modules');
-  $tasks['intranet-configure'] = st('Intranet configuration');
-  $tasks['intranet-check'] = st('Check configuration');
+  $tasks['intranet-configure-batch'] = st('Configure intranet');
   return $tasks;
 }
 
@@ -135,7 +134,7 @@ function atrium_installer_profile_task_list() {
  * Implementation of hook_profile_tasks().
  */
 function atrium_installer_profile_tasks(&$task, $url) {
-  global $profile;
+  global $profile, $install_locale;
   
   // Just in case some of the future tasks adds some output
   $output = '';
@@ -153,6 +152,7 @@ function atrium_installer_profile_tasks(&$task, $url) {
         batch_process($url, $url);
       }
     }
+
     $task = 'intranet-modules';
 
     if (function_exists('drush_verify_cli')) {
@@ -168,11 +168,8 @@ function atrium_installer_profile_tasks(&$task, $url) {
     }
   }
 
-  // We are running a batch install of the profile's modules.
-  // This might run in multiple HTTP requests, constantly redirecting
-  // to the same address, until the batch finished callback is invoked
-  // and the task advances to 'locale-initial-import'.
-  if ($task == 'intranet-modules-batch' || $task == 'intranet-translation-batch') {
+  // We are running a batch task for this profile so basically do nothing and return page
+  if (in_array($task, array('intranet-modules-batch', 'intranet-translation-batch', 'intranet-configure-batch'))) {
     include_once 'includes/batch.inc';
     $output = _batch_page();
   }
@@ -197,34 +194,20 @@ function atrium_installer_profile_tasks(&$task, $url) {
     batch_process($url, $url);
   }
 
-
   // Run additional configuration tasks
   // @todo Review all the cache/rebuild options at the end, some of them may not be needed
   // @todo Review for localization, the time zone cannot be set that way either
   if ($task == 'intranet-configure') {
-    _atrium_installer_intranet_configure();
-    // Advance task and force page reload so we run the next task after a fresh load
-    variable_set('install_task', 'intranet-check');
-    _atrium_installer_page_refresh();
+    $batch =& batch_get();
+    $batch['title'] = st('Configuring @drupal', array('@drupal' => drupal_install_profile_name()));
+    $batch['operations'][] = array('_atrium_installer_intranet_configure', array());
+    $batch['operations'][] = array('_atrium_installer_intranet_configure_check', array());
+    $batch['finished'] = '_atrium_installer_intranet_configure_finished';
+    variable_set('install_task', 'intranet-configure-batch');
+    batch_set($batch);
+    batch_process($url, $url);
   }  
-  
-  // Final step, last configuration checks, cache rebuilds, etc..
-  // This runs after a page reload (see previous step) so we have fresh static caches
-  if ($task == 'intranet-check') {
-    _atrium_installer_intranet_check();
-    // Get out of this batch and let the installer continue. If loaded translation,
-    // we skip the locale remaining batch and move on to the next.
-    // However, if we didn't make it with the translation file, or they downloaded
-    // an unsupported language, we let the standard locale do its work.
-    if (variable_get('atrium_translate_done', 0)) {
-      $task = 'finished';
-      variable_set('install_task', 'finished');
-    }
-    else {
-      $task = 'profile-finished';
-      variable_set('install_task', 'profile-finished');
-    }    
-  }
+
   return $output;
 }
 
@@ -234,19 +217,6 @@ function atrium_installer_profile_tasks(&$task, $url) {
 function _atrium_installer_language_selected() {
   global $install_locale;
   return !empty($install_locale) && ($install_locale != 'en');
-}
-
-/**
- * Helper function: Do a page reload 
- * 
- * This just works if we are running interactively. Otherwise (i.e. with Drush) it just exits
- */
-function _atrium_installer_page_refresh() {
-  global $profile, $install_locale;
- 
-  if (!function_exists('drush_verify_cli')) {
-    drupal_goto('install.php', 'locale='. $install_locale .'&profile='. $profile);
-  }  
 }
 
 /**
@@ -317,7 +287,7 @@ function _atrium_installer_intranet_configure() {
 /**
  * Configuration. Second stage.
  */
-function _atrium_installer_intranet_check() {
+function _atrium_installer_intranet_configure_check() {
   // Rebuild key tables/caches
   module_rebuild_cache(); // Detects the newly added bootstrap modules
   node_access_rebuild();
@@ -329,7 +299,25 @@ function _atrium_installer_intranet_check() {
   // This one is done by the installer alone
   //menu_rebuild();       // Rebuild the menu.
   features_rebuild();   // Features rebuild scripts.
-  variable_set('atrium_install', 1);  
+}
+
+/**
+ * Finish configuration batch
+ * 
+ * @todo Handle error condition
+ */
+function _atrium_installer_intranet_configure_finished($success, $results) {
+  variable_set('atrium_install', 1);
+  // Get out of this batch and let the installer continue. If loaded translation,
+  // we skip the locale remaining batch and move on to the next.
+  // However, if we didn't make it with the translation file, or they downloaded
+  // an unsupported language, we let the standard locale do its work.
+  if (variable_get('atrium_translate_done', 0)) {
+    variable_set('install_task', 'finished');
+  }
+  else {
+    variable_set('install_task', 'profile-finished');
+  } 
 }
 
 /**
@@ -348,10 +336,10 @@ function _atrium_installer_profile_batch_finished($success, $results) {
  */
 function _atrium_installer_translate_batch_finished($success, $results) {
   include_once 'includes/locale.inc';
-  _locale_batch_language_finished($success, $results);
   // Let the installer now we've already imported locales
   variable_set('atrium_translate_done', 1);
   variable_set('install_task', 'intranet-modules');
+  _locale_batch_language_finished($success, $results);
 }
 
 /**
