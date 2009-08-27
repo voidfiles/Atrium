@@ -3,3 +3,10 @@ name = Flot
 description = Provides an API for the flot js graphing library.
 core = 6.x
 
+
+; Information added by drupal.org packaging script on 2009-06-05
+version = "6.x-1.1"
+core = "6.x"
+project = "flot"
+datestamp = "1244236530"
+
