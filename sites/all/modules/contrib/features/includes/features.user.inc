@@ -1,5 +1,5 @@
 <?php
-// $Id: features.user.inc,v 1.1.2.4 2009/08/11 15:42:07 yhahn Exp $
+// $Id: features.user.inc,v 1.1.2.5 2009/08/27 18:05:48 jmiccolis Exp $
 
 /**
  * Implementation of hook_features_api().
@@ -86,7 +86,7 @@ function user_features_export_render($module = 'foo', $data) {
 function user_features_revert($module = NULL) {
   // Get all fields defined in this feature
   if (module_hook($module, 'user_default_permissions')) {
-    $roles = _user_features_get_roles();
+    $roles = _features_get_roles();
     $defaults = module_invoke($module, 'user_default_permissions');
     foreach ($defaults as $permission) {
       foreach ($roles as $role_name => $role) {
@@ -113,7 +113,7 @@ function user_features_revert($module = NULL) {
  * Implementation of hook_features_rebuild().
  */
 function user_features_rebuild() {
-  $roles = _user_features_get_roles();
+  $roles = _features_get_roles();
 
   // Iterate through default permissions and update the permissions map.
   $defaults = module_invoke_all('user_default_permissions');
@@ -174,21 +174,6 @@ function _user_features_get_permissions() {
     }
   }
   return $permissions;
-}
-
-/**
- * Represent the current state of permissions as a role name to role/perm array.
- */
-function _user_features_get_roles() {
-  $roles = array();
-  $result = db_query("SELECT r.rid, r.name, p.perm FROM {role} r LEFT JOIN {permission} p ON r.rid = p.rid");
-  while ($row = db_fetch_object($result)) {
-    $roles[$row->name] = array(
-      'rid' => $row->rid,
-      'perm' => explode(', ', $row->perm),
-    );
-  }
-  return $roles;
 }
 
 /**
