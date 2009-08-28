@@ -150,22 +150,12 @@ function atrium_installer_profile_tasks(&$task, $url) {
         variable_set('install_task', 'intranet-translation-batch');
         batch_set($batch);
         batch_process($url, $url);
+        // Jut for cli installs. We'll never reach here on interactive installs.
+        return;
       }
     }
-
+    // If we reach here, means no language install, move on to the next task
     $task = 'intranet-modules';
-
-    if (function_exists('drush_verify_cli')) {
-      /**
-       * When running the installer through Drush, it is depending
-       * on the fact that it can return from this function and prepare the
-       * system for the next install task.
-       *
-       * When running the Batch API interactively, the redirect will have
-       * the same result.
-       */
-       return true;
-    }
   }
 
   // We are running a batch task for this profile so basically do nothing and return page
@@ -178,8 +168,7 @@ function atrium_installer_profile_tasks(&$task, $url) {
   if ($task == 'intranet-modules') {
     $modules = _atrium_installer_atrium_modules();
     $files = module_rebuild_cache();
-    
-    $batch =& batch_get();
+    // Create batch
     foreach ($modules as $module) {
       $batch['operations'][] = array('_install_module_batch', array($module, $files[$module]->info['name']));
     }    
@@ -192,13 +181,14 @@ function atrium_installer_profile_tasks(&$task, $url) {
     variable_set('install_task', 'intranet-modules-batch');
     batch_set($batch);
     batch_process($url, $url);
+    // Jut for cli installs. We'll never reach here on interactive installs.
+    return;
   }
 
   // Run additional configuration tasks
   // @todo Review all the cache/rebuild options at the end, some of them may not be needed
   // @todo Review for localization, the time zone cannot be set that way either
   if ($task == 'intranet-configure') {
-    $batch =& batch_get();
     $batch['title'] = st('Configuring @drupal', array('@drupal' => drupal_install_profile_name()));
     $batch['operations'][] = array('_atrium_installer_intranet_configure', array());
     $batch['operations'][] = array('_atrium_installer_intranet_configure_check', array());
@@ -206,6 +196,8 @@ function atrium_installer_profile_tasks(&$task, $url) {
     variable_set('install_task', 'intranet-configure-batch');
     batch_set($batch);
     batch_process($url, $url);
+    // Jut for cli installs. We'll never reach here on interactive installs.
+    return;
   }  
 
   return $output;
