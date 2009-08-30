@@ -7,36 +7,16 @@ function atrium_intranet_enable() {
   variable_set('atrium_subprofile', 'atrium_intranet');
 
   // Spaces presets
-  $default_presets = array(
-    'og' => 'atrium_og_private',
-    'user' => 'atrium_user_simple',
-    'site' => 'atrium_intranet',
-  );
+  $default_presets = variable_get('spaces_default_presets', array());
+  $default_presets['site'] = 'atrium_intranet';
   variable_set('spaces_default_presets', $default_presets);
-
-  // Disable other presets
-  include_once(drupal_get_path('module', 'spaces') .'/spaces_admin.inc');
-  spaces_preset_disable('og', 'private');
-  spaces_preset_disable('og', 'controlled');
-  spaces_preset_disable('og', 'public');
 
   // Admin setup scripts
   module_load_include('inc', 'atrium', 'atrium.admin');
   foreach (module_invoke_all('atrium_admin') as $script => $dummy) {
     call_user_func($script);
-    module_invoke_all('atrium_post_admin', $script);    
+    module_invoke_all('atrium_post_admin', $script);
   }
-}
-
-/**
- * Update 6001.
- */
-function atrium_intranet_update_6001() {
-  // Kill group body field.
-  $types = node_get_types();
-  $types['group']->has_body = FALSE;
-  node_type_save($types['group']);
-  return array();
 }
 
 /**

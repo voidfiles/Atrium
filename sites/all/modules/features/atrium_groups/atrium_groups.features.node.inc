@@ -3,7 +3,7 @@
 /**
  * Helper to implementation of hook_node_info().
  */
-function _atrium_intranet_node_info() {
+function _atrium_groups_node_info() {
   $items = array(
     'group' => array(
       'name' => t('Group'),

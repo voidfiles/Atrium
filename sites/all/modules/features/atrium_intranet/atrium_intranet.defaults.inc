@@ -24,15 +24,6 @@ function _atrium_intranet_context_default_contexts() {
         'label' => 'Admin messages',
         'type' => 'context_ui',
       ),
-      'views_atrium_groups-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_groups-block_1',
-        'weight' => 21,
-        'region' => 'header',
-        'status' => '0',
-        'label' => 'atrium_groups: Block',
-        'type' => 'context_ui',
-      ),
     ),
   );
   $items[] = array(
@@ -50,43 +41,7 @@ function _atrium_intranet_context_default_contexts() {
       '0' => 'atrium_admin_messages',
     ),
   );
-  $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'feature',
-    'value' => 'groups',
-    'menu' => 'groups',
-    'views' => array(
-      '0' => 'atrium_groups',
-    ),
-    'theme_section' => array(
-      'title' => 'Groups',
-      'subtitle' => '',
-      'class' => '',
-    ),
-    'block' => array(),
-  );
-  $items[] = array(
-    'namespace' => 'spaces',
-    'attribute' => 'feature',
-    'value' => 'members',
-    'menu' => 'members',
-    'views' => array(
-      '0' => 'atrium_members',
-    ),
-    'theme_section' => array(
-      'title' => 'Members',
-      'subtitle' => '',
-      'class' => '',
-    ),
-    'block' => array(
-      'views_-exp-atrium_members-default' => array(
-        'module' => 'views',
-        'delta' => '-exp-atrium_members-default',
-        'region' => 'right',
-        'weight' => '-10',
-      ),
-    ),
-  );
+
   return $items;
 }
 
@@ -206,65 +161,7 @@ function _atrium_intranet_imagecache_default_presets() {
         ),
       ),
     ),
-    'user-m' => array(
-      'presetname' => 'user-m',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale_and_crop',
-          'data' => array(
-            'width' => '60',
-            'height' => '60',
-          ),
-        ),
-      ),
-    ),
-    'user-s' => array(
-      'presetname' => 'user-s',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale_and_crop',
-          'data' => array(
-            'width' => '30',
-            'height' => '30',
-          ),
-        ),
-      ),
-    ),
   );
-  return $items;
-}
-
-/**
- * Helper to implementation of hook_menu_default_items().
- */
-function _atrium_intranet_menu_default_items() {
-  $items = array();
-
-  $items[] = array(
-    'title' => 'Groups',
-    'path' => 'groups',
-    'weight' => '0',
-    'description' => 'Provides a group management feature',
-  );
-  $items[] = array(
-    'title' => 'Members',
-    'path' => 'members',
-    'weight' => '0',
-    'description' => 'Provides a member directory and user management feature',
-  );
-  // Translatables
-  array(
-    t('Groups'),
-    t('Members'),
-    t('Provides a group management feature'),
-    t('Provides a member directory and user management feature'),
-  );
-
-
   return $items;
 }
 
@@ -275,7 +172,7 @@ function _atrium_intranet_spaces_presets() {
   $presets = array();
 
   // Exported preset: atrium_intranet
-  $presets[atrium_intranet] = array(
+  $presets['atrium_intranet'] = array(
     'name' => 'Basic intranet',
     'description' => 'A basic intranet hub setup.',
     'type' => 'site',
@@ -296,84 +193,6 @@ function _atrium_intranet_spaces_presets() {
           'home' => 0,
         ),
       ),
-    ),
-  );
-
-  // Exported preset: atrium_og_private
-  $presets[atrium_og_private] = array(
-    'name' => 'Private group',
-    'description' => 'A simple private group with a blog, document library and dashboard.',
-    'type' => 'og',
-    'preset' => array(
-      'features' => array(
-        'atrium_blog' => 1,
-        'atrium_book' => 1,
-        'atrium_calendar' => 0,
-        'atrium_dashboard' => 1,
-      ),
-      'settings' => array(
-        'home' => 'dashboard',
-      ),
-      'og' => array(
-        'og_selective' => 3,
-        'og_directory' => 0,
-        'og_register' => 1,
-        'og_private' => 1,
-      ),
-    ),
-  );
-
-  // Exported preset: atrium_og_public
-  $presets[atrium_og_public] = array(
-    'name' => 'Public group',
-    'description' => 'A simple public group with a blog, document library and dashboard.',
-    'type' => 'og',
-    'preset' => array(
-      'features' => array(
-        'atrium_blog' => 2,
-        'atrium_book' => 2,
-        'atrium_calendar' => 0,
-        'atrium_dashboard' => 2,
-      ),
-      'settings' => array(
-        'home' => 'dashboard',
-      ),
-      'og' => array(
-        'og_selective' => 0,
-        'og_directory' => 1,
-        'og_register' => 1,
-        'og_private' => 0,
-      ),
-    ),
-  );
-
-  // Exported preset: atrium_user_simple
-  $presets[atrium_user_simple] = array(
-    'name' => 'Simple profile',
-    'description' => 'A simple profile with a blog, calendar and dashboard.',
-    'type' => 'user',
-    'preset' => array(
-      'features' => array(
-        'atrium_blog' => '1',
-        'atrium_book' => '0',
-        'atrium_calendar' => '1',
-        'atrium_dashboard' => '1',
-      ),
-      'settings' => array(
-        'home' => 'profile',
-      ),
-      'locked' => array(
-        'features' => array(
-          'atrium_blog' => 1,
-          'atrium_book' => 0,
-          'atrium_calendar' => 1,
-          'atrium_dashboard' => 1,
-        ),
-        'settings' => array(
-          'home' => 1,
-        ),
-      ),
-      'user' => array(),
     ),
   );
 
@@ -499,31 +318,6 @@ function _atrium_intranet_user_default_permissions() {
     ),
   );
 
-  // Exported permission: administer users
-  $permissions[] = array(
-    'name' => 'administer users',
-    'roles' => array(
-      '0' => 'admin',
-    ),
-  );
-
-  // Exported permission: block users
-  $permissions[] = array(
-    'name' => 'block users',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
-  // Exported permission: change own username
-  $permissions[] = array(
-    'name' => 'change own username',
-    'roles' => array(
-      '0' => 'admin',
-    ),
-  );
-
   // Exported permission: close admin messages
   $permissions[] = array(
     'name' => 'close admin messages',
@@ -537,42 +331,6 @@ function _atrium_intranet_user_default_permissions() {
   // Exported permission: configure spaces features
   $permissions[] = array(
     'name' => 'configure spaces features',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
-  // Exported permission: create group content
-  $permissions[] = array(
-    'name' => 'create group content',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
-  // Exported permission: create users
-  $permissions[] = array(
-    'name' => 'create users',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
-  // Exported permission: delete own group content
-  $permissions[] = array(
-    'name' => 'delete own group content',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
-  );
-
-  // Exported permission: edit own group content
-  $permissions[] = array(
-    'name' => 'edit own group content',
     'roles' => array(
       '0' => 'admin',
       '1' => 'manager',
@@ -711,26 +469,6 @@ function _atrium_intranet_user_default_permissions() {
   // Exported permission: view imagecache spaces-logo
   $permissions[] = array(
     'name' => 'view imagecache spaces-logo',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
-  // Exported permission: view imagecache user-m
-  $permissions[] = array(
-    'name' => 'view imagecache user-m',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
-  // Exported permission: view imagecache user-s
-  $permissions[] = array(
-    'name' => 'view imagecache user-s',
     'roles' => array(
       '0' => 'authenticated user',
       '1' => 'admin',
