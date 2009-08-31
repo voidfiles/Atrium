@@ -1,5 +1,5 @@
 <?php
-// $Id: features.filter.inc,v 1.1.2.4 2009/08/11 15:02:45 yhahn Exp $
+// $Id: features.filter.inc,v 1.1.2.5 2009/08/27 18:05:48 jmiccolis Exp $
 
 /**
  * Implementation of hook_features_api().
@@ -122,18 +122,20 @@ function _filter_features_update($format, $update = FALSE) {
   if ($update || !$format_id) {
     // Format the role IDs into something that can be inserted into the database.
     // This is so painful. See filter.admin.inc line 218. : (
-    $roles = array_flip(user_roles());
+    // We cannot use user_roles() here because it has the names translated.
+    $roles = _features_get_roles();
     $format_rids = array();
     foreach ($format['roles'] as $role_name) {
       // Ensure that each role exists. If it does not, create it and store the rid.
       if (!isset($roles[$role_name])) {
         $record = array('name' => $role_name);
         drupal_write_record('role', $record);
-        $roles[$role_name] = $record['rid'];
+        $roles[$role_name]['rid'] = $record['rid'];
+        $roles[$role_name]['perm'] = array();
       }
       // Retrieve the rid corresponding to each role and add it to the format's rids
       if (isset($roles[$role_name])) {
-        $format_rids[] = $roles[$role_name];
+        $format_rids[] = $roles[$role_name]['rid'];
       }
     }
     if ($format_id && $format_id == variable_get('filter_default_format', 1)) {

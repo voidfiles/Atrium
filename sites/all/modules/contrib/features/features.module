@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.38 2009/08/11 19:31:00 yhahn Exp $
+// $Id: features.module,v 1.1.2.39 2009/08/27 18:05:48 jmiccolis Exp $
 
 /**
  * @file
@@ -490,4 +490,23 @@ function features_preprocess_page(&$vars) {
       $vars['secondary_links'] = features_menu_links();
     }
   }
+}
+
+/**
+ * Utility functions ==================================================
+ */
+ 
+/**
+ * Represent the current state of permissions as a role name to role/perm array.
+ */
+function _features_get_roles() {
+  $roles = array();
+  $result = db_query("SELECT r.rid, r.name, p.perm FROM {role} r LEFT JOIN {permission} p ON r.rid = p.rid");
+  while ($row = db_fetch_object($result)) {
+    $roles[$row->name] = array(
+      'rid' => $row->rid,
+      'perm' => explode(', ', $row->perm),
+    );
+  }
+  return $roles;
 }

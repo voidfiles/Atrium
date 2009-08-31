@@ -1,5 +1,5 @@
 <?php
-// $Id: context_ui.admin.inc,v 1.1.2.7.2.10 2009/07/24 01:47:36 yhahn Exp $
+// $Id: context_ui.admin.inc,v 1.1.2.7.2.12 2009/08/26 05:07:02 yhahn Exp $
 
 /**
  * Page callback for context_ui admin landing page.
@@ -187,6 +187,17 @@ function context_ui_form(&$form_state, $op, $context = NULL) {
   $blocks = _context_ui_get_blocks();
   $regions = system_region_list($theme_key);
   // $blocks in [0] have not been assigned a region
+
+  // Weights range from -delta to +delta, so delta should be at least half
+  // of the amount of blocks present. This makes sure all blocks in the same
+  // region get an unique weight.
+  $block_count = 0;
+  foreach ($blocks as $region => $block_list) {
+    $block_count += count($block_list);
+  }
+  // Add 2 to make sure there's space at either end of the block list
+  $weight_delta = round(($block_count + 2) / 2);
+
   foreach ($blocks[0] as $block) {
     $block_options[$block->module][$block->bid] = $block->label;
   }
@@ -194,6 +205,12 @@ function context_ui_form(&$form_state, $op, $context = NULL) {
 
   $form['block'] = array(
     '#tree' => TRUE,
+  );
+
+  //Save the value to use in the process function
+  $form['block']['max_block_weight'] = array(
+    '#value' => $weight_delta,
+    '#type' => 'value',
   );
 
   $form['block']['help'] = array(
@@ -245,7 +262,7 @@ function context_ui_form(&$form_state, $op, $context = NULL) {
         '#weight' => 0,
         'weight' => array(
           '#type' => 'weight',
-          '#delta' => 20,
+          '#delta' => $weight_delta,
           '#default_value' => 0,
         ),
       );
@@ -261,7 +278,7 @@ function context_ui_form(&$form_state, $op, $context = NULL) {
           '#weight' => $block->weight,
           'weight' => array(
             '#type' => 'weight',
-            '#delta' => 20,
+            '#delta' => $weight_delta,
             '#default_value' => $block->weight,
           ),
         );
@@ -898,7 +915,8 @@ function context_ui_form_process($form) {
         }
         if ($bid != 'system') {
           $block = $valid[$bid];
-          $modifier = $position < $midpoint ? -20 : 20;
+          //use the max block weight to calculate modifier
+          $modifier = $position < $midpoint ? $form['block']['max_block_weight'] * -1 : $form['block']['max_block_weight'];
           $block->weight = $position - $midpoint + $modifier;
           $block->region = $region;
           $block->type = 'context_ui';
@@ -961,7 +979,7 @@ function _context_ui_get_blocks($region = NULL, $context = NULL) {
     _block_rehash();
 
     // Load blocks from database
-    $result = db_query("SELECT module, delta, weight, region, status FROM {blocks} GROUP BY module, delta ORDER BY module, delta, weight, region, status");
+    $result = db_query("SELECT module, delta, weight, region, status FROM {blocks} ORDER BY module, delta, weight, region, status");
     while ($block = db_fetch_object($result)) {
       // load block info
       $block_info[$block->module] = isset($block_info[$block->module]) ? $block_info[$block->module] : module_invoke($block->module, 'block', 'list');

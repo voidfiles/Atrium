@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: flot-views-summary-style.tpl.php,v 1.1.2.2 2009/05/12 03:19:43 yhahn Exp $
 
 /**
  * @file flot-views-summary-style.tpl.php

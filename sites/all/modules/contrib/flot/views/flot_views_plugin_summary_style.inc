@@ -1,5 +1,5 @@
 <?php
-// $Id$
+// $Id: flot_views_plugin_summary_style.inc,v 1.1.2.1 2009/05/07 20:10:33 yhahn Exp $
 
 /**
  * Summary style plugin for flot.

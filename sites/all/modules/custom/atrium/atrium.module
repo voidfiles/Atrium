@@ -47,7 +47,7 @@ function atrium_strongarm() {
 
     // Toggle access content, comments perms
     features_include();
-    $roles = _user_features_get_roles();
+    $roles = _features_get_roles();
     _atrium_ensure_perm($roles, 'authenticated user', 'access user profiles');
     _atrium_ensure_perm($roles, 'authenticated user', 'access content');
     _atrium_ensure_perm($roles, 'authenticated user', 'access comments');
@@ -62,7 +62,7 @@ function atrium_strongarm() {
   }
   if (!isset($space->settings['atrium_members'])) {
     features_include();
-    $roles = _user_features_get_roles();
+    $roles = _features_get_roles();
     _atrium_remove_perm($roles, 'authenticated user', 'view users outside groups');
     _atrium_remove_perm($roles, 'anonymous user', 'view users outside groups');
     _atrium_ensure_perm($roles, 'manager', 'view users outside groups');
@@ -591,7 +591,7 @@ function atrium_search_form_submit($form, &$form_state) {
  * Helper function to ensure a permission exists in a roles array for a given role/perm.
  */
 function _atrium_ensure_perm(&$roles, $role, $perm) {
-  if (!in_array($perm, $roles[$role]['perm'])) {
+  if (!isset($roles[$role]['perm']) || !in_array($perm, $roles[$role]['perm'])) {
     $roles[$role]['perm'][] = $perm;
   }
 }
