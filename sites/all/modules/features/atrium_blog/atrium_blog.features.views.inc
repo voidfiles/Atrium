@@ -224,7 +224,7 @@ function _atrium_blog_views_default_views() {
       'og' => TRUE,
     ),
     'teaser' => 1,
-    'cullen' => 1,
+    'cullen' => 0,
   ));
   $handler->override_option('row_plugin', 'node');
   $handler = $view->new_display('page', 'Page', 'page_1');
