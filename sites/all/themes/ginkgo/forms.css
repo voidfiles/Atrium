@@ -247,4 +247,5 @@ div.node-preview div.preview-content {
   padding:9px;
   height:300px;
   overflow:auto;
+  position: relative;
   }
