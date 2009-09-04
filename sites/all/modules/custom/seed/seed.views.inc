@@ -9,9 +9,6 @@ function seed_views_handlers() {
       'path' => drupal_get_path('module', 'seed') .'/views',
     ),
     'handlers' => array(
-      'seed_handler_field_markup' => array(
-         'parent' => 'views_handler_field_markup',
-       ),
       'seed_handler_field_date' => array(
          'parent' => 'views_handler_field_date',
        ),
@@ -30,9 +27,6 @@ function seed_views_data_alter(&$cache) {
         foreach ($b as $property => $c) {
           if ($property == 'field' && !empty($c['handler'])) {
             switch ($c['handler']) {
-              case 'views_handler_field_markup':
-                $cache[$module][$column][$property]['handler'] = 'seed_handler_field_markup';
-                break;
               case 'views_handler_field_date':
                 $cache[$module][$column][$property]['handler'] = 'seed_handler_field_date';
                 break;
