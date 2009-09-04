@@ -254,10 +254,10 @@ function _atrium_groups_views_default_views() {
   $handler->override_option('row_options', array());
   $handler->override_option('path', 'groups/my');
   $handler->override_option('menu', array(
-    'type' => 'default tab',
+    'type' => 'tab',
     'title' => 'My groups',
     'description' => '',
-    'weight' => '0',
+    'weight' => '1',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
@@ -472,17 +472,17 @@ function _atrium_groups_views_default_views() {
   ));
   $handler->override_option('path', 'groups/directory');
   $handler->override_option('menu', array(
-    'type' => 'tab',
+    'type' => 'default tab',
     'title' => 'Directory',
     'description' => '',
-    'weight' => '1',
+    'weight' => '0',
     'name' => 'navigation',
   ));
   $handler->override_option('tab_options', array(
-    'type' => 'none',
-    'title' => '',
+    'type' => 'normal',
+    'title' => 'Groups',
     'description' => '',
-    'weight' => 0,
+    'weight' => '0',
   ));
   $handler = $view->new_display('page', 'Page', 'page_3');
   $handler->override_option('fields', array(
