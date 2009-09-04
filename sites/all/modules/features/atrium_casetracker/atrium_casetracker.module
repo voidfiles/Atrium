@@ -202,18 +202,7 @@ function atrium_casetracker_views_api() {
  * Implementation of hook_theme_registry_alter().
  */
 function atrium_casetracker_theme_registry_alter(&$theme_registry) {
-  if (!in_array('atrium_casetracker_preprocess_views_view', $theme_registry['views_view']['preprocess functions'])) {
-    $theme_registry['views_view']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view';
-  }
-  if (!in_array('atrium_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
-    $theme_registry['views_view_table']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view_table';
-  }
-  if (!in_array('atrium_casetracker_preprocess_views_view_table', $theme_registry['views_view_table']['preprocess functions'])) {
-    $theme_registry['views_view_table']['preprocess functions'][] = 'atrium_casetracker_preprocess_views_view_table';
-  }
-  $theme_registry['views_view_table']['theme paths'][] = drupal_get_path('module', 'atrium_casetracker'). '/theme';
   $theme_registry['casetracker_case_summary']['function'] = 'atrium_casetracker_casetracker_case_summary';
-
 }
 
 /**
@@ -234,21 +223,18 @@ function atrium_casetracker_preprocess_views_view(&$vars) {
 function atrium_casetracker_preprocess_views_view_table(&$vars) {
   $view = $vars['view'];
   if ($view->name == 'atrium_casetracker') {
-    $vars['template_files'][] = 'views-view-table-casetracker';
+    $vars['class'] .= " cases";
 
     global $user;
     $new_rows = array();
-
+    $inactive_states = atrium_casetracker_get_inactive_states();
     foreach ($vars['rows'] as $index => $row) {
       $class = "row-$index";
       if (!empty($view->result[$index]->casetracker_case_assign_to) && $view->result[$index]->casetracker_case_assign_to == $user->uid) {
         $class .= ' mine';
       }
-      if (!empty($view->result[$index]->casetracker_case_case_status_id)) {
-        $class .= ' status-'. $view->result[$index]->casetracker_case_case_status_id;
-      }
-      if (!empty($view->result[$index]->casetracker_case_case_priority_id)) {
-        $class .= ' priority-'. $view->result[$index]->casetracker_case_case_priority_id;
+      if (!empty($view->result[$index]->casetracker_case_case_status_id) && in_array($view->result[$index]->casetracker_case_case_status_id, $inactive_states)) {
+        $class .= ' status-inactive';
       }
       $new_rows[$class] = $row;
     }
@@ -320,7 +306,9 @@ function atrium_casetracker_casetracker_case_summary($case, $project) {
   $last_comment = db_result(db_query('SELECT last_comment_timestamp FROM {node_comment_statistics} WHERE nid = %d', $case->nid));
   $last_comment = t('!time ago', array('!time' => format_interval(time() - $last_comment)));
 
-  $output = "<div class='atrium-case-summary atrium-case-status-{$case->casetracker->case_status_id} clear-block'>";
+  $class = in_array($case->casetracker->case_status_id, atrium_casetracker_get_inactive_states()) ? 'inactive' : 'active';
+
+  $output = "<div class='atrium-case-summary atrium-case-status-{$class} clear-block'>";
   $output .= "<div class='primary'>";
   $output .= "<div class='status'>{$status}</div>";
   $output .= "<div class='project'>{$project}</div>";
@@ -334,4 +322,27 @@ function atrium_casetracker_casetracker_case_summary($case, $project) {
   $output .= "</div>";
 
   return $output;
+}
+
+/**
+ * Retrieve an array of inactive state IDs.
+ */
+function atrium_casetracker_get_inactive_states() {
+  // @TODO: Replace this with a proper fix upstream in Casetracker
+  static $inactive_states;
+  if (!isset($inactive_states)) {
+    $inactive_states = array();
+    $search = array('closed', 'deferred', 'duplicate', 'postponed', 'fixed');
+    $states = casetracker_case_state_load(NULL, 'status');
+    foreach ($states as $status_id => $state) {
+      $state = strtolower($state);
+      foreach ($search as $needle) {
+        if (strpos($state, $needle) !== FALSE) {
+          $inactive_states[] = $status_id;
+          continue;
+        }
+      }
+    }
+  }
+  return $inactive_states;
 }
