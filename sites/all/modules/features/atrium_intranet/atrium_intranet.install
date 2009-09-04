@@ -4,19 +4,10 @@
  * Implementation of hook_enable().
  */
 function atrium_intranet_enable() {
-  variable_set('atrium_subprofile', 'atrium_intranet');
-
   // Spaces presets
   $default_presets = variable_get('spaces_default_presets', array());
   $default_presets['site'] = 'atrium_intranet';
   variable_set('spaces_default_presets', $default_presets);
-
-  // Admin setup scripts
-  module_load_include('inc', 'atrium', 'atrium.admin');
-  foreach (module_invoke_all('atrium_admin') as $script => $dummy) {
-    call_user_func($script);
-    module_invoke_all('atrium_post_admin', $script);
-  }
 }
 
 /**
