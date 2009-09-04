@@ -41,7 +41,6 @@ function _atrium_intranet_context_default_contexts() {
       '0' => 'atrium_admin_messages',
     ),
   );
-
   return $items;
 }
 
@@ -178,8 +177,10 @@ function _atrium_intranet_spaces_presets() {
     'type' => 'site',
     'preset' => array(
       'features' => array(
-        'atrium_intranet' => 1,
-        'atrium_dashboard' => 1,
+        'atrium_intranet' => '1',
+        'atrium_dashboard' => '1',
+        'atrium_groups' => '1',
+        'atrium_members' => '1',
       ),
       'settings' => array(
         'home' => 'home',
@@ -188,11 +189,24 @@ function _atrium_intranet_spaces_presets() {
         'features' => array(
           'atrium_intranet' => 1,
           'atrium_dashboard' => 1,
+          'atrium_groups' => 1,
+          'atrium_members' => 1,
         ),
         'settings' => array(
+          'atrium_sitemode' => 0,
+          'atrium_members' => 0,
           'home' => 0,
+          'logo' => 0,
+          'color' => 0,
         ),
       ),
+      'weights' => array(
+        'atrium_intranet' => '-10',
+        'atrium_dashboard' => '-9',
+        'atrium_groups' => '-8',
+        'atrium_members' => '-7',
+      ),
+      'site' => array(),
     ),
   );
 
