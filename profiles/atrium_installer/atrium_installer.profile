@@ -114,7 +114,7 @@ function _atrium_installer_atrium_modules() {
     // VBO
     'views_bulk_operations',
     // Atrium intranet distro module
-    'atrium_intranet',
+    'atrium_groups', 'atrium_members', 'atrium_intranet',
   );
 }
 
