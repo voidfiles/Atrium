@@ -238,15 +238,6 @@ function ginkgo_preprocess_user_profile_form(&$vars) {
 }
 
 /**
- * Preprocessor for theme_admin_message_message().
- */
-function ginkgo_preprocess_admin_message_message(&$vars) {
-  $vars['timestamp'] = module_exists('seed') ? seed_rel_date($vars['node']->created) : '';
-  $vars['title'] = check_plain($vars['node']->title);
-  $vars['content'] = drupal_render($vars['node']->content);
-}
-
-/**
  * Function overrides =================================================
  */
 

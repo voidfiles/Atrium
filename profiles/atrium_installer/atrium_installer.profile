@@ -85,8 +85,6 @@ function _atrium_installer_atrium_modules() {
     'strongarm',
     // Core features
     'book',
-    // Admin message
-    'admin_message',
     // Casetracker
     'casetracker', 'casetracker_basic',
     // Calendar, date
