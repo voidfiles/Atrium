@@ -1,50 +1,6 @@
 <?php
 
 /**
- * Helper to implementation of hook_context_default_contexts().
- */
-function _atrium_intranet_context_default_contexts() {
-  $items = array();
-
-  $items[] = array(
-    'namespace' => 'atrium',
-    'attribute' => 'global',
-    'value' => 'blocks',
-    'description' => 'Sitewide blocks',
-    'sitewide' => array(
-      '0' => '1',
-    ),
-    'block' => array(
-      'admin_message_admin_message' => array(
-        'module' => 'admin_message',
-        'delta' => 'admin_message',
-        'weight' => 20,
-        'region' => 'console',
-        'status' => '0',
-        'label' => 'Admin messages',
-        'type' => 'context_ui',
-      ),
-    ),
-  );
-  $items[] = array(
-    'namespace' => 'atrium',
-    'attribute' => 'section',
-    'value' => 'admin',
-    'description' => '',
-    'node' => array(
-      '0' => 'admin_message',
-    ),
-    'path' => array(
-      '0' => 'atrium',
-    ),
-    'views' => array(
-      '0' => 'atrium_admin_messages',
-    ),
-  );
-  return $items;
-}
-
-/**
  * Helper to implementation of hook_filter_default_formats().
  */
 function _atrium_intranet_filter_default_formats() {
@@ -329,16 +285,6 @@ function _atrium_intranet_user_default_permissions() {
     'name' => 'administer taxonomy',
     'roles' => array(
       '0' => 'admin',
-    ),
-  );
-
-  // Exported permission: close admin messages
-  $permissions[] = array(
-    'name' => 'close admin messages',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
     ),
   );
 
