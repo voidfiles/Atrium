@@ -98,9 +98,7 @@ function _atrium_shoutbox_user_default_permissions() {
   // Exported permission: create shoutbox
   $permissions[] = array(
     'name' => 'create shoutbox',
-    'roles' => array(
-      '0' => 'admin',
-    ),
+    'roles' => array(),
   );
 
   // Exported permission: post messages to shoutbox
