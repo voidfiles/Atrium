@@ -1,5 +1,0 @@
-; $Id: admin_message.info,v 1.2 2009/03/06 03:02:41 ultimateboy Exp $
-
-name = Admin message
-description = Display messages that can be individually closed by logged in users.
-core = 6.x
