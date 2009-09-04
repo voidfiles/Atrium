@@ -3,6 +3,16 @@
 include_once('atrium_members.features.inc');
 
 /**
+ * Implementation of hook_enable().
+ */
+function atrium_members_enable() {
+  // Spaces presets
+  $default_presets = variable_get('spaces_default_presets', array());
+  $default_presets['user'] = 'atrium_user_simple';
+  variable_set('spaces_default_presets', $default_presets);
+}
+
+/**
  * Implementation of hook_strongarm().
  */
 function atrium_members_strongarm() {
