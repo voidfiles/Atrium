@@ -235,10 +235,7 @@ function _atrium_calendar_user_default_permissions() {
   // Exported permission: create feed_ical_item content
   $permissions[] = array(
     'name' => 'create feed_ical_item content',
-    'roles' => array(
-      '0' => 'admin',
-      '1' => 'manager',
-    ),
+    'roles' => array(),
   );
 
   // Exported permission: delete any feed_ical content
