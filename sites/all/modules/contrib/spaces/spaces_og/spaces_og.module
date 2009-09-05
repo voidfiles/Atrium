@@ -134,28 +134,45 @@ if (function_exists('spaces_menu')) {
     }
 
     /**
-     * Implementation of space->links().
+     * Implementation of space->user_links().
      */
-    function links(&$links) {
-      $links['subscribe'] = spaces_og_subscription_link();
+    function user_links() {
+      $links = array();
+      if ($subscribe = spaces_og_subscription_link()) {
+        $links['subscribe'] = $subscribe;
+      }
+      return $links;
+    }
 
+    /**
+     * Implementation of space->admin_links().
+     */
+    function admin_links() {
       $item = menu_get_item("og/users/{$this->sid}/faces");
-      if ($item['access']) {
+      if ($item && $item['access']) {
         $links['members'] = array(
           'title' => t('Members'),
           'href' => "og/users/{$this->sid}/faces",
-          'attributes' => array('class' => 'members')
         );
       }
 
-      if ($this->admin_access()) {
+      $item = menu_get_item("node/{$this->sid}/edit");
+      if ($item && $item['access']) {
         // Add settings link for administering spaces
         $links['settings'] = array(
-          'title' => t('Settings'),
-          'href' => 'node/'. $this->sid .'/edit',
-          'attributes' => array('class' => 'settings'),
+          'title' => t('@type settings', array('@type' => node_get_types('name', $this->group->type))),
+          'href' => "node/{$this->sid}/edit",
         );
       }
+
+      $item = menu_get_item("node/{$this->sid}/spaces/features");
+      if ($item && $item['access']) {
+        $links['features'] = array(
+          'title' => t('Customize features'),
+          'href' => "node/{$this->sid}/spaces/features",
+        );
+      }
+      return $links;
     }
 
     /**

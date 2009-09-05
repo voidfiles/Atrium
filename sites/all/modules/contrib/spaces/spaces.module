@@ -374,14 +374,23 @@ interface space {
   function feature_options();
 
   /**
-   * Method that allows the space type to add to/modify the utility
-   * "links" provided to visitors in a space.
+   * Method that allows the space type to add user links provided to
+   * visitors in a space.
    *
-   * @param $links
-   *   The current space utility links (for use with theme_links) array
-   *   passed by reference.
+   * @return array()
+   *   Array of links for use with theme_links.
    */
-  function links(&$links);
+  function user_links();
+
+  /**
+   * Method that allows the space type to provide to administrative links
+   * for users who pass the $space->admin_access() check. It is the
+   * responsibility of the caller to perform this access check.
+   *
+   * @return array()
+   *   Array of links for use with theme_links.
+   */
+  function admin_links();
 
   /**
    * Method that provides a space-type specific check for whether the
@@ -1371,16 +1380,31 @@ function spaces_active_space_menu($type, $local_tasks = FALSE, $path_prefix = ''
  */
 
 /**
- * Generates an array of utility links for the current space suitable
+ * Generates an array of admin links for the current space suitable
  * for use in theme_links().
  */
-function spaces_space_links() {
-  $links = array();
-  if ($space = spaces_get_space()) {
-    $space->links($links);
-    drupal_alter('space_links', $links);
+function spaces_admin_links($space = NULL) {
+  $space = !isset($space) ? spaces_get_space() : $space;
+  if ($space && $space->admin_access()) {
+    $links = $space->admin_links();
+    drupal_alter('spaces_admin_links', $links, $space);
+    return $links;
   }
-  return $links;
+  return array();
+}
+
+/**
+ * Generates an array of user links for the current space suitable
+ * for use in theme_links().
+ */
+function spaces_user_links($space = NULL) {
+  $space = !isset($space) ? spaces_get_space() : $space;
+  if ($space) {
+    $links = $space->user_links();
+    drupal_alter('spaces_user_links', $links, $space);
+    return $links;
+  }
+  return array();
 }
 
 /**
@@ -1400,8 +1424,11 @@ function spaces_preprocess_block(&$vars) {
 function spaces_preprocess_page(&$vars) {
   $space = spaces_get_space();
   if ($space) {
-    if ($links = spaces_space_links()) {
-      $vars['space_links'] = theme('links', $links, array('class' => 'links space-links'));
+    if ($links = spaces_admin_links()) {
+      $vars['space_admin_links'] = theme('links', $links);
+    }
+    if ($links = spaces_user_links()) {
+      $vars['space_user_links'] = theme('links', $links);
     }
     if (!empty($space->title)) {
       $vars['space_title'] = l($space->title, '<front>');

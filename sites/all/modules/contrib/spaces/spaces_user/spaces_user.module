@@ -80,15 +80,21 @@ if (function_exists('spaces_menu')) {
     }
 
     /**
-     * Implementation of space->links().
+     * Implementation of space->user_links().
      */
-    function links(&$links) {
-      if ($this->admin_access()) {
-        // Add settings link for administering spaces
+    function user_links() {
+      return array();
+    }
+
+    /**
+     * Implementation of space->admin_links().
+     */
+    function admin_links() {
+      $item = menu_get_item("user/{$this->sid}/edit");
+      if ($item && $item['access']) {
         $links['settings'] = array(
           'title' => t('Account settings'),
-          'href' => 'user/'. $this->sid .'/edit',
-          'attributes' => array('class' => 'settings'),
+          'href' => $item['href'],
         );
       }
     }
@@ -234,6 +240,15 @@ function spaces_user_menu() {
   $items = spaces_active_space_menu('user', true, 'user/%user');
   $items['user/%user/spaces'] = $items['user/%user/spaces/features'];
   return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function spaces_user_menu_alter(&$items) {
+  // Remove the "View" local task from the user menu, since we are pushing
+  // visitors to the user's configured space homepage anyway.
+  $items['user/%user/view']['type'] = MENU_CALLBACK;
 }
 
 /**
