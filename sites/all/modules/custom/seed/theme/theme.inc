@@ -101,31 +101,34 @@ function seed_theme() {
  * understood date format given the date's proximity to the current time.
  */
 function seed_rel_date($timestamp) {
-  $now = time();
+  static $slots, $formats;
+  // Static cache formats, slots. These aren't expensive calls, but when we
+  // are called many times on a page load it becomes costly to repeat this logic.
+  if (!isset($slots)) {
+    $now = time();
+    $slots = array(
+      'today' => format_date($now, 'custom', 'MjY'),
+      'yesterday' => format_date($now - (24*60*60), 'custom', 'MjY'),
+      'month_within' => $now - 3600 * 24 * 30,
+    );
+    $formats = array(
+      'time' => variable_get('date_format_time', 'g:ia'),
+      'month_within' => variable_get('date_format_month_within', 'g:ia D M j'),
+      'month_after' => variable_get('date_format_month_after', 'g:ia M j, Y'),
+    );
+  }
   $day = format_date($timestamp, 'custom', 'MjY');
-
-  // Some callback / data abstraction to make things shorter.
-  $callback = module_exists('date_api') ? 'date_format_date' : 'format_date';
-  $date = module_exists('date_api') ? date_make_date($timestamp, NULL, DATE_UNIX) : $timestamp;
-
-  if ($day == format_date($now, 'custom', 'MjY')) {
-    $format = variable_get('date_format_time', 'g:ia');
-    $formatted = call_user_func($callback, $date, 'custom', $format);
-    return t('!time Today', array('!time' => $formatted));
+  if ($day == $slots['today']) {
+    return t('!time Today', array('!time' => format_date($timestamp, 'custom', $formats['time'])));
   }
-  else if ($day == format_date($now - (24*60*60), 'custom', 'MjY')) {
-    $format = variable_get('date_format_time', 'g:ia');
-    $formatted = call_user_func($callback, $date, 'custom', $format);
-    return t('!time Yesterday', array('!time' => $formatted));
+  else if ($day == $slots['yesterday']) {
+    return t('!time Yesterday', array('!time' => format_date($timestamp, 'custom', $formats['time'])));
   }
-  // 30 days
-  else if ($now - $timestamp <= 3600 * 24 * 30) {
-    $format = variable_get('date_format_month_within', 'g:ia D M j');
-    return call_user_func($callback, $date, 'custom', $format);
+  else if ($timestamp < $slots['month_within'] ) {
+    return format_date($timestamp, 'custom', $formats['month_within']);
   }
   else {
-    $format = variable_get('date_format_month_after', 'g:ia M j, Y');
-    return call_user_func($callback, $date, 'custom', $format);
+    return format_date($timestamp, 'custom', $formats['month_after']);
   }
 }
 
