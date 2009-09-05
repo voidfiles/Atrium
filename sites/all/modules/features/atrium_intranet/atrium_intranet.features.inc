@@ -35,12 +35,3 @@ function atrium_intranet_user_default_permissions() {
   $args = func_get_args();
   return call_user_func_array('_atrium_intranet_user_default_permissions', $args);
 }
-
-/**
- * Implementation of hook_views_default_views().
- */
-function atrium_intranet_views_default_views() {
-  module_load_include('inc', 'atrium_intranet', 'atrium_intranet.features.views');
-  $args = func_get_args();
-  return call_user_func_array('_atrium_intranet_views_default_views', $args);
-}

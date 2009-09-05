@@ -186,6 +186,84 @@ function atrium_intranet_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
 }
 
 /**
+ * Helper callback that does a node_access('create') check without providing
+ * any user_access() loopholes.
+ */
+function _atrium_intranet_node_access_create($node) {
+  global $user;
+  $account = $user;
+
+  // Can't use node_invoke(), because the access hook takes the $op parameter
+  // before the $node parameter.
+  $module = node_get_types('module', $node);
+  if ($module == 'node') {
+    $module = 'node_content'; // Avoid function name collisions.
+  }
+  $access = module_invoke($module, 'access', 'create', $node, $account);
+  return !is_null($access) ? $access : FALSE;
+}
+
+/**
+ * Implementation of hook_block().
+ */
+function atrium_intranet_block($op = 'list', $delta = 0) {
+  switch ($op) {
+    case 'list':
+      return array(
+        'spacelinks' => array('info' => t('Atrium Intranet: Space links')),
+        'create' => array('info' => t('Atrium Intranet: Create content')),
+        'account' => array('info' => t('Atrium Intranet: User account')),
+        'help' => array('info' => t('Atrium Intranet: Help')),
+      );
+    case 'view':
+      switch ($delta) {
+        case 'spacelinks':
+          $links = spaces_admin_links();
+          if (!empty($links)) {
+            return array('subject' => "<span class='icon'></span> ". t('Settings'), 'content' => theme('links', $links));
+          }
+          break;
+        case 'create':
+          $space = spaces_get_space();
+          $feature_map = spaces_features_map('node');
+          $item = menu_get_item('node/add');
+          if ($space) {
+            $links = array();
+            foreach (system_admin_menu_block($item) as $menu_item) {
+              $args = explode('/', $menu_item['href']);
+              $type = str_replace('-', '_', array_pop($args));
+              if (isset($feature_map[$type]) && $space->feature_access($feature_map[$type]) && _atrium_intranet_node_access_create($type)) {
+                $feature = $feature_map[$type];
+                $menu_item['title'] = "<span class='spaces-feature feature-{$feature}'></span>{$menu_item['title']}";
+                $menu_item['html'] = TRUE;
+                $links["$feature-{$type}"] = $menu_item;
+              }
+            }
+            ksort($links);
+            return array('subject' => "<span class='icon'></span> {$item['title']}", 'content' => theme('links', $links));
+          }
+          break;
+        case 'account':
+          global $user;
+          if ($user->uid) {
+            $space = spaces_load('user', $user->uid);
+            $links = spaces_admin_links($space);
+            $links['logout'] = menu_get_item('logout');
+            $subject = theme('user_picture', $user) . check_plain($user->name);
+            return array('subject' => $subject, 'content' => theme('links', $links));
+          }
+          break;
+        case 'help':
+          if ($helptext = theme('help')) {
+            return array('subject' => t('Need help?'), 'content' => $helptext);
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
  * Implementation of hook_litenode().
  */
 function atrium_intranet_litenode() {
@@ -276,6 +354,33 @@ function atrium_intranet_403() {
   if (!$user->uid && !user_access('access content')) {
     drupal_goto('user/login', 'destination='. $_REQUEST['q']);
   }
-
   return "<div class='access-denied'>". t('You are not authorized to access this page.') ."</div>";
+}
+
+/**
+ * Implementation of hook_spaces_admin_links_alter().
+ */
+function atrium_intranet_spaces_admin_links_alter(&$links, $space) {
+  switch ($space->type) {
+    case 'user':
+      // @TODO: If menu.inc had a real API function for this we would use it, but
+      // as of now we'd have a copy hand paste hack job of menu_local_tasks()...
+      $paths = array(
+        "user/{$space->sid}/edit" => t('Account settings'),
+        "user/{$space->sid}/groups" => '',
+        "user/{$space->sid}/notifications" => '',
+        "user/{$space->sid}/openid" => '',
+      );
+      foreach ($paths as $path => $title) {
+        $item = menu_get_item($path);
+        if ($item && $item['access']) {
+          $class = seed_id_safe($item['href']);
+          $links[$class] = array(
+            'title' => !empty($title) ? $title : $item['title'],
+            'href' => $item['href'],
+          );
+        }
+      }
+      break;
+  }
 }
