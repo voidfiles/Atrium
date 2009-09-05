@@ -15,9 +15,6 @@ div.shoutform div.shoutbox-input {
 
   div.shoutform div.shoutbox-input div.ahah-progress { display:none; }
 
-div.shoutform div.shoutbox-input,
-div.shoutform div.item-list li { padding: 5px 8px; }
-
 div.shoutform div.views-field-comment p {
   margin:0px;
   padding:0px;
