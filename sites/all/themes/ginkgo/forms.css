@@ -32,12 +32,12 @@ div.buttons { text-align:center; }
 form div.buttons,
 form div.form div.buttons {
   clear:both;
-  padding:10px;
+  padding:20px;
   background:#f8f8f8 url(images/bleeds.png) 0% 100% repeat-x;
-  border:1px solid #ddd;
   }
 
   form div.form div.buttons { border-width:1px 0px 0px; }
+  form div.form div.sidebar div.buttons { border:0px; }
 
   form div.buttons input.form-submit { font-size:15px; }
 
@@ -112,37 +112,37 @@ form table {
   margin:0px 0px 10px;
   }
 
-div.form #right div.form-item label,
+div.form div.sidebar div.form-item label,
 div.fieldset h2.fieldset-title {
   background:transparent;
   font-size:11px;
   font-weight:bold;
-  padding:5px;
+  padding:4px 9px;
   }
 
-  div.form #right div.form-item label { padding:0px; }
+  div.form div.sidebar div.form-item label { padding:0px; }
 
 div.fieldset div.fieldset-content {
   background:transparent;
   border:0px;
-  padding:5px;
+  padding:4px 9px;
   }
 
 div.fieldset table { background:#eee; }
 
-div.form #right div.form-item,
-div.form #right div.fieldset {
+div.form div.sidebar div.form-item,
+div.form div.sidebar div.fieldset {
   background: #f8f8f8 url(images/bleeds.png) 0% 100% repeat-x;
   margin:0px;
-  padding:5px 10px;
   border:0px;
+  padding:5px 10px 4px;
   border-bottom:1px solid #ddd;
   }
 
-  div.form #right div.fieldset div.fieldset-content,
-  div.form #right div.fieldset h2.fieldset-title { padding:0px; }
+  div.form div.sidebar div.fieldset div.fieldset-content,
+  div.form div.sidebar div.fieldset h2.fieldset-title { padding:0px; }
 
-  div.form #right div.fieldset div.form-item {
+  div.form div.sidebar div.fieldset div.form-item {
     background:transparent;
     border:0px;
     padding:0px;
@@ -213,16 +213,16 @@ form#user-pass input.form-text,
 form#user-login input.form-text { font-size:18px; }
 
 /* Forms in sidebar blocks */
-#right div.block div.form-item {
+div.sidebar div.block div.form-item {
   display:inline;
   vertical-align:middle;
   }
 
-#right div.block form option { display:block; }
+div.sidebar div.block form option { display:block; }
 
-#right div.block form select,
-#right div.block form input.form-text,
-#right div.block form textarea {
+div.sidebar div.block form select,
+div.sidebar div.block form input.form-text,
+div.sidebar div.block form textarea {
   font-size:11px;
   width:95%;
   }

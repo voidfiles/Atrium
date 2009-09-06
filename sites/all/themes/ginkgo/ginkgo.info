@@ -18,10 +18,11 @@ scripts[] = "js/coldbrew.js"
 regions[right] = "Right sidebar"
 regions[content] = "Content"
 regions[header] = "Header"
-regions[console] = "Console"
+regions[space_tools] = "Space tools"
+regions[page_tools] = "Page tools"
 
-admin[admin menu] = 1
-admin[admin inline] = 0
+admin[admin menu] = "0"
+admin[admin inline] = "0"
 
 features[] = ""
 

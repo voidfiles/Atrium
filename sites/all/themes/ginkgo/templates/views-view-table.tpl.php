@@ -19,7 +19,7 @@ if (empty($test)) {
     <thead>
       <tr>
         <?php foreach ($header as $field => $label): ?>
-          <th class="views-field views-field-<?php print $fields[$field]; ?>">
+          <th class="views-field <?php print $fields[$field]; ?>">
             <?php print $label; ?>
           </th>
         <?php endforeach; ?>
@@ -27,14 +27,16 @@ if (empty($test)) {
     </thead>
   <?php endif; ?>
   <tbody>
-    <?php foreach ($rows as $count => $row): ?>
-      <tr class="<?php print ($count % 2 == 0) ? 'even' : 'odd';?>">
+    <?php $count = 0; ?>
+    <?php foreach ($rows as $class => $row): ?>
+      <tr class="<?php if (!is_numeric($class)) print $class ?> <?php print is_numeric($count) && ($count % 2 == 0) ? 'even' : 'odd';?>">
         <?php foreach ($row as $field => $content): ?>
-          <td class="views-field views-field-<?php print $fields[$field]; ?>">
+          <td class="views-field <?php print $fields[$field]; ?>">
             <?php print $content; ?>
           </td>
         <?php endforeach; ?>
       </tr>
+      <?php $count++; ?>
     <?php endforeach; ?>
   </tbody>
 </table>

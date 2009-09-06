@@ -5,7 +5,6 @@
  */
 function ginkgo_theme($existing, $type, $theme, $path) {
   return array(
-    'blocks_header' => array(),
     'user_profile_form' => array(
       'arguments' => array('form' => array()),
       'template' => 'node_form',
@@ -45,21 +44,13 @@ function ginkgo_preprocess_page(&$vars) {
   // Add icon markup to main menu
   ginkgo_icon_links($vars['primary_links']);
 
-  // Grab the header dropdown links
-  $vars['header'] = theme('blocks_header', array());
-  $vars['dropdown_links'] = theme('blocks_header', array(), TRUE);
-
   // If tabs are active, the title is likely shown in them. Don't show twice.
   $vars['title'] = !empty($vars['tabs']) ? '' : $vars['title'];
 
   // Respect anything people are requesting through context.
   if (module_exists('context')) {
-    if (context_get('theme', 'layout') == 'custom') {
-      $vars['custom_layout'] = TRUE;
-    }
-    if ($classes = context_get('theme', 'body_classes')) {
-      $vars['attr']['class'] .= " {$classes}";
-    }
+    $vars['custom_layout'] = (context_get('theme', 'layout') == 'custom') ? TRUE : FALSE;
+    $vars['attr']['class'] .= context_isset('theme', 'body_classes') ? " ". context_get('theme', 'body_classes') : '';
   }
 
   // Add a smarter body class than "not logged in" for determining whether
@@ -75,9 +66,7 @@ function ginkgo_preprocess_page(&$vars) {
   $settings = theme_get_settings('ginkgo');
 
   // Show site title/emblem ?
-  if (isset($settings['emblem']) && !$settings['emblem']) {
-    $vars['site_name'] = '';
-  }
+  $vars['site_name'] = (isset($settings['emblem']) && !$settings['emblem']) ? '' : $vars['site_name'];
 
   // Add spaces design CSS back in
   if (empty($vars['spaces_design_styles'])) {
@@ -102,6 +91,17 @@ function ginkgo_preprocess_page(&$vars) {
 }
 
 /**
+ * Preprocessor for theme_block().
+ */
+function ginkgo_preprocess_block(&$vars) {
+  // If block is in a toggleable region and does not have a subject, mark it as a "widget,"
+  // i.e. show its contents rather than a toggle trigger label.
+  if (in_array($vars['block']->region, array('header', 'page_tools', 'space_tools'))) {
+    $vars['attr']['class'] .= empty($vars['block']->subject) ? ' block-widget' : ' block-toggle';
+  }
+}
+
+/**
  * Preprocessor for theme_node().
  */
 function ginkgo_preprocess_node(&$vars) {
@@ -111,12 +111,12 @@ function ginkgo_preprocess_node(&$vars) {
     $terms = "<div class='field terms clear-block'><span class='field-label'>{$label}:</span> {$vars['terms']}</div>";
     $vars['content'] =  $terms . $vars['content'];
   }
-  if (context_get('comment', 'preview') == TRUE) {
-    $vars = array();
-  }
-  if (!empty($vars['xref_links'])) {
-    $vars['title'] = $vars['xref_links'] . $vars['title'];
-  }
+
+  // Add node-page class.
+  $vars['attr']['class'] .= $vars['node'] === menu_get_object() ? ' node-page' : '';
+
+  // Don't show the full node when a comment is being previewed.
+  $vars = context_get('comment', 'preview') == TRUE ? array() : $vars;
 }
 
 /**
@@ -140,14 +140,7 @@ function ginkgo_preprocess_comment(&$vars) {
  * Charts theming override.
  */
 function ginkgo_preprocess_flot_views_summary_style(&$vars) {
-  global $theme_key;
-  if ($theme_key == 'ginkgo_thin') {
-    $vars['element']['style'] = "width:220px; height:80px;";
-  }
-  else {
-    $vars['element']['style'] = "width:280px; height:100px;";
-  }
-
+  $vars['element']['style'] = "width:auto; height:100px;";
   $vars['options']->colors = array('#666', '#ccc', '#999');
   $vars['options']->grid->tickColor = '#eee';
   $vars['options']->grid->backgroundColor = '#fff';
@@ -173,8 +166,9 @@ function ginkgo_preprocess_spaces_design(&$vars) {
       // This code generates color values that are blended against
       // Black/White -- IT DOES NOT PRESERVE SATURATION.
       $modifiers = array(
-        'upshift' => ($hsl[2] < .25) ? array('+', .1) : array('+', .25),
-        'downshift' => array('-', .38),
+        'upshiftplus' => array('+', .5),
+        'upshift' => array('+', .25),
+        'downshift' => array('-', .2),
       );
       foreach ($modifiers as $id => $modifier) {
         $color = $rgb;
@@ -215,7 +209,6 @@ function ginkgo_preprocess_node_form(&$vars) {
     }
     $form_message = "<div class='form-message $class'><span class='icon'></span>{$spaces_info['#description']}</div>";
     $vars['form_message'] = $form_message;
-
     unset($vars['form']['spaces']);
   }
 
@@ -240,99 +233,6 @@ function ginkgo_preprocess_user_profile_form(&$vars) {
 /**
  * Function overrides =================================================
  */
-
-/**
- * Themes header region blocks into dropdowns
- */
-function ginkgo_blocks_header($blocks, $get_links = FALSE) {
-  static $links;
-  static $dropdown;
-  if (!isset($dropdown)) {
-    $dropdown = '';
-    $links = array();
-    if (menu_get_active_help()) {
-      $helpblock = new StdClass();
-      $helpblock->module =
-      $helpblock->delta = 'help';
-      $helpblock->subject = t('Need help?');
-      $helpblock->content = theme('help');
-      $helpblock->region = 'header';
-      $blocks[] = $helpblock;
-    }
-    foreach ($blocks as $block) {
-      $links["{$block->module}-{$block->delta}"] = array(
-        'title' => $block->subject,
-        'href' => $_GET['q'],
-        'fragment' => "{$block->module}-{$block->delta}",
-      );
-      $dropdown .= theme('block', $block);
-    }
-    $dropdown = "<div class='dropdown-blocks'>{$dropdown}</div>";
-    $links = module_exists('atrium') ? atrium_skin_links($links) : $links;
-    $links = theme('links', $links, array('class' => 'links dropdown'));
-  }
-  return $get_links ? $links : $dropdown;
-}
-
-/**
- * Override of theme_help().
- */
-function ginkgo_help() {
-  $help = menu_get_active_help();
-  $test = strip_tags($help);
-  if (!empty($test)) {
-    return "<div class='prose'>{$help}</div>";
-    $output = "<div class='messages help clear-block'>";
-    $output .= "<div class='message-label'>". t('Need help?') ."</div>";
-    $output .= "<div class='message-content filter-text'>$help</div>";
-    $output .= "</div>";
-    return $output;
-  }
-}
-
-/**
- * Override of theme_status_message().
- */
-function ginkgo_status_messages($display = NULL) {
-  $output = '';
-  $first = TRUE;
-
-  // Theme specific settings
-  $settings = theme_get_settings('ginkgo');
-  $autoclose = isset($settings['autoclose']) ? $settings['autoclose'] : array('status' => 1, 'warning' => 0, 'error' => 0);
-
-  foreach (drupal_get_messages($display) as $type => $messages) {
-    $class = $first ? 'first' : '';
-    $class .= !empty($autoclose[$type]) || !isset($autoclose[$type]) ? ' autoclose' : '';
-    $first = FALSE;
-
-    $output .= "<div class='messages clear-block $type $class'>";
-    $output .= "<span class='close'>". t('Hide') ."</span>";
-    $output .= "<div class='message-label'>{$type}</div>";
-    $output .= "<div class='message-content'>";
-    if (count($messages) > 1) {
-      $output .= "<ul>";
-      foreach ($messages as $k => $message) {
-        if ($k == 0) {
-          $output .= "<li class='message-item first'>$message</li>";
-        }
-        else if ($k == count($messages) - 1) {
-          $output .= "<li class='message-item last'>$message</li>";
-        }
-        else {
-          $output .= "<li class='message-item'>$message</li>";
-        }
-      }
-      $output .= "</ul>";
-    }
-    else {
-      $output .= $messages[0];
-    }
-    $output .= "</div>";
-    $output .= "</div>";
-  }
-  return $output;
-}
 
 /**
  * Make logo markup overridable.
@@ -372,12 +272,29 @@ function ginkgo_more_link($url, $title) {
 }
 
 /**
+ * Override of theme_breadcrumb().
+ */
+function ginkgo_breadcrumb($breadcrumb) {
+  if (!empty($breadcrumb)) {
+    return '<div class="breadcrumb">'. implode("<span class='divider'>»</span>", $breadcrumb) .'</div>';
+  }
+}
+
+/**
+ * Override of theme_help().
+ */
+function ginkgo_help() {
+  if ($help = menu_get_active_help()) {
+    return '<div class="help prose">'. $help .'</div>';
+  }
+}
+
+/**
  * Menu item theme override. Adds a child element to expanded/expandable
  * elements so that a spite icon can be added.
  */
 function ginkgo_menu_item($link, $has_children, $menu = '', $in_active_trail = FALSE, $extra_class = NULL) {
   if ($has_children) {
-    // Allow the parent class to determine the icon's actual styling.
     $icon = "<span class='icon'></span>";
     $link = "{$icon} $link";
   }
@@ -386,13 +303,17 @@ function ginkgo_menu_item($link, $has_children, $menu = '', $in_active_trail = F
 
 /**
  * Implementation of hook_preprocess_user_picture().
+ * @TODO: Consider switching to imgaecache_profiles for this.
  */
 function ginkgo_preprocess_user_picture(&$vars) {
   $account = $vars['account'];
   if (isset($account->picture) && module_exists('imagecache')) {
     $attr = array('class' => 'user-picture');
     $preset = variable_get('seed_imagecache_user_picture', '30x30_crop');
-    if ($view = views_get_current_view()) {
+    if (isset($account->imagecache_preset)) {
+      $preset = $account->imagecache_preset;
+    }
+    else if ($view = views_get_current_view()) {
       switch ($view->name) {
         case 'og_members_faces':
         case 'atrium_members':
@@ -445,4 +366,62 @@ function ginkgo_node_preview($node = NULL, $show = FALSE) {
     $output .= "</div>";
   }
   return $show ? $output : '';
+}
+
+/**
+ * Preprocessor for theme('views_view_fields').
+ */
+function ginkgo_preprocess_views_view_fields(&$vars) {
+  foreach ($vars['fields'] as $field) {
+    if ($class = _ginkgo_get_views_field_class($field->handler)) {
+      $field->class = $class;
+    }
+  }
+}
+
+/**
+ * Preprocessor for theme('views_view_table').
+ */
+function ginkgo_preprocess_views_view_table(&$vars) {
+  $view = $vars['view'];
+  foreach ($view->field as $field => $handler) {
+    if (isset($vars['fields'][$field]) && $class = _ginkgo_get_views_field_class($handler)) {
+      $vars['fields'][$field] = $class;
+    }
+  }
+}
+
+/**
+ * Helper function to get the appropriate class name for Views field.
+ */
+function _ginkgo_get_views_field_class($handler) {
+  $handler_class = get_class($handler);
+  $search = array(
+    'project' => 'project',
+    'priority' => 'priority',
+    'status' => 'status',
+
+    'date' => 'date',
+    'timestamp' => 'date',
+
+    'user_picture' => 'user-picture',
+    'username' => 'username',
+    'name' => 'username',
+
+    'markup' => 'markup',
+    'xss' => 'markup',
+
+    'spaces_feature' => 'feature',
+    'group_nids' => 'group',
+
+    'numeric' => 'number',
+    'count' => 'count',
+  );
+  foreach ($search as $needle => $class) {
+    if (strpos($handler_class, $needle) !== FALSE) {
+      return $class;
+    }
+  }
+  // Fallback
+  return $handler->field;
 }

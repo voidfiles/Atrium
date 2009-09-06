@@ -8,29 +8,25 @@ $excluded = array('atrium_profile');
 
 if (get_class($view->style_plugin) == 'views_plugin_style_list' && !in_array($view->name, $excluded)) {
   $enable_grouping = TRUE;
-  // Array of fields to move into lefthand column
-  $left = array(
-    'published',
-    'picture',
-    'name',
-    'atrium_reader-title_1',
-  );
-  $grouped = array('left' => array(), 'right' => array());
+
+  // Array of field classes to group together
+  $meta = array('date', 'user-picture', 'username');
+  $grouped = array('meta' => array(), 'content' => array());
   foreach ($fields as $id => $field) {
-    $power_id = "{$view->name}-$id";
-    if (in_array($id, $left)) {
-      $grouped['left'][$id] = $field;
+    if (in_array($field->class, $meta)) {
+      $grouped['meta'][$id] = $field;
     }
-    else if (in_array($power_id, $left)) {
-      $grouped['left'][$power_id] = $field;
+    else if (in_array("{$view->name}-{$field->class}", $meta)) {
+      $grouped['meta'][$id] = $field;
     }
     else {
-      $grouped['right'][$id] = $field;
+      $grouped['content'][$id] = $field;
     }
   }
+
   // If the listing doesn't have any fields that will be grouped
-  // left, we can safely fallback to default (non-grouped) formatting.
-  if (empty($grouped['left'])) {
+  // fallback to default (non-grouped) formatting.
+  if (empty($grouped['meta'])) {
     $enable_grouping = FALSE;
     $grouped = array($fields);
   }
@@ -40,6 +36,7 @@ else {
   $grouped = array($fields);
 }
 ?>
+
 <?php if ($enable_grouping): ?>
   <div class='grouped clear-block'>
 <?php endif; ?>
@@ -47,28 +44,25 @@ else {
 <?php foreach ($grouped as $group => $fields): ?>
 
   <?php if ($enable_grouping): ?>
-    <div class='grouped-<?php print $group ?>'>
+    <div class='grouped-<?php print $group ?> clear-block'>
   <?php endif; ?>
 
     <?php foreach ($fields as $id => $field): ?>
+
       <?php if (!empty($field->content)): ?>
-      <?php if (!empty($field->separator)): ?>
-        <?php print $field->separator; ?>
+        <?php if (!empty($field->separator)): ?>
+          <?php print $field->separator; ?>
+        <?php endif; ?>
+        <<?php print $field->inline_html;?> class="views-field <?php print $field->class; ?>">
+          <?php if ($field->label): ?>
+            <label><?php print $field->label; ?></label>
+            <<?php print $field->element_type; ?> class="field-content"><?php print $field->content; ?></<?php print $field->element_type; ?>>
+          <?php else: ?>
+            <?php print $field->content; ?>
+          <?php endif; ?>
+        </<?php print $field->inline_html;?>>
       <?php endif; ?>
 
-      <<?php print $field->inline_html;?> class="views-field-<?php print $field->class; ?>">
-        <?php if ($field->label): ?>
-          <label class="views-label-<?php print $field->class; ?>">
-            <?php print $field->label; ?>
-          </label>
-        <?php endif; ?>
-          <?php
-          // $field->element_type is either SPAN or DIV depending upon whether or not
-          // the field is a 'block' element type or 'inline' element type.
-          ?>
-          <<?php print $field->element_type; ?> class="field-content"><?php print $field->content; ?></<?php print $field->element_type; ?>>
-      </<?php print $field->inline_html;?>>
-      <?php endif; ?>
     <?php endforeach; ?>
 
   <?php if ($enable_grouping): ?>
