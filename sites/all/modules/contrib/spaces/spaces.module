@@ -591,11 +591,12 @@ function spaces_load($type, $sid = NULL, $is_active = FALSE) {
       $space->customizer = $row ? unserialize($row->customizer) : array();
 
       // Enforce preset or use default if not found
+      $valid_presets = spaces_presets($type);
       $default_presets = variable_get('spaces_default_presets', array());
-      if ($row) {
+      if ($row && isset($valid_presets[$row->preset])) {
         $space->preset = $row->preset;
       }
-      else if (empty($space->preset) && isset($default_presets[$type])) {
+      else if (isset($default_presets[$type])) {
         $space->preset = $default_presets[$type];
       }
       if (!empty($space->preset)) {
