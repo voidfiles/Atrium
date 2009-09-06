@@ -246,11 +246,21 @@ function atrium_intranet_block($op = 'list', $delta = 0) {
         case 'account':
           global $user;
           if ($user->uid) {
-            $space = spaces_load('user', $user->uid);
-            $links = spaces_admin_links($space);
+            // Clone account so we can generate a large user pic
+            $account = drupal_clone($user);
+            $account->imagecache_preset = 'user-m';
+            $info_big = theme('user_picture', $account) . theme('username', $account);
+            $info_small = theme('user_picture', $user) . check_plain($user->name);
+
+            $links = spaces_admin_links(spaces_load('user', $account->uid));
             $links['logout'] = menu_get_item('logout');
-            $subject = theme('user_picture', $user) . check_plain($user->name);
-            return array('subject' => $subject, 'content' => theme('links', $links));
+            return array('subject' => $info_small, 'content' => "<div class='user-info clear-block'>{$info_big}</div>" . theme('links', $links));
+          }
+          else {
+            $item = menu_get_item('user/login');
+            if ($item && $item['access']) {
+              return array('content' => l($item['title'], $item['href']));
+            }
           }
           break;
         case 'help':

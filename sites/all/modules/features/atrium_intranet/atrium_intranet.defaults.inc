@@ -1,6 +1,78 @@
 <?php
 
 /**
+ * Helper to implementation of hook_context_default_contexts().
+ */
+function _atrium_intranet_context_default_contexts() {
+  $items = array();
+
+  $items[] = array(
+    'namespace' => 'atrium',
+    'attribute' => 'intranet',
+    'value' => 'global',
+    'description' => '',
+    'sitewide' => '1',
+    'block' => array(
+      'atrium_intranet_account' => array(
+        'module' => 'atrium_intranet',
+        'delta' => 'account',
+        'weight' => -47,
+        'region' => 'header',
+        'status' => '0',
+        'label' => 'Atrium Intranet: User account',
+        'type' => 'context_ui',
+      ),
+      'atrium_intranet_help' => array(
+        'module' => 'atrium_intranet',
+        'delta' => 'help',
+        'weight' => 48,
+        'region' => 'header',
+        'status' => '0',
+        'label' => 'Atrium Intranet: Help',
+        'type' => 'context_ui',
+      ),
+      'atrium_intranet_spacelinks' => array(
+        'module' => 'atrium_intranet',
+        'delta' => 'spacelinks',
+        'weight' => 47,
+        'region' => 'space_tools',
+        'status' => '0',
+        'label' => 'Atrium Intranet: Space links',
+        'type' => 'context_ui',
+      ),
+      'atrium_intranet_create' => array(
+        'module' => 'atrium_intranet',
+        'delta' => 'create',
+        'weight' => 48,
+        'region' => 'space_tools',
+        'status' => '0',
+        'label' => 'Atrium Intranet: Create content',
+        'type' => 'context_ui',
+      ),
+      'xref_create' => array(
+        'module' => 'xref',
+        'delta' => 'create',
+        'weight' => 47,
+        'region' => 'page_tools',
+        'status' => '0',
+        'label' => 'Crossref: Create referrer',
+        'type' => 'context_ui',
+      ),
+      'notifications_ui_0' => array(
+        'module' => 'notifications_ui',
+        'delta' => '0',
+        'weight' => 48,
+        'region' => 'page_tools',
+        'status' => '0',
+        'label' => 'Subscriptions',
+        'type' => 'context_ui',
+      ),
+    ),
+  );
+  return $items;
+}
+
+/**
  * Helper to implementation of hook_filter_default_formats().
  */
 function _atrium_intranet_filter_default_formats() {
