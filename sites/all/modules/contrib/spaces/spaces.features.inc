@@ -40,7 +40,7 @@ function spaces_features_export_render($module = 'foo', $data) {
       unset($preset['storage']);
 
       $code[] = '  // Exported preset: '. $id;
-      $code[] = '  $presets['. $id .'] = '. features_var_export($preset, '  ') .';';
+      $code[] = '  $presets[\''. $id .'\'] = '. features_var_export($preset, '  ') .';';
       $code[] = '';
     }
   }
