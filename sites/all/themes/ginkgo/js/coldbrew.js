@@ -1,57 +1,51 @@
 // $Id$
 
 Drupal.behaviors.coldbrew = function (context) {
-  $('#growl > div:not(.processed)').each(function() {
+  // Growl-style system messages
+  $('#growl > div.messages:not(.processed)').each(function() {
     $(this).addClass('processed');
-    $('span.close', this).click(function() {
-      $(this).parent().hide('fast');
-    });
-    if ($(this).is('.autoclose')) {
-      // If a message contains a link, autoclosing is probably a bad idea.
-      if ($('a', this).size() > 0) {
-        $(this).removeClass('autoclose');
-      }
-      else {
-        // This essentially adds a 3 second pause before hiding the message.
-        $(this).animate({opacity:.95}, 3000, 'linear', function() {
-          $(this).hide('fast');
-        });
-      }
+    // If a message meets these criteria, we don't autoclose
+    // - contains a link
+    // - is an error or warning
+    // - contains a lenghthy amount of text
+    if ($('a', this).size() || $(this).is('.error') || $(this).is('.warning') || $(this).text().length > 100) {
+      $(this).prepend("<span class='close'>X</span>");
+      $('span.close', this).click(function() {
+        $(this).parent().hide('fast');
+      });
+    }
+    else {
+      // This essentially adds a 3 second pause before hiding the message.
+      $(this).animate({opacity:1}, 4000, 'linear', function() {
+        $(this).hide('fast');
+      });
     }
   });
 
-  // Dropdown blocks
-  $('ul.dropdown a:not(.coldbrew)').each(function() {
-    $(this).addClass('coldbrew').click(function() {
-      var index = $('ul.dropdown a').index(this);
-      var blockwrap = $('div.dropdown-blocks');
-      if ($('div.block', blockwrap).eq(index).is('.selected')) {
-        blockwrap.css('height', 'auto');
-        $('div.block.selected', blockwrap).removeClass('selected').slideUp('fast');
-        $('ul.dropdown li').removeClass('selected');
-      }
-      else if ($('div.block.selected', blockwrap).size() > 0) {
-        var target = $('div.block', blockwrap).eq(index);
-        var targeth = target.height();
-        blockwrap.animate({'height': targeth}, "fast"),
-        $('div.block.selected', blockwrap).removeClass('selected').hide();
-        $('div.block', blockwrap).eq(index).addClass('selected').show();
-        $('ul.dropdown li').removeClass('selected');
-        $(this).parents('li').addClass('selected');
+  /**
+   * Palette links/block management.
+   */
+  $('div.toggle-blocks:not(.processed)').each(function() {
+    $(this).addClass('processed');
+    $('h2.block-title', this).click(function() {
+      var realm = $(this).parents('div.toggle-blocks');
+      var fixed = $(this).parents('#header').size();
+
+      if (!$(this).is('.toggle-active')) {
+        $('div.toggle-blocks h2.block-title').removeClass('toggle-active');
+        $('div.toggle-blocks div.block-toggle div.block-content').hide();
+        $(this).addClass('toggle-active').siblings('div.block-content').show();
+        if (fixed) {
+          $(document.body).addClass('header-fixed');
+        }
       }
       else {
-        $('div.block', blockwrap).eq(index).addClass('selected').show('fast');
-        $('ul.dropdown li').removeClass('selected');
-        $(this).parents('li').addClass('selected');
+        $(this).removeClass('toggle-active').siblings('div.block-content').hide();
+        if (fixed) {
+          $(document.body).removeClass('header-fixed');
+        }
       }
       return false;
-    });
-  });
-
-  // Crossref
-  $('div.xref div.label').each(function() {
-    $(this). click(function() {
-      $(this).parents('div.xref').toggleClass('xref-active');
     });
   });
 }
