@@ -28,9 +28,6 @@ function atrium_shoutbox_strongarm() {
   // Disable from recent activity views
   $conf['atrium_update_type_shoutbox'] = FALSE;
 
-  // Disable submitted information display
-  $conf['theme_settings']['toggle_node_info_shoutbox'] = FALSE;
-
   return $conf;
 }
 
