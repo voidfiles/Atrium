@@ -2,6 +2,28 @@
 // $Id$
 
 /**
+ * Implementation of hook_block().
+ */
+function xref_block($op = 'list', $delta = 0) {
+  switch ($op) {
+    case 'list':
+      return array(
+        'create' => array('info' => t('Crossref: Create referrer')),
+      );
+    case 'view':
+      if ($delta == 'create' && $node = menu_get_object()) {
+        if ($node->nid) {
+          $xref_links = xref_links($node->type, $node->nid);
+          if (!empty($xref_links)) {
+            return array('subject' => t('Reference this'), 'content' => theme('links', $xref_links));
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
  * Implemenation of hook_nodeapi().
  */
 function xref_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
@@ -76,9 +98,7 @@ function xref_form_alter(&$form, $form_state, $form_id) {
  * Implementation of hook_theme().
  */
 function xref_theme() {
-  return array(
-    'xref_links' => array(),
-  );
+  return array('xref_links' => array());
 }
 
 /**
@@ -97,7 +117,7 @@ function xref_preprocess_node(&$vars) {
     $links = xref_links($node->type, $node->nid);
     if (!empty($links)) {
       $links = theme('links', $links);
-      $vars['xref_links'] = theme('xref_links', $links, t('Reference this via'));
+      $vars['xref_links'] = theme('xref_links', $links, t('Reference this'));
     }
   }
 }
@@ -130,44 +150,33 @@ function xref_fields($nodetype, $reset = FALSE) {
  * Provides links to create any nodes that could potentially reference this node.
  */
 function xref_links($nodetype, $nid) {
-  if (module_exists('prepopulate')) {
-    $fields = array_keys(xref_fields($nodetype));
-    if ($fields) {
-      // Wrap each field in quotes in prep for SQL IN()
-      foreach ($fields as $k => $v) {
-        $fields[$k] = "'$v'";
-      }
+  $fields = array_keys(xref_fields($nodetype));
+  if ($fields) {
+    // Wrap each field in quotes in prep for SQL IN()
+    foreach ($fields as $k => $v) {
+      $fields[$k] = "'$v'";
+    }
 
-      // Build link of nodetypes with instances of all valid referencing fields
-      $links = array();
+    // Build link of nodetypes with instances of all valid referencing fields
+    $links = array();
 
-      // Pull extra info if spaces is enabled.
-      if (module_exists('spaces')) {
-        $space = spaces_get_space();
-        $types = spaces_features_map('node');
-        $spaces_enabled = true;
-      }
-      else {
-        $spaces_enabled = false;
-      }
-
-      $node_types = node_get_types();
-      $fields = implode(',', $fields);
-      $result = db_query("SELECT field_name, type_name FROM {content_node_field_instance} WHERE widget_active = 1 AND field_name IN ($fields)");
-      while ($row = db_fetch_object($result)) {
-        if (node_access('create', $row->type_name)) {
-          if (!$spaces_enabled || ($space && !empty($types[$row->type_name]) && $space->feature_access($types[$row->type_name]))) {
-            $type = $row->type_name;
-            $links[$type] = array(
-              'title' => $node_types[$type]->name,
-              'href' => 'node/add/'. str_replace('_', '-', $type),
-              'query' => "edit[$row->field_name][0][nid]=$nid",
-            );
-          }
+    $node_types = node_get_types();
+    $fields = implode(',', $fields);
+    $result = db_query("SELECT field_name, type_name FROM {content_node_field_instance} WHERE widget_active = 1 AND field_name IN ($fields)");
+    while ($row = db_fetch_object($result)) {
+      if (node_access('create', $row->type_name)) {
+        $type = $row->type_name;
+        $item = menu_get_item('node/add/'. str_replace('_', '-', $type));
+        if ($item['access']) {
+          $links[$type] = array(
+            'title' => t('via @nodetype', array('@nodetype' => $item['title'])),
+            'href' => $item['href'],
+            'query' => "edit[{$row->field_name}][0][nid]={$nid}",
+          );
         }
       }
-      return $links;
     }
+    return $links;
   }
   return '';
 }
