@@ -37,7 +37,9 @@ function atrium_blog_strongarm() {
   $conf = array();
 
   $conf['node_options_blog'] = array('status', 'revision');
-  $conf["notifications_content_type_blog"] = array('thread');
+  $conf['notifications_content_type_blog'] = array('thread', 'grouptype', 'nodetype', 'author');
+  $conf['og_notifications_content_types']['blog'] = 'blog';
+
   $conf['upload_blog'] = TRUE;
 
   // Comments
