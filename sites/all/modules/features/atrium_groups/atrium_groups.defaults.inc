@@ -3,15 +3,14 @@
 /**
  * Helper to implementation of hook_context_default_contexts().
  */
-
 function _atrium_groups_context_default_contexts() {
   $items = array();
 
   $items[] = array(
     'namespace' => 'atrium',
-    'attribute' => 'global',
-    'value' => 'group_blocks',
-    'description' => 'Group sitewide blocks',
+    'attribute' => 'groups',
+    'value' => 'global',
+    'description' => '',
     'sitewide' => array(
       '0' => '1',
     ),
@@ -19,7 +18,7 @@ function _atrium_groups_context_default_contexts() {
       'views_atrium_groups-block_1' => array(
         'module' => 'views',
         'delta' => 'atrium_groups-block_1',
-        'weight' => 21,
+        'weight' => 0,
         'region' => 'header',
         'status' => '0',
         'label' => 'atrium_groups: Block',
@@ -42,7 +41,6 @@ function _atrium_groups_context_default_contexts() {
     ),
     'block' => array(),
   );
-
   return $items;
 }
 
@@ -63,6 +61,7 @@ function _atrium_groups_menu_default_items() {
     t('Groups'),
     t('Provides a group management feature'),
   );
+
 
   return $items;
 }
