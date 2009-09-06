@@ -44,7 +44,8 @@ function atrium_book_strongarm() {
   $conf['book_allowed_types'] = array('book');
 
   $conf['node_options_book'] = array('status', 'revision');
-  $conf["notifications_content_type_book"] = array('thread');
+  $conf['notifications_content_type_book'] = array('thread', 'grouptype', 'nodetype', 'author');
+  $conf['og_notifications_content_types'][] = 'book';
   $conf['upload_book'] = TRUE;
 
   // Comments
