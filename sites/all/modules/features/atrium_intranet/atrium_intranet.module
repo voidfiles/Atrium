@@ -263,7 +263,14 @@ function atrium_intranet_block($op = 'list', $delta = 0) {
             $info_small = theme('user_picture', $user) . check_plain($user->name);
 
             $links = spaces_admin_links(spaces_load('user', $account->uid));
+            // For PURL prefixing onto these links since they might be
+            // used from anywhere.
+            foreach ($links as $k => $v) {
+              $links[$k]['purl'] = array('provider' => 'spaces_user', 'id' => $account->uid);
+            }
+            // Logout can stay in space.
             $links['logout'] = menu_get_item('logout');
+
             return array('subject' => $info_small, 'content' => "<div class='user-info clear-block'>{$info_big}</div>" . theme('links', $links));
           }
           else {
