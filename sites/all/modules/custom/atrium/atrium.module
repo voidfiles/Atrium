@@ -164,15 +164,6 @@ function atrium_features_menu_links_alter(&$links) {
 }
 
 /**
- * Implementation of hook_space_links_alter().
- *
- * Make space links skinnable.
- */
-function atrium_space_links_alter(&$links) {
-  $links = atrium_skin_links($links);
-}
-
-/**
  * Implementation of hook_spaces_settings().
  */
 function atrium_spaces_settings() {
@@ -627,27 +618,9 @@ function atrium_theme_registry_alter(&$theme_registry) {
  * Implementation of preprocess_page().
  */
 function atrium_preprocess_page(&$vars) {
-  // User picture, user links
-  global $user;
-  $vars['picture'] = ($user->uid != 0) ? theme('user_picture', $user) : '';
-  $vars['user_links'] = theme('links', atrium_user_links());
-
   if (user_access('access content') && user_access('search content')) {
-    if ($space = spaces_get_space()) {
-      switch ($space->type) {
-        case 'og':
-          $scope = t('this @type', array('@type' => atrium_get_typename('group')));
-          break;
-        case 'user':
-          $scope = t('this user');
-          break;
-        case 'site':
-          $scope = t('all content');
-          break;
-      }
-    }
     $search = drupal_get_form('atrium_search_form');
-    $vars['search_box'] = "<div class='search crayon clear-block'>{$search}</div>";;
+    $vars['search_box'] = "<div class='search clear-block'>{$search}</div>";;
   }
 }
 
@@ -692,49 +665,6 @@ function atrium_preprocess_views_view(&$vars) {
       }
     }
   }
-}
-
-/**
- * User-related links.
- */
-function atrium_user_links() {
-  global $user;
-  $links = array();
-
-  // User is logged in
-  if ($user->uid) {
-    // Set account class to active if in user's space
-    $account_class = '';
-    $space = spaces_get_space();
-    if ($space && $space->type == 'user' && $space->sid == $user->uid) {
-      $account_class = 'active';
-    }
-    $links["account {$account_class}"] = array('title' => t('My Account'), 'href' => 'user/'. $user->uid, '#weight' => -10);
-
-    // Logout
-    $links['logout'] = array('title' => t('Logout'), 'href' => 'logout', '#weight' => 10, 'query' => 'destination=user/login');
-  }
-  // Provide login/register links for anonymous users
-  else {
-    $links['login'] = array('title' => t('Login'), 'href' => 'user/login', 'purl' => array('disabled' => TRUE));
-    if (variable_get('user_register', 1)) {
-      $links['register'] = array('title' => t('Register'), 'href' => 'user/register', 'purl' => array('disabled' => TRUE));
-    }
-  }
-
-  // Allow others to add or alter links
-  drupal_alter('atrium_user_links', $links);
-
-  // Allow links to be sorted by weight
-  uasort($links, 'element_sort');
-
-  // Set active by context
-  context_menu_set_active($links);
-
-  // Make links skinnable
-  $links = atrium_skin_links($links);
-
-  return $links;
 }
 
 /**
