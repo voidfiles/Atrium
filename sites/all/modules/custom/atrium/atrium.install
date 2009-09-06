@@ -9,3 +9,17 @@ function atrium_update_6001() {
   }
   return array();
 }
+
+/**
+ * Update 6002: Enable new modules.
+ */
+function atrium_update_6002() {
+  drupal_install_modules(array(
+    'atrium_groups',
+    'atrium_members',
+    'notifications_lite',
+    'notifications_ui',
+    'og_notifications',
+  ));
+  return array();
+}

@@ -27,11 +27,3 @@ function atrium_intranet_update_6002() {
   }
   return $ret;
 }
-
-/**
- * Update 6003: Enable atrium_groups and atrium_members.
- */
-function atrium_intranet_update_6003() {
-  module_enable(array('atrium_groups', 'atrium_members'));
-  return array();
-}
