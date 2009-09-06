@@ -22,27 +22,25 @@ function atrium_installer_profile_modules() {
     'dblog',
     'filter',
     'help',
-    'menu',
     'node',
     'openid',
     'search',
     'system', 
     'taxonomy',
-    'trigger',
     'upload',
     'user',
     // Admin
     'admin',
     // Views
-    'views', 'views_ui', 'litenode',
+    'views', 'litenode',
     // OG
-    'og', 'og_access', 'og_actions', 'og_views',
+    'og', 'og_access', 'og_actions', 'og_views', 'og_notifications',
     // Context
-    'context', 'context_contrib', 'context_ui',
+    'context', 'context_contrib',
     // Features
     'features',
     // Image
-    'imageapi', 'imageapi_gd', 'imagecache', 'imagecache_ui',
+    'imageapi', 'imageapi_gd', 'imagecache',
     // Token
     'token',
     // Transliteration
@@ -50,7 +48,7 @@ function atrium_installer_profile_modules() {
     // Messaging
     'messaging', 'messaging_mail',
     // Notifications
-    'notifications', 'notifications_content',
+    'notifications', 'notifications_content', 'notifications_lite', 'notifications_ui',
     // Open ID
     'openidadmin',
     // PURL
@@ -93,8 +91,6 @@ function _atrium_installer_atrium_modules() {
     'content', 'nodereference', 'text', 'optionwidgets',
     // FeedAPI
     'feedapi', 'feedapi_node', 'feedapi_mapper', 'feedapi_inherit', 'parser_ical',
-    // Flot
-    'flot',
     // Messaging
     'messaging_shoutbox',
     // Notifications
