@@ -52,7 +52,8 @@ function atrium_calendar_strongarm() {
 
   foreach (array('event', 'feed_ical', 'feed_ical_item') as $type) {
     $conf['node_options_'. $type] = array('status', 'revision');
-    $conf['notifications_content_type_' . $type] = array('thread');
+    $conf['notifications_content_type_' . $type] = array('thread', 'grouptype', 'nodetype', 'author');
+    $conf['og_notifications_content_types'][] = $type;
 
     // Comments
     $conf['comment_'. $type] = COMMENT_NODE_DISABLED;
@@ -133,15 +134,6 @@ function atrium_calendar_feedapi_mapper_elements() {
 function atrium_calendar_context_links_alter(&$links) {
   if (!empty($links['feed_ical_item'])) {
     unset($links['feed_ical_item']);
-  }
-}
-
-/**
- * Implementation of hook_atrium_update_types_alter().
- */
-function atrium_calendar_atrium_update_types_alter(&$types) {
-  if (!empty($types['feed_ical_item'])) {
-    unset($types['feed_ical_item']);
   }
 }
 
