@@ -51,7 +51,8 @@ function atrium_casetracker_strongarm() {
 
   foreach (array('casetracker_basic_case', 'casetracker_basic_project') as $type) {
     $conf['node_options_'. $type] = array('status', 'revision');
-    $conf['notifications_content_type_' . $type] = array('thread');
+    $conf['notifications_content_type_' . $type] = array('thread', 'grouptype', 'nodetype', 'author');
+    $conf['og_notifications_content_types'][] = $type;
     $conf['upload_'. $type] = TRUE;
     $conf['feedapi_settings_'. $type] = array('enabled' => FALSE);
 
