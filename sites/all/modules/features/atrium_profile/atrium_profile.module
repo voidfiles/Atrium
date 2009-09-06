@@ -38,32 +38,17 @@ function atrium_profile_strongarm() {
 }
 
 /**
- * Implementation of hook_atrium_create_links_alter().
+ * Implementation of hook_spaces_admin_links_alter().
  */
-function atrium_profile_atrium_create_links_alter(&$links) {
-  unset($links['profile']);
-}
-
-/**
- * Implementation of hook_atrium_update_types_alter().
- * Excludes profile content type from update feeds, etc.
- */
-function atrium_profile_atrium_update_types_alter(&$types) {
-  unset($types['profile']);
-}
-
-/**
- * Implementation of hook_context_links_alter().
- */
-function atrium_profile_context_links_alter(&$links) {
-  global $user;
-  $space = spaces_get_space();
-  if ($space->type == 'user' && $user->uid == $space->sid && node_access('create', 'profile') && $_GET['q'] != "user/{$user->uid}/edit/profile") {
-    $links['profile'] = array(
-      'title' => t('Edit my profile'),
-      'href' => "user/{$user->uid}/edit/profile",
-      'custom' => TRUE,
+function atrium_profile_spaces_admin_links_alter(&$links, $space) {
+  if ($space->type == 'user' && node_access('create', 'profile')) {
+    $prepend = array(
+      'profile' => array(
+        'title' => t('Edit my profile'),
+        'href' => "user/{$space->sid}/edit/profile",
+      ),
     );
+    $links = $prepend + $links;
   }
 }
 
