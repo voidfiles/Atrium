@@ -21,6 +21,16 @@ function atrium_intranet_strongarm() {
 
   // Notifications
   $conf['notifications_content_per_type'] = 1;
+  $conf['notifications_ui_user'] = array('page' => 'page');
+  $conf['notifications_ui_account_options'] = array('block' => 'block');
+  $conf['notifications_ui_node'] = array('block' => 'block');
+  $conf['notifications_ui_per_type'] = 0;
+  $conf['notifications_ui_types'] = array(
+    'grouptype' => 'grouptype',
+    'thread' => 'thread',
+    'nodetype' => 'nodetype',
+    'author' => 'author',
+  );
   $conf['messaging_default_method'] = 'mail';
 
   // Nodetype settings

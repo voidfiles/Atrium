@@ -438,9 +438,29 @@ function _atrium_intranet_user_default_permissions() {
     ),
   );
 
+  // Exported permission: subscribe to author
+  $permissions[] = array(
+    'name' => 'subscribe to author',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
   // Exported permission: subscribe to content
   $permissions[] = array(
     'name' => 'subscribe to content',
+    'roles' => array(
+      '0' => 'authenticated user',
+      '1' => 'admin',
+      '2' => 'manager',
+    ),
+  );
+
+  // Exported permission: subscribe to content in groups
+  $permissions[] = array(
+    'name' => 'subscribe to content in groups',
     'roles' => array(
       '0' => 'authenticated user',
       '1' => 'admin',
