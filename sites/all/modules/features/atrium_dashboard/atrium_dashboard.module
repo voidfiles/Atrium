@@ -155,34 +155,16 @@ function atrium_dashboard_customize() {
 }
 
 /**
- * Implementation of hook_context_links_alter().
+ * Implementation of hook_spaces_admin_links_alter().
  */
-function atrium_dashboard_context_links_alter(&$links) {
-  if (context_isset('spaces', 'dashboard', 'overview')) {
-    $space = spaces_get_space();
-    $map = _atrium_dashboard_type_map();
-    if ($space->admin_access()) {
-      $path = "{$map[$space->type]}/customize";
-      $links["atrium_dashboard"] = array(
-        'title' => t('Customize layout'),
-        'href' => $path,
-        'query' => 'destination='. $_GET['q'],
-        'custom' => TRUE,
-      );
-    }
-  }
-}
-
-/**
- * Implementation of hook_atrium_user_links_alter().
- */
-function atrium_dashboard_atrium_user_links_alter(&$links) {
-  if (user_access('access content')) {
-    $links['home'] = array(
-      'title' => t('Home'),
-      'href' => 'home',
-      'purl' => array('disabled' => TRUE),
-      '#weight' => -10,
+function atrium_dashboard_spaces_admin_links_alter(&$links, $space) {
+  $map = _atrium_dashboard_type_map();
+  if ($space->feature_access('atrium_dashboard')) {
+    $item = menu_get_item($map[$space->type]);
+    $links["atrium_dashboard"] = array(
+      'title' => t('@type layout', array('@type' => $item['title'])),
+      'href' => "{$map[$space->type]}/customize",
+      'query' => drupal_get_destination(),
     );
   }
 }
@@ -207,12 +189,6 @@ function atrium_dashboard_atrium_dashboard() {
     'module' => 'views',
     'delta' => 'atrium_dashboard-block_1',
     'region' => 'content',
-    'weight' => '-10',
-  );
-  $blocks[] = array(
-    'module' => 'views',
-    'delta' => 'atrium_contentstats-block_1',
-    'region' => 'right',
     'weight' => '-10',
   );
   return $blocks;
