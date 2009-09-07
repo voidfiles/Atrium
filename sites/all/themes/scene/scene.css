@@ -15,7 +15,7 @@ body.spaces-design #page-header { background:transparent; }
 /**
  * Custom icons.
  */
-.views-field-feature span.spaces-feature,
+span.spaces-feature,
 #features-menu li a span.icon { background-image:url(images/sprite_icons.png); }
 
 /**
@@ -31,6 +31,14 @@ body.spaces-design #page-header { background:transparent; }
 #navigation ul.space-links { padding:15px 0px 0px; }
 
 #navigation ul.space-links li a { border-color:#fff; }
+
+#header h2.block-title { height:29px; }
+
+  body.header-fixed #header h2.block-title { height:30px; }
+
+#page-tools div.context-links,
+#page-tools div.toggle-blocks h2.block-title { background:#ddd; }
+#page-tools div.toggle-blocks h2.toggle-active { background:#fff; }
 
 #footer {
   border-top:0px;
