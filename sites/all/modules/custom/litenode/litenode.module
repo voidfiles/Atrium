@@ -13,123 +13,31 @@ function litenode_views_api() {
  * Display the view as an HTML list element
  */
 function template_preprocess_litenode_view(&$vars) {
-  static $horizon; // User history horizon
-  if (!isset($horizon)) {
-    global $user;
-    $horizon = $user->access - (14 * 24 * 3600);
-  }
-
-  $view = $vars['view'];
-  $teaser = !empty($vars['options']['teaser']) ? TRUE: FALSE;
-  $nodes = array();
-
-  if (module_exists('content')) {
-    $cck = array();
-    // Grab an array of any CCK fields that should be rendered
-    foreach ($view->display_handler->options['fields'] as $field => $info) {
-      if (strpos($field, 'field_') === 0) {
-        $cck[] = $field;
-      }
-    }
-  }
-
-  foreach ($view->result as $row) {
-    $node = new stdClass();
-
-    $map = litenode_views_fieldmap();
-
-    // Assign view row values to node properties
-    foreach ($map as $nprop => $vprop) {
-      if (isset($row->{$vprop})) {
-        $node->{$nprop} = $row->{$vprop};
-      }
-    }
-
-    // Render CCK
-    if (!empty($cck)) {
-      foreach ($cck as $id) {
-        $handler = $view->field[$id];
-
-        $field = !empty($handler->content_field) ? $handler->content_field : NULL;
-        if ($field) {
-          $options = $handler->options;
-          $db_info = content_database_info($field);
-
-          $item = array();
-          foreach ($db_info['columns'] as $column => $attributes) {
-            $item[$column] = $row->{$handler->aliases[$attributes['column']]};
-          }
-          // @TODO: the line underneath forces this to be a single-display
-          // CCK field. Research how to make multiple values work!
-          $node->{$field['field_name']} = array($item);
-        }
-      }
-    }
-
-    // OG
-    if (!empty($vars['options']['modules']['og'])) {
-      // @TODO group type nodes
-      // @TODO og_private
-      // @TODO og_selective
-      if (!og_is_omitted_type($node->type)) {
-        // @TODO og_groups_both -- we could do this similar to the
-        // other litenode loaders as a batch query.
-        $node->og_groups = array();
-        $field_alias = $view->field['group_nid']->aliases['group_nid'];
-        if (!empty($row->{$field_alias})) {
-          $node->og_groups[$row->{$field_alias}] = $row->{$field_alias};
-        }
-      }
-    }
-
-    // Allow implementing modules to execute extra logic if a simple
-    // field mapping is insufficient.
-    drupal_alter('litenode', $node, $row);
-
-    $nodes[$node->nid] = $node;
-  }
-
-  // Taxonomy module integration
-  if (!empty($vars['options']['modules']['taxonomy'])) {
-    litenode_taxonomy_node_get_terms($nodes);
-  }
-
-  // Upload module integration
-  if (!empty($vars['options']['modules']['upload'])) {
-    litenode_upload_load($nodes);
-  }
-
-  $vars['nodes'] = array();
-  foreach ($nodes as $nid => $node) {
-    $vars['nodes'][$nid] = node_view($node, $teaser);
-  }
+  $vars['view']->style_plugin->preprocess($vars);
 }
 
 /**
- * Retrieve the node to view field mapping.
+ * Wrapper around cache_get() to make it easier for context to pull different
+ * datastores from a single cache row.
  */
-function litenode_views_fieldmap($reset = FALSE) {
-  static $fieldmap;
-  if (!isset($fieldmap) || $reset) {
-    $fieldmap = array();
-    $cache = litenode_cache_get('fieldmap');
-    if (!$cache || $reset) {
-      foreach (module_implements('litenode') as $module) {
-        $function = "{$module}_litenode";
-        $data = $function();
-        foreach ($data as $key => $info) {
-          if (!empty($info['map'])) {
-            $fieldmap = array_merge($fieldmap, $info['map']);
-          }
-        }
-      }
-      litenode_cache_set('fieldmap', $fieldmap);
-    }
-    else {
-      $fieldmap = $cache;
-    }
+function litenode_cache_get($key, $reset = FALSE) {
+  static $cache;
+  if (!isset($cache) || $reset) {
+    $cache = cache_get('litenode', 'cache');
+    $cache = $cache ? $cache->data : array();
   }
-  return $fieldmap;
+  return !empty($cache[$key]) ? $cache[$key] : FALSE;
+}
+
+/**
+ * Wrapper around cache_set() to make it easier for context to write different
+ * datastores to a single cache row.
+ */
+function litenode_cache_set($key, $value) {
+  $cache = cache_get('litenode', 'cache');
+  $cache = $cache ? $cache->data : array();
+  $cache[$key] = $value;
+  cache_set('litenode', $cache, 'cache', CACHE_TEMPORARY);  
 }
 
 /**
@@ -160,27 +68,30 @@ function litenode_views_fields($reset = FALSE) {
 }
 
 /**
- * Wrapper around cache_get() to make it easier for context to pull different
- * datastores from a single cache row.
+ * Retrieve the node to view field mapping.
  */
-function litenode_cache_get($key, $reset = FALSE) {
-  static $cache;
-  if (!isset($cache) || $reset) {
-    $cache = cache_get('litenode', 'cache');
-    $cache = $cache ? $cache->data : array();
+function litenode_views_fieldmap($reset = FALSE) {
+  static $fieldmap;
+  if (!isset($fieldmap) || $reset) {
+    $fieldmap = array();
+    $cache = litenode_cache_get('fieldmap');
+    if (!$cache || $reset) {
+      foreach (module_implements('litenode') as $module) {
+        $function = "{$module}_litenode";
+        $data = $function();
+        foreach ($data as $key => $info) {
+          if (!empty($info['map'])) {
+            $fieldmap = array_merge($fieldmap, $info['map']);
+          }
+        }
+      }
+      litenode_cache_set('fieldmap', $fieldmap);
+    }
+    else {
+      $fieldmap = $cache;
+    }
   }
-  return !empty($cache[$key]) ? $cache[$key] : FALSE;
-}
-
-/**
- * Wrapper around cache_set() to make it easier for context to write different
- * datastores to a single cache row.
- */
-function litenode_cache_set($key, $value) {
-  $cache = cache_get('litenode', 'cache');
-  $cache = $cache ? $cache->data : array();
-  $cache[$key] = $value;
-  cache_set('litenode', $cache, 'cache', CACHE_TEMPORARY);  
+  return $fieldmap;
 }
 
 /**
@@ -405,51 +316,4 @@ function litenode_litenode() {
   }
 
   return $info;
-}
-
-/**
- * LITENODE LOADERS ===================================================
- */
-
-/**
- * Litenode version of upload_load(). Pulls all uploaded file
- * information for a given view in 1 query.
- */
-function litenode_upload_load(&$nodes) {
-  $files = array();
-
-  $vids = array();
-  foreach ($nodes as $nid => $node) {
-    $vids[] = $node->vid;
-  }
-
-  $result = db_query('SELECT *, r.nid FROM {files} f INNER JOIN {upload} r ON f.fid = r.fid WHERE r.vid IN(%s) ORDER BY r.weight, f.fid', implode(',', $vids));
-  while ($file = db_fetch_object($result)) {
-    $nid = $file->nid;
-    unset($file->nid);
-    if (!isset($nodes[$nid]->files)) {
-      $nodes[$nid]->files = array();
-    }
-    $nodes[$nid]->files[$file->fid] = $file;
-  }
-}
-
-/**
- * Find all terms associated with the given node, ordered by vocabulary and term weight.
- */
-function litenode_taxonomy_node_get_terms(&$nodes) {
-  $vids = array();
-  foreach ($nodes as $nid => $node) {
-    $vids[] = $node->vid;
-  }
-
-  $result = db_query(db_rewrite_sql('SELECT t.*, r.nid FROM {term_node} r INNER JOIN {term_data} t ON r.tid = t.tid INNER JOIN {vocabulary} v ON t.vid = v.vid WHERE r.vid IN (%s) ORDER BY v.weight, t.weight, t.name', 't', 'tid'), implode(',', $vids));
-  while ($term = db_fetch_object($result)) {
-    $nid = $term->nid;
-    unset($term->nid);
-    if (!isset($nodes[$nid]->taxonomy)) {
-      $nodes[$nid]->taxonomy = array();
-    }
-    $nodes[$nid]->taxonomy[$term->tid] = $term;
-  }
 }
