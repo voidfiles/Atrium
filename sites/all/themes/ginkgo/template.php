@@ -10,6 +10,11 @@ function ginkgo_theme($existing, $type, $theme, $path) {
       'template' => 'node_form',
       'path' => drupal_get_path('theme', 'ginkgo') . "/templates",
     ),
+    'node_form' => array(
+      'arguments' => array('form' => array()),
+      'template' => 'node_form',
+      'path' => drupal_get_path('theme', 'ginkgo') . "/templates",
+    ),
   );
 }
 
