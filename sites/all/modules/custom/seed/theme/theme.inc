@@ -1,171 +1,6 @@
 <?php
 
 /**
- * Implementation of hook_theme_registry_alter().
- */
-function seed_theme_registry_alter(&$theme_registry) {
-  $path = drupal_get_path('module', 'seed');
-  foreach ($theme_registry as $hook => $data) {
-    switch ($hook) {
-      // Hijack functions
-      case 'upload_attachments':
-      case 'filter_tips_more_info':
-        if (!isset($theme_registry[$hook]['type']) || !in_array($theme_registry[$hook]['type'], array('base_theme_engine', 'theme_engine'))) {
-          $theme_registry[$hook]['function'] = 'seed_'. $hook;
-        }
-        break;
-      // Hijack preprocess / templates
-      case 'node_form':
-      case 'user_picture':
-      case 'views_ui_list_views':
-      case 'views_view_summary':
-        unset($theme_registry[$hook]['file']);
-        unset($theme_registry[$hook]['function']);
-        if (!isset($theme_registry[$hook]['path'])) {
-          $theme_registry[$hook]['path'] = "$path/theme";
-        }
-        else {
-          array_unshift($theme_registry[$hook]['theme paths'], "$path/theme");
-        }
-        $theme_registry[$hook]['template'] = $hook;
-
-        // For a select few, disable theme-level overriding
-        switch ($hook) {
-          case 'views_ui_list_views':
-          case 'views_view_summary':
-            $theme_registry[$hook]['path'] = "$path/theme";
-            $theme_registry[$hook]['template'] = $hook;
-            break;
-        }
-        break;
-    }
-  }
-}
-
-/**
- * Implementation of hook_theme().
- */
-function seed_theme() {
-  $path = drupal_get_path('module', 'seed');
-  $items = array(
-    'seed_audio' => array(),
-    'seed_thickbox' => array(),
-
-    'seed_byline' => array(),
-
-    'seed_crayon' => array(),
-    'seed_crayon_popup' => array(),
-    'seed_crayon_swatch' => array(),
-
-    'seed_taxonomy_split' => array('sorted_terms' => array()),
-
-    'seed_filter_form' => array(),
-
-    'user_profile_form' => array(
-      'arguments' => array('form' => array()),
-      'template' => 'node_form',
-      'path' => "$path/theme",
-    ),
-    'user_login' => array(
-      'arguments' => array('form' => array()),
-      'template' => 'user_form',
-      'path' => "$path/theme",
-    ),
-    'user_pass' => array(
-      'arguments' => array('form' => array()),
-      'template' => 'user_form',
-      'path' => "$path/theme",
-    ),
-
-    'seed_term_list' => array(),
-    'seed_numbered_element' => array(),
-    'seed_taxonomy_display_form' => array(),
-  );
-  if (module_exists('content')) {
-    $cckpath = drupal_get_path('module', 'content');
-    $items['seed_faux_field'] = array(
-      'arguments' => array('element' => NULL),
-      'template' => 'content-field',
-      'path' => "$cckpath/theme",
-    );
-  }
-  return $items;
-}
-
-/**
- * API FUNCTIONS ======================================================
- */
-
-/**
- * Custom date formatter which tries to provide the most easily
- * understood date format given the date's proximity to the current time.
- */
-function seed_rel_date($timestamp) {
-  static $slots, $formats;
-  // Static cache formats, slots. These aren't expensive calls, but when we
-  // are called many times on a page load it becomes costly to repeat this logic.
-  if (!isset($slots)) {
-    $now = time();
-    $slots = array(
-      'today' => format_date($now, 'custom', 'MjY'),
-      'yesterday' => format_date($now - (24*60*60), 'custom', 'MjY'),
-      'month_within' => $now - 3600 * 24 * 30,
-    );
-    $formats = array(
-      'time' => variable_get('date_format_time', 'g:ia'),
-      'month_within' => variable_get('date_format_month_within', 'g:ia D M j'),
-      'month_after' => variable_get('date_format_month_after', 'g:ia M j, Y'),
-    );
-  }
-  $day = format_date($timestamp, 'custom', 'MjY');
-  if ($day == $slots['today']) {
-    return t('!time Today', array('!time' => format_date($timestamp, 'custom', $formats['time'])));
-  }
-  else if ($day == $slots['yesterday']) {
-    return t('!time Yesterday', array('!time' => format_date($timestamp, 'custom', $formats['time'])));
-  }
-  else if ($timestamp < $slots['month_within'] ) {
-    return format_date($timestamp, 'custom', $formats['month_within']);
-  }
-  else {
-    return format_date($timestamp, 'custom', $formats['month_after']);
-  }
-}
-
-/**
- * Turn string into CSS id/class -- from Zen theme
- */ 
-function seed_id_safe($string) {
-  if (is_numeric($string{0})) {
-    // if the first character is numeric, add 'n' in front
-    $string = 'n'. $string;
-  }
-  return strtolower(preg_replace('/[^a-zA-Z0-9-]+/', '-', $string));
-}
-
-/**
- * Groups taxonomy terms by their vocabulary
- * @param $taxonomy: Array of taxonomy terms to sort
- * @return $sorted_terms: Array of sorted taxonomy terms
- */
-function seed_taxonomy_split($taxonomy) {
-  $sorted_terms = array();
-  foreach ($taxonomy as $term) {
-    if(array_key_exists($term->vid, $sorted_terms)) {
-      array_push($sorted_terms[$term->vid], $term);
-    }
-    else {
-      $sorted_terms[$term->vid] = array($term);
-    }
-  }
-  return $sorted_terms;
-}
-
-/**
- * PREPROCESS =========================================================
- */
-
-/**
  * Implementation of hook_preprocess_views_view_summary().
  */
 function seed_preprocess_views_view_summary(&$vars) {
@@ -328,9 +163,6 @@ function seed_preprocess_user_picture(&$vars) {
     $vars['picture'] = l($account->name, $path, array('attributes' => $attr));
     $vars['preset'] = $preset;
   }
-}
-
-function seed_preprocess_views_ui_list_views(&$vars) {
 }
 
 function template_preprocess_seed_faux_field(&$vars) {
@@ -683,4 +515,22 @@ function seed_icon_links(&$links) {
       $links[$k] = $v;
     }
   }
+}
+
+/**
+ * Groups taxonomy terms by their vocabulary
+ * @param $taxonomy: Array of taxonomy terms to sort
+ * @return $sorted_terms: Array of sorted taxonomy terms
+ */
+function seed_taxonomy_split($taxonomy) {
+  $sorted_terms = array();
+  foreach ($taxonomy as $term) {
+    if(array_key_exists($term->vid, $sorted_terms)) {
+      array_push($sorted_terms[$term->vid], $term);
+    }
+    else {
+      $sorted_terms[$term->vid] = array($term);
+    }
+  }
+  return $sorted_terms;
 }
