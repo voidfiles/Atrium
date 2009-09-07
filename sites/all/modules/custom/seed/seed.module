@@ -10,6 +10,9 @@ function seed_theme() {
   $path = drupal_get_path('module', 'seed');
   $base = array('file' => 'theme.inc', 'path' => "$path/theme");
 
+  // We need to actually load the theme.inc at time of registry build.
+  module_load_include('inc', 'seed', 'theme/theme');
+
   $items = array(
     'seed_audio' => $base,
     'seed_thickbox' => $base,
@@ -19,6 +22,15 @@ function seed_theme() {
     'seed_crayon_swatch' => $base,
     'seed_taxonomy_split' => $base + array('sorted_terms' => array()),
     'seed_filter_form' => $base,
+    'seed_term_list' => $base,
+    'seed_numbered_element' => $base,
+    'seed_taxonomy_display_form' => $base,
+
+    // Template overrides
+    'node_form' => $base + array(
+      'arguments' => array('form' => array()),
+      'template' => 'node_form',
+    ),
     'user_profile_form' => $base + array(
       'arguments' => array('form' => array()),
       'template' => 'node_form',
@@ -31,9 +43,14 @@ function seed_theme() {
       'arguments' => array('form' => array()),
       'template' => 'user_form',
     ),
-    'seed_term_list' => $base,
-    'seed_numbered_element' => $base,
-    'seed_taxonomy_display_form' => $base,
+    'user_picture' => $base + array(
+      'arguments' => array('account' => array()),
+      'template' => 'user_picture',
+    ),
+    'views_view_summary' => $base + array(
+      'arguments' => array('account' => array()),
+      'template' => 'views_view_summary',
+    ),
   );
   if (module_exists('content')) {
     $items['seed_faux_field'] = $base + array(
@@ -52,6 +69,9 @@ function seed_theme_registry_alter(&$theme_registry) {
   $path = drupal_get_path('module', 'seed');
   $base = array('file' => 'theme.inc', 'path' => "$path/theme");
 
+  // We need to actually load the theme.inc at time of registry build.
+  module_load_include('inc', 'seed', 'theme/theme');
+
   foreach ($theme_registry as $hook => $data) {
     switch ($hook) {
       // Hijack functions
@@ -60,28 +80,6 @@ function seed_theme_registry_alter(&$theme_registry) {
         if (!isset($theme_registry[$hook]['type']) || !in_array($theme_registry[$hook]['type'], array('base_theme_engine', 'theme_engine'))) {
           $theme_registry[$hook] = $base + $theme_registry[$hook];
           $theme_registry[$hook]['function'] = 'seed_'. $hook;
-        }
-        break;
-      // Hijack preprocess / templates
-      case 'node_form':
-      case 'user_picture':
-      case 'views_view_summary':
-        unset($theme_registry[$hook]['file']);
-        unset($theme_registry[$hook]['function']);
-        if (!isset($theme_registry[$hook]['path'])) {
-          $theme_registry[$hook]['path'] = "$path/theme";
-        }
-        else {
-          array_unshift($theme_registry[$hook]['theme paths'], "$path/theme");
-        }
-        $theme_registry[$hook]['template'] = $hook;
-
-        // For a select few, disable theme-level overriding
-        switch ($hook) {
-          case 'views_view_summary':
-            $theme_registry[$hook]['path'] = "$path/theme";
-            $theme_registry[$hook]['template'] = $hook;
-            break;
         }
         break;
     }
