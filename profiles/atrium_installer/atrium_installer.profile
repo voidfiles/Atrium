@@ -35,7 +35,7 @@ function atrium_installer_profile_modules() {
     // Views
     'views', 'litenode',
     // OG
-    'og', 'og_access', 'og_actions', 'og_views', 'og_notifications',
+    'og', 'og_access', 'og_actions', 'og_views',
     // Context
     'context', 'context_contrib',
     // Features
@@ -49,7 +49,7 @@ function atrium_installer_profile_modules() {
     // Messaging
     'messaging', 'messaging_mail',
     // Notifications
-    'notifications', 'notifications_content', 'notifications_lite', 'notifications_ui',
+    'notifications', 'notifications_content',
     // Open ID
     'openidadmin',
     // PURL
