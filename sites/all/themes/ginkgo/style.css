@@ -175,7 +175,6 @@ a.user-picture {
 .dropdown-blocks div.block-toggle div.block-content {
   z-index:1250;
   background:#eee url(images/bleeds.png) 0px 100% repeat-x;
-  -moz-border-radius:5px 0px 5px 5px;
   border:5px solid #fff;
   right:0px;
   min-width:180px;
@@ -183,6 +182,9 @@ a.user-picture {
   /* W00T */
   -moz-box-shadow:0px 2px 2px #666;
   -webkit-box-shadow:0px 2px 2px #666;
+  -moz-border-radius:5px 0px 5px 5px;
+  -webkit-border-radius:5px;
+  -webkit-border-top-right-radius:0px;
   }
 
 .dropdown-blocks div.block-toggle form,
@@ -399,7 +401,11 @@ div.main div.block:last-child {
 div.main h2.block-title {
   float:left;
   padding:5px 20px;
-  margin:0px 0px 10px -20px;
+  margin:0px 0px 10px;
+
+  position:relative;
+  left:-20px;
+
   background:#ccc;
   color:#fff;
   }
