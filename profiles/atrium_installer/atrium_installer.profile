@@ -22,6 +22,7 @@ function atrium_installer_profile_modules() {
     'dblog',
     'filter',
     'help',
+    'menu',
     'node',
     'openid',
     'search',
