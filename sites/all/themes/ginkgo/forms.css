@@ -17,6 +17,7 @@ input.form-submit {
   text-shadow:#222 0px -1px 0px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
+  text-align: center; /* IE Fix */
   }
 
   a.button:active,
