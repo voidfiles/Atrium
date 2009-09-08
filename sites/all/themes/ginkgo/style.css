@@ -1204,3 +1204,7 @@ div.form-checkboxes { display: inline-block; }
 
 div.form-checkboxes { display: block; }
 /* End hide from IE-mac */
+
+/* IE Fix Book navigation */
+#block-atrium-book ul.menu li,
+#block-atrium-book ul.menu span.icon { border-top: 1px solid #EEEEEE;}
