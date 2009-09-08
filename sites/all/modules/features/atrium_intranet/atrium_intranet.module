@@ -411,3 +411,21 @@ function atrium_intranet_spaces_admin_links_alter(&$links, $space) {
       break;
   }
 }
+
+/**
+ * Implementation of hook_context_default_contexts_alter().
+ */
+function atrium_intranet_context_default_contexts_alter(&$contexts) {
+  // Conditionally add the notifications UI subscription block.
+  if (module_exists('notifications_ui')) {
+    $items['atrium-intranet-global']['block']['notifications_ui_0'] = array(
+      'module' => 'notifications_ui',
+      'delta' => '0',
+      'weight' => 48,
+      'region' => 'page_tools',
+      'status' => '0',
+      'label' => 'Subscriptions',
+      'type' => 'context_ui',
+    );
+  }
+}

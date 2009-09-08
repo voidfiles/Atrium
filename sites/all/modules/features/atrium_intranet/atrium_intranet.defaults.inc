@@ -58,15 +58,6 @@ function _atrium_intranet_context_default_contexts() {
         'label' => 'Crossref: Create referrer',
         'type' => 'context_ui',
       ),
-      'notifications_ui_0' => array(
-        'module' => 'notifications_ui',
-        'delta' => '0',
-        'weight' => 48,
-        'region' => 'page_tools',
-        'status' => '0',
-        'label' => 'Subscriptions',
-        'type' => 'context_ui',
-      ),
     ),
   );
   return $items;
@@ -451,16 +442,6 @@ function _atrium_intranet_user_default_permissions() {
   // Exported permission: subscribe to content
   $permissions[] = array(
     'name' => 'subscribe to content',
-    'roles' => array(
-      '0' => 'authenticated user',
-      '1' => 'admin',
-      '2' => 'manager',
-    ),
-  );
-
-  // Exported permission: subscribe to content in groups
-  $permissions[] = array(
-    'name' => 'subscribe to content in groups',
     'roles' => array(
       '0' => 'authenticated user',
       '1' => 'admin',
