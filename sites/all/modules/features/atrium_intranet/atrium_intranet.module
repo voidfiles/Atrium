@@ -417,8 +417,8 @@ function atrium_intranet_spaces_admin_links_alter(&$links, $space) {
  */
 function atrium_intranet_context_default_contexts_alter(&$contexts) {
   // Conditionally add the notifications UI subscription block.
-  if (module_exists('notifications_ui')) {
-    $items['atrium-intranet-global']['block']['notifications_ui_0'] = array(
+  if (module_exists('notifications_ui') && !empty($contexts['atrium-intranet-global'])) {
+    $contexts['atrium-intranet-global']->block['notifications_ui_0'] = array(
       'module' => 'notifications_ui',
       'delta' => '0',
       'weight' => 48,
