@@ -48,7 +48,7 @@ function _atrium_calendar_content_default_fields() {
       'default_value_code' => '',
       'default_value2' => 'same',
       'default_value_code2' => '',
-      'input_format' => 'm/d/Y',
+      'input_format' => 'm/d/Y - g:ia',
       'input_format_custom' => '',
       'increment' => '1',
       'text_parts' => array(),
