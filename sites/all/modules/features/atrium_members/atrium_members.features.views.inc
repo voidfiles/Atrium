@@ -448,11 +448,81 @@ function _atrium_members_views_default_views() {
     'description' => '',
     'weight' => '0',
   ));
+  $handler = $view->new_display('page', 'Add users page', 'page_4');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'override' => 1,
+    'sticky' => 0,
+    'order' => 'asc',
+    'columns' => array(
+      'name' => 'name',
+      'mail' => 'name',
+      'groups' => 'groups',
+      'rid' => 'rid',
+    ),
+    'info' => array(
+      'name' => array(
+        'sortable' => 0,
+        'separator' => '<br/>',
+      ),
+      'mail' => array(
+        'sortable' => 0,
+        'separator' => '',
+      ),
+      'groups' => array(
+        'separator' => '',
+      ),
+      'rid' => array(
+        'separator' => '',
+      ),
+    ),
+    'default' => '-1',
+    'execution_type' => '1',
+    'display_type' => '0',
+    'skip_confirmation' => 1,
+    'display_result' => 1,
+    'merge_single_action' => 1,
+    'selected_operations' => array(
+      '598c4c0e356e66e85f78c2d61cac3fac' => '598c4c0e356e66e85f78c2d61cac3fac',
+      '0c478c83f8bd0b8019e9ae38b0f15fe5' => '0c478c83f8bd0b8019e9ae38b0f15fe5',
+      'a8caceb3ec007d71fefb0000e7d525c4' => 0,
+      'dfdea479cc7ae8cb9d3e8749e57f86b4' => 0,
+      '4fff50383fdc48042390841723c0d719' => 0,
+      '4d075a755ad70f936bf89570e66196f1' => 0,
+      'a011c04389ff75f79af39bb612089bca' => 0,
+      'c44f2481b4ceb88d43611363418d9e23' => 0,
+      'b2893e5d0da3d724c359b719997053fd' => 0,
+      '132fddcb3f367a243bee632db31985c1' => 0,
+      '334d20af1ae7ac4b770b7ec3210b2638' => 0,
+      '73e0815d78610c8e7538ec8c5ad0be0c' => 0,
+      '0b68c1d8f0a1e145e8ef80c7625ed356' => 0,
+      '52aec7fee2070ce530da1304653ae1ec' => 0,
+      'daa75f478e3093ab107e657da6620a91' => 0,
+      '4f0422e074b9504b834fd2449892f1ec' => 0,
+      '4bd509ad947296ffe30e8092a438e096' => 0,
+      '0c3e96a3ccd70cf9a29c1beea1148707' => 0,
+    ),
+  ));
+  $handler->override_option('path', 'og/users/%/add_user');
+  $handler->override_option('menu', array(
+    'type' => 'tab',
+    'title' => 'Add users',
+    'description' => '',
+    'weight' => '20',
+    'name' => 'navigation',
+  ));
+  $handler->override_option('tab_options', array(
+    'type' => 'none',
+    'title' => '',
+    'description' => '',
+    'weight' => 0,
+  ));
   $translatables['atrium_members'] = array(
     t('Defaults'),
     t('Active users'),
     t('Blocked users'),
     t('Member directory'),
+    t('Add users page'),
   );
 
   $views[$view->name] = $view;

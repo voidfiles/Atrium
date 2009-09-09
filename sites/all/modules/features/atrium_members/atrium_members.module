@@ -169,6 +169,46 @@ function atrium_members_user($op, &$edit, &$account, $category = NULL) {
 }
 
 /**
+ * Implementation of hook_action_info().
+ */
+function atrium_members_action_info() {
+  return array(
+    'atrium_members_og_subscribe_action' => array(
+      'type' => 'user',
+      'description' => t('Subscribe user to the current group'),
+      'configurable' => FALSE,
+      'hooks' => array(),
+    ),
+    'atrium_members_og_unsubscribe_action' => array(
+      'type' => 'user',
+      'description' => t('Unsubscribe user from the current group'),
+      'configurable' => FALSE,
+      'hooks' => array(),
+    ),
+  );
+}
+
+/**
+ * Action: subscribe user to current group.
+ */
+function atrium_members_og_subscribe_action($account, $context) {
+  if ($group = og_get_group_context()) {
+    og_save_subscription($group->nid, $account->uid, array('is_active' => 1));
+    watchdog('action', 'Subscribed user %name to %group.', array('%name' => $account->name, '%group' => $group->title));
+  }
+}
+
+/**
+ * Action: unsubscribe user from current group.
+ */
+function atrium_members_og_unsubscribe_action($account, $context) {
+  if ($group = og_get_group_context()) {
+    og_delete_subscription($group->nid, $account->uid);
+    watchdog('action', 'Unsubscribed user %name from %group.', array('%name' => $account->name, '%group' => $group->title));
+  }
+}
+
+/**
  * Form callback that generates only the portion of the user profile form that is requested.
  */
 function atrium_members_user_profile_tab($form_state, $account, $tab) {
