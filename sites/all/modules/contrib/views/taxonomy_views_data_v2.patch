@@ -1,12 +1,13 @@
 ? taxonomy_views_data.patch
+? taxonomy_views_data_v2.patch
 Index: modules/taxonomy.views.inc
 ===================================================================
 RCS file: /cvs/drupal-contrib/contributions/modules/views/modules/taxonomy.views.inc,v
-retrieving revision 1.50.2.4
-diff -u -p -r1.50.2.4 taxonomy.views.inc
---- modules/taxonomy.views.inc	2 Jun 2009 20:33:43 -0000	1.50.2.4
-+++ modules/taxonomy.views.inc	11 Jun 2009 04:47:09 -0000
-@@ -126,6 +126,10 @@ function taxonomy_views_data() {
+retrieving revision 1.50.2.6
+diff -u -p -r1.50.2.6 taxonomy.views.inc
+--- modules/taxonomy.views.inc	1 Jul 2009 06:13:42 -0000	1.50.2.6
++++ modules/taxonomy.views.inc	9 Sep 2009 20:01:44 -0000
+@@ -125,6 +125,10 @@ function taxonomy_views_data() {
      'sort' => array(
        'handler' => 'views_handler_sort',
      ),
@@ -17,7 +18,7 @@ diff -u -p -r1.50.2.4 taxonomy.views.inc
      'argument' => array(
        'handler' => 'views_handler_argument_string',
        'help' => t('Taxonomy term name.'),
-@@ -195,6 +199,17 @@ function taxonomy_views_data() {
+@@ -194,6 +198,17 @@ function taxonomy_views_data() {
      ),
    );
  
@@ -27,7 +28,7 @@ diff -u -p -r1.50.2.4 taxonomy.views.inc
 +    'relationship' => array(
 +      'handler' => 'views_handler_relationship',
 +      'base' => 'node',
-+      'field' => 'vid',
++      'base field' => 'vid',
 +      'label' => t('node'),
 +    ),
 +  );

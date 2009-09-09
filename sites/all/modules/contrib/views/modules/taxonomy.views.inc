@@ -205,7 +205,7 @@ function taxonomy_views_data() {
     'relationship' => array(
       'handler' => 'views_handler_relationship',
       'base' => 'node',
-      'field' => 'vid',
+      'base field' => 'vid',
       'label' => t('node'),
     ),
   );
