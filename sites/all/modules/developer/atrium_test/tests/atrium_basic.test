@@ -1,0 +1,88 @@
+<?php
+// $Id: block.test,v 1.1.2.1.2.2 2009/04/23 05:39:52 boombatower Exp $
+/**
+ * @file
+ * Backport of Drupal 7 block.test with modifications, see BACKPORT.txt.
+ *
+ * Copyright 2008-2009 by Jimmy Berry ("boombatower", http://drupal.org/user/214218)
+ */
+
+require_once drupal_get_path('module', 'atrium_test') . '/atrium_web_test_case.php';
+
+class AtriumBasicTestCase extends AtriumWebTestCase {
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Atrium basics',
+      'description' => 'Install Atrium and do the initial set up.',
+      'group' => 'Atrium',
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp();
+    // @todo we need to create the first group so we don't get the message:
+    // The site administator has not finished setting up this site....
+    // We may need to visit the welcome page once as a logged in user to get install finished
+    // which creates a loop: we need the permissions & roles set up to create first user
+  }
+
+  function testWelcomePage() {
+    // Create and login admin user
+    $admin_user = $this->atriumCreateUser('admin');
+    $this->drupalLogin($admin_user);
+    // Check initial texts
+    $this->assertText(t('Welcome to Atrium'));
+    $this->assertText(t('Create your first !type to get started.', array('!type' => atrium_get_typename('group'))));
+    
+    // Create public and private group using the form
+    $group0->path = 'group0';
+    $group0->preset = 'atrium_og_private';
+    $group1->path = 'gropu1';
+    $group1->preset = 'atrium_og_public';
+    
+    foreach (array($group0) as $group) {
+      $group->title = $this->randomName(8);
+      $group->description = $this->randomName(32);
+      $this->drupalGet('node/add/group');
+      $edit = array(
+        'title' => $group->title,
+        'og_description' => $group->description,
+        'purl[value]' => $group->path,
+        'preset' => $group->preset,
+      );
+      $this->drupalPost('node/add/group', $edit, t('Save'));
+      // Save nid for this group
+      $group->nid = db_result(db_query("SELECT id FROM {purl} WHERE value = '%s'", $group->path));    
+      
+      // Test all pages for this group
+      $this->drupalGet($group->path);
+      $this->assertText($group->title);
+      foreach (array('dashboard', 'dashboard/all', 'dashboard/my', 'dashboard/files') as $page) {
+        $this->drupalGet("$group->path/$page");
+        $this->assertText(t('No recent activity found.'));
+      }
+      $this->drupalGet("$group->path/blog");
+      $this->assertText(t('Please add your first !type to get started.', array('!type' => node_get_types('name', 'blog'))));
+
+      $this->drupalGet("$group->path/documents");
+      $this->assertText(t('Please add your first !type to get started.', array('!type' => node_get_types('name', 'book'))));
+
+      $this->drupalGet("$group->path/documents/archived");
+      $this->assertText(t('No archived books found.'));
+      
+      // Group member pages
+      $path = "$group->path/og/users/$group->nid";
+      $this->drupalGet($path);
+      $this->drupalGet("$path/faces");
+      $this->drupalGet("$path/ucreate");
+      $this->drupalGet("$path/add_user");
+    }
+  }  
+}
+
