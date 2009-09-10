@@ -181,7 +181,7 @@ function _atrium_calendar_views_default_views() {
       'relationship' => 'none',
     ),
     'current' => array(
-      'operator' => 'all',
+      'operator' => 'active',
       'value' => '',
       'group' => '0',
       'exposed' => FALSE,
@@ -226,56 +226,6 @@ function _atrium_calendar_views_default_views() {
     'weight' => '0',
   ));
   $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->override_option('filters', array(
-    'type' => array(
-      'operator' => 'in',
-      'value' => array(
-        'event' => 'event',
-        'feed_ical_item' => 'feed_ical_item',
-      ),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
-      'relationship' => 'none',
-    ),
-    'status' => array(
-      'operator' => '=',
-      'value' => '1',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'status',
-      'table' => 'node',
-      'field' => 'status',
-      'relationship' => 'none',
-    ),
-    'current' => array(
-      'operator' => 'active',
-      'value' => '',
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'current',
-      'table' => 'spaces',
-      'field' => 'current',
-      'relationship' => 'none',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-  ));
   $handler->override_option('style_options', array(
     'grouping' => '',
     'style' => 'compact',
@@ -436,7 +386,7 @@ function _atrium_calendar_views_default_views() {
       'relationship' => 'none',
     ),
     'current' => array(
-      'operator' => 'all',
+      'operator' => 'active',
       'value' => 'all',
       'group' => '0',
       'exposed' => FALSE,
@@ -607,7 +557,7 @@ function _atrium_calendar_views_default_views() {
       'relationship' => 'none',
     ),
     'current' => array(
-      'operator' => 'all',
+      'operator' => 'active',
       'value' => 'all',
       'group' => '0',
       'exposed' => FALSE,
@@ -790,7 +740,7 @@ function _atrium_calendar_views_default_views() {
       'relationship' => 'none',
     ),
     'current' => array(
-      'operator' => 'all',
+      'operator' => 'active',
       'value' => '',
       'group' => '0',
       'exposed' => FALSE,
