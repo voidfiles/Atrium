@@ -269,11 +269,13 @@ function seed_form_alter(&$form, $form_state, $form_id) {
     }
 
     // Remove revision information fields for most users
-    if (isset($form['revision_information'])  && !user_access('administer nodes')) {
-      unset($form['revision_information']);
+    if (isset($form['revision_information']) && !user_access('administer nodes')) {
+      $form['revision_information']['#access'] = FALSE;
     }
   }
-  _seed_filter_form_alter($form);
+  if (!module_exists('wysiwyg')) {
+    _seed_filter_form_alter($form);
+  }
 }
 
 /**
@@ -593,6 +595,8 @@ function seed_views_view_summary_form_submit($form, &$form_state) {
  * Implementation of hook_preprocess_node_form().
  */
 function seed_preprocess_node_form(&$vars) {
+  drupal_add_css(drupal_get_path('module', 'seed') .'/theme/seed.css');
+
   $form = $vars['form'];
 
   context_set('theme', 'layout', 'wide');
@@ -640,6 +644,8 @@ function seed_preprocess_node_form(&$vars) {
  * Implementation of hook_preprocess_user_profile_form().
  */
 function seed_preprocess_user_profile_form(&$vars) {
+  drupal_add_css(drupal_get_path('module', 'seed') .'/theme/seed.css');
+
   $vars['#form'] = $vars['form']; // Preserve form for other preprocesses down the line.
   $form = $vars['form'];
 

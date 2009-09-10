@@ -72,6 +72,12 @@ div.filter-options div.filter-help {
   float:left;
   }
 
+/*
+ * If custom seed module filter formats are disabled (e.g. to avoid conflict with WYSIWYG),
+ * we should at least hide the obnoxiously long filter format tips.
+ */
+div.form-item div.description ul.tips { display:none; }
+
 /**
  * Numbered forms.
  */
