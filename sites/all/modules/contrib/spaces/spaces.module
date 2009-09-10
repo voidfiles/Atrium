@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.module,v 1.25.4.33.2.27 2009/08/13 14:55:33 yhahn Exp $
+// $Id: spaces.module,v 1.25.4.33.2.30 2009/09/10 16:06:57 yhahn Exp $
 
 define('SPACES_FEATURE_DISABLED', 0);
 
@@ -744,6 +744,17 @@ function spaces_preset_enforce(&$space, $force = FALSE) {
     // Weights are a bit trickier
     // Sorting features in a preset according to their weights
     if (isset($preset['weights']) && is_array($preset['weights'])) {
+      // Exclude any weight values that don't correspond to entries in the features array.
+      $preset['weights'] = array_intersect_key($preset['weights'], $space->features);
+
+      // Fill in excessively high weight entries for any features that don't exist in
+      // the weights array.
+      $i = 0;
+      foreach (array_diff_key($space->features, $preset['weights']) as $feature) {
+        $preset['weights'][$feature] = 1000 + $i;
+        $i++;
+      }
+
       // Ensure the keys line up to begin with
       ksort($preset['weights']);
       ksort($space->features);
