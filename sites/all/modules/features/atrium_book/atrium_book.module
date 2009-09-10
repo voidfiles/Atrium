@@ -64,6 +64,9 @@ function atrium_book_strongarm() {
   // Enable for recent activity views
   $conf['atrium_update_type_book'] = TRUE;
 
+  // Pathauto (optional) settings
+  $conf["pathauto_node_book_pattern"] = "[space-og-path]/book/[title-raw]";
+
   return $conf;
 }
 

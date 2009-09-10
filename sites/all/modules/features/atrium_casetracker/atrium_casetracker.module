@@ -60,6 +60,10 @@ function atrium_casetracker_strongarm() {
     $conf['atrium_update_type_'. $type] = TRUE;
   }
 
+  // Pathauto (optional) settings
+  $conf["pathauto_node_casetracker_basic_case_pattern"] = "[space-og-path]/case/[title-raw]";
+  $conf["pathauto_node_casetracker_basic_project_pattern"] = "[space-og-path]/project/[title-raw]";
+
   // Case Tracker views
   $conf['casetracker_view_project_options'] = 'atrium_ct_project_options';
   $conf['casetracker_view_assignee_options'] = 'atrium_ct_assignee_options';

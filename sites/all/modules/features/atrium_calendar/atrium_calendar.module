@@ -61,6 +61,9 @@ function atrium_calendar_strongarm() {
     // Disable Diff button
     $conf['show_preview_changes_'. $type] = FALSE;
     $conf['show_diff_inline_'. $type] = FALSE;
+
+    // Pathauto (optional) settings
+    $conf["pathauto_node_{$type}_pattern"] = "[space-og-path]/{$type}/[title-raw]";
   }
 
   $conf['node_options_feed_ical'] = array('status');

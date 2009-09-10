@@ -63,6 +63,9 @@ function atrium_blog_strongarm() {
   // Enable for recent activity views
   $conf['atrium_update_type_blog'] = TRUE;
 
+  // Pathauto (optional) settings
+  $conf["pathauto_node_blog_pattern"] = "[space-og-path]/blog/[title-raw]";
+
   return $conf;
 }
 
