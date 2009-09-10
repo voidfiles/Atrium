@@ -306,6 +306,8 @@ a.user-picture {
  * Page-specific tools ================================================
  */
 #page-tools {
+  height:30px;
+  overflow:hidden;
   padding:15px 0px;
   float:right;
   }
