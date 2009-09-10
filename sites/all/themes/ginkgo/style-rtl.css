@@ -5,7 +5,7 @@ div.view-atrium-profile li div.mail,
 #views-bulk-operations-dropdown,
 #views-bulk-operations-submit,
 div.grouped div.grouped-meta,
-div.view-atrium-shoutbox-shouts div.views-field-picture,
+div.view-atrium-shoutbox-shouts .user-picture,
 
 div.diff-inline-controls span.diff-inline-legend,
 div.more-link a,
@@ -93,7 +93,7 @@ div.main h2.block-title {
 .dropdown-blocks h2.block-title span.icon,
 .dropdown-blocks div.block-toggle ul.links li a span,
 .dropdown-blocks div.block-toggle div.item-list li a span,
-div.view-atrium-shoutbox-shouts div.views-field-picture,
+div.view-atrium-shoutbox-shouts .user-picture,
 #page ul.secondary-tabs a {
   margin-right:0px;
   margin-left:5px;
