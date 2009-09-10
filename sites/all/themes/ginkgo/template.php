@@ -374,6 +374,20 @@ function ginkgo_node_preview($node = NULL, $show = FALSE) {
 }
 
 /**
+ * Override of theme_content_multiple_values().
+ * Adds a generic wrapper.
+ */
+function ginkgo_content_multiple_values($element) {
+  $output = theme_content_multiple_values($element);
+  $field_name = $element['#field_name'];
+  $field = content_fields($field_name);
+  if ($field['multiple'] >= 1) {
+    return "<div class='content-multiple-values'>{$output}</div>";
+  }
+  return $output;
+}
+
+/**
  * Preprocessor for theme('views_view_fields').
  */
 function ginkgo_preprocess_views_view_fields(&$vars) {

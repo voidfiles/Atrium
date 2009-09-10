@@ -103,6 +103,14 @@ form div.form div.buttons {
   background:#f8f8f8;
   }
 
+/* CCK multiple values */
+div.content-multiple-values { position:relative; }
+div.content-multiple-values .content-add-more {
+  position:absolute;
+  top:5px;
+  right:5px;
+  }
+
 /**
  * FIELDSETS  =========================================================
  */
