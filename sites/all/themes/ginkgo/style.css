@@ -963,6 +963,8 @@ div.view div.grouped-admin {
   font-size:11px;
   }
 
+div.view div.grouped-admin div.views-field { float:left; }
+
 div.view div.grouped-admin a {
   float:left;
   background:#fff;
