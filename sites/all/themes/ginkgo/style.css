@@ -957,7 +957,20 @@ div.view div.grouped-meta {
     white-space:nowrap;
     }
 
-div.view div.grouped-content {
+/* Admin links */
+div.view div.grouped-admin {
+  float:right;
+  font-size:11px;
+  }
+
+div.view div.grouped-admin a {
+  float:left;
+  background:#fff;
+  padding:0px 5px;
+  }
+
+/* Slide over content if meta group is present */
+div.view div.grouping-meta div.grouped-content {
   float:right;
   width:65%;
   }
