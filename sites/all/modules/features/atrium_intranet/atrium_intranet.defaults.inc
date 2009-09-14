@@ -60,6 +60,16 @@ function _atrium_intranet_context_default_contexts() {
       ),
     ),
   );
+  $items[] = array(
+    'namespace' => 'theme',
+    'attribute' => 'layout',
+    'value' => 'custom',
+    'description' => '',
+    'theme_regiontoggle' => array(
+      '0' => 'right',
+      '1' => 'content',
+    ),
+  );
   return $items;
 }
 
