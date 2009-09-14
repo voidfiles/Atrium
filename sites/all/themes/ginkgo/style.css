@@ -55,6 +55,7 @@ div.toggle-blocks div.block-widget div.block-content {
 /**
  * USERNAMES, PICS ====================================================
  */
+span.username,
 a.username {
   font-weight:bold;
   font-size:11px;
@@ -62,6 +63,7 @@ a.username {
   color:#666;
   }
 
+  table span.username,
   table a.username { white-space:nowrap; }
 
 a.user-picture {
@@ -552,6 +554,9 @@ div.comment-submitted {
 
   div.node-submitted .username,
   div.comment-submitted .username { float:left; }
+
+  div.node-submitted span.username,
+  div.comment-submitted span.username { padding:0px 0px 0px 10px; }
 
   div.node-submitted span.date,
   div.comment-submitted span.date {
