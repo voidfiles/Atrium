@@ -1,5 +1,5 @@
 <?php
-// $Id: features.admin.inc,v 1.1.2.21 2009/08/11 19:02:13 yhahn Exp $
+// $Id: features.admin.inc,v 1.1.2.24 2009/09/14 03:36:35 yhahn Exp $
 
 /**
  * admin/build/features page callback.
@@ -84,9 +84,9 @@ function features_admin_form($feature = NULL) {
     );
 
     $actions = l(t('View'), "admin/build/features/{$name}");
-    $actions .= '<span class="admin-overridden"> | </span>';
+    $actions .= '<span class="admin-update"> | </span>';
     $actions .= l(t('Update'), "admin/build/features/{$name}/update", array(
-      'attributes' => array('class' => 'admin-overridden')
+      'attributes' => array('class' => 'admin-update')
     ));
     $actions .= '<span class="admin-overridden"> | </span>';
     $actions .= l(t('Revert'), "admin/build/features/{$name}/revert", array(
@@ -133,12 +133,6 @@ function features_admin_form($feature = NULL) {
  */
 function features_admin_components($feature) {
   module_load_include('inc', 'features', 'features.export');
-  $conflict = features_detect_overrides($feature);
-
-  // Retrieve basic information
-  $info = array();
-  $info['name'] = $feature->info['name'];
-  $info['description'] = $feature->info['description'];
 
   // Iterate over dependencies and retrieve status for display
   $dependencies = array();
@@ -151,26 +145,19 @@ function features_admin_components($feature) {
 
   // Iterate over components and retrieve status for display
   $components = $feature->info['features'];
+  $overrides = features_detect_overrides($feature);
   $conflicts = array();
-  foreach ($feature->info['features'] as $type => $items) {
-    if (!empty($conflict[$type])) {
-      $conflicts[$type] = l(theme('features_storage', FEATURES_OVERRIDDEN), "admin/build/features/{$feature->name}/compare", array('html' => TRUE));
-      unset($conflict[$type]);
+  foreach ($feature->info['features'] as $component => $items) {
+    if (!empty($overrides[$component])) {
+      $conflicts[$component] = l(theme('features_storage', FEATURES_OVERRIDDEN), "admin/build/features/{$feature->name}/compare", array('html' => TRUE));
+      unset($overrides[$component]);
     }
     else {
-      $conflicts[$type] = theme('features_storage', FEATURES_DEFAULT);
-    }
-  }
-  // There are new additions -- show
-  if (!empty($conflict)) {
-    foreach ($conflict as $type => $items) {
-      // If exportables are standardized with keyed arrays, this would work much better!
-      $components[$type] = array();
-      $conflicts[$type] = l(theme('features_storage', FEATURES_OVERRIDDEN), "admin/build/features/{$feature->name}/compare", array('html' => TRUE));
+      $conflicts[$component] = theme('features_storage', FEATURES_DEFAULT);
     }
   }
 
-  return theme('features_admin_components', $info, $dependencies, $components, $conflicts);
+  return theme('features_admin_components', $feature->info, $dependencies, $conflicts);
 }
 
 /**
@@ -235,11 +222,11 @@ function features_form_submit(&$form, &$form_state) {
   // page callback rather than as part of the submit handler as some modules
   // have includes/other directives of importance in hooks that have already
   // been called in this page load.
-  $form_state['#redirect'] = 'admin/build/features/cache-clear';
+  $form_state['redirect'] = 'admin/build/features/cache-clear';
 }
 
 /**
- * Clear caches after enabling a feature.z
+ * Clear caches after enabling a feature.
  */
 function features_cache_clear() {
   drupal_flush_all_caches();
@@ -314,40 +301,41 @@ function features_feature_comparison($feature) {
   drupal_add_css(drupal_get_path('module', 'features') .'/features.css');
   module_load_include('inc', 'features', 'features.export');
 
-  $conflict = features_detect_overrides($feature);
+  $overrides = features_detect_overrides($feature);
 
   // There are differences
-  if (!empty($conflict)) {
-    // Diff is installed
+  if (!empty($overrides)) {
     if (module_exists('diff')) {
       module_load_include('php', 'diff', 'DiffEngine');
       $formatter = new DrupalDiffFormatter();
-      foreach ($conflict as $k => $v) {
+    }
+    else {
+      $diff_message = t('Please install !diff to view detailed output.', array('!diff' => l('diff', 'http://drupal.org/project/diff', array('absolute' => TRUE))));
+      $diff_message = theme('table', array(), array(array($diff_message)));
+    }
+    foreach ($overrides as $component => $items) {
+      if ($component == 'info') {
+        $output .= "<h3>{$component}</h3>";
         if (module_exists('diff')) {
-          if (is_object($v['default']) && get_class($v['default']) == 'view' ){
-            $old = $v['default']->export();
-            $new = $v['current']->export();
-          }
-          else {
-            $old = features_var_export($v['default']);
-            $new = features_var_export($v['current']);
-          }
-          // Eliminate whitespace differences
-          $old = _features_linetrim(explode("\n", $old));
-          $new = _features_linetrim(explode("\n", $new));
-
-          $diff = new Diff($old, $new);
-          $output .= '<h3>' . $k . '</h3>';
-          $output .= theme('diff_table', array(t('Default'), '', t('Current'), ''), $formatter->format($diff), array('class' => 'diff'));
+          $diff = new Diff(explode("\n", $items['default']), explode("\n", $items['current']));
+          $output .= theme('diff_table', array(t('Default'), '', t('Current'), ''), $formatter->format($diff), array('class' => 'diff features-diff'));
         }
         else {
-          $items[] = $k;
+          $output .= $diff_message;
         }
       }
-    }
-    // Diff is not installed
-    else {
-      $output = "<div class='features-empty'>". t('Please install the diff module to view changes.') ."</div>";
+      else {
+        foreach ($items as $k => $v) {
+          $output .= is_numeric($k) ? "<h3>{$component}</h3>" : "<h3>{$component}: {$k}</h3>";
+          if (module_exists('diff')) {
+            $diff = new Diff(explode("\n", $v['default']), explode("\n", $v['current']));
+            $output .= theme('diff_table', array(t('Default'), '', t('Current'), ''), $formatter->format($diff), array('class' => 'diff features-diff'));
+          }
+          else {
+            $output .= $diff_message;
+          }
+        }
+      }
     }
   }
   // No changes

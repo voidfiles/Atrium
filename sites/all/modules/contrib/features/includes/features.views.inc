@@ -1,5 +1,5 @@
 <?php
-// $Id: features.views.inc,v 1.1.2.10 2009/08/11 16:28:32 yhahn Exp $
+// $Id: features.views.inc,v 1.1.2.11 2009/09/14 03:49:25 yhahn Exp $
 
 /**
  * Implementation of hook_features_api().
@@ -57,6 +57,8 @@ function views_features_export_render($module = 'foo', $data) {
  * Implementation of hook_features_export().
  */
 function views_features_export($data, &$export, $module_name = '') {
+  views_include('view');
+
   if (!isset($export['features']['views'])) {
     $export['features']['views'] = array();
   }
@@ -147,7 +149,7 @@ function views_features_export($data, &$export, $module_name = '') {
   views_include_default_views();
   $modules = module_implements('views_default_views');
   $conflicts = array();
-  foreach ($modules as $m) {    
+  foreach ($modules as $m) {
     $m_default_views = module_invoke($m, 'views_default_views');
     if (is_array($m_default_views)) {
       foreach ($m_default_views as $view_name => $view) {
@@ -232,6 +234,8 @@ function views_plugin_dependencies() {
  * name of module to revert content for
  */
 function views_features_revert($module = NULL) {
+  views_include('view');
+
   // Get default views from feature
   if (module_hook($module, 'views_default_views')) {
     $default_views = module_invoke($module, 'views_default_views');

@@ -1,5 +1,5 @@
 <?php
-// $Id: features.drush.inc,v 1.1.2.12 2009/08/11 15:02:45 yhahn Exp $
+// $Id: features.drush.inc,v 1.1.2.14 2009/09/14 15:07:33 yhahn Exp $
 
 /**
  * @file
@@ -34,7 +34,7 @@ function features_drush_command() {
     'arguments' => array(
       'feature' => 'Feature name to export.',
     ),
-    );
+  );
   $items['features revert'] = array(
     'callback' => 'features_command_revert',
     'description' => "Revert a feature module on your site.",
@@ -120,7 +120,9 @@ function features_command_update() {
 
   if (count($args) == 1) {
     $module = array_shift($args);
-    if ($feature = feature_load($module, TRUE)) {
+    $feature = feature_load($module, TRUE);
+
+    if ($feature && module_exists($module)) {
       $stub = $feature->info['features'];
 
       // Construct the correct destination path
@@ -131,6 +133,9 @@ function features_command_update() {
       }
 
       _features_command_export($stub, $feature->name, $destination);
+    }
+    else if ($feature && !module_exists($module)) {
+      drush_die('The feature '. $module .' is not enabled.');
     }
     else {
       drush_die('The feature '. $module .' could not be found.');
@@ -161,8 +166,7 @@ function _features_command_export($stub, $module_name = NULL, $destination = 'si
   module_load_include('inc', 'features', 'features.export');
   $export = features_populate($stub, $module_name);
   if ($feature = feature_load($module_name)) {
-    $export['name'] = $feature->info['name'];
-    $export['description'] = $feature->info['description'];
+    $export['dependencies'] = _features_export_preserve_dependencies($export['dependencies'], $module_name);
   }
   else {
     $export['name'] = $module_name;
@@ -201,8 +205,45 @@ function features_command_revert() {
 
   if (count($args) == 1) {
     $module = array_shift($args);
-    if (!($feature = feature_load($module, TRUE))) {
-       drush_die('The feature '. $module .' could not be found.');
+    $feature = feature_load($module, TRUE);
+
+    if ($feature && module_exists($module)) {
+      // Find all overridden items
+      module_load_include('inc', 'features', 'features.export');
+      $overrides = features_detect_overrides($feature);
+      if (count(array_keys($overrides)) > 0) {
+        drush_print(dt('Found !number component!plural to revert: !components', array('!number' => count(array_keys($overrides)),
+          '!components' => implode(array_keys($overrides), ', '),
+          '!plural' => count(array_keys($overrides)) > 1 ? 's' : '')));
+      }
+      else {
+        drush_print(dt('Current state already matches defaults, aborting.'));
+        return;
+      }
+      foreach (array_keys($overrides) as $component) {
+        if (!drush_confirm(dt('Do you really want to revert !component?', array('!component' => $component)))) {
+          drush_print(dt('Skipping !component.', array('!component' => $component)));
+          continue;
+        }
+        features_include();
+        if (!features_hook($component, 'features_revert')) {
+          drush_print(dt('Features does not know how to revert !component', array('!component' => $component)));
+          continue;
+        }
+        $result = features_invoke($component, 'features_revert', $module);
+        if (!$result) {
+          drush_print(dt('Revert !component failed.', array('!component' => $component)));
+        }
+        else {
+          drush_print(dt('Reverted !component.', array('!component' => $component)));
+        }
+      }
+    }
+    else if ($feature && !module_exists($module)) {
+      drush_die('The feature '. $module .' is not enabled.');
+    }
+    else {
+      drush_die('The feature '. $module .' could not be found.');
     }
   }
   else {
@@ -213,36 +254,5 @@ function features_command_revert() {
     }
     drush_print_table($rows, TRUE);
     return;
-  }
-
-  // Find all overridden items
-  module_load_include('inc', 'features', 'features.export');
-  $overrides = features_detect_overrides($feature);
-  if (count(array_keys($overrides)) > 0) {
-    drush_print(dt('Found !number component!plural to revert: !components', array('!number' => count(array_keys($overrides)),
-      '!components' => implode(array_keys($overrides), ', '),
-      '!plural' => count(array_keys($overrides)) > 1 ? 's' : '')));
-  }
-  else {
-    drush_print(dt('Current state already matches defaults, aborting.'));
-    return;
-  }
-  foreach (array_keys($overrides) as $component) {
-    if (!drush_confirm(dt('Do you really want to revert !component?', array('!component' => $component)))) {
-      drush_print(dt('Skipping !component.', array('!component' => $component)));
-      continue;
-    }
-    features_include();
-    if (!features_hook($component, 'features_revert')) {
-      drush_print(dt('Features does not know how to revert !component', array('!component' => $component)));
-      continue;
-    }
-    $result = features_invoke($component, 'features_revert', $module);
-    if (!$result) {
-      drush_print(dt('Revert !component failed.', array('!component' => $component)));
-    }
-    else {
-      drush_print(dt('Reverted !component.', array('!component' => $component)));
-    }
   }
 }

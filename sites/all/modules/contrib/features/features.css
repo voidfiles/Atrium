@@ -1,3 +1,6 @@
+/**
+ * Features management form (admin/build/features).
+ */
 div.features-empty {
   margin:15px 0px;
   font-size:1.5em;
@@ -35,26 +38,29 @@ table.features tr.disabled { color:#999; }
   table.features .admin-overridden { display: none;}
 
 /**
- * Feature export form
+ * Feature export form (admin/build/features/export).
  */
+form.features-export-form table td { width:50%; }
+form.features-export-form table td { vertical-align:top; }
+form.features-export-form table div.description { white-space:normal; }
+
 table.features-export div.form-item { white-space:normal; }
 table.features-export select { width:90%; }
 table.features-export td { vertical-align:top; }
 
-#features-export-form div.form-checkboxes {
-  overflow:auto;
-  max-height:15em; /* Not supported by IE */
+form.features-export-form div.features-select { display:none; }
+
+form.features-export-form div.form-checkboxes {
+  overflow-x:hidden;
+  overflow-y:auto;
+  height:20em;
   }
 
-table.features-export-final th,
-table.features-export-final td { width:50%; }
-table.features-export-final textarea {
-  width:95%;
-  font: 11px/15px "Andale Mono",monospace;
-  }
+form.features-export-form div#edit-components-wrapper,
+form.features-export-form div.features-select { padding-right:20px; }
 
 /**
- * Feature component display
+ * Feature component display (admin/build/features/%feature).
  */
 div.features-components div.column {
   float:left;
@@ -82,3 +88,37 @@ div.features-components div.description {
 
 div.features-components table td { font-size:11px; }
 div.features-components table td.component { padding-left:20px; }
+
+/**
+ * Features component lists.
+ */
+span.features-component-key { font-size:11px; }
+
+span.features-component-list span {
+  white-space:nowrap;
+  margin-right:5px;
+  padding:2px 5px;
+  background:#eee;
+
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  }
+
+span.features-component-list .features-detected {
+  color:#68a;
+  background:#def;
+  }
+
+span.features-component-list .features-dependency {
+  color:#ccc;
+  background:#f8f8f8;
+  }
+
+/**
+ * Features diff.
+ */
+table.features-diff { font-size:11px; }
+table.features-diff td.diff-deletedline,
+table.features-diff td.diff-addedline,
+table.features-diff td.diff-context { width:50%; }
+  

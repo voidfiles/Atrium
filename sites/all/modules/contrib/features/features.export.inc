@@ -1,416 +1,224 @@
 <?php
-// $Id: features.export.inc,v 1.1.2.33 2009/08/11 20:39:42 yhahn Exp $
+// $Id: features.export.inc,v 1.1.2.38 2009/09/14 14:47:31 yhahn Exp $
 
 /**
- * Update form.
+ * Form callback for features export form. Acts as a router based on the form_state.
  */
-function features_update_form($form_state, $module) {
+function features_export_form($form_state, $feature = NULL) {
   features_include();
-  $export = array_merge($module->info, features_populate($module->info['features'], $module->name));
 
-  $form['markup'] = array(
-    '#type' => 'markup',
-    '#value' => "<h3>". t('Update !module_name', array('!module_name' => $module->name)) ."</h3>",
+  $form = array(
+    '#attributes' => array('class' => 'features-export-form'),
+    '#feature' => isset($feature) ? $feature : NULL,
   );
-  $form['export'] = array(
-    '#type' => 'value',
-    '#value' => $export,
-  );
-  $form['name'] = array(
-    '#title' => t('Name'),
-    '#type' => 'textfield',
-    '#required' => TRUE,
-    '#default_value' => !empty($module->info['name']) ? $module->info['name'] : '',
-  );
-  $form['module_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Machine-readable name'),
-    '#value' => $module->name,
-    '#default_value' => $module->name,
-    '#disabled' => TRUE,
-  );
-  $form['description'] = array(
-    '#title' => t('Description'),
-    '#type' => 'textfield',
-    '#required' => TRUE,
-    '#default_value' => !empty($module->info['description']) ? $module->info['description'] : '',
-  );
-  $form['optional'] = array(
-    '#title' => t('Optional information'),
+  $form['info'] = array(
     '#type' => 'fieldset',
     '#tree' => FALSE,
   );
-  $form['optional']['project_status_url'] = array(
-    '#title' => t('Update feed'),
+  $form['info']['name'] = array(
+    '#title' => t('Name'),
+    '#description' => t('Example: Image gallery'),
     '#type' => 'textfield',
-    '#required' => FALSE,
-    '#default_value' => !empty($module->info['project status url']) ? $module->info['project status url'] : '',
+    '#required' => TRUE,
+    '#default_value' => !empty($feature->info['name']) ? $feature->info['name'] : '',
+    '#attributes' => array('class' => 'feature-name'),
   );
-  $form['optional']['version'] = array(
+  $form['info']['project'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Machine-readable name'),
+    '#description' => t('Example: image_gallery'). '<br/>' .t('May only contain lowercase letters, numbers and underscores. <strong>Try to avoid conflicts with the names of existing Drupal projects.</strong>'),
+    '#required' => TRUE,
+    '#default_value' => !empty($feature->name) ? $feature->name : '',
+    '#attributes' => array('class' => 'feature-project'),
+  );
+  $form['info']['description'] = array(
+    '#title' => t('Description'),
+    '#description' => t('Provide a short description of what users should expect when they enable your feature.'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#default_value' => !empty($feature->info['description']) ? $feature->info['description'] : '',
+  );
+  $form['info']['version'] = array(
     '#title' => t('Version'),
+    '#description' => t('Examples: 6.x-1.0, 6.x-1.0-beta1'),
     '#type' => 'textfield',
     '#required' => FALSE,
-    '#default_value' => !empty($module->info['version']) ? $module->info['version'] : '',
+    '#default_value' => !empty($feature->info['version']) ? $feature->info['version'] : '',
+    '#size' => 30,
   );
-  $form['download'] = array(
+  $form['info']['project_status_url'] = array(
+    '#title' => t('URL of update XML'),
+    '#description' => t('Example: http://mywebsite.com/fserver'),
+    '#type' => 'textfield',
+    '#required' => FALSE,
+    '#default_value' => !empty($feature->info['project status url']) ? $feature->info['project status url'] : '',
+    '#size' => 30,
+  );
+
+  // User-selected feature source components.
+  $components = array_keys(features_get_components());
+  $components[] = 'dependencies';
+  $form['export'] = array(
+    '#type' => 'fieldset', 
+    '#tree' => FALSE,
+    '#theme' => 'features_form_export',
+  );
+  $form['export']['components'] = array(
+    '#title' => t('Add components'),
+    '#type' => 'select',
+    '#options' => array('------'),
+    '#attributes' => array('class' => 'features-select-components'),
+  );
+  $form['export']['sources'] = array(
+    '#tree' => TRUE,
+    '#theme' => 'features_form_components',
+  );
+  foreach ($components as $component) {
+    // Tack on dependency options as they are not a feature component proper.
+    if ($component == 'dependencies') {
+      $required = drupal_required_modules();
+      $options = array();
+      foreach (features_get_modules() as $module_name => $info) {
+        if (!in_array($module_name, $required) && $info->status && !empty($info->info)) {
+          $options[$module_name] = $info->info['name'];
+        }
+      }
+      $default_value = !empty($feature->info['dependencies']) ? $feature->info['dependencies'] : array();
+    }
+    else {
+      $options = features_invoke($component, 'features_export_options');
+      $default_value = !empty($feature->info['features'][$component]) ? $feature->info['features'][$component] : array();
+    }
+    if ($options) {
+      $form['export']['components']['#options'][$component] = $component;
+      $form['export']['sources'][$component] = array(
+        '#type' => 'checkboxes',
+        '#options' => $options,
+        '#title' => $component,
+        '#default_value' => $default_value,
+        '#ahah' => array(
+          'path' => 'admin/build/features/export/populate',
+          'wrapper' => 'features-export-populated',
+        ),
+      );
+    }
+  }
+  $form['export']['features'] = array(
+    '#tree' => TRUE,
+    '#type' => 'markup',
+    '#prefix' => "<div id='features-export-populated'>",
+    '#suffix' => "</div>",
+    '#value' => !empty($feature->info) ? theme('features_components', $feature->info, $feature->info['features'], array(), TRUE) : "<div class='placeholder'></div>",
+  );
+
+  $form['buttons'] = array('#theme' => 'features_form_buttons', '#tree' => FALSE);
+  $form['buttons']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Download updated feature'),
+    '#value' => t('Download feature'),
+    '#weight' => 10,
+    '#submit' => array('features_export_build_form_submit'),
   );
-  return $form;
+  return $form;  
 }
 
 /**
- * Update form submit.
+ * Submit handler for features_export_form_build().
  */
-function features_update_form_submit(&$form, &$form_state) {
-  $export = $form_state['values']['export'];
-  $export['name'] = $form_state['values']['name'];
-  $export['description'] = $form_state['values']['description'];
-  if (!empty($form_state['values']['version'])) {
-    $export['version'] = $form_state['values']['version'];
+function features_export_build_form_submit($form, &$form_state) {
+  // Assemble the combined component list
+  $stub = array();
+  $components = array_keys(features_get_components());
+  foreach ($components as $component) {
+    // User-selected components take precedence.
+    if (!empty($form_state['values']['sources'][$component])) {
+      $stub[$component] = array_filter($form_state['values']['sources'][$component]);
+    }
+    // Only fallback to an existing feature's values if there are no export options for the component.
+    else if (!empty($form['#feature']->info['features'][$component])) {
+      $stub[$component] = $form['#feature']->info['features'][$component];
+    }
+  }
+
+  // Generate populated feature
+  $export = features_populate($stub, $form_state['values']['project']);
+
+  // Directly copy the following attributes
+  $attr = array('name', 'description', 'project', 'version');
+  foreach ($attr as $key) {
+    $export[$key] = isset($form_state['values'][$key]) ? $form_state['values'][$key] : NULL;
   }
   if (!empty($form_state['values']['project_status_url'])) {
     $export['project status url'] = $form_state['values']['project_status_url'];
   }
 
-  $module_name = $form_state['values']['module_name'];
-  $filename = !empty($export['version']) ? "{$module_name}-{$export['version']}" : $module_name;
-
-  $files = features_export_render($export, $module_name, TRUE);
-  features_export_download_files($files, $module_name, $filename);
-}
-
-/**
- * Export form.
- */
-function features_export_form($form_state, $module = NULL) {
-  features_include();
-
-  $steps = array(
-    t('Step 1: provide basic information'),
-    t('Step 2: choose sources'),
-    t('Step 3: confirm components'),
-    t('Step 4: download your feature'),
-  );
-
-  // retrieve storage variables
-  $module_name = !empty($form_state['storage']['module_name']) ? $form_state['storage']['module_name'] : '';
-  $export = !empty($form_state['storage']['export']) ? $form_state['storage']['export'] : array();
-
-  // we are re-exporting a module -- load up data and export
-  if (!empty($module)) {
-    $step = $form_state['storage']['step'] = 3;
-    $steps[3] = t('Update your feature: !module_name', array('!module_name' => $module->name));
-    $module_name = $module->name;
-    $export = array_merge($module->info, features_populate($module->info['features'], $module->name));
-  }
-  // we are coming in without a step, so default to step 1
-  else {
-    $step =
-    $form_state['storage']['step'] = empty($form_state['storage']['step']) ? 0 : $form_state['storage']['step'];
+  // Minimize detected dependencies and then merge in existing dependencies
+  if (!empty($form_state['values']['sources']['dependencies'])) {
+    $dependencies = array_filter($form_state['values']['sources']['dependencies']);
+    $export['dependencies'] = _features_export_preserve_dependencies($export['dependencies'], NULL, $dependencies);
   }
 
-  $form = array();
-  $form['step'] = array(
-    '#type' => 'markup',
-    '#value' => "<h3>{$steps[$step]}</h3>",
-  );
+  // Generate download
+  if ($files = features_export_render($export, $export['project'], TRUE)) {
+    $module_name = $export['project'];
+    $filename = !empty($export['version']) ? "{$module_name}-{$export['version']}" : $module_name;
 
-  switch ($step) {
-
-    // Provide additional information =================================
-    case 0:
-      $form['name'] = array(
-        '#title' => t('Name'),
-        '#description' => t('Provide a name for your feature.'),
-        '#type' => 'textfield',
-        '#required' => TRUE,
-        '#default_value' => '',
-        '#attributes' => array('class' => 'feature-name'),
-      );
-      $form['module_name'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Machine-readable name'),
-        '#description' => t('Provide a machine-readable name for your feature. This may only contain lowercase letters, numbers and underscores. <strong>It should also avoid conflicting with the names of any existing Drupal modules.</strong>'),
-        '#required' => TRUE,
-        '#default_value' => '',
-        '#attributes' => array('class' => 'feature-module-name'),
-      );
-      $form['description'] = array(
-        '#title' => t('Description'),
-        '#description' => t('Provide a description for your feature.'),
-        '#type' => 'textfield',
-        '#required' => TRUE,
-        '#default_value' => '',
-      );
-      $form['optional'] = array(
-        '#title' => t('Optional information'),
-        '#type' => 'fieldset',
-        '#tree' => FALSE,
-      );
-      $form['optional']['project_status_url'] = array(
-        '#title' => t('Update feed'),
-        '#description' => t('The URL of the update XML feed for this feature.'),
-        '#type' => 'textfield',
-        '#required' => FALSE,
-        '#default_value' => '',
-      );
-      $form['optional']['version'] = array(
-        '#title' => t('Version'),
-        '#description' => t('The version information for this feature.'),
-        '#type' => 'textfield',
-        '#required' => FALSE,
-        '#default_value' => '',
-      );
-      drupal_add_js(drupal_get_path('module', 'features') .'/features.js');
-      break;
-
-    // Choose a feature source ========================================
-    case 1:
-      $form['sources'] = array('#tree' => TRUE);
-      foreach (features_get_components(TRUE) as $component => $info) {
-        if ($options = features_invoke($component, 'features_export_options')) {
-          $form['sources'][$component] = array(
-            '#type' => 'checkboxes',
-            '#options' => $options,
-            '#title' => $component,
-          );
-        }
+    $tar = array();
+    foreach ($files as $extension => $file_contents) {
+      if (!in_array($extension, array('module', 'info'))) {
+        $extension .= '.inc';
       }
-      break;
-
-    // Confirm components =============================================
-    case 2:
-      $form['#theme'] = 'features_export_form_confirm';
-      $form['detected'] =
-      $form['added'] = array('#tree' => TRUE);
-
-      foreach ($export['conflicts'] as $type => $messages) {
-        foreach ($messages as $msg) {
-          drupal_set_message($msg, $type);
-        }
-      }
-
-      // Display each set of components and options for adding to the components
-      foreach (features_get_components() as $component => $info) {
-        $export_options = features_hook($component, 'features_export_options') ? features_invoke($component, 'features_export_options') : array();
-        $detected_components = !empty($export['features'][$component]) ? $export['features'][$component] : array();
-
-        if (!empty($detected_components) || !empty($export_options)) {
-          if (!empty($detected_components)) {
-            $form['detected'][$component] = array(
-              '#type' => 'markup',
-              '#value' => theme('item_list', array_keys($detected_components)),
-            );
-          }
-          if (!empty($export_options)) {
-            $form['added'][$component] = array(
-              '#type' => 'checkboxes',
-              '#title' => $component,
-              '#options' => array_diff_key($export_options, $detected_components),
-            );
-          }
-          else {
-            $form['added'][$component] = array(
-              '#type' => 'markup',
-              '#title' => $component,
-              '#value' => "<em>". t('This component does not support additional options.') ."</em>",
-            );
-          }
-        }
-      }
-
-      // Dependencies
-      $form['detected']['dependencies'] = array(
-        '#type' => 'markup',
-        '#value' => theme('item_list', array_keys($export['dependencies'])),
-      );
-
-      $options = array();
-      foreach (features_get_modules() as $module_name => $info) {
-        if ($info->status && !empty($info->info)) {
-          $options[$module_name] = $info->info['name'];
-        }
-      }
-      $options = array_diff_key($options, $export['dependencies']);
-
-      $form['added']['dependencies'] = array(
-        '#tree' => TRUE,
-        '#title' => t('Module dependencies'),
-        '#type' => 'checkboxes',
-        '#options' => $options,
-      );
-      break;
-
-    // Download/export ================================================
-    case 3:
-      if ($files = features_export_render($export, $module_name, TRUE)) {
-        $filename = !empty($export['version']) ? "{$module_name}-{$export['version']}" : $module_name;
-        $module_display = function_exists('gzencode') ? "{$filename}.tgz" : "{$filename}.tar";
-
-        $form['module_display'] = array(
-          '#type' => 'markup',
-          '#value' => "<h3 class='features-download'>{$module_display}</h3>",
-        );
-
-        $form['download'] = array('#tree' => TRUE, '#theme' => 'features_form_buttons');
-        $form['download']['module_name'] = array('#type' => 'value', '#value' => $module_name);
-        $form['download']['filename'] = array('#type' => 'value', '#value' => $filename);
-        $form['download']['files'] = array('#type' => 'value', '#value' => $files);
-
-        $form['download']['download'] = array(
-          '#type' => 'submit',
-          '#value' => t('Download feature'),
-          '#submit' => array('features_export_download_submit'),
-        );
-      }
-      break;
-  }
-
-  // Add Next/Prev step buttons
-  $form['buttons'] = array('#tree' => FALSE, '#theme' => 'features_form_buttons');
-  if ($step > 0 && $step != count($steps) - 1) {
-    $form['buttons']['prev'] = array('#value' => t('Previous'), '#type' => 'submit');
-  }
-  if ($step < count($steps) - 1) {
-    $form['buttons']['next'] = array('#value' => t('Next'), '#type' => 'submit');
-    if (drupal_get_messages('error', FALSE)) {
-      $form['buttons']['message'] = array(
-        '#type' => 'markup',
-        '#value' => "<div class='description'>". t('You should resolve all errors with your feature before continuing.') ."</div>",
-      );
+      $tar["{$module_name}/{$module_name}.$extension"] = $file_contents;
     }
-  }
+    $tar = features_tar_create($tar);
 
-  return $form;
-}
+    $header = function_exists('gzencode') ? 'Content-type: application/x-gzip' : 'Content-type: application/x-tar';
+    $filename = !empty($filename) ? $filename : $module_name;
+    $filename = function_exists('gzencode') ? "{$filename}.tgz" : "{$filename}.tar";
 
-/**
- * Export form submit handler.
- */
-function features_export_form_submit($form, &$form_state) {
-  // tell Drupal we are redrawing the same form
-  $form_state['rebuild'] = TRUE;
-
-  switch ($form_state['storage']['step']) {
-
-    // Step 0: Store info
-    case 0:
-      $export = array(
-        'name' => $form_state['values']['name'],
-        'description' => $form_state['values']['description'],
-      );
-      if (!empty($form_state['values']['version'])) {
-        $export['version'] = $form_state['values']['version'];
-      }
-      if (!empty($form_state['values']['project_status_url'])) {
-        $export['project status url'] = $form_state['values']['project_status_url'];
-      }
-      $form_state['storage']['export'] = $export;
-      $form_state['storage']['module_name'] = $form_state['values']['module_name'];
-      break;
-
-    // Step 1: Convert sources into export object
-    case 1:
-      $module_name = $form_state['storage']['module_name'];
-      $export = $form_state['storage']['export'];
-
-      // Retrieve export
-      $feature = array();
-      foreach (element_children($form['sources']) as $elem) {
-        if (!empty($form_state['values']['sources'][$elem])) {
-          foreach ($form_state['values']['sources'][$elem] as $identifier => $value) {
-            if ($value) {
-              $feature[$elem][] = $identifier;
-            }
-          }
-        }
-      }
-
-      $export = array_merge($export, features_populate($feature, $module_name));
-      $form_state['storage']['export'] = $export;
-      break;
-
-    // Step 2: Update export object based on user input
-    case 2:
-      $module_name = $form_state['storage']['module_name'];
-      $export = $form_state['storage']['export'];
-
-      // Update export array based on what's been selected
-      foreach ($form_state['values']['added'] as $component => $items) {
-        if ($component == 'dependencies') {
-          foreach ($items as $item => $value) {
-            if ($value) {
-              $export['dependencies'][$item] = $item;
-            }
-            else if (!empty($export['dependencies'][$item])) {
-              unset($export['dependencies'][$item]);
-            }
-          }
-        }
-        else {
-          foreach ($items as $item => $value) {
-            if ($value) {
-              $export['features'][$component][$item] = $item;
-            }
-            else if (!empty($export['features'][$component][$item])) {
-              unset($export['features'][$component][$item]);
-            }
-          }
-        }
-      }
-
-      // Build final export array
-      $populated = features_populate($export['features'], $module_name);
-      $export['features'] = array_merge($export['features'], $populated['features']);
-      $export['dependencies'] = array_merge($export['dependencies'], $populated['dependencies']);
-      $export['dependencies'] = _features_export_minimize_dependencies($export['dependencies'], $module_name);
-
-      $form_state['storage']['export'] = $export;
-      break;
-  }
-
-  // check the button that was clicked and action the step chagne
-  if ($form_state['clicked_button']['#id'] == 'edit-prev') {
-    $form_state['storage']['step']--;
-  }
-  elseif ($form_state['clicked_button']['#id'] == 'edit-next') {
-    $form_state['storage']['step']++;
+    drupal_set_header($header);
+    drupal_set_header('Content-Disposition: attachment; filename="'. $filename .'"');
+    print $tar;
+    exit;
   }
 }
 
 /**
- * Download submit handler.
+ * AHAH handler for features_export_form_build().
  */
-function features_export_download_submit(&$form, &$form_state) {
-  if (!empty($form_state['values']['download']['files'])) {
-    $files = $form_state['values']['download']['files'];
-    $module_name = $form_state['values']['download']['module_name'];
-    $filename = $form_state['values']['download']['filename'];
-    features_export_download_files($files, $module_name, $filename);
-  }
-}
+function features_export_build_form_populate() {
+  $form_state = array();
+  $submitted = $_POST;
 
-/**
- * Delivers files to the user through a tarball download.
- */
-function features_export_download_files($files, $module_name, $filename = '') {
-  $tar = array();
-  foreach ($files as $extension => $file_contents) {
-    if (!in_array($extension, array('module', 'info'))) {
-      $extension .= '.inc';
+  // Only uncomment this for debugging AJAX action
+  $submitted = !empty($_POST) ? $_POST : $_GET;
+
+  if ($form = form_get_cache($submitted['form_build_id'], $form_state)) {
+    $stub = array();
+
+    // Assemble the combined component list
+    $components = array_keys(features_get_components());
+    foreach ($components as $component) {
+      // User-selected components take precedence.
+      if (!empty($submitted['sources'][$component])) {
+        $stub[$component] = $submitted['sources'][$component];
+      }
+      // Only fallback to an existing feature's values if there are no export options for the component.
+      else if (!isset($form['export']['sources'][$component]) && !empty($form['#feature']->info['features'][$component])) {
+        $stub[$component] = $form['#feature']->info['features'][$component];
+      }
     }
-    $tar["{$module_name}/{$module_name}.$extension"] = $file_contents;
+
+    // Ensure source dependencies are populated
+    $stub['dependencies'] = isset($submitted['sources']['dependencies']) ? $submitted['sources']['dependencies'] : array();
+
+    // Generate populated feature
+    $export = features_populate($stub, $submitted['project']);
+    $export['dependencies'] = _features_export_preserve_dependencies($export['dependencies'], NULL, $stub['dependencies']);
+
+    drupal_json(array('status' => TRUE, 'data' => theme('features_components', $export, $stub, array(), TRUE)));
+    exit;
   }
-  $tar = features_tar_create($tar);
-
-  $header = function_exists('gzencode') ? 'Content-type: application/x-gzip' : 'Content-type: application/x-tar';
-  $filename = !empty($filename) ? $filename : $module_name;
-  $filename = function_exists('gzencode') ? "{$filename}.tgz" : "{$filename}.tar";
-
-  drupal_set_header($header);
-  drupal_set_header('Content-Disposition: attachment; filename="'. $filename .'"');
-  print $tar;
+  drupal_json(array('status' => FALSE, 'data' => ''));
   exit;
 }
 
@@ -420,9 +228,21 @@ function features_export_download_files($files, $module_name, $filename = '') {
  * @return
  */
 function features_populate($items, $module_name) {
+  // Sanitize items.
+  $items = array_filter($items);
+
+  // Populate stub
   $stub = array('features' => array(), 'dependencies' => array(), 'conflicts' => array());
   $export = _features_populate($items, $stub, $module_name);
   $export['dependencies'] = _features_export_minimize_dependencies($export['dependencies'], $module_name);
+
+  // Clean up and standardize order
+  foreach (array_keys($export['features']) as $k) {
+    ksort($export['features'][$k]);
+  }
+  ksort($export['features']);
+  ksort($export['dependencies']);
+
   return $export;
 }
 
@@ -465,8 +285,14 @@ function _features_export_minimize_dependencies($dependencies, $module_name = ''
   if (!empty($module_name) && !empty($dependencies[$module_name])) {
     unset($dependencies[$module_name]);
   }
+
+  // Do some cleanup:
+  // - Remove modules required by Drupal core.
+  // - Protect against direct circular dependencies.
+  // - Remove "intermediate" dependencies.
+  $required = drupal_required_modules();
   foreach ($dependencies as $k => $v) {
-    if (empty($v)) {
+    if (empty($v) || in_array($v, $required)) {
       unset($dependencies[$k]);
     }
     else {
@@ -508,9 +334,47 @@ function _features_export_maximize_dependencies($dependencies, $module_name = ''
 }
 
 /**
- * Prepare a feature export into an array representing its files and default hooks.
+ * Preserve existing dependencies.
+ */
+function _features_export_preserve_dependencies($dependencies, $module_name = NULL, $existing = array()) {
+  if (!empty($module_name)) {
+    $feature = feature_load($module_name);
+    $existing = !empty($feature->info['dependencies']) ? $feature->info['dependencies'] : array();
+  }
+  $merged = array_merge($existing, $dependencies);
+  $merged = array_unique($merged);
+  ksort($merged);
+  return $merged;
+}
+
+/**
+ * Prepare a feature export array into a finalized info array.
  */
 function features_export_prepare($export, $module_name, $reset = FALSE) {
+  $existing = features_get_modules($module_name, $reset);
+
+  // Prepare info string -- if module exists, merge into its existing info file
+  $defaults = $existing ? $existing->info : array('core' => '6.x', 'package' => 'Features', 'project' => $module_name);
+  $export = array_merge($defaults, $export);
+
+  // Cleanup info array
+  foreach ($export['features'] as $component => $data) {
+    $export['features'][$component] = array_keys($data);
+  }
+  if (isset($export['dependencies'])) {
+    $export['dependencies'] = array_values($export['dependencies']);
+  }
+  if (isset($export['conflicts'])) {
+    unset($export['conflicts']);
+  }
+  ksort($export);
+  return $export;
+}
+
+/**
+ * Generate an array of hooks and their raw code.
+ */
+function features_export_render_hooks($export, $module_name, $reset = FALSE) {
   features_include();
   $code = array();
 
@@ -544,24 +408,11 @@ function features_export_prepare($export, $module_name, $reset = FALSE) {
  * @return array of info file and module file contents.
  */
 function features_export_render($export, $module_name, $reset = FALSE) {
-  $existing = features_get_modules($module_name, $reset);
-  $components = features_get_components();
-
-  // Prepare info string -- if module exists, merge into its existing info file
-  $info = $existing ? $existing->info : array('core' => '6.x', 'package' => 'Features', 'project' => $module_name);
-  $export = array_merge($info, $export);
-
-  // A couple of special cases.
-  if (!empty($export['dependencies'])) {
-    $export['dependencies'] = array_values($export['dependencies']);
-  }
-  if (!empty($export['conflicts'])) {
-    unset($export['conflicts']);
-  }
-
-  // Generate code by component, hook
   $code = array();
-  $component_hooks = features_export_prepare($export, $module_name, $reset);
+
+  // Generate hook code
+  $component_hooks = features_export_render_hooks($export, $module_name, $reset);
+  $components = features_get_components();
 
   // Group component code into their respective files
   foreach ($component_hooks as $component => $hooks) {
@@ -598,16 +449,18 @@ function features_export_render($export, $module_name, $reset = FALSE) {
     $code[$filename] = "<?php\n\n". implode("\n\n", $contents) ."\n";
   }
 
-  // Generate info file string
+  // Generate info file output
+  $export = features_export_prepare($export, $module_name, $reset);
   $code['info'] = features_export_info($export);
 
   // Prepare the module
   // If module exists, let it be and include it in the files
+  $existing = features_get_modules($module_name, TRUE);
   if ($existing) {
     $code['module'] = file_get_contents($existing->filename);
   }
   // Add a stub module to include the defaults
-  elseif (!empty($code['features'])) {
+  else if (!empty($code['features'])) {
     $code['module'] = "<?php\n\ninclude_once('{$module_name}.features.inc');\n";
   }
   return $code;
@@ -632,67 +485,65 @@ function features_detect_overrides($module) {
 
     // Rebuild feature from .info file description and prepare an export from current DB state.
     $export = features_populate($module->info['features'], $module->name);
-    // $export = array_merge($export, $module->info);
-    $code = features_export_prepare($export, "_features_comparison_{$module->name}");
+    $export['dependencies'] = _features_export_preserve_dependencies($export['dependencies'], $module->name);
+    $export = features_export_prepare($export, $module->name);
+    $code = features_export_render_hooks($export, "_features_comparison_{$module->name}");
 
     $overridden = array();
 
-    // First, compare actual component sets and mark if different
-    if (sort(array_keys($export['features'])) != sort(array_keys($module->info['features']))) {
-      $overridden['components'] = array(
-        'default' => sort(array_keys($module->info['features'])),
-        'current' => sort(array_keys($export['features']))
-      );
+    // Compare feature info
+    ksort($module->info);
+    ksort($export);
+    $compare = array(
+      'current' => features_export_info($export),
+      'default' => features_export_info($module->info)
+    );
+    if ($compare['current'] !== $compare['default']) {
+      $overridden['info'] = $compare;
     }
 
     // Merge items from both for comparison
     $merged = array_merge($export['features'], $module->info['features']);
 
     foreach (array_keys($merged) as $component) {
-      if (isset($default_hooks[$component])) {
-        $default_hook = $default_hooks[$component];
-
+      if (isset($default_hooks[$component]) && ($default_hook = $default_hooks[$component])) {
+        $compare = array('current' => array(), 'default' => array());
         // Eval the database version of the export
         if (isset($code[$component][$default_hook])) {
-          $current[$component] = eval($code[$component][$default_hook]);
+          $compare['current'] = eval($code[$component][$default_hook]);
+          $compare['current'] = is_array($compare['current']) ? $compare['current'] : array();
         }
         // Call the existing in-code function and collect results
         if (module_hook($module->name, $default_hook)) {
-          $default[$component] = module_invoke($module->name, $default_hook);
+          $compare['default'] = module_invoke($module->name, $default_hook);
+          $compare['default'] = is_array($compare['default']) ? $compare['default'] : array();
         }
-
-        // Compare, and push differences into the overrides array
-        if (isset($current[$component]) && is_array($current[$component])) {
-          foreach ($current[$component] as $j => $k) {
-            // Special cases for objects -- some (views) provide their own
-            // export methods which we need to respect.
-            if (is_object($current[$component][$j])) {
-              switch (get_class($current[$component][$j])) {
-                case 'view':
-                  $a = $current[$component][$j]->export();
-                  if ($default[$component][$j]) {
-                    $b = $default[$component][$j]->export();
-                  }
-                  break;
-                default:
-                  $a = features_var_export($current[$component][$j]);
-                  $b = features_var_export($default[$component][$j]);
-                  break;
-              }
-              $a = _features_linetrim(explode("\n", $a));
-              $b = _features_linetrim(explode("\n", $b));
-
-              $different = $a !== $b;
+        // Export both versions
+        foreach ($compare as $storage => $items) {
+          foreach ($items as $k => $v) {
+            // Special case for views which provides its own export method
+            if (is_object($v) && get_class($v) == 'view') {
+              $compare[$storage][$k] = $v->export();
             }
             else {
-              $different = $current[$component][$j] !== $default[$component][$j];
+              $compare[$storage][$k] = features_var_export($v);
             }
-            if ($different) {
-              $overridden[$component] = array(
-                'default' => $default[$component][$j],
-                'current' => $current[$component][$j],
-              );
+          }
+        }
+        // Collect differences between the two arrays
+        foreach ($compare['current'] as $k => $v) {
+          if (isset($compare['current'][$k], $compare['default'][$k])) {
+            if (_features_linetrim($compare['current'][$k]) !== _features_linetrim($compare['default'][$k])) {
+              $overridden[$component][$k] = array('current' => $compare['current'][$k], 'default' => $compare['default'][$k]);
             }
+          }
+          else {
+            $overridden[$component][$k] = array('current' => $compare['current'][$k], 'default' => '');
+          }
+        }
+        foreach ($compare['default'] as $k => $v) {
+          if (!isset($compare['current'][$k])) {
+            $overridden[$component][$k] = array('current' => '', 'default' => $compare['default'][$k]);
           }
         }
       }
@@ -766,47 +617,31 @@ function features_export_render_defaults($module, $hook, $code) {
  * Generate code friendly to the Drupal .info format from a structured array.
  *
  * @param $info
- *   An array of parameters to put in a module's .info file.
+ *   An array or single value to put in a module's .info file.
+ * @param $parents
+ *   Array of parent keys (internal use only).
  *
  * @return
  *   A code string ready to be written to a module's .info file.
  */
-function features_export_info($info) {
-  $code = array();
-  foreach ($info as $k => $v) {
-    if (is_array($v)) {
-      $first = array_shift(array_keys($v));
-      if (is_numeric($first)) {
-        sort($v);
-      }
-      else {
-        ksort($v);
-      }
-
-      foreach ($v as $l => $m) {
-        if (is_numeric($l)) {
-          $key = '';
-        }
-        else {
-          $key = $l;
-        }
-        if (is_array($m)) {
-          sort($m);
-          foreach ($m as $n => $o) {
-            $code[] = "{$k}[$key][] = \"{$o}\"";
-          }
-        }
-        else {
-          $code[] = "{$k}[$key] = \"{$m}\"";
-        }
-      }
-    }
-    else {
-      $code[] = "{$k} = \"{$v}\"";
+function features_export_info($info, $parents = array()) {
+  $output = '';
+  if (is_array($info)) {
+    foreach ($info as $k => $v) {
+      $child = $parents;
+      $child[] = $k;
+      $output .= features_export_info($v, $child);
     }
   }
-  $code = implode("\n", $code) ."\n";
-  return $code;
+  else if (!empty($info) && count($parents)) {
+    $line = array_shift($parents);
+    foreach ($parents as $key) {
+      $line .= is_numeric($key) ? "[]" : "[{$key}]";
+    }
+    $line .=  " = \"{$info}\"\n";
+    return $line;
+  }
+  return $output;
 }
 
 /**
@@ -921,8 +756,9 @@ function features_translatables_export($translatables, $prefix = '') {
  * Helper function to eliminate whitespace differences in code.
  */
 function _features_linetrim($code) {
+  $code = explode("\n", $code);
   foreach ($code as $k => $line) {
     $code[$k] = trim($line);
   }
-  return $code;
+  return implode("\n", $code);
 }

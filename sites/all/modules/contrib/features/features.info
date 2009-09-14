@@ -4,9 +4,9 @@ description = "Provides feature management for Drupal."
 core = 6.x
 package = "Features"
 
-; Information added by drupal.org packaging script on 2009-08-27
-version = "6.x-1.0-beta2"
+; Information added by drupal.org packaging script on 2009-09-14
+version = "6.x-1.0-beta3"
 core = "6.x"
 project = "features"
-datestamp = "1251397245"
+datestamp = "1252941951"
 

@@ -1,5 +1,5 @@
 <?php
-// $Id: features.ctools.inc,v 1.1.2.4 2009/08/11 20:40:05 yhahn Exp $
+// $Id: features.ctools.inc,v 1.1.2.6 2009/09/07 19:10:01 yhahn Exp $
 
 /**
  * This is a wild hack, but effective.
@@ -64,11 +64,11 @@ function ctools_features_export_render($module = 'foo', $data) {
   $first = TRUE;
   foreach ($data as $component) {
     $module = $info[$component]['module'];
-    $default_hook = $info[$component]['default_hook'];
+    $api = $info[$component]['api'];
     $version = $info[$component]['current_version'];
 
     $if = $first ? 'if' : 'else if';
-    $code[] = '  '. $if .' ($module == "'. $module .'" && $api == "'. $default_hook .'") {';
+    $code[] = '  '. $if .' ($module == "'. $module .'" && $api == "'. $api .'") {';
     $code[] = '    return array("version" => '. $version .');';
     $code[] = '  }';
 
@@ -120,11 +120,11 @@ function ctools_component_features_export($component, $data, &$export, $module_n
 function ctools_component_features_export_render($component, $module = 'foo', $data) {
   ctools_include('export');
 
-  $schema = drupal_get_schema($component);
+  $schema = ctools_export_get_schema($component);
+  $objects = ctools_export_load_object($component);
   $code = '  $export = array();'."\n";
   foreach ($data as $object) {
     $identifier = $schema['export']['identifier'];
-    $objects = ctools_export_load_object($component, 'names', array($object));
     $code .= ctools_export_object($component, $objects[$object], '  ', $identifier);
     $code .= "\n";
     $code .= '  $export[\''. $object .'\'] = $'. $identifier .';'."\n";
@@ -145,6 +145,7 @@ function _ctools_features_get_info($reset = FALSE) {
     foreach (ctools_export_get_schemas_by_module() as $module => $schemas) {
       foreach ($schemas as $table => $schema) {
         $components[$table] = array(
+          'api' => $schema['export']['api']['api'],
           'default_hook' => $schema['export']['default hook'],
           'current_version' => $schema['export']['api']['current_version'],
           'module' => $module,

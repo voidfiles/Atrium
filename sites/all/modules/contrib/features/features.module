@@ -1,5 +1,5 @@
 <?php
-// $Id: features.module,v 1.1.2.39 2009/08/27 18:05:48 jmiccolis Exp $
+// $Id: features.module,v 1.1.2.43 2009/09/14 03:35:54 yhahn Exp $
 
 /**
  * @file
@@ -77,13 +77,21 @@ function features_menu() {
     'file' => 'features.admin.inc',
   );
   $items['admin/build/features/export'] = array(
-    'title' => 'Export',
-    'description' => 'Export features to code.',
+    'title' => 'Create feature',
+    'description' => 'Create a new feature.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('features_export_form'),
     'type' => MENU_LOCAL_TASK,
     'file' => "features.export.inc",
     'weight' => 10,
+  );
+  $items['admin/build/features/export/populate'] = array(
+    'title' => 'Populate feature',
+    'description' => 'AHAH callback to populate a feature from selected components.',
+    'page callback' => 'features_export_build_form_populate',
+    'page arguments' => array(),
+    'type' => MENU_CALLBACK,
+    'file' => "features.export.inc",
   );
   $items['admin/build/features/%feature'] = array(
     'title callback' => 'features_get_feature_title',
@@ -91,6 +99,7 @@ function features_menu() {
     'description' => 'Display components of a feature.',
     'page callback' => 'features_admin_components',
     'page arguments' => array(3),
+    'load arguments' => array(3, TRUE),
     'type' => MENU_CALLBACK,
     'file' => 'features.admin.inc',
   );
@@ -100,32 +109,33 @@ function features_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
+  $items['admin/build/features/%feature/update'] = array(
+    'title' => 'Update',
+    'description' => 'Update an existing feature.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('features_export_form', 3),
+    'load arguments' => array(3, TRUE),
+    'type' => MENU_LOCAL_TASK,
+    'file' => "features.export.inc",
+    'weight' => 11,
+  );
   $items['admin/build/features/%feature/compare'] = array(
     'title' => 'Compare',
     'description' => 'Compare default and current feature.',
     'page callback' => 'features_feature_comparison',
     'page arguments' => array(3),
+    'load arguments' => array(3, TRUE),
     'access callback' => 'features_access_override_actions',
     'access arguments' => array(3),
     'type' => MENU_LOCAL_TASK,
     'file' => 'features.admin.inc',
-  );
-  $items['admin/build/features/%feature/update'] = array(
-    'title' => 'Update',
-    'description' => 'Update a feature.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('features_update_form', 3),
-    'access callback' => 'features_access_override_actions',
-    'access arguments' => array(3),
-    'type' => MENU_LOCAL_TASK,
-    'file' => "features.export.inc",
-    'weight' => 10,
   );
   $items['admin/build/features/%feature/revert'] = array(
     'title' => 'Revert',
     'description' => 'Revert a feature.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('features_revert_form', 3),
+    'load arguments' => array(3, TRUE),
     'access callback' => 'features_access_override_actions',
     'access arguments' => array(3),
     'type' => MENU_LOCAL_TASK,
@@ -137,6 +147,7 @@ function features_menu() {
     'description' => 'Javascript status call back.',
     'page callback' => 'features_feature_status',
     'page arguments' => array(3),
+    'load arguments' => array(3, TRUE),
     'type' => MENU_CALLBACK,
     'file' => 'features.admin.inc',
   );
@@ -174,36 +185,26 @@ function features_menu_alter(&$cache) {
  *  Implementation of hook_theme().
  */
 function features_theme() {
-  $path = drupal_get_path('module', 'features') .'/theme';
+  $base = array(
+    'path' => drupal_get_path('module', 'features') .'/theme',
+    'file' => 'theme.inc',
+  );
+
   $items = array();
   $items['features_form'] =
-  $items['features_export_form_confirm'] =
-  $items['features_export_form_final'] = array(
-    'arguments' => array('form' => NULL),
-    'file' => 'theme.inc',
-    'path' => $path,
-  );
-  $items['features_form_buttons'] = array(
-    'arguments' => array('element' => NULL),
-    'file' => 'theme.inc',
-    'path' => $path,
-  );
+  $items['features_form_export'] =
+  $items['features_form_components'] =
+  $items['features_component_list'] =
+  $items['features_component_key'] =
+  $items['features_components'] =
+  $items['features_form_buttons'] =
+  $items['features_module_status'] =
+  $items['features_storage'] = $base;
+
   $items['features_admin_components'] = array(
-    'arguments' => array('info' => NULL, 'dependencies' => NULL, 'components' => NULL, 'conflicts' => NULL),
+    'arguments' => array('info' => NULL, 'dependencies' => NULL, 'conflicts' => NULL),
     'template' => 'features-admin-components',
-    'file' => 'theme.inc',
-    'path' => $path,
-  );
-  $items['features_module_status'] = array(
-    'arguments' => array('module' => NULL, 'status' => NULL),
-    'file' => 'theme.inc',
-    'path' => $path,
-  );
-  $items['features_storage'] = array(
-    'arguments' => array('storage' => NULL),
-    'file' => 'theme.inc',
-    'path' => $path,
-  );
+  ) + $base;
   return $items;
 }
 
@@ -228,6 +229,39 @@ function features_flush_caches() {
   features_rebuild();
   features_get_modules(NULL, TRUE);
   return array();
+}
+
+/**
+ * Implementation of hook_form().
+ */
+function features_form($node, $form_state) {
+  return node_content_form($node, $form_state);
+}
+
+/**
+ * Implemenation of hook_access()
+ */
+function features_access($op, $node, $account) {
+  return node_content_access($op, $node, $account);
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function features_perm() {
+  $perms = array();
+  // Generate permissions for any default node types provided by features.
+  foreach (node_get_types() as $type) {
+    if ($type->module == 'features') {
+      $name = check_plain($type->type);
+      $perms[] = 'create '. $name .' content';
+      $perms[] = 'delete own '. $name .' content';
+      $perms[] = 'delete any '. $name .' content';
+      $perms[] = 'edit own '. $name .' content';
+      $perms[] = 'edit any '. $name .' content';
+    }
+  }
+  return $perms;
 }
 
 /**
@@ -370,6 +404,9 @@ function features_get_info($type = 'module', $name = NULL, $reset = FALSE) {
     while ($row = db_fetch_object($result)) {
       $row->info = drupal_parse_info_file(dirname($row->filename) .'/'. $row->name .'.info');
       if (!empty($row->info)) {
+        // Invoke hook_system_info_alter() to give installed modules a chance to
+        // modify the data in the .info files if necessary.
+        drupal_alter('system_info', $row->info, $row);
         if (!empty($row->info['features'])) {
           $data['feature'][$row->name] = $row;
         }
