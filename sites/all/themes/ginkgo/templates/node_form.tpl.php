@@ -1,6 +1,6 @@
 <?php $buttons = !empty($buttons) ? drupal_render($buttons) : ''; ?>
 
-<div class='form <?php print $form_classes ?>'>
+<div class='form clear-block <?php print $form_classes ?>'>
 
 <?php if (!empty($form_message)) print $form_message ?>
 
