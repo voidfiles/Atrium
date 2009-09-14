@@ -7,7 +7,7 @@ function _atrium_profile_node_info() {
   $items = array(
     'profile' => array(
       'name' => t('Profile'),
-      'module' => 'node',
+      'module' => 'features',
       'description' => t('Profile.'),
       'has_title' => '1',
       'title_label' => t('Name'),

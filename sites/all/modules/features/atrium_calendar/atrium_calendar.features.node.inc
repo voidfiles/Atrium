@@ -7,7 +7,7 @@ function _atrium_calendar_node_info() {
   $items = array(
     'event' => array(
       'name' => t('Event'),
-      'module' => 'node',
+      'module' => 'features',
       'description' => t(''),
       'has_title' => '1',
       'title_label' => t('Title'),
@@ -16,7 +16,7 @@ function _atrium_calendar_node_info() {
     ),
     'feed_ical' => array(
       'name' => t('iCal Feed'),
-      'module' => 'node',
+      'module' => 'features',
       'description' => t('An ical feed within a group.'),
       'has_title' => '1',
       'title_label' => t('Title'),
@@ -25,7 +25,7 @@ function _atrium_calendar_node_info() {
     ),
     'feed_ical_item' => array(
       'name' => t('iCal Event'),
-      'module' => 'node',
+      'module' => 'features',
       'description' => t('An ical event within a group.'),
       'has_title' => '1',
       'title_label' => t('Title'),

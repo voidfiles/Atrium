@@ -7,7 +7,7 @@ function _atrium_groups_node_info() {
   $items = array(
     'group' => array(
       'name' => t('Group'),
-      'module' => 'node',
+      'module' => 'features',
       'description' => t(''),
       'has_title' => '1',
       'title_label' => t('Title'),

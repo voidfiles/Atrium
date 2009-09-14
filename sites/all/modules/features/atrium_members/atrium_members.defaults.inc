@@ -28,7 +28,6 @@ function _atrium_members_context_default_contexts() {
       ),
     ),
   );
-
   return $items;
 }
 
@@ -75,7 +74,7 @@ function _atrium_members_imagecache_default_presets() {
 function _atrium_members_menu_default_items() {
   $items = array();
 
- $items[] = array(
+  $items[] = array(
     'title' => 'Members',
     'path' => 'members',
     'weight' => '0',
@@ -86,6 +85,7 @@ function _atrium_members_menu_default_items() {
     t('Members'),
     t('Provides a member directory and user management feature'),
   );
+
 
   return $items;
 }
