@@ -6,9 +6,9 @@ core = "6.x"
 dependencies[] = spaces
 dependencies[] = taxonomy
 
-; Information added by drupal.org packaging script on 2009-08-26
-version = "6.x-2.0-beta5"
+; Information added by drupal.org packaging script on 2009-09-14
+version = "6.x-2.0-beta6"
 core = "6.x"
 project = "spaces"
-datestamp = "1251324415"
+datestamp = "1252941400"
 

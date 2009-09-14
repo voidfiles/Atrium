@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.features.inc,v 1.1.2.1 2009/08/13 14:55:33 yhahn Exp $
+// $Id: spaces.features.inc,v 1.1.2.2 2009/09/06 15:25:48 yhahn Exp $
 
 /**
  * Implementation of hook_spaces_features_export().

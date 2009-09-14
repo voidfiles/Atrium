@@ -1,5 +1,5 @@
 <?php
-// $Id: spaces.module,v 1.25.4.33.2.31 2009/09/10 16:28:29 yhahn Exp $
+// $Id: spaces.module,v 1.25.4.33.2.32 2009/09/10 22:25:40 yhahn Exp $
 
 define('SPACES_FEATURE_DISABLED', 0);
 
@@ -846,6 +846,9 @@ function spaces_presets($type = NULL, $include_disabled = FALSE, $reset = FALSE)
         $presets[$preset['type']][$id] = $preset;
       }
     }
+    // Allow modules to alter presets.
+    drupal_alter('spaces_presets', $presets);
+
     $result = db_query("SELECT * FROM {spaces_presets}");
     while ($row = db_fetch_object($result)) {
       $preset = array(
