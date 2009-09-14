@@ -13,6 +13,8 @@ body.anonymous-login #page div.limiter { width:560px; }
 /**
  * Header blocks ======================================================
  */
+body.header-fixed #global { z-index:1000; }
+
 #header,
 #header div.toggle-blocks { float:right; }
 
