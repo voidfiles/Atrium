@@ -73,6 +73,13 @@ function ginkgo_preprocess_page(&$vars) {
   // Show site title/emblem ?
   $vars['site_name'] = (isset($settings['emblem']) && !$settings['emblem']) ? '' : $vars['site_name'];
 
+  // Footer links
+  $vars['footer_links'] = isset($vars['footer_links']) ? $vars['footer_links'] : array();
+  $item = menu_get_item('admin');
+  if ($item && $item['access']) {
+    $vars['footer_links']['admin'] = $item;
+  }
+
   // Add spaces design CSS back in
   if (empty($vars['spaces_design_styles'])) {
     global $theme_info;
@@ -139,16 +146,6 @@ function ginkgo_preprocess_comment(&$vars) {
       $vars = array();
     }
   }
-}
-
-/**
- * Charts theming override.
- */
-function ginkgo_preprocess_flot_views_summary_style(&$vars) {
-  $vars['element']['style'] = "width:auto; height:100px;";
-  $vars['options']->colors = array('#666', '#ccc', '#999');
-  $vars['options']->grid->tickColor = '#eee';
-  $vars['options']->grid->backgroundColor = '#fff';
 }
 
 /**
