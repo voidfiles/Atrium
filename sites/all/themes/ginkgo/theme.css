@@ -301,6 +301,9 @@ body.logged-in #block-atrium_intranet-account h2.block-title { padding-left:5px;
   background-position:0px -170px;
   background-repeat:repeat-x;
   padding:20px 0px 0px;
+  /* IE7 z-index stacking: #navigation 2, #page-header 1, all others 0. */
+  position:relative;
+  z-index:2;
   }
 
 #space-tools {

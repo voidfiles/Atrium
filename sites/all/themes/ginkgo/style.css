@@ -244,6 +244,9 @@ a.user-picture {
 #page-header {
   height:60px;
   background:#ddd;
+  /* IE7 z-index stacking: #navigation 2, #page-header 1, all others 0. */
+  position:relative;
+  z-index:1;
   }
 
 #page-header h2.page-title {
