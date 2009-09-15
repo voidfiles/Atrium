@@ -32,10 +32,6 @@ span.spaces-feature,
 
 #navigation ul.space-links li a { border-color:#fff; }
 
-#header h2.block-title { height:29px; }
-
-  body.header-fixed #header h2.block-title { height:30px; }
-
 #page-tools div.context-links,
 #page-tools div.toggle-blocks h2.block-title { background:#ddd; }
 #page-tools div.toggle-blocks h2.toggle-active { background:#fff; }

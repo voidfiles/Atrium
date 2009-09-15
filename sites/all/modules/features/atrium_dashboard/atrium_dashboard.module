@@ -241,6 +241,11 @@ function atrium_dashboard_context_active_contexts_alter(&$contexts) {
       }
     }
   }
+  // Prevent "Home > Home" redundancy in breadcrumb
+  if ($item = menu_get_item()) {
+    $breadcrumb = array(l(t('Home'), '<front>'));
+    drupal_set_breadcrumb($breadcrumb);
+  }
 
   // Filter out blocks that aren't enabled for this space type.
   if (!empty($contexts['spaces-dashboard-overview'])) {
