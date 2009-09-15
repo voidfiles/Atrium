@@ -317,6 +317,11 @@ function _atrium_dashboard_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('access', array(
+    'type' => 'atrium_feature',
+    'spaces_feature' => 'atrium_dashboard',
+    'perm' => 'subscribe to content',
+  ));
   $handler->override_option('path', 'dashboard/my');
   $handler->override_option('menu', array(
     'type' => 'tab',
