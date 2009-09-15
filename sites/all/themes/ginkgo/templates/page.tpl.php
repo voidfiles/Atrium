@@ -3,7 +3,7 @@
   <head>
     <?php print $head ?>
     <?php print $styles ?>
-    <?php print $ie7 ?>
+    <?php print $ie ?>
     <title><?php print $head_title ?></title>
   </head>
   <body <?php print drupal_attributes($attr) ?>>
