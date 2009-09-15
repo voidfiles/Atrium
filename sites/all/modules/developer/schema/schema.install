@@ -1,6 +1,6 @@
 <?php
-  
-/**  
+
+/**
  * Implementation of hook_requirements().
  * Checks installation requirements and do status reporting.
  * @param phase 'install': ignored (no installation requirements)
@@ -9,10 +9,9 @@
  * @see schema_compare_schemas()
  */
 function schema_requirements($phase) {
- $reqs = array();
- $t = get_t();
-
-  if ($phase == 'runtime') {
+  $reqs = array();
+  $t = get_t();
+  if ($phase == 'runtime' && variable_get('schema_status_report', TRUE)) {
     $schema = drupal_get_schema(NULL, TRUE);
     $info = schema_compare_schemas($schema);
     // make sure these are defined in increasing-severity order

@@ -1,5 +1,5 @@
 <?php
-// $Id: schema_mysql.inc,v 1.23 2009/07/13 22:12:22 mikeryan Exp $
+// $Id: schema_mysql.inc,v 1.23.2.3 2009/08/27 16:05:18 mikeryan Exp $
 
 function schema_mysql_engine_type_map() {
   $map = db_type_map();
@@ -24,7 +24,7 @@ function schema_mysql_create_table_sql($table) {
     unset($col['unsigned']);
     if (isset($col['length']) && $col['length']) {
       $sql .= '('.$col['length'].')';
-    } 
+    }
     if (isset($col['type']) && $col['type'] == 'serial') {
       $sql .= ' AUTO_INCREMENT';
     }
@@ -95,8 +95,10 @@ function schema_mysql_inspect($name = NULL) {
   $url = parse_url(is_array($db_url) ? $db_url[$active_db_connection] : $db_url);
   $database = substr($url['path'], 1);
 
-  $sql = ('SELECT * FROM information_schema.COLUMNS '.
-	  'WHERE TABLE_SCHEMA="%s" ');
+  $sql = 'SELECT TABLE_NAME, COLUMN_TYPE, COLUMN_NAME, COLUMN_DEFAULT,
+                 EXTRA, IS_NULLABLE, NUMERIC_SCALE
+          FROM information_schema.COLUMNS
+          WHERE TABLE_SCHEMA="%s" ';
   if (isset($name)) {
     $sql .= 'AND TABLE_NAME = "%s" ';
   }
@@ -124,7 +126,7 @@ function schema_mysql_inspect($name = NULL) {
         $col['unsigned'] = TRUE;
       }
     }
-    if ($col['type'] == 'int' && isset($r['EXTRA']) && 
+    if ($col['type'] == 'int' && isset($r['EXTRA']) &&
       $r['EXTRA'] == 'auto_increment') {
       $col['type'] = 'serial';
     }
@@ -143,10 +145,15 @@ function schema_mysql_inspect($name = NULL) {
     $tables[$r['TABLE_NAME']]['name'] = $r['NEW_TABLE_NAME'];
   }
 
-  $res = db_query('SELECT * FROM information_schema.STATISTICS '.
-    'WHERE TABLE_SCHEMA="%s" '.
-    'ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX',
-    $database);
+  $sql = 'SELECT TABLE_NAME, COLUMN_NAME, INDEX_NAME, SUB_PART, NON_UNIQUE
+          FROM information_schema.STATISTICS
+          WHERE TABLE_SCHEMA="%s" ';
+  if (isset($name)) {
+    $sql .= 'AND TABLE_NAME = "%s" ';
+  }
+  $sql .= 'ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX';
+
+  $res = db_query($sql, $database, $name);
   while ($r = db_fetch_array($res)) {
     if (isset($r['SUB_PART']) && !is_null($r['SUB_PART'])) {
       $col = array($r['COLUMN_NAME'], intval($r['SUB_PART']));
@@ -164,7 +171,7 @@ function schema_mysql_inspect($name = NULL) {
     }
     $tables[$r['TABLE_NAME']][$type][$r['INDEX_NAME']][] = $col;
   }
-  
+
   // Now, for tables which we have unprefixed, index $tables by the unprefixed name
   foreach ($tables as $tablename => $table) {
     $newname = $tables[$tablename]['name'];
@@ -176,4 +183,3 @@ function schema_mysql_inspect($name = NULL) {
 
   return $tables;
 }
-

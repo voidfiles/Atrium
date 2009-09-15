@@ -5,9 +5,9 @@ package = Database
 core = 6.x
 
 
-; Information added by drupal.org packaging script on 2009-07-22
-version = "6.x-1.5"
+; Information added by drupal.org packaging script on 2009-09-09
+version = "6.x-1.6"
 core = "6.x"
 project = "schema"
-datestamp = "1248299465"
+datestamp = "1252520487"
 

@@ -1,0 +1,17 @@
+diff --git a/feedapi.module b/feedapi.module
+index c848ff3..fc7a0ef 100644
+--- a/feedapi.module
++++ b/feedapi.module
+@@ -1418,10 +1418,10 @@ function feedapi_get_settings($node_type, $vid = FALSE, $reset = FALSE) {
+         else {
+           // Missing parser or processor, set error message.
+           if (user_access('administer content types')) {
+-            drupal_set_message(t('There are no !type defined for this content type. Go to !edit_page and enable at least one.', array('!type' => $type, '!edit_page' => l('admin/content/node-type/'. $node_type, 'admin/content/node-type/'. $node_type))), 'error', FALSE);
++            drupal_set_message(t('There are no !type defined for this content type. Go to !edit_page and enable at least one.', array('!type' => $type, '!edit_page' => l('admin/content/node-type/'. $node_type, 'admin/content/node-type/'. $node_type))), 'warning', FALSE);
+           }
+           else {
+-            drupal_set_message(t('There are no !type defined for this content type. Contact your site administrator.', array('!type' => $type)), 'error', FALSE);
++            drupal_set_message(t('There are no !type defined for this content type. Contact your site administrator.', array('!type' => $type)), 'warning', FALSE);
+           }
+         }
+       }
