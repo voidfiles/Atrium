@@ -1,5 +1,5 @@
 <?php
-// $Id: schema.module,v 1.43 2009/07/11 17:17:26 mikeryan Exp $
+// $Id: schema.module,v 1.43.2.2 2009/08/27 13:37:19 mikeryan Exp $
 
 /**
  * @file The Schema module provides functionality built on the Schema API.
@@ -80,7 +80,7 @@ function schema_phpprint_column($col, $multiline=FALSE) {
       }
       else if (is_bool($col[$attr])) {
         $attrs[] = "'$attr' => ".($col[$attr] ? 'TRUE' : 'FALSE');
-      } 
+      }
       else {
         $attrs[] = "'$attr' => $col[$attr]";
       }
@@ -204,7 +204,7 @@ function schema_schema_type($type, $table, $field, $engine = NULL, $warn = TRUE)
 }
 
 /**
- * Compares two complete schemas.  
+ * Compares two complete schemas.
  * @param $ref is considered the reference copy
  * @param $inspect is compared against it.  If $inspect is NULL, a
  *         schema for the active database is generated and used.
@@ -213,7 +213,7 @@ function schema_compare_schemas($ref, $inspect = NULL) {
   if (! isset($inspect)) {
     $inspect = schema_invoke('inspect');
   }
-  
+
   $info = array();
 
   // Error checks to consider adding:
@@ -276,7 +276,7 @@ function schema_compare_schemas($ref, $inspect = NULL) {
       }
     }
   }
-  
+
   foreach ($ref as $name => $table) {
     $module = $table['module'];
     if (!isset($inspect[$name])) {
@@ -310,7 +310,7 @@ function schema_compare_table($ref, $inspect = NULL) {
   if (! isset($inspect)) {
     $ref_name = db_prefix_tables('{'. $ref['name'] .'}');
     $inspect = schema_invoke('inspect', $ref_name);
-    $inspect = $inspect[$ref_name];
+    $inspect = $inspect[$ref['name']];
   }
   if (! isset($inspect)) {
     return array('status' => 'missing');
@@ -388,7 +388,7 @@ function schema_compare_table($ref, $inspect = NULL) {
         schema_phpprint_key($ref['primary key']).'<br />actual: '.
         schema_phpprint_key($inspect['primary key']));
     }
-  } 
+  }
   else if (isset($inspect['primary key'])) {
     $reasons[] = "primary key: missing in schema";
   }
@@ -476,7 +476,7 @@ function schema_require() {
       $schema_engines[] = substr($file->filename, strlen($path)+16, -4);
     }
   }
-      
+
   if (array_search($db_type, $schema_engines) === FALSE) {
     drupal_set_message('The Schema module does not support the "'.$db_type.
       '" database type.', 'error');
@@ -528,6 +528,7 @@ function schema_menu() {
     'title' => 'Inspect',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'schema_inspect',
+    'weight' => -6,
     'access arguments' => array('administer schema'),
     );
 
@@ -535,6 +536,7 @@ function schema_menu() {
     'title' => 'SQL',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'schema_sql',
+    'weight' => -4,
     'access arguments' => array('administer schema'),
     );
 
@@ -544,7 +546,7 @@ function schema_menu() {
     foreach ($schema_engines as $engine) {
       $items['admin/build/schema/sql/'.$engine] = array(
         'title' => t($engine),
-        'type' => ($engine == $db_type ? MENU_DEFAULT_LOCAL_TASK : 
+        'type' => ($engine == $db_type ? MENU_DEFAULT_LOCAL_TASK :
           MENU_LOCAL_TASK),
         'page callback' => 'schema_sql',
         'callback arguments' => $engine,
@@ -557,7 +559,16 @@ function schema_menu() {
     'title' => 'Show',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'schema_show',
-    'weight' => 10,
+    'weight' => -2,
+    'access arguments' => array('administer schema'),
+    );
+
+  $items['admin/build/schema/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('schema_settings'),
+    'weight' => 0,
     'access arguments' => array('administer schema'),
     );
 
@@ -577,8 +588,8 @@ function schema_describe() {
   $row_hdrs = array(t('Name'), t('Type[:Size]'), t('Null?'), t('Default'));
 
   $output = <<<EOT
-<p>This page describes the Drupal database schema.  Click on a table name 
-to see that table's description and fields.  Table names within a table or 
+<p>This page describes the Drupal database schema.  Click on a table name
+to see that table's description and fields.  Table names within a table or
 field description are hyperlinks to that table's description.</p>
 EOT;
 
@@ -620,8 +631,8 @@ EOT;
 
     $form = array();
     $form[$t_name] = array(
-      '#type' => 'fieldset', 
-      '#title' => t('@table (@module module)', array('@table' => $t_name, '@module' => $t_spec['module'])), 
+      '#type' => 'fieldset',
+      '#title' => t('@table (@module module)', array('@table' => $t_name, '@module' => $t_spec['module'])),
       '#description' => !empty($t_spec['description']) ? _schema_process_description($t_spec['description']) : '',
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
@@ -683,10 +694,10 @@ function schema_report() {
         case 'different':
           $items = array();
           foreach ($tables as $name => $stuff) {
-            $items[] = "<h4>$name</h4>".theme('item_list', 
+            $items[] = "<h4>$name</h4>".theme('item_list',
               array_merge($tables[$name]['reasons'], $tables[$name]['notes']));
           }
-          
+
           $form = array();
           $form[$module] = array(
             '#type' => 'fieldset',
@@ -713,7 +724,7 @@ function schema_report() {
     $content = (isset($data[$state]) ? $data[$state] : '');
     $form[$state] = array(
       '#type' => 'fieldset',
-      '#title' => t('@state (@count)', 
+      '#title' => t('@state (@count)',
         array('@state' => $states[$state], '@count' => isset($counts[$state]) ? $counts[$state] : 0)),
       '#description' => t($descs[$state]),
       '#collapsible' => TRUE,
@@ -764,11 +775,11 @@ function schema_inspect() {
 
   $output = <<<EOT
 <p>This page shows the live database schema as it currently
-exists on this system.  Known tables are grouped by the module that 
+exists on this system.  Known tables are grouped by the module that
 defines them; unknown tables are all grouped together.</p>
 
-<p>To implement hook_schema() for a module that has existing tables, copy 
-the schema structure for those tables directly into the module's 
+<p>To implement hook_schema() for a module that has existing tables, copy
+the schema structure for those tables directly into the module's
 hook_schema() and return \$schema.</p>
 EOT;
 
@@ -796,9 +807,9 @@ function schema_sql($engine = NULL) {
 
       $sql .= implode(";\n", $stmts).";\n\n";
     }
-    
+
   $output = <<<EOT
-<p>This page shows the CREATE TABLE statements that the Schema module 
+<p>This page shows the CREATE TABLE statements that the Schema module
 generates for the selected database engine for each table defined by a
 module.  It is for debugging purposes.</p>
 <textarea style="width:100%" rows="30">$sql</textarea>
@@ -815,7 +826,7 @@ EOT;
 function schema_show() {
   $schema = drupal_get_schema(NULL, TRUE);
   $show = var_export($schema,1);
-    
+
   $output = <<<EOT
 <p>This page displays the Drupal database schema data structure.  It is for
 debugging purposes.</p>
@@ -825,3 +836,15 @@ EOT;
 
   return $output;
 }
+
+function schema_settings() {
+  $form['schema_status_report'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Include schema comparison reports in site status report'),
+    '#default_value' => variable_get('schema_status_report', TRUE),
+    '#description' => t('When checked, schema comparison reports are run on
+      the Administer page, and included in the site status report.'),
+  );
+  return system_settings_form($form);
+}
+
