@@ -124,7 +124,7 @@ body.header-fixed #global { z-index:1000; }
 #header div.block-toggle ul.links li,
 #header div.block-toggle div.item-list li {
   float:left;
-  width:50%;
+  width:49.9999%; /* IE didn't like 50%, and FF seems to round up anyhow. */
   white-space:nowrap;
 
   padding:0px;
@@ -151,7 +151,6 @@ body.header-fixed #global { z-index:1000; }
   padding:15px;
   line-height:30px;
   }
-
 #header div.help h1,
 #header div.help h2,
 #header div.help h3 {
