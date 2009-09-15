@@ -96,8 +96,8 @@ function _atrium_groups_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
-    'type' => 'perm',
-    'perm' => 'access content',
+    'type' => 'spaces_feature',
+    'spaces_feature' => 'atrium_groups',
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
@@ -208,6 +208,11 @@ function _atrium_groups_views_default_views() {
       ),
       'relationship' => 'none',
     ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'atrium_feature',
+    'spaces_feature' => 'atrium_groups',
+    'perm' => 'subscribe to content',
   ));
   $handler->override_option('items_per_page', 25);
   $handler->override_option('use_pager', '1');
@@ -641,6 +646,11 @@ function _atrium_groups_views_default_views() {
       'field' => 'uid',
       'relationship' => 'none',
     ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'atrium_feature',
+    'spaces_feature' => 'atrium_groups',
+    'perm' => 'administer nodes',
   ));
   $handler->override_option('title', 'Archived groups');
   $handler->override_option('empty', 'No archived groups found.');
