@@ -179,7 +179,6 @@ a.user-picture {
   background:#eee url(images/bleeds.png) 0px 100% repeat-x;
   border:5px solid #fff;
   right:0px;
-  min-width:180px;
 
   /* W00T */
   -moz-box-shadow:0px 2px 2px #666;
@@ -191,7 +190,10 @@ a.user-picture {
 
 .dropdown-blocks div.block-toggle form,
 .dropdown-blocks div.block-toggle ul.links,
-.dropdown-blocks div.block-toggle div.item-list { border:1px solid #ddd; }
+.dropdown-blocks div.block-toggle div.item-list {
+  border:1px solid #ddd;
+  min-width:180px;
+  }
 
 .dropdown-blocks div.block-toggle ul.links li,
 .dropdown-blocks div.block-toggle div.item-list li {
@@ -937,10 +939,10 @@ div.view li p {
   }
 
 div.view .views-field label,
+div.view .related-title,
 div.view .username,
 div.view .type,
-div.view .date,
-div.view-atrium-blog-comments .title {
+div.view .date {
   color:#666;
   font-size:11px;
   }
@@ -954,6 +956,7 @@ div.view div.grouped-meta {
   }
 
   div.view div.grouped-meta div.views-field {
+    font-size:11px;
     background:#fff;
     overflow:hidden;
     padding-left:5px;
@@ -1115,6 +1118,7 @@ div.litecal .litecal-title h3.litecal-title {
   padding:0px;
   }
 
+div.litecal .litecal-header .litecal-label { text-align:center; }
 div.litecal .date { color:inherit; }
 
 /**
