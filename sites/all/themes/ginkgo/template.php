@@ -394,17 +394,28 @@ function ginkgo_preprocess_views_view_fields(&$vars) {
     }
   }
 
-  // Write this as a row plugin to allow modules/features to
-  // define this stuff.
+  // Write this as a row plugin to allow modules/features to define this stuff.
   if (get_class($vars['view']->style_plugin) == 'views_plugin_style_list') {
     $enable_grouping = TRUE;
 
-    // Array of field classes to group together
-    $groups = array();
-    $groups['meta'] = array('date', 'user-picture', 'username', 'related-title', 'author');
-    $groups['admin'] = array('edit', 'delete');
+    // Override arrays for grouping
+    $view_id = "{$vars['view']->name}:{$vars['view']->current_display}";
+    $overrides = array(
+      "atrium_profile:block_1" => array(),
+      "atrium_blog_comments:block_1" => array(
+        'meta' => array('date', 'user-picture', 'username', 'author'),
+      ),
+    );
+    if (isset($overrides[$view_id])) {
+      $groups = $overrides[$view_id];
+    }
+    else {
+      $groups = array(
+        'meta' => array('date', 'user-picture', 'username', 'related-title', 'author'),
+        'admin' => array('edit', 'delete'),
+      );
+    }
 
-    // $grouped = array('meta' => array(), 'content' => array());
     foreach ($vars['fields'] as $id => $field) {
       $found = FALSE;
       foreach ($groups as $group => $valid_fields) {
