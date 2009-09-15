@@ -275,10 +275,10 @@ a.user-picture {
     #page-header div.tabs ul.links li a:hover { background:#999; color:#fff; }
 
     #page-header div.tabs ul.links li.active a,
-    #page-header div.tabs ul.links li.active a.active,
+    #page-header div.tabs ul.links li a.active,
     #page-header div.tabs ul.links li.active a:hover {
-      color:#333 !important;
-      background: #fff !important;
+      color:#333;
+      background: #fff;
       }
 
 #page ul.secondary-tabs {
