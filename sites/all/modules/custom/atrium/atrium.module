@@ -201,27 +201,6 @@ function atrium_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'atrium.pages.inc',
   );
-  $items['admin/atrium'] = array(
-    'title' => 'Maintenance',
-    'description' => 'Configuration options for Atrium.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('atrium_admin'),
-    'access callback' => 'user_access',
-    'access arguments' => array('administer atrium'),
-    'type' => MENU_NORMAL_ITEM,
-    'weight' => -100,
-    'file' => 'atrium.admin.inc',
-  );
-  $items['admin/atrium/maintenance'] = array(
-    'title' => 'Maintenance',
-    'description' => 'Maintenance scripts for Atrium.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('atrium_admin'),
-    'access callback' => 'user_access',
-    'access arguments' => array('administer atrium'),
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'atrium.admin.inc',
-  );
   $items['node/%node/reactivate'] = array(
     'title' => 'Reactivate',
     'description' => 'Reactivate confirmation for unpublished nodes.',
@@ -270,20 +249,11 @@ function atrium_menu_alter(&$callbacks) {
   $callbacks['node']['page arguments'] = array('welcome');
 
   // Administration pages
-  if (!variable_get('atrium_admin_mode', FALSE)) {
-    $callbacks['admin/messaging']['access callback'] =
-    $callbacks['admin/modules']['access callback'] =
-    $callbacks['admin/content']['access callback'] =
-    $callbacks['admin/build']['access callback'] =
-    $callbacks['admin/og']['access callback'] = FALSE;
-  }
   if (module_exists('admin')) {
     $callbacks = array_merge($callbacks, admin_menu_clone_items('admin/build/features', 'admin/features', $callbacks));
+    $callbacks['admin/features']['options'] = array('admin' => TRUE);
+    $callbacks['admin/features']['menu_name'] = 'admin';
   }
-  $callbacks['admin/features']['options'] =
-  $callbacks['admin/atrium']['options'] = array('admin' => TRUE);
-  $callbacks['admin/features']['menu_name'] =
-  $callbacks['admin/atrium']['menu_name'] = 'admin';
 }
 
 /**
