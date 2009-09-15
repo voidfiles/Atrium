@@ -160,12 +160,14 @@ function atrium_dashboard_customize() {
 function atrium_dashboard_spaces_admin_links_alter(&$links, $space) {
   $map = _atrium_dashboard_type_map();
   if ($space->feature_access('atrium_dashboard')) {
-    $item = menu_get_item($map[$space->type]);
-    $links["atrium_dashboard"] = array(
-      'title' => t('@type layout', array('@type' => $item['title'])),
-      'href' => "{$map[$space->type]}/customize",
-      'query' => drupal_get_destination(),
-    );
+    $item = menu_get_item($map[$space->type].'/customize');
+    if ($item && $item['access']) {
+      $links["atrium_dashboard"] = array(
+        'title' => t('@type layout', array('@type' => $item['title'])),
+        'href' => "{$map[$space->type]}/customize",
+        'query' => drupal_get_destination(),
+      );
+    }
   }
 }
 
