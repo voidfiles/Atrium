@@ -121,12 +121,20 @@ function atrium_members_form_user_profile_form_alter(&$form) {
 function atrium_members_views_pre_view(&$view) {
   switch ($view->name) {
     case 'atrium_members':
-      // The page_3 display corresponds to the member directory.
-      if ($view->current_display == 'page_3' && !user_access('view users outside groups')) {
-        $filters = $view->display_handler->get_option('filters');
-        if (!empty($filters['uid_1'])) {
-          $filters['uid_1']['value'] = 1;
+      $filters = $view->display_handler->get_option('filters');
+      foreach ($filters as $id => $filter) {
+        if ("{$filter['table']}:{$filter['field']}" == 'og_uid:uid') {
+          // If user may view user outside their group memberships,
+          // yank the og_uid filter.
+          if (user_access('view users outside groups')) {
+            unset($filters[$id]);
+          }
+          // Otherwise, enforce the filter.
+          else {
+            $filters[$id]['value'] = 1;
+          }
           $view->display_handler->set_option('filters', $filters);
+          break;
         }
       }
       break;
