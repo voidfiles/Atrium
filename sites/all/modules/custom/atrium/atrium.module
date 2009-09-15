@@ -476,6 +476,14 @@ function atrium_get_typename($type, $lower = TRUE) {
 }
 
 /**
+ * Wrapper access callback to provide access check against both a spaces
+ * feature and an access perm.
+ */
+function atrium_feature_access($feature, $perm = 'access content') {
+  return spaces_feature_access($feature) && user_access($perm);
+}
+
+/**
  * BLOCKS =============================================================
  */
 
