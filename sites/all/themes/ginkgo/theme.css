@@ -5,10 +5,48 @@
 body.tao { background:#eee; }
 
 .atrium-skin { background-image:url(images/sprite_skin.png); }
+
 div.limiter { padding:0px 30px; }
 
 body.anonymous-login #page-header div.limiter,
 body.anonymous-login #page div.limiter { width:560px; }
+
+/**
+ * Global navbar  =====================================================
+ */
+#global {
+  background-position:0px -250px;
+  background-repeat:repeat-x;
+  position:relative;
+  line-height:40px;
+  height:40px;
+  font-size:11px;
+  }
+
+#global a:hover { color:#fff; }
+
+#global h1.site-name {
+  width:120px;
+  height:40px;
+  margin-left:-60px;
+
+  background-position:0px -430px;
+  background-repeat:no-repeat;
+
+  position:absolute;
+  left:50%;
+  top:0px;
+  }
+
+  #global h1.site-name a {
+    text-indent:-999px;
+    overflow:hidden;
+    display:block;
+    }
+
+#global div.breadcrumb { float:left; }
+#global div.breadcrumb a { font-weight:bold; }
+#global div.breadcrumb span.divider { padding:0px 10px; }
 
 /**
  * Header blocks ======================================================
@@ -37,25 +75,28 @@ body.header-fixed #global { z-index:1000; }
 #header h2.block-title {
   border-left-width:1px;
   border-left-style:solid;
-  padding:5px 15px;
-  line-height:30px;
+  padding:0px 15px;
   color:#fff;
   }
 
   #header div.block-widget a { font-weight:bold; }
 
-  body.header-fixed #header div.block-widget,
-  body.header-fixed #header div.toggle-blocks,
-  body.header-fixed #header h2.block-title { border-color:#444 !important; }
+  /**
+   * These selectors are extremely aggressive to beat out styles in
+   * spaces-design.tpl.php which also have a body class.
+   */
+  body.header-fixed #global #header div.block-widget,
+  body.header-fixed #global #header div.toggle-blocks,
+  body.header-fixed #global #header h2.block-title { border-color:#444; }
 
-  body.header-fixed #header div.block-widget a,
-  body.header-fixed #header h2.block-title,
-  #header h2.block-title:hover { color:#fff !important; }
+  body.header-fixed #global #header div.block-widget a,
+  body.header-fixed #global #header h2.block-title,
+  #global #header h2.block-title:hover { color:#fff; }
 
-  body.header-fixed #header h2.toggle-active,
-  body.header-fixed #header h2.toggle-active:hover {
+  body.header-fixed #global #header h2.toggle-active,
+  body.header-fixed #global #header h2.toggle-active:hover {
     background:url(images/bleeds.png) 0% 100% repeat-x;
-    color:#000 !important;
+    color:#000;
     }
 
 #header div.block-toggle div.block-content {
@@ -126,9 +167,10 @@ body.header-fixed #global { z-index:1000; }
 
 /* Account block */
 body.logged-in #block-atrium_intranet-account h2.block-title { padding-left:5px; }
+
 #block-atrium_intranet-account h2.block-title div.picture {
   float:left;
-  margin-right:5px;
+  margin:5px 5px 0px 0px;
   }
 
 #block-atrium_intranet-account div.user-info {
@@ -145,43 +187,6 @@ body.logged-in #block-atrium_intranet-account h2.block-title { padding-left:5px;
   font-size:24px;
   padding:0px 10px;
   }
-
-/**
- * GLOBAL =============================================================
- */
-#global {
-  background-position:0px -250px;
-  background-repeat:repeat-x;
-  position:relative;
-  line-height:40px;
-  height:40px;
-  font-size:11px;
-  }
-
-#global a:hover { color:#fff !important; }
-
-#global h1.site-name {
-  width:120px;
-  height:40px;
-  margin-left:-60px;
-
-  background-position:0px -430px;
-  background-repeat:no-repeat;
-
-  position:absolute;
-  left:50%;
-  top:0px;
-  }
-
-  #global h1.site-name a {
-    text-indent:-999px;
-    overflow:hidden;
-    display:block;
-    }
-
-#global div.breadcrumb { float:left; }
-#global div.breadcrumb a { font-weight:bold; }
-#global div.breadcrumb span.divider { padding:0px 10px; }
 
 /**
  * Branding ===========================================================
