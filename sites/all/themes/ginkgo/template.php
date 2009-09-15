@@ -80,6 +80,11 @@ function ginkgo_preprocess_page(&$vars) {
     $vars['footer_links']['admin'] = $item;
   }
 
+  // IE7 CSS
+  // @TODO: Implement IE styles key in tao.
+  $ie7 = base_path() . path_to_theme() .'/ie7.css';
+  $vars['ie7'] = "<!--[if lt IE 7]><style type='text/css' media='screen'>@import '{$ie7}';</style><![endif]-->";
+
   // Add spaces design CSS back in
   if (empty($vars['spaces_design_styles'])) {
     global $theme_info;
