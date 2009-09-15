@@ -100,19 +100,11 @@ function _views_discover_default_views() {
   static $cache = NULL;
 
   if (!isset($cache)) {
-    $index = views_cache_get('views_default_views_index');
+    $data = views_cache_get('views_default_views', TRUE);
 
-    // Retrieve each cached default view
-    if (isset($index->data) && is_array($index->data)) {
-      $cache = array();
-      foreach ($index->data as $view_name) {
-        $data = views_cache_get('views_default:' . $view_name, TRUE);
-        if (isset($data->data) && is_object($data->data)) {
-          $cache[$view_name] = $data->data;
-        }
-      }
+    if (isset($data->data) && is_array($data->data)) {
+      $cache = $data->data;
     }
-    // If missing index, rebuild the cache
     else {
       views_include_default_views();
       $defaults = module_invoke_all('views_default_views');
@@ -130,14 +122,7 @@ function _views_discover_default_views() {
       // Allow modules to modify default views before they are cached.
       drupal_alter('views_default_views', $cache);
 
-      // Cache the index
-      $index = array_keys($cache);
-      views_cache_set('views_default_views_index', $index);
-
-      // Cache each view
-      foreach ($cache as $name => $view) {
-        views_cache_set('views_default:' . $name, $view, TRUE);
-      }
+      views_cache_set('views_default_views', $cache, TRUE);
     }
   }
 
