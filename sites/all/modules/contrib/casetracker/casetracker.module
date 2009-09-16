@@ -1,5 +1,5 @@
 <?php
-// $Id: casetracker.module,v 1.123.2.13 2009/07/07 14:11:59 jmiccolis Exp $
+// $Id: casetracker.module,v 1.123.2.14 2009/08/13 04:48:15 yhahn Exp $
 
 /**
  * @file
@@ -901,8 +901,14 @@ function casetracker_user_options() {
   }
   // fill in anonymous value because view is not rendered and the redundant option in views is irrelevant
   // @TODO render the view before display so this isn't needed.
+  $anon_user = variable_get('anonymous', t('Anonymous'));
   if (isset($options[0])) {
-    $options[0] = variable_get('casetracker_default_assign_to', variable_get('anonymous', t('Anonymous')));
+    $options[0] = variable_get('casetracker_default_assign_to', $anon_user);
+  }
+  // if anonymous user is the default assignee, we graft him/her onto the view results here as most views
+  // that do any substantive filtering will exclude the anonymous user.
+  else if (variable_get('casetracker_default_assign_to', $anon_user) == $anon_user) {
+    array_splice($options, 0, 0, array($anon_user));
   }
   return $options;
 }

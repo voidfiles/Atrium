@@ -5,9 +5,9 @@ dependencies[] = casetracker
 description = Enables mail sending and Mailhandler intregation for Case Tracker.
 core = 6.x
 
-; Information added by drupal.org packaging script on 2009-07-07
-version = "6.x-1.0-beta3"
+; Information added by drupal.org packaging script on 2009-09-16
+version = "6.x-1.0-beta4"
 core = "6.x"
 project = "casetracker"
-datestamp = "1246977628"
+datestamp = "1253121916"
 
