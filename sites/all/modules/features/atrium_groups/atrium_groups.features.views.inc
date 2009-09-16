@@ -125,9 +125,17 @@ function _atrium_groups_views_default_views() {
       'relationship' => 'none',
     ),
   ));
+  $handler->override_option('access', array(
+    'type' => 'perm',
+    'perm' => 'access content',
+  ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
   $handler = $view->new_display('block', 'Block', 'block_2');
+  $handler->override_option('access', array(
+    'type' => 'perm',
+    'perm' => 'access content',
+  ));
   $handler->override_option('items_per_page', 15);
   $handler->override_option('use_more', 1);
   $handler->override_option('block_description', '');
