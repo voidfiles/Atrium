@@ -7,56 +7,66 @@ function _atrium_casetracker_context_default_contexts() {
   $items = array();
 
   $items[] = array(
+    'namespace' => 'atrium',
+    'attribute' => 'casetracker',
+    'value' => 'project',
+    'description' => '',
+    'node' => array(
+      '0' => 'casetracker_basic_project',
+    ),
+    'block' => array(
+      'views_atrium_casetracker-block_1' => array(
+        'module' => 'views',
+        'delta' => 'atrium_casetracker-block_1',
+        'weight' => 50,
+        'region' => 'content',
+        'status' => '0',
+        'label' => 'atrium_casetracker: Project cases (newest)',
+        'type' => 'context_ui',
+      ),
+    ),
+  );
+  $items[] = array(
     'namespace' => 'spaces',
     'attribute' => 'feature',
     'value' => 'casetracker',
-    'node' => array(
-      '0' => 'casetracker_basic_case',
-      '1' => 'casetracker_basic_project',
-    ),
+    'description' => '',
     'menu' => 'casetracker',
+    'node' => array(
+      '0' => 'casetracker_basic_project',
+      '1' => 'casetracker_basic_case',
+    ),
     'views' => array(
       '0' => 'atrium_casetracker',
       '1' => 'atrium_casetracker_projects',
     ),
-    'spaces' => array(
-      'label' => 'Case Tracker',
-      'description' => 'Provides an issue and task tracker',
-      'menu' => array(
-        '0' => array(
-          'title' => 'Case Tracker',
-          'href' => 'casetracker',
-        ),
-      ),
-      'types' => array(
-        '0' => 'og',
-        '1' => 'user',
-      ),
-    ),
     'block' => array(
-      'atrium_casetracker-book' => array(
+      'atrium_casetracker_book' => array(
         'module' => 'atrium_casetracker',
         'delta' => 'book',
-        'weight' => -13,
+        'weight' => 50,
         'region' => 'right',
+        'status' => '0',
+        'label' => 'Atrium: Case Tracker book',
+        'type' => 'context_ui',
       ),
-      'atrium_casetracker-filters' => array(
+      'atrium_casetracker_filters' => array(
         'module' => 'atrium_casetracker',
         'delta' => 'filters',
-        'weight' => -12,
+        'weight' => 51,
         'region' => 'right',
+        'status' => '0',
+        'label' => 'Atrium: Case Tracker filter',
+        'type' => 'context_ui',
       ),
       'views_atrium_casetracker-block_2' => array(
         'module' => 'views',
         'delta' => 'atrium_casetracker-block_2',
-        'weight' => -11,
+        'weight' => 52,
         'region' => 'right',
-      ),
-      'views-atrium_casetracker-block_1' => array(
-        'module' => 'views',
-        'delta' => 'atrium_casetracker-block_1',
-        'weight' => 11,
-        'region' => 'content',
+        'status' => '0',
+        'label' => 'atrium_casetracker: My cases',
+        'type' => 'context_ui',
       ),
     ),
   );
