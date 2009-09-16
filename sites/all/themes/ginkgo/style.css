@@ -445,15 +445,18 @@ div.block div.item-list li.views-row-last { border-bottom:0px; }
 /**
  * Menus ==============================================================
  */
-ul.menu li {
-  background:#eee;
-  border:0px;
+ul.menu ul {
+  padding-left:9px;
+  border-left:1px solid #fff;
   }
 
-ul.menu li li { padding-left:10px; }
+ul.menu li { position:relative; }
 
 ul.menu span.icon {
-  float:right;
+  position:absolute;
+  right:0px;
+  top:0px;
+
   width:24px;
   height:24px;
   background:url(images/sprite_base.png) -80px 0px no-repeat;
@@ -463,9 +466,19 @@ ul.menu a {
   background:#fff;
   display:block;
   line-height:15px;
-  padding:4px 0px 5px 10px;
-  border-top:1px solid #eee;
+  border-bottom:1px solid #eee;
+  padding:5px 10px 4px;
   }
+
+  ul.menu ul a { font-weight:normal; }
+
+/* Thread colors */
+ul.menu { background:#fff; }
+ul.menu ul { background:#cde; }
+ul.menu ul ul { background:#ecc; }
+ul.menu ul ul ul { background:#cec; }
+ul.menu ul ul ul ul { background:#fea; }
+ul.menu ul ul ul ul ul { background:#cce; }
 
 /**
  * PAGER ==============================================================
@@ -686,6 +699,8 @@ div.comment {
 
   #comments div.indented div.indented { border-color:#ecc }
   #comments div.indented div.indented div.indented { border-color:#cec }
+  #comments div.indented div.indented div.indented div.indented { border-color:#fea; }
+  #comments div.indented div.indented div.indented div.indented div.indented { border-color:#cce; }
 
 /* Sticky nodes */
 div.sticky,
@@ -1234,7 +1249,3 @@ div.form-checkboxes { display: inline-block; }
 
 div.form-checkboxes { display: block; }
 /* End hide from IE-mac */
-
-/* IE Fix Book navigation */
-#block-atrium-book ul.menu li,
-#block-atrium-book ul.menu span.icon { border-top: 1px solid #EEEEEE;}
