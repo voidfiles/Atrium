@@ -27,64 +27,27 @@ class AtriumTranslateTestCase extends AtriumWebTestCase {
   function setUp() {
     // Change install locale, will download translation on the fly
     $this->install_locale = 'es';
+    // Set time limit, 180 (default) may not be enough for language install
+    $this->timeLimit = 360;
     parent::setUp();
-    // @todo we need to create the first group so we don't get the message:
-    // The site administator has not finished setting up this site....
-    // We may need to visit the welcome page once as a logged in user to get install finished
-    // which creates a loop: we need the permissions & roles set up to create first user
   }
 
   function testWelcomePage() {
+    // Check the language has been added
+    $this->assertEqual(count(language_list()), 2, 'Two languages have been added.');
+    $this->assertEqual(language_default('language'), 'es', 'Spanish is the default language.');
+    // Check translations have been added properly
+    $count = db_result(db_query("SELECT COUNT(*) FROM {locales_target} WHERE language = '%s'", $this->install_locale));
+    $this->assertTrue($count, "Translations have been loaded: $count strings.");
     // Create and login admin user
     $admin_user = $this->atriumCreateUser('admin');
     $this->drupalLogin($admin_user);
     // Check initial texts
-    $this->assertText(t('Welcome to Atrium'));
+    $this->assertText(t('Welcome to !sitename', array('!sitename' => variable_get('site_name', 'Atrium'))));
     $this->assertText(t('Create your first !type to get started.', array('!type' => atrium_get_typename('group'))));
-    
-    // Create public and private group using the form
-    $group0->path = 'group0';
-    $group0->preset = 'atrium_og_private';
-    $group1->path = 'gropu1';
-    $group1->preset = 'atrium_og_public';
-    
-    foreach (array($group0) as $group) {
-      $group->title = $this->randomName(8);
-      $group->description = $this->randomName(32);
-      $this->drupalGet('node/add/group');
-      $edit = array(
-        'title' => $group->title,
-        'og_description' => $group->description,
-        'purl[value]' => $group->path,
-        'preset' => $group->preset,
-      );
-      $this->drupalPost('node/add/group', $edit, t('Save'));
-      // Save nid for this group
-      $group->nid = db_result(db_query("SELECT id FROM {purl} WHERE value = '%s'", $group->path));    
-      
-      // Test all pages for this group
-      $this->drupalGet($group->path);
-      $this->assertText($group->title);
-      foreach (array('dashboard', 'dashboard/all', 'dashboard/my', 'dashboard/files') as $page) {
-        $this->drupalGet("$group->path/$page");
-        $this->assertText(t('No recent activity found.'));
-      }
-      $this->drupalGet("$group->path/blog");
-      $this->assertText(t('Please add your first !type to get started.', array('!type' => node_get_types('name', 'blog'))));
-
-      $this->drupalGet("$group->path/documents");
-      $this->assertText(t('Please add your first !type to get started.', array('!type' => node_get_types('name', 'book'))));
-
-      $this->drupalGet("$group->path/documents/archived");
-      $this->assertText(t('No archived books found.'));
-      
-      // Group member pages
-      $path = "$group->path/og/users/$group->nid";
-      $this->drupalGet($path);
-      $this->drupalGet("$path/faces");
-      $this->drupalGet("$path/ucreate");
-      $this->drupalGet("$path/add_user");
-    }
+    // Check random string translations
+    $this->assertText('Bienvenido');
+    $this->assertText('Cree su primer grupo');
   }  
 }
 

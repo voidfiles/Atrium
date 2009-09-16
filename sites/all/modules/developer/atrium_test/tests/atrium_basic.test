@@ -26,10 +26,6 @@ class AtriumBasicTestCase extends AtriumWebTestCase {
    */
   function setUp() {
     parent::setUp();
-    // @todo we need to create the first group so we don't get the message:
-    // The site administator has not finished setting up this site....
-    // We may need to visit the welcome page once as a logged in user to get install finished
-    // which creates a loop: we need the permissions & roles set up to create first user
   }
 
   function testWelcomePage() {
@@ -37,16 +33,16 @@ class AtriumBasicTestCase extends AtriumWebTestCase {
     $admin_user = $this->atriumCreateUser('admin');
     $this->drupalLogin($admin_user);
     // Check initial texts
-    $this->assertText(t('Welcome to Atrium'));
+    $this->assertText(t('Welcome to !sitename', array('!sitename' => variable_get('site_name', 'Atrium'))));
     $this->assertText(t('Create your first !type to get started.', array('!type' => atrium_get_typename('group'))));
     
     // Create public and private group using the form
     $group0->path = 'group0';
     $group0->preset = 'atrium_og_private';
-    $group1->path = 'gropu1';
+    $group1->path = 'group1';
     $group1->preset = 'atrium_og_public';
     
-    foreach (array($group0) as $group) {
+    foreach (array($group0, $group1) as $group) {
       $group->title = $this->randomName(8);
       $group->description = $this->randomName(32);
       $this->drupalGet('node/add/group');

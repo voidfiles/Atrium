@@ -38,6 +38,7 @@ class AtriumWebTestCase extends DrupalWebTestCase {
     
     // Store necessary current values before switching to prefixed database.
     $this->originalPrefix = $db_prefix;
+    $this->originalLanguage = clone $language;
     $clean_url_original = variable_get('clean_url', 0);
 
     // Must reset locale here, since schema calls t().  (Drupal 6)
@@ -129,7 +130,22 @@ class AtriumWebTestCase extends DrupalWebTestCase {
   // Download and install language
   function installLanguage($langcode) {
     $this->addLanguage($langcode, TRUE, TRUE);
+
+    if (module_exists('atrium_translate')) {
+      module_load_install('atrium_translate');
+      module_load_include('inc', 'l10n_update');
+      $release = _atrium_translate_default_release($langcode);
+      //$release = l10n_update_project_get_release('atrium', $langcode, ATRIUM_L10N_VERSION, ATRIUM_L10N_SERVER);
+      if ($release && !empty($release['download_link'])) {
+        $project = _l10n_update_build_project('atrium', ATRIUM_L10N_VERSION, ATRIUM_L10N_SERVER);
+        if ($file = l10n_update_download_file($release['download_link'])) {
+          l10n_update_import_file($file, $langcode);
+          _l10n_update_batch_history($project, $release);
+        }
+      }
+    }
   }
+
   /**
    * Adds a language
    * 
@@ -147,14 +163,6 @@ class AtriumWebTestCase extends DrupalWebTestCase {
     language_list('language', TRUE);
     // We may need to refresh default language
     drupal_init_language();
-    if ($load) {
-      // Import po files for this language    
-      $batch = locale_batch_by_language($langcode);
-      batch_set($batch);
-      $batch =& batch_get();
-      $batch['progressive'] = FALSE;
-      batch_process();
-    }
   }
 
   /**
@@ -245,5 +253,18 @@ class AtriumWebTestCase extends DrupalWebTestCase {
     else {
       return 'No properties';
     }
+  }
+  
+  /**
+   * Reset original language
+   * 
+   * If we don't do this after test tearDown, we get some errors when the system tries to translate
+   * the test result messages, which is next step.
+   */
+  protected function tearDown() {
+    global $language;
+      
+    parent::tearDown();
+    $language = $this->originalLanguage;
   }
 }
