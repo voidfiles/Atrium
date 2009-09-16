@@ -49,7 +49,7 @@ function litenode_views_query_alter(&$view, &$query) {
   if ($view->display_handler->get_option('style_plugin') == 'litenode') {
     $options = $view->display_handler->get_option('style_options');
     if (!empty($options['cullen'])) {
-      $sub = clone $query;
+      $sub = drupal_clone($query);
       $base = $query->base_table;
 
       foreach (array_keys($query->where) as $index) {
@@ -124,7 +124,7 @@ function litenode_views_pre_execute(&$view) {
   if ($view->display_handler->get_option('style_plugin') == 'litenode') {
     // Remove any unnecessary joins from the count query.
     // @TODO test this with relationships present
-    $count_query = clone $view->query;
+    $count_query = drupal_clone($view->query);
     $where = $count_query->condition_sql();
     // If table is not present in the where condition, we should drop the join
     foreach ($count_query->tables[$count_query->base_table] as $table => $info) {      
