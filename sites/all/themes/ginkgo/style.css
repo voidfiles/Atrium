@@ -890,10 +890,12 @@ div.shoutform div.shoutbox-input {
   }
 
 /* Page view */
-div.view-atrium-shoutbox-shouts .user-picture {
+div.view-atrium-shoutbox-shouts div.user-picture {
   margin-right:5px;
   float:left;
   }
+
+div.main div.view-atrium-shoutbox-shouts div.markup { font-size:13px; }
 
 #right div.block-messaging_shoutbox form { padding:0px; }
 
