@@ -616,6 +616,14 @@ div.comment-links ul.links {
     background:#f8f8f8 url(images/bleeds.png) 0px 100% repeat-x;
     }
 
+    div.node-links ul li span a,
+    div.comment-links ul li span a {
+      display:inline;
+      float:none;
+      padding:0px;
+      background:transparent;
+      }
+
   /* View more link */
   div.more-link {
     height:30px;
