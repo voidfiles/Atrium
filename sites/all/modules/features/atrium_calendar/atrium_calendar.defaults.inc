@@ -11,18 +11,19 @@ function _atrium_calendar_content_default_fields() {
     'field_name' => 'field_date',
     'type_name' => 'event',
     'display_settings' => array(
+      'weight' => '-3',
+      'parent' => '',
       'label' => array(
-        'format' => 'hidden',
-      ),
-      'full' => array(
-        'format' => 'field_date_long',
-        'exclude' => 0,
+        'format' => 'above',
       ),
       'teaser' => array(
-        'format' => 'field_date_long',
+        'format' => 'long',
         'exclude' => 0,
       ),
-      'weight' => 5,
+      'full' => array(
+        'format' => 'long',
+        'exclude' => 0,
+      ),
     ),
     'widget_active' => '1',
     'type' => 'date',
