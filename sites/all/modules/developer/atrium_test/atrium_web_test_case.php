@@ -215,6 +215,17 @@ class AtriumWebTestCase extends DrupalWebTestCase {
   }
 
   /**
+   * Rewrite assertUniqueText function so it prints page when fails
+   */
+  protected function assertUniqueText($text, $message = '', $group = 'Other') {
+    $result = $this->assertUniqueTextHelper($text, $message, $group, TRUE);
+    if (!$result) {
+      $this->printPage();
+    }
+    return $result;
+  }
+ 
+  /**
    * Print out a variable for debugging
    */
   function printDebug($data, $title = '') {
