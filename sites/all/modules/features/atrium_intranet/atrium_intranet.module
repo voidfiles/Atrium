@@ -379,7 +379,9 @@ function atrium_intranet_403() {
   // If we're in intranet mode, send anonymous users to a login screen.
   global $user;
   if (!$user->uid && !user_access('access content')) {
-    drupal_goto('user/login', 'destination='. $_REQUEST['q']);
+    $_GET['destination'] = $_GET['q'];
+    menu_set_active_item('user/login');
+    return drupal_get_form('user_login');
   }
   return "<div class='access-denied'>". t('You are not authorized to access this page.') ."</div>";
 }
