@@ -60,7 +60,7 @@ function atrium_strongarm() {
 
     _user_features_save_roles($roles);
   }
-  if (!isset($space->settings['atrium_members'])) {
+  if (isset($space->settings['atrium_members']) && $space->settings['atrium_members'] == ATRIUM_MEMBERS_GROUP) {
     features_include();
     $roles = _features_get_roles();
     _atrium_remove_perm($roles, 'authenticated user', 'view users outside groups');

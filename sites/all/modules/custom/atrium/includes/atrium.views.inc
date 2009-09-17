@@ -5,6 +5,16 @@
  * Implementation of hook_views_pre_build().
  */
 function atrium_views_pre_build(&$view) {
+  // When OG public nodes are in play it is (very) possible to get
+  // duplicate rows because of the node_access() JOIN and WHERE
+  // combination. This is a rather brute force method of making
+  // sure this doesn't affect our Views without going through every
+  // default view and setting the distinct flag.
+  global $user;
+  if ($user->uid != 0 && !user_access('administer nodes') && $view->base_table == 'node') {
+    $view->display_handler->set_option('distinct', 1);
+  }
+
   switch ($view->name) {
     // Improve book contextuality
     // This alter checks the current active context and only allows
