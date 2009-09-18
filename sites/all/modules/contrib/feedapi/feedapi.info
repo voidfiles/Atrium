@@ -4,9 +4,9 @@ description = "Provides feed aggregation functionality, a feed management interf
 package = FeedAPI Default
 core = 6.x
 php = 4.0
-; Information added by drupal.org packaging script on 2009-08-12
-version = "6.x-1.8"
+; Information added by drupal.org packaging script on 2009-09-18
+version = "6.x-1.9-beta1"
 core = "6.x"
 project = "feedapi"
-datestamp = "1250105143"
+datestamp = "1253292351"
 

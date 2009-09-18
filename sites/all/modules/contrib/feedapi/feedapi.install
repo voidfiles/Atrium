@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.install,v 1.5.2.21.2.20 2009/08/12 19:02:34 aronnovak Exp $
+// $Id: feedapi.install,v 1.5.2.21.2.22 2009/09/18 16:21:02 alexb Exp $
 
 /**
  * @file
@@ -28,34 +28,42 @@ function feedapi_schema() {
         'type' => 'text',
         'not null' => TRUE),
       'feed_type' => array(
+        'description' => 'Type of feed',
         'type' => 'varchar',
         'not null' => TRUE,
         'default' => 'XML feed',
         'length' => '50'),
       'processors' => array(
+        'description' => 'List of enabled processors',
         'type' => 'varchar',
         'not null' => TRUE,
         'default' => '',
         'length' => '255'),
       'parsers' => array(
+        'description' => 'List of enabled parsers',
         'type' => 'varchar',
         'not null' => TRUE,
         'default' => '',
         'length' => '255'),
       'next_refresh_time' => array(
+        'description' => 'Timestamp of the earliest possible next refresh time',
         'type' => 'int',
-        'unsigned' => TRUE,
+        'unsigned' => FALSE,
         'default' => 0,
         'not null' => TRUE),
       'hash' => array(
+        'description' => 'Hash of the feed content',
         'type' => 'varchar',
         'length' => '32'),
       'link' => array(
+        'description' => 'URL of the source site of the feed',
         'type' => 'text'),
       'settings' => array(
+        'description' => 'Various settings of the feed',
         'type' => 'text',
         'size' => 'big'),
       'half_done' => array(
+        'description' => 'Indicates if not all of the feed items were processed at the last cron run',
         'type' => 'int',
         'size' => 'tiny'),
     ),
@@ -68,21 +76,26 @@ function feedapi_schema() {
     'description' => 'Statistics values over the time about the feeds',
     'fields' => array(
       'id' => array(
+        'description' => 'Unique identifier for statistics data',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0),
       'type' => array(
+        'description' => 'Type of the data',
         'type' => 'varchar',
         'length' => 64,
         'not null' => TRUE),
       'timestamp' => array(
+        'description' => 'Timestamp of the data',
         'type' => 'int',
         'not null' => TRUE),
       'time' => array(
+        'description' => 'Time of the data',
         'type' => 'varchar',
         'length' => 20,
         'not null' => TRUE),
       'value' => array(
+        'description' => 'Value of the data',
         'type' => 'int'),
     ),
     'indexes' => array(
@@ -256,3 +269,43 @@ function feedapi_update_6106() {
   return $ret;
 }
 
+/**
+ * Convert refresh_time values to new constants
+ * FEEDAPI_CRON_NEVER_REFRESH and FEEDAPI_CRON_ALWAYS_REFRESH.
+ */
+function feedapi_update_6107() {
+  $ret = array();
+  // next_refresh_time can contain negative values now.
+  $spec = array(
+    'type' => 'int',
+    'unsigned' => FALSE,
+    'default' => 0,
+    'not null' => TRUE,
+  );
+  db_change_field($ret, 'feedapi', 'next_refresh_time', 'next_refresh_time', $spec);
+
+  // Update all node type settings.
+  $node_types = node_get_types('types');
+  foreach ($node_types as $node_type) {
+    if (feedapi_enabled_type($node_type)) {
+      if ($settings = feedapi_get_settings($node_type)) {
+        if ($settings['refresh_time'] == 0 || $settings['refresh_time'] == 1) {
+          $settings['refresh_time'] = ($settings['refresh_time'] == 0) ? FEEDAPI_CRON_NEVER_REFRESH : FEEDAPI_CRON_ALWAYS_REFRESH;
+          _feedapi_store_settings(array('node_type' => $node_type), $settings);
+        }
+      }
+    }
+  }
+
+  // Update all node settings.
+  $result = db_query('SELECT n.type, f.vid FROM {node} n JOIN {feedapi} f ON f.nid = n.nid');
+  while ($node = db_fetch_object($result)) {
+    if ($settings = feedapi_get_settings($node->type, $node->vid)) {
+      if ($settings['refresh_time'] == 0 || $settings['refresh_time'] == 1) {
+        $settings['refresh_time'] = ($settings['refresh_time'] == 0) ? FEEDAPI_CRON_NEVER_REFRESH : FEEDAPI_CRON_ALWAYS_REFRESH;
+        _feedapi_store_settings(array('node_type' => $node->type, 'vid' => $node->vid), $settings);
+      }
+    }
+  }
+  return $ret;
+}

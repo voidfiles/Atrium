@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.module,v 1.23.2.119.2.72 2009/08/11 06:54:09 aronnovak Exp $
+// $Id: feedapi.module,v 1.23.2.119.2.79 2009/09/18 16:34:12 alexb Exp $
 
 /**
  * @file
@@ -14,7 +14,9 @@ define('FEEDAPI_CRON_FEEDS', 100);
 // Default time that should elapse before a feed can be refreshed again on cron.
 define('FEEDAPI_CRON_DEFAULT_REFRESH_TIME', 1800);
 // Denotes that a feed should never be refreshed.
-define('FEEDAPI_CRON_NEVER_REFRESH', 0);
+define('FEEDAPI_CRON_NEVER_REFRESH', -1);
+// Denotes that a feed should be refreshed as often as possible.
+define('FEEDAPI_CRON_ALWAYS_REFRESH', 0);
 // Prune FeedAPI stats 4 weeks
 define('FEEDAPI_CRON_STAT_LIFETIME', 28*24*3600);
 
@@ -225,7 +227,7 @@ function feedapi_block($op = 'list', $delta = 0) {
  * Implementation of hook_perm().
  */
 function feedapi_perm() {
-  return array('administer feedapi', 'advanced feedapi options');
+  return array('administer feedapi', 'advanced feedapi options', 'use local files as feeds');
 }
 
 /**
@@ -517,7 +519,7 @@ function feedapi_form_alter(&$form, $form_state, $form_id) {
       $form['feedapi']['feedapi_url'] = array(
         '#type' => 'textfield',
         '#title' => t('Feed URL'),
-        '#description' => t('Enter feed URL.'),
+        '#description' => t('Enter feed URL. The set of supported schemas (e.g. ftp://, http://) depends on the parser that you use.'),
         '#default_value' => $feedapi_url_default,
         '#maxlength' => 2048,
       );
@@ -595,6 +597,12 @@ function feedapi_node_validate($form, &$form_state) {
   if (empty($form_state['values']['feedapi']['feedapi_url']) && !$has_upload) {
     form_set_error('source', t('The Feed URL or uploading a file is required.'));
   }
+  else if (!empty($form_state['values']['feedapi']['feedapi_url']) && !$has_upload && (strpos($form_state['values']['feedapi']['feedapi_url'], 'file://') === 0) && !user_access('use local files as feeds')) {
+    form_set_error('source', t('You do not have sufficient permissions to use local files as feeds.'));
+  }
+  else if (strpos($form_state['values']['feedapi']['feedapi_url'], 'file://') === 0 && file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
+    form_set_error('source', t('file:// is only allowed for files under the files directory.'));
+  }
   else {
     if ($has_upload) {
       $form_state['values']['feedapi']['feedapi_url'] = file_create_url($file->filepath);
@@ -654,9 +662,10 @@ function feedapi_feedapi_settings_form($type) {
       '#description' => t('If checked, existing feed items will be updated when feed is refreshed.'),
       '#default_value' => 1,
     );
-    $period = drupal_map_assoc(array(1, 900, 1800, 3600, 10800, 21600, 32400, 43200, 86400, 172800, 259200, 604800, 1209600, 2419200, 3628800, 4838400, 7257600, 15724800, 31536000), 'format_interval');
+    $period = array();
+    $period[FEEDAPI_CRON_ALWAYS_REFRESH] = t('As often as possible');
+    $period += drupal_map_assoc(array(900, 1800, 3600, 10800, 21600, 32400, 43200, 86400, 172800, 259200, 604800, 1209600, 2419200, 3628800, 4838400, 7257600, 15724800, 31536000), 'format_interval');
     $period[FEEDAPI_CRON_NEVER_REFRESH] = t('Never refresh');
-    $period[1] = t('As often as possible');
     $form['refresh_time'] = array(
       '#type' => 'select',
       '#title' => t('Minimum refresh period'),
@@ -703,7 +712,7 @@ function feedapi_cron() {
   // The counter process will be > 0 if we've selected less feeds
   while (!$process && feedapi_cron_time()) {
     $process = FEEDAPI_CRON_FEEDS;
-    $result = db_query_range("SELECT f.nid, n.uid FROM {feedapi} f JOIN {node} n ON n.vid = f.vid WHERE next_refresh_time < %d AND next_refresh_time <> %d ORDER BY next_refresh_time ASC", $now, FEEDAPI_CRON_NEVER_REFRESH, 0, FEEDAPI_CRON_FEEDS);
+    $result = db_query_range("SELECT f.nid, n.uid FROM {feedapi} f JOIN {node} n ON n.vid = f.vid WHERE next_refresh_time <= %d AND next_refresh_time <> %d ORDER BY next_refresh_time ASC", $now, FEEDAPI_CRON_NEVER_REFRESH, 0, FEEDAPI_CRON_FEEDS);
 
     while (feedapi_cron_time() && $feed = db_fetch_object($result)) {
       $user = user_load(array('uid' => $feed->uid));
@@ -734,11 +743,12 @@ function feedapi_cron_time() {
   static $time_limit;
 
   if (!$time_limit) {
-    $time_limit = time() + (variable_get('feedapi_cron_percentage', 15) / 100) * ini_get('max_execution_time');
+    $max_exec_time = ini_get('max_execution_time') == 0 ? 120 : ini_get('max_execution_time');
+    $time_limit = time() + (variable_get('feedapi_cron_percentage', 15) / 100) * $max_exec_time;
     // However, check for left time, maybe some other cron processing already occured
     $cron_semaphore = variable_get('cron_semaphore', 0);
     if ($cron_semaphore) {
-      $time_limit = min($time_limit, $cron_semaphore + ini_get('max_execution_time'));
+      $time_limit = min($time_limit, $cron_semaphore + $max_exec_time);
     }
     timer_start('feedapi_cron');
   }
@@ -766,6 +776,18 @@ function feedapi_simplified_form($form_state, $type) {
     '#value' => t('Add'),
   );
   return $form;
+}
+
+/**
+ * Validates simplified form.
+ */
+function feedapi_simplified_form_validate($form, &$form_state) {
+  if (!empty($form_state['values']['url']) && (strpos($form_state['values']['url'], 'file://') === 0) && !user_access('use local files as feeds')) {
+    form_set_error('url', t('You do not have sufficient permissions to use local files as feeds.'));
+  }
+  else if (strpos($form_state['values']['url'], 'file://') === 0 && file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
+    form_set_error('url', t('file:// is only allowed for files under the files directory.'));
+  }
 }
 
 /**
@@ -835,11 +857,6 @@ function feedapi_create_node($param, $url) {
   $node->title = $node->title ? $node->title : $feed->title;
   $node->body = $node->body ? $node->body : $feed->description;
   $node->feedapi_object = $feed;
-  $node_options = variable_get('node_options_'. $node->type, array('status', 'promote'));
-  // If this is a new node, fill in the default values.
-  foreach (array('status', 'promote', 'sticky') as $key) {
-    $node->$key = in_array($key, $node_options);
-  }
   // Get the content-type settings as default
   $node->feedapi = feedapi_get_settings($node->type);
   node_object_prepare($node);
@@ -996,8 +1013,8 @@ function _feedapi_call_parsers($feed, $parsers, $settings) {
   $nid = isset($feed->nid) ? $feed->nid : '';
   $parser_primary = array_shift($parsers);
   $parsers_secondary = $parsers;
-  // Normalize relative URLs according to the base URL (mostly for uploaded feeds)
-  if (!valid_url($feed->url, TRUE) && valid_url($feed->url)) {
+  // Normalize relative URLs according to the base URL (mostly for uploaded feeds), but allow other schemes too
+  if (!valid_url($feed->url, TRUE) && valid_url($feed->url) && !strpos($feed->url, '://')) {
     $feed->url = $GLOBALS['base_url'] . $feed->url;
   }
   if (module_exists($parser_primary)) {
@@ -1012,7 +1029,8 @@ function _feedapi_call_parsers($feed, $parsers, $settings) {
   // Call the turned on parsers, create a union of returned options
   $parsers_secondary = is_array($parsers_secondary) ? $parsers_secondary : array();
   foreach ($parsers_secondary as $parser) {
-    $feed_ext = module_invoke($parser, 'feedapi_feed', 'parse', $feed, FALSE);
+    $settings_secondary = isset($settings[$parser]) ? $settings[$parser] : array();
+    $feed_ext = module_invoke($parser, 'feedapi_feed', 'parse', $feed, $settings_secondary);
     $feed->options = (object) ((array) $feed->options + (array) $feed_ext->options);
     // Merge items' options
     if (is_array($feed_ext->items)) {
@@ -1171,7 +1189,7 @@ function _feedapi_invoke_refresh(&$feed, $param) {
 
   $counter = array();
   timer_start('feedapi_'. $feed->nid);
-  $memory_usage = memory_get_usage();
+  $memory_usage_before = function_exists('memory_get_usage') ? memory_get_usage() : 0;
   $cron = $param;
 
   // Step 0: Check processors and grab settings
@@ -1266,11 +1284,12 @@ function _feedapi_invoke_refresh(&$feed, $param) {
   db_query("UPDATE {feedapi} SET next_refresh_time = %d, half_done = %d, hash = '%s' WHERE nid = %d", $next_refresh_time, $half_done, $feed->hash, $feed->nid);
 
   // Log statistics.
+  $memory_usage_after = function_exists('memory_get_usage') ? memory_get_usage() : 0;
   _feedapi_store_stat($nid, 'update_times', time(), $timestamp);
   _feedapi_store_stat($nid, 'new', $new, $timestamp);
   _feedapi_store_stat($nid, 'download_num', count($items), $timestamp);
   _feedapi_store_stat($nid, 'process_time', timer_read('feedapi_'. $feed->nid), $timestamp);
-  _feedapi_store_stat($nid, 'memory_increase', memory_get_usage() - $memory_usage, $timestamp);
+  _feedapi_store_stat($nid, 'memory_increase', $memory_usage_after - $memory_usage_before, $timestamp);
   _feedapi_store_stat($nid, 'next_refresh_time', $next_refresh_time, $timestamp);
 
   if (!$cron) {

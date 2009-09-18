@@ -1,0 +1,38 @@
+<?php
+// $Id: feedapi_upload.test,v 1.1.2.1 2009/08/20 19:08:26 aronnovak Exp $
+
+require_once(dirname(__FILE__) .'/feedapi_test_case.tinc');
+
+/**
+ * Class for testing FeedAPI file upload support.
+ */
+class FeedAPUploadTestsCase extends FeedAPITestCase {
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('FeedAPI file upload support'),
+      'description' => t('Tests to use a file upload for a feed instead of an URL.'),
+      'group' => t('FeedAPI'),
+    );
+  }
+
+  /**
+   * Test the file upload form
+   */
+  function testFileUploadAbility() {
+    $this->create_type(array_pop($this->get_parsers()), TRUE);
+    $settings = feedapi_get_settings($this->info->type);
+    $this->feedapi_user();
+    $feed_url = "http://novaak.net/test_feed.rss?". $this->randomName();
+    $edit = array(
+      'files[feedapi]' => drupal_get_path('module', 'feedapi'). '/tests/files/feed',
+    );
+    $this->drupalPost('node/add/'. $this->info->type, $edit, 'Save');
+    $this->assertText('drupal.org', 'The feed title is on the saved node.');
+    $status = db_result(db_query('SELECT status FROM {files}'));
+    $this->assertEqual($status, FILE_STATUS_PERMANENT, 'The uploaded file is permanent');
+  }
+}
