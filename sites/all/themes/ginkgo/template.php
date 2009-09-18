@@ -86,24 +86,26 @@ function ginkgo_preprocess_page(&$vars) {
   $vars['ie'] = "<!--[if lte IE 8]><style type='text/css' media='screen'>@import '{$ie}';</style><![endif]-->";
 
   // Add spaces design CSS back in
-  if (empty($vars['spaces_design_styles'])) {
-    global $theme_info;
-    $space = spaces_get_space();
+  if (!isset($_GET['print'])) {
+    if (empty($vars['spaces_design_styles'])) {
+      global $theme_info;
+      $space = spaces_get_space();
 
-    // Retrieve default colors from info file
-    if (isset($theme_info->info["spaces_design_{$space->type}"])) {
-      $default = $theme_info->info["spaces_design_{$space->type}"];
+      // Retrieve default colors from info file
+      if (isset($theme_info->info["spaces_design_{$space->type}"])) {
+        $default = $theme_info->info["spaces_design_{$space->type}"];
+      }
+      else {
+        $default = '#3399aa';
+      }
+
+      $color = !empty($settings["color_{$space->type}"]) ? $settings["color_{$space->type}"] : $default;
+      $vars['styles'] .= theme('spaces_design', $color);
+      $vars['attr']['class'] .= ' spaces-design';
     }
     else {
-      $default = '#3399aa';
+      $vars['styles'] .= $vars['spaces_design_styles'];
     }
-
-    $color = !empty($settings["color_{$space->type}"]) ? $settings["color_{$space->type}"] : $default;
-    $vars['styles'] .= theme('spaces_design', $color);
-    $vars['attr']['class'] .= ' spaces-design';
-  }
-  else {
-    $vars['styles'] .= $vars['spaces_design_styles'];
   }
 }
 
