@@ -4,10 +4,6 @@
 
 <?php if (!empty($form_message)) print $form_message ?>
 
-<?php if ($sidebar): ?>
-  <div id='right'><div class='sidebar clear-block'><?php print drupal_render($sidebar) ?></div></div>
-<?php endif; ?>
-
 <div id='content'>
   <div class='main clear-block'>
   <?php
@@ -17,5 +13,9 @@
   </div>
   <?php if ($buttons): ?><div class='buttons clear-block'><?php print $buttons ?></div><?php endif; ?>
 </div>
+
+<?php if ($sidebar): ?>
+  <div id='right'><div class='sidebar clear-block'><?php print drupal_render($sidebar) ?></div></div>
+<?php endif; ?>
 
 </div>
