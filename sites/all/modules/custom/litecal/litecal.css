@@ -19,6 +19,7 @@ div.litecal .litecal-title {
 
   div.litecal .litecal-title ul.links {
     -moz-border-radius:5px;
+    -webkit-border-radius:5px;
     background:#ddd;
     float:right;
     }
@@ -134,11 +135,15 @@ div.litecal .litecal-row {
     div.litecal .starts {
       -moz-border-radius-topleft:5px;
       -moz-border-radius-bottomleft:5px;
+      -webkit-border-top-left-radius:5px;
+      -webkit-border-bottom-left-radius:5px;
       }
 
     div.litecal .ends {
       -moz-border-radius-topright:5px;
       -moz-border-radius-bottomright:5px;
+      -webkit-border-top-right-radius:5px;
+      -webkit-border-bottom-right-radius:5px;
       }
 
   div.litecal .litecal-data {
@@ -194,11 +199,15 @@ div.litecal-compact .litecal-data { height:9px; }
   div.litecal-compact .starts {
     -moz-border-radius-topleft:3px;
     -moz-border-radius-bottomleft:3px;
+    -webkit-border-top-left-radius:3px;
+    -webkit-border-bottom-left-radius:3px;
     }
 
   div.litecal-compact .ends {
     -moz-border-radius-topright:3px;
     -moz-border-radius-bottomright:3px;
+    -webkit-border-top-right-radius:3px;
+    -webkit-border-bottom-right-radius:3px;
     }
 
   div.litecal-compact .litecal-data {
