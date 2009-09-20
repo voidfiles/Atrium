@@ -49,7 +49,7 @@ function atrium_installer_profile_modules() {
     // Messaging
     'messaging', 'messaging_mail',
     // Notifications
-    'notifications', 'notifications_content',
+    'notifications', 'notifications_content', 'notifications_views',
     // Open ID
     'openidadmin',
     // PURL
@@ -240,7 +240,7 @@ function _atrium_installer_intranet_configure() {
     'relations' => 0,
     'module' => 'event',
     'weight' => 0,
-    'nodes' => array('blog' => 1, 'book' => 1),
+    'nodes' => array('blog' => 1, 'book' => 1, 'casetracker_basic_case' => 1, 'casetracker_basic_project' => 1, 'event' => 1),
     'tags' => TRUE,
     'help' => t('Enter tags related to your post.'),
   );
