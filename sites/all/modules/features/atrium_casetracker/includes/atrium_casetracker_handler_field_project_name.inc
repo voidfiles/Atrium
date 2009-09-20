@@ -74,7 +74,7 @@ class atrium_casetracker_handler_field_project_name extends views_handler_field 
         // Multi-word -- use first letter of each
         if (count($split) > 1) {
           foreach ($split as $chunk) {
-            $acro .= $chunk[0];
+            $acro .= drupal_substr($chunk, 0, 1);
           }
         }
         // Bail, use first word
