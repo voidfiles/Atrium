@@ -6,7 +6,10 @@ body.tao { background:#eee; }
 
 .atrium-skin { background-image:url(images/sprite_skin.png); }
 
-div.limiter { padding:0px 30px; }
+div.limiter {
+  max-width:1280px;
+  padding:0px 30px;
+  }
 
 body.anonymous-login #page-header div.limiter,
 body.anonymous-login #page div.limiter { width:560px; }
