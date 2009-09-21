@@ -122,10 +122,6 @@ ul.menu li li {
 div.view-atrium-profile li div label { right:0px; }
 div.view-atrium-profile li div .field-content { padding:5px 100px 5px 5px; }
 
-div.view h3,
-div.item-list h3,
-table caption { text-align:right; }
-
 div.view div.grouped-meta div.views-field {
   margin-right:0px;
   margin-left:10px;
