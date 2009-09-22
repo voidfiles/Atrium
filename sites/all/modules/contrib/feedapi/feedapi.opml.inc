@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.opml.inc,v 1.1.2.2 2009/06/04 16:46:57 aronnovak Exp $
+// $Id: feedapi.opml.inc,v 1.1.2.3 2009/09/18 07:39:26 aronnovak Exp $
 
 /**
  * @file
@@ -51,9 +51,24 @@ function feedapi_import_opml_submit($form, &$form_state) {
   $file = file_save_upload('opml');
   if ($file = file($file->filepath)) {
     $file = implode('', $file);
-
-    if ($count = _feedapi_import_opml($file, $form_state['values'])) {
-      drupal_set_message(t('Successfuly imported %count feeds from OPML', array('%count' => $count)));
+    $result = _feedapi_import_opml($file, $form_state['values']);
+    if ($result['added']) {
+      drupal_set_message(
+        format_plural($result['added'],
+          'Successfuly imported 1 feed from OPML',
+          'Successfuly imported @count feeds from OPML',
+          array()
+        )
+      );
+    }
+    elseif ($result['dup']) {
+     drupal_set_message(
+        format_plural($result['dup'],
+          'All of the feed URLs already exist in the FeedAPI table. 1 URL was skipped.',
+          'All of the feed URLs already exist in the FeedAPI table. @count URLs were skipped.',
+          array()
+        )
+      );
     }
     else {
       drupal_set_message(t('Feed list could not be imported. Please check that this is a valid OPML file.'), 'error');
@@ -109,7 +124,7 @@ function theme_feedapi_export_opml($feeds) {
  */
 function _feedapi_import_opml($opml, $args = array()) {
   $feeds = array();
-  $count = 0;
+  $dup_count = $count = 0;
   $parser = drupal_xml_parser_create($opml);
 
   //Some OPML Files don't have the xml tag, which causes parsing to fail. Hence, using the appended version as a fallback parse
@@ -141,8 +156,11 @@ function _feedapi_import_opml($opml, $args = array()) {
           $node = feedapi_create_node($node, $feed['XMLURL']);
           $count++;
         }
+        else {
+          $dup_count++;
+	}
       }
     }
   }
-  return $count;
+  return array('added' => $count, 'dup' => $dup_count);
 }

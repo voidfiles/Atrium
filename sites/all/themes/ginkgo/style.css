@@ -338,6 +338,7 @@ a.user-picture {
  * Mission text =======================================================
  */
 div.mission {
+  background:#fff;
   color:#666;
   padding:20px 20px 19px;
   border-bottom:1px solid #ddd;
@@ -953,12 +954,13 @@ div.view-filters {
 div.view h3,
 div.item-list h3,
 table caption {
-  text-align:left;
   padding:10px 0px;
   color:#666;
   font-size:16px;
   font-weight:bold;
   }
+
+  table caption { text-align:inherit; }
 
 /* Views fields */
 div.view li p {

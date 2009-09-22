@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module,v 1.1.2.18.2.36 2009/08/12 09:11:50 aronnovak Exp $
+// $Id: feedapi_node.module,v 1.1.2.18.2.42 2009/09/18 07:57:45 aronnovak Exp $
 
 /**
  * @file
@@ -123,6 +123,37 @@ function feedapi_node_views_api() {
     'api' => 2,
     'path' => drupal_get_path('module', 'feedapi_node') .'/views',
   );
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function feedapi_node_ctools_plugin_api($module, $api) {
+  if ($module == 'feedapi_mapper' && $api == 'feedapi_mapper_default') {
+    return array(
+      'version' => 1,
+    );
+  }
+}
+
+/**
+ * Implementation of hook_feedapi_mapper_default().
+ * Provides default mapping for FeedAPI Mapper 2.x
+ */
+function feedapi_node_feedapi_mapper_default() {
+  $feedapi_mapper = new stdClass;
+  $feedapi_mapper->disabled = FALSE;
+  $feedapi_mapper->api_version = 1;
+  $feedapi_mapper->param = 'feed';
+  $feedapi_mapper->mapping = array(
+    'a:1:{i:0;s:11:"description";}' => 'a:2:{i:0;s:4:"node";i:1;s:4:"body";}',
+    'a:1:{i:0;s:5:"title";}' => 'a:2:{i:0;s:4:"node";i:1;s:5:"title";}',
+  );
+  $feedapi_mapper->unique_elements = array(
+    'a:1:{i:0;s:11:"description";}' => FALSE,
+    'a:1:{i:0;s:5:"title";}' => FALSE,
+  );
+  return array('feedapi_node' => $feedapi_mapper);
 }
 
 /**
@@ -256,7 +287,7 @@ function _feedapi_node_save($feed_item, $feed_nid, $settings = array()) {
   $node = new stdClass();
   if (isset($feed_item->nid)) {
     $node->nid = $feed_item->nid;
-    $node->vid = db_result(db_query("SELECT vid FROM {node_revisions} WHERE nid = %d", $node->nid));
+    $node->vid = db_result(db_query("SELECT vid FROM {node} WHERE nid = %d", $node->nid));
   }
   // Determines the node type.
   if (empty($settings['content_type'])) {
@@ -297,7 +328,7 @@ function _feedapi_node_save($feed_item, $feed_nid, $settings = array()) {
     $node->status = 1;
   }
   $feed_node = node_load($feed_nid);
-  // Only call feedapi_mapper_map() directly in the case of FeedAPI Mapper 2.x
+  // Use feedapi_mapper_map() if FeedAPI Mapper is version 2.x (= feedapi_mapper_unique() is present)
   if (function_exists('feedapi_mapper_map') && function_exists('feedapi_mapper_unique')) {
     $node = feedapi_mapper_map($feed_node, 'feedapi_node', $feed_item, $node);
   }
@@ -308,10 +339,10 @@ function _feedapi_node_save($feed_item, $feed_nid, $settings = array()) {
     }
     if ($type->has_body) {
       $node->body = $feed_item->description;
+      $node->teaser = node_teaser($feed_item->description);
     }
   }
   $node->format = isset($settings['input_format']) ? $settings['input_format'] : FILTER_FORMAT_DEFAULT;
-  $node->teaser = node_teaser($feed_item->description);
   // Stick feed item on node so that add on modules can act on it.
   // A feed item can come in from more than one feed.
   $node->feedapi_node->feed_nids[$feed_nid] = $feed_nid;
@@ -404,17 +435,17 @@ function _feedapi_node_purge($feed) {
 }
 
 /**
- * Tell if the feed item was seen before or not at the feed
+ * Determine whether a given feed item already exists or not.
  *
  * @param $feed_item
  *  Feed item object
  * @param $feed_nid
  *  Feed ID
  * @return
- *  TRUE if the item is new, FALSE if the item is a duplicated one
+ *  TRUE if the item is new, FALSE if not.
  */
 function _feedapi_node_unique($feed_item, $feed_nid, $settings) {
-// Let the mapper hijack the decision
+  // If FeedAPI Mapper 2.x is available, delegate decision.
   if (function_exists('feedapi_mapper_unique')) {
     $feed_node = node_load($feed_nid);
     $result = feedapi_mapper_unique($feed_node, 'feedapi_node', $feed_item);

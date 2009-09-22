@@ -3,6 +3,21 @@
 include_once('atrium_profile.features.inc');
 
 /**
+ * Implementation of hook_views_pre_view().
+ */
+function atrium_profile_views_pre_build(&$view) {
+  // Remove email display if site is in public mode.
+  $space = spaces_load('site', 1);
+  if ($view->name == 'atrium_profile' && isset($space->settings['atrium_sitemode']) && $space->settings['atrium_sitemode'] == ATRIUM_SITEMODE_PUBLIC) {
+    $fields = $view->display_handler->get_option('fields');
+    if (isset($fields['mail'])) {
+      unset($fields['mail']);
+      $view->display_handler->set_option('fields', $fields);
+    }
+  }
+}
+
+/**
  * Implementation of hook_strongarm().
  */
 function atrium_profile_strongarm() {

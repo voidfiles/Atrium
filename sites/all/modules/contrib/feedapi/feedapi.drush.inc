@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.drush.inc,v 1.1.2.3 2009/07/02 16:38:15 aronnovak Exp $
+// $Id: feedapi.drush.inc,v 1.1.2.5 2009/08/28 18:52:33 aronnovak Exp $
 
 /**
  * @file
@@ -99,22 +99,22 @@ function feedapi_drush_parse($url, $parser) {
   $settings = feedapi_get_settings($type);
   $feed = new stdClass();
   $feed->url = $url;
-  print_r(_feedapi_call_parsers($feed, array($parser), $settings));
+  drush_print_r(_feedapi_call_parsers($feed, array($parser), $settings));
 }
 
 function feedapi_drush_config($name) {
   $type = drush_get_option('type') ? drush_get_option('type') : 'feed';
   $settings = variable_get('feedapi_settings_'. $type, array());
   if (isset($settings['parsers'][$name])) {
-    print_r($settings['parsers'][$name]);
+    drush_print_r($settings['parsers'][$name]);
   }
   elseif (isset($settings['processors'][$name])) {
-    print_r($settings['processors'][$name]);
+    drush_print_r($settings['processors'][$name]);
   }
 }
 
 function _feedapi_drush_get_nid($feed) {
-  if (valid_url($feed, TRUE)) {
+  if (valid_url($feed, TRUE) || strpos($feed, '://')) {
     return db_result(db_query("SELECT nid FROM {feedapi} WHERE url = '%s'", $feed));
   }
   return $feed;

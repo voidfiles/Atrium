@@ -465,46 +465,38 @@ function _diff_inline_process_chunk($chunk) {
  */
 function _diff_inline_process_edits($edits) {
   $processed = array();
-  $j = 0;
+  $current = array_shift($edits);
 
   // Make two passes -- first merge space delimiter copies back into their originals.
-  foreach ($edits as $i => $chunk) {
-    $prev = isset($edits[$i-1]) ? $edits[$i-1] : NULL;
-    $next = isset($edits[$i+1]) ? $edits[$i+1] : NULL;
-    if (!isset($prev)) {
-      $processed[$j] = $chunk;
-      $j++;
-    }
-    else if ($chunk->type == 'copy' && $chunk->orig === array(' ') && isset($prev) && isset($next) && $prev->type == $next->type) {
-      $processed[$j]->orig = array_merge($processed[$j]->orig, $chunk->orig);
-      $processed[$j]->closing = array_merge($processed[$j]->closing, $chunk->closing);
+  while ($chunk = array_shift($edits)) {
+    if ($chunk->type == 'copy' && $chunk->orig === array(' ')) {
+      $current->orig = array_merge((array) $current->orig, (array) $chunk->orig);
+      $current->closing = array_merge((array) $current->closing, (array) $chunk->closing);
     }
     else {
-      $j++;
-      $processed[$j] = $chunk;
+      $processed[] = $current;
+      $current = $chunk;
     }
   }
+  $processed[] = $current;
 
-  $j = 0;
+  // Initial setup
   $edits = $processed;
   $processed = array();
+  $current = array_shift($edits);
 
   // Second, merge equivalent chunks into each other.
-  foreach ($edits as $i => $chunk) {
-    $prev = isset($edits[$i-1]) ? $edits[$i-1] : NULL;
-    $next = isset($edits[$i+1]) ? $edits[$i+1] : NULL;
-    if (!isset($prev)) {
-      $processed[$j] = $chunk;
-      $j++;
-    }
-    else if (isset($prev) && $chunk->type == $prev->type) {
-      $processed[$j]->orig = array_merge($processed[$j]->orig, $chunk->orig);
-      $processed[$j]->closing = array_merge($processed[$j]->closing, $chunk->closing);
+  while ($chunk = array_shift($edits)) {
+    if ($current->type == $chunk->type) {
+      $current->orig = array_merge((array) $current->orig, (array) $chunk->orig);
+      $current->closing = array_merge((array) $current->closing, (array) $chunk->closing);
     }
     else {
-      $j++;
-      $processed[$j] = $chunk;
+      $processed[] = $current;
+      $current = $chunk;
     }
   }
+  $processed[] = $current;
+
   return $processed;
 }

@@ -49,7 +49,7 @@ function atrium_installer_profile_modules() {
     // Messaging
     'messaging', 'messaging_mail',
     // Notifications
-    'notifications', 'notifications_content',
+    'notifications', 'notifications_content', 'notifications_views',
     // Open ID
     'openidadmin',
     // PURL
@@ -240,19 +240,15 @@ function _atrium_installer_intranet_configure() {
     'relations' => 0,
     'module' => 'event',
     'weight' => 0,
-    'nodes' => array('blog' => 1, 'book' => 1),
+    'nodes' => array('blog' => 1, 'book' => 1, 'casetracker_basic_case' => 1, 'casetracker_basic_project' => 1, 'event' => 1),
     'tags' => TRUE,
     'help' => t('Enter tags related to your post.'),
   );
   taxonomy_save_vocabulary($vocab);
 
   // Set time zone
-  variable_set('date_default_timezone_name', 'US/Eastern');
-
-  // Calculate time zone offset from time zone name and set the default timezone offset accordingly.
-  // You dont need to change the next two lines if you change the default time zone above.
-  $date = date_make_date('now', variable_get('date_default_timezone_name', 'US/Eastern'));
-  variable_set('date_default_timezone', date_offset_get($date));
+  $tz_offset = date('Z');
+  variable_set('date_default_timezone', $tz_offset);
 
   // Set a default footer message.
   variable_set('site_footer', '&copy; 2009 '. l('Development Seed', 'http://www.developmentseed.org', array('absolute' => TRUE)));

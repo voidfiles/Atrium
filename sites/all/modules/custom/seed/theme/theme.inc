@@ -254,7 +254,7 @@ function seed_upload_attachments($files) {
   foreach ($files as $file) {
     if ($file->list) {
       $href = check_url(($file->fid ? file_create_url($file->filepath) : url(file_create_filename($file->filename, file_create_path()))));
-      $text = check_plain($file->description ? $file->description : $file->filename);
+      $text = $file->description ? $file->description : $file->filename;
       $fileview = seed_fileview($file);
       $rows[] = array(
         array('data' => $fileview, 'class' => 'preview'),
