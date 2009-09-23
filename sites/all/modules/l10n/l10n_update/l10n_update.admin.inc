@@ -5,7 +5,7 @@
  *   Admin settings and update page
  */
 /**
- * Project has a new release available, but it is not a security release.
+ * Project has a new release available.
  */
 define('L10N_UPDATE_NOT_CURRENT', 4);
 
@@ -67,7 +67,7 @@ function l10n_update_admin_import_form() {
       '#default_value' => variable_get('l10n_update_import_mode', LOCALE_IMPORT_KEEP),
       '#options' => array(
         LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
-        LOCALE_IMPORT_KEEP => t('Existing strings are kept, only new strings are added')
+        LOCALE_IMPORT_KEEP => t('Edited strings are kept, only default ones are overwritten and new strings are added')
       ),
     );
     $form['buttons']['download'] = array('#type' => 'submit', '#value' => t('Update translations'));

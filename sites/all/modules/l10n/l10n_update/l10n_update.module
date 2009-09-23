@@ -42,6 +42,14 @@ function l10n_update_menu() {
 }
 
 /**
+ * Implemenation of hook_menu_alter()
+ */
+function l10n_update_menu_alter(&$menu) {
+  // Redirect l10n_client AJAX callback path for strings.
+  $menu['l10n_client/save']['page callback'] = 'l10n_update_client_save_string';
+}
+
+/**
  * Implementation of hook_cron()
  */
 function l10n_update_cron() {
@@ -53,6 +61,27 @@ function l10n_update_cron() {
   }
 }
 
+/**
+ * Menu callback. Saves a string translation coming as POST data.
+ */
+function l10n_update_client_save_string() {
+  global $user, $language;
+  
+  if (user_access('use on-page translation')) {
+    if (isset($_POST['source']) && isset($_POST['target']) && !empty($_POST['form_token']) && drupal_valid_token($_POST['form_token'], 'l10n_client_form')) {
+      module_load_include('inc', 'l10n_update');
+      $report = array(0, 0, 0);
+      _l10n_update_locale_import_one_string_db($report, $language->language, $_POST['source'], $_POST['target'], 'default', NULL, LOCALE_IMPORT_OVERWRITE, L10N_UPDATE_STRING_CUSTOM);
+      cache_clear_all('locale:', 'cache', TRUE);
+      _locale_invalidate_js($language->language);
+      
+      // Submit to remote server if enabled.
+      if (variable_get('l10n_client_use_server', FALSE) && user_access('submit translations to localization server') && !empty($user->l10n_client_key)) {
+        l10n_client_submit_translation($language->language, $_POST['source'], $_POST['target'], $user->l10n_client_key, l10n_client_user_token($user));
+      }
+    }
+  }
+}
 /**
  * Fetch update information for all projects / all languages
  * 

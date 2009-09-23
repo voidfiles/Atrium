@@ -6,6 +6,12 @@
  */
 
 include_once './includes/locale.inc';
+include_once 'l10n_update.locale.inc';
+
+// Translation status: String imported from po
+define('L10N_UPDATE_STRING_DEFAULT', 0);
+// Translation status: Custom string, overridden original import
+define('L10N_UPDATE_STRING_CUSTOM', 1);
 
 /**
  * Download and import remote file
@@ -551,8 +557,6 @@ function l10n_update_http_request($url, $headers = array(), $method = 'GET', $da
  * Get a unique key for this site, not identifiable but usable to track the requests
  * from the same server.
  * 
- * 
- *
  * We cannot use the private key before the database is created.
  * 
  * @return
