@@ -9,6 +9,7 @@
  * Copyright 2008-2009 by Jimmy Berry ("boombatower", http://drupal.org/user/214218)
  */
 
+//require_once drupal_get_path('module', 'atrium_test') . '/atrium_test.d6.inc';
 require_once drupal_get_path('module', 'simpletest') . '/drupal_web_test_case.php';
 
 /**

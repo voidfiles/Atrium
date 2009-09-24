@@ -1,26 +1,20 @@
-// $Id: simpletest.js,v 1.2.4.5 2009/09/05 13:34:10 boombatower Exp $
-// Core: Id: simpletest.js,v 1.11 2009/04/27 20:19:37 webchick Exp
-//(function ($) {
+// $Id: simpletest.js,v 1.2.4.4 2009/02/08 02:35:39 boombatower Exp $
 
 /**
  * Add the cool table collapsing on the testing overview page.
  */
 //Drupal.behaviors.simpleTestMenuCollapse = {
-//  attach: function (context, settings) {
+//  attach: function() {
 Drupal.behaviors.simpleTestMenuCollapse = function() {
     var timeout = null;
     // Adds expand-collapse functionality.
-    $('div.simpletest-image').each(function () {
-//      direction = settings.simpleTest[$(this).attr('id')].imageDirection;
-//      $(this).html(settings.simpleTest.images[direction]);
+    $('div.simpletest-image').each(function() {
       direction = Drupal.settings.simpleTest[$(this).attr('id')].imageDirection;
       $(this).html(Drupal.settings.simpleTest.images[direction]);
     });
 
     // Adds group toggling functionality to arrow images.
-    $('div.simpletest-image').click(function () {
-//      var trs = $(this).parents('tbody').children('.' + settings.simpleTest[this.id].testClass);
-//      var direction = settings.simpleTest[this.id].imageDirection;
+    $('div.simpletest-image').click(function() {
       var trs = $(this).parents('tbody').children('.' + Drupal.settings.simpleTest[this.id].testClass);
       var direction = Drupal.settings.simpleTest[this.id].imageDirection;
       var row = direction ? trs.size() - 1 : 0;
@@ -54,8 +48,6 @@ Drupal.behaviors.simpleTestMenuCollapse = function() {
       rowToggle();
 
       // Toggle the arrow image next to the test group title.
-//      $(this).html(settings.simpleTest.images[(direction ? 0 : 1)]);
-//      settings.simpleTest[this.id].imageDirection = !direction;
       $(this).html(Drupal.settings.simpleTest.images[(direction ? 0 : 1)]);
       Drupal.settings.simpleTest[this.id].imageDirection = !direction;
 
@@ -68,38 +60,37 @@ Drupal.behaviors.simpleTestMenuCollapse = function() {
  * selected/deselected.
  */
 //Drupal.behaviors.simpleTestSelectAll = {
-//  attach: function (context, settings) {
+//  attach: function() {
 Drupal.behaviors.simpleTestSelectAll = function() {
-    $('td.simpletest-select-all').each(function () {
-//      var testCheckboxes = settings.simpleTest['simpletest-test-group-' + $(this).attr('id')].testNames;
+    $('td.simpletest-select-all').each(function() {
       var testCheckboxes = Drupal.settings.simpleTest['simpletest-test-group-' + $(this).attr('id')].testNames;
       var groupCheckbox = $('<input type="checkbox" class="form-checkbox" id="' + $(this).attr('id') + '-select-all" />');
 
       // Each time a single-test checkbox is checked or unchecked, make sure
       // that the associated group checkbox gets the right state too.
-      var updateGroupCheckbox = function () {
+      var updateGroupCheckbox = function() {
         var checkedTests = 0;
         for (var i = 0; i < testCheckboxes.length; i++) {
-          $('#' + testCheckboxes[i]).each(function () {
+          $('#' + testCheckboxes[i]).each(function() {
             if (($(this).attr('checked'))) {
               checkedTests++;
             }
           });
         }
         $(groupCheckbox).attr('checked', (checkedTests == testCheckboxes.length));
-      };
+      }
 
       // Have the single-test checkboxes follow the group checkbox.
-      groupCheckbox.change(function () {
+      groupCheckbox.change(function() {
         var checked = !!($(this).attr('checked'));
         for (var i = 0; i < testCheckboxes.length; i++) {
-          $('#' + testCheckboxes[i]).attr('checked', checked);
+          $('#'+ testCheckboxes[i]).attr('checked', checked);
         }
       });
 
       // Have the group checkbox follow the single-test checkboxes.
       for (var i = 0; i < testCheckboxes.length; i++) {
-        $('#' + testCheckboxes[i]).change(function () {
+        $('#' + testCheckboxes[i]).change(function() {
           updateGroupCheckbox();
         });
       }
@@ -110,5 +101,3 @@ Drupal.behaviors.simpleTestSelectAll = function() {
     });
 //  }
 };
-
-//})(jQuery);
