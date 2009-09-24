@@ -65,10 +65,7 @@ function l10n_update_admin_import_form() {
     $form['mode'] = array('#type' => 'radios',
       '#title' => t('Mode'),
       '#default_value' => variable_get('l10n_update_import_mode', LOCALE_IMPORT_KEEP),
-      '#options' => array(
-        LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
-        LOCALE_IMPORT_KEEP => t('Edited strings are kept, only default ones are overwritten and new strings are added')
-      ),
+      '#options' => _l10n_update_admin_import_options(),
     );
     $form['buttons']['download'] = array('#type' => 'submit', '#value' => t('Update translations'));
     $form['buttons']['refresh'] = array('#type' => 'submit', '#value' => t('Refresh information'));
@@ -96,7 +93,7 @@ function l10n_update_admin_import_form_submit($form, $form_state) {
         foreach ($languages as $lang) {
           if (!empty($updates[$project['name']][$lang])) {
             $release = $updates[$project['name']][$lang];
-            $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang));
+            $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang, $mode));
             $operations[] = array('_l10n_update_batch_history', array($project, $release));
           }
         }
@@ -127,10 +124,7 @@ function l10n_update_admin_settings_form() {
   $form['l10n_update_import_mode'] = array('#type' => 'radios',
     '#title' => t('Import mode'),
     '#default_value' => variable_get('l10n_update_import_mode', LOCALE_IMPORT_KEEP),
-    '#options' => array(
-      LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
-      LOCALE_IMPORT_KEEP => t('Existing strings are kept, only new strings are added')
-    ),
+    '#options' => _l10n_update_admin_import_options(),
   );
   $form['l10n_update_check_frequency'] = array(
     '#type' => 'radios',
@@ -146,6 +140,15 @@ function l10n_update_admin_settings_form() {
   return system_settings_form($form);
 }
 
+/**
+ * Get array of import options 
+ */
+function _l10n_update_admin_import_options() {
+  return array(
+    LOCALE_IMPORT_OVERWRITE => t('Strings in the uploaded file replace existing ones, new ones are added'),
+    LOCALE_IMPORT_KEEP => t('Edited strings are kept, only default ones (previously imported) are overwritten and new strings are added')
+  );
+}
 /**
  * Format project update status
  */

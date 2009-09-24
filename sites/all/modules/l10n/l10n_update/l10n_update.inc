@@ -39,7 +39,7 @@ function l10n_update_import_file($file, $locale, $mode = LOCALE_IMPORT_OVERWRITE
     $file->filepath = $filepath;
     $file->filename = $filepath;
   }
-  return _locale_import_po($file, $locale, $mode , 'default');
+  return _l10n_update_locale_import_po($file, $locale, $mode , 'default');
 }
 
 /**
@@ -219,8 +219,8 @@ function _l10n_update_build_fetch_url($project, $langcode, $site_key = '') {
 /**
  * Create a batch to download and import
  */
-function l10n_update_download_create_batch($url, $locale) {  
-  $operations[] = array('_l10n_update_batch_download_import', array($url, $locale));
+function l10n_update_download_create_batch($url, $locale, $mode = LOCALE_IMPORT_OVERWRITE) {  
+  $operations[] = array('_l10n_update_batch_download_import', array($url, $locale, $mode));
   //$operations[] = array('_l10n_update_batch_import', array($locale));
   return l10n_update_create_batch($operations);
 }
@@ -251,7 +251,7 @@ function l10n_update_create_batch($operations = array()) {
  * 
  * I love batch processes ;-)
  */
-function _l10n_update_batch_download_import($url, $locale, &$context) {
+function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
   $t = get_t();
   if (!isset($context['sandbox']['step'])) {
     $context['sandbox']['step'] = 0;
@@ -279,7 +279,7 @@ function _l10n_update_batch_download_import($url, $locale, &$context) {
       if (!empty($context['sandbox']['file'])) {
         $file = $context['sandbox']['file'];
         $context['results'][] = $file;
-        if (l10n_update_import_file($file, $locale)) {
+        if (l10n_update_import_file($file, $locale, $mode)) {
           $context['message'] = $t('Imported translation file.');
           $context['finished'] = 1;
         }

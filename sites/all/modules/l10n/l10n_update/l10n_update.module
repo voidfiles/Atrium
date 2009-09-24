@@ -62,6 +62,56 @@ function l10n_update_cron() {
 }
 
 /**
+ * Implementation of hook_form_alter()
+ */
+function l10n_update_form_alter(&$form, $form_state, $form_id){
+  if ($form_id == 'locale_translate_edit_form') {
+    // Replace the submit callback by our own customized version
+    $form['#submit'] = array('l10n_update_locale_translate_edit_form_submit');
+  }  
+}
+
+/**
+ * Process string editing form submissions marking translations as customized
+ *
+ * Saves all translations of one string submitted from a form.
+ * 
+ * @todo Just mark as customized when string changed
+ */
+function l10n_update_locale_translate_edit_form_submit($form, &$form_state) {
+  module_load_include('inc', 'l10n_update');
+  $lid = $form_state['values']['lid'];
+  foreach ($form_state['values']['translations'] as $key => $value) {
+    $translation = db_result(db_query("SELECT translation FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $key));
+    if (!empty($value)) {
+      // Only update or insert if we have a value to use.
+      if (!empty($translation)) {
+        db_query("UPDATE {locales_target} SET translation = '%s', status = %d WHERE lid = %d AND language = '%s'", $value, L10N_UPDATE_STRING_CUSTOM, $lid, $key);
+      }
+      else {
+        db_query("INSERT INTO {locales_target} (lid, translation, language, status) VALUES (%d, '%s', '%s', %d)", $lid, $value, $key, L10N_UPDATE_STRING_CUSTOM);
+      }
+    }
+    elseif (!empty($translation)) {
+      // Empty translation entered: remove existing entry from database.
+      db_query("DELETE FROM {locales_target} WHERE lid = %d AND language = '%s'", $lid, $key);
+    }
+
+    // Force JavaScript translation file recreation for this language.
+    _locale_invalidate_js($key);
+  }
+
+  drupal_set_message(t('The string has been saved.'));
+
+  // Clear locale cache.
+  _locale_invalidate_js();
+  cache_clear_all('locale:', 'cache', TRUE);
+
+  $form_state['redirect'] = 'admin/build/translate/search';
+  return;
+}
+
+/**
  * Menu callback. Saves a string translation coming as POST data.
  */
 function l10n_update_client_save_string() {

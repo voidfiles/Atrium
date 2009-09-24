@@ -36,7 +36,7 @@ function _l10n_update_locale_import_po($file, $langcode, $mode, $group = NULL) {
   }
 
   // Get status information on import process.
-  list($headerdone, $additions, $updates, $deletes, $skips) = _locale_import_one_string('db-report');
+  list($headerdone, $additions, $updates, $deletes, $skips) = _l10n_update_locale_import_one_string('db-report');
 
   if (!$headerdone) {
     drupal_set_message(t('The translation file %filename appears to have a missing or malformed header.', array('%filename' => $file->filename)), 'error');
@@ -74,7 +74,6 @@ function _l10n_update_locale_import_po($file, $langcode, $mode, $group = NULL) {
  *   Text group to import PO file into (eg. 'default' for interface translations)
  */
 function _l10n_update_locale_import_read_po($op, $file, $mode = NULL, $lang = NULL, $group = 'default') {
-
   $fd = fopen($file->filepath, "rb"); // File will get closed by PHP on return
   if (!$fd) {
     _locale_import_message('The translation import failed, because the file %filename could not be read.', $file);
@@ -126,7 +125,7 @@ function _l10n_update_locale_import_read_po($op, $file, $mode = NULL, $lang = NU
     }
     elseif (!strncmp("msgid", $line, 5)) {
       if ($context == "MSGSTR") {   // End current entry, start a new one
-        _locale_import_one_string($op, $current, $mode, $lang, $file, $group);
+        _l10n_update_locale_import_one_string($op, $current, $mode, $lang, $file, $group);
         $current = array();
       }
       elseif ($context == "MSGID") { // Already in this context? Parse error
