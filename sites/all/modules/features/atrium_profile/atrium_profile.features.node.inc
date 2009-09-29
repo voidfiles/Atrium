@@ -8,7 +8,7 @@ function _atrium_profile_node_info() {
     'profile' => array(
       'name' => t('Profile'),
       'module' => 'features',
-      'description' => t('Profile.'),
+      'description' => t('A basic profile that members can use to share information about themselves.'),
       'has_title' => '1',
       'title_label' => t('Name'),
       'has_body' => '0',

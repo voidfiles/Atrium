@@ -8,7 +8,7 @@ function _atrium_groups_node_info() {
     'group' => array(
       'name' => t('Group'),
       'module' => 'features',
-      'description' => t(''),
+      'description' => t('A group space for members to coordinate, collaborate and share ideas.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'has_body' => '0',
