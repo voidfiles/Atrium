@@ -65,7 +65,7 @@ function atrium_intranet_strongarm() {
   // FeedAPI
   $conf['feedapi_cron_percentage'] = '25';
   $conf['feedapi_allow_html_all'] = FALSE;
-  $conf['feedapi_allowed_html_tags'] = '<div> <h1> <h2> <h3> <h4> <h5> <h6> <img> <a> <b> <br> <dd> <dl> <dt> <em> <i> <li> <ol> <p> <strong> <u> <ul>';
+  $conf['feedapi_allowed_html_tags'] = '<div> <h1> <h2> <h3> <h4> <h5> <h6> <img> <a> <b> <br> <dd> <dl> <dt> <em> <i> <li> <ol> <p> <strong> <u> <ul> <sup> <sub>';
 
   // Views
   $conf['views_no_hover_links'] = TRUE;
@@ -113,7 +113,7 @@ function atrium_intranet_strongarm() {
   // Allowed HTML & default filter format settings
   $format = db_result(db_query("SELECT format FROM {filter_formats} WHERE name = '%s'", 'Markdown'));
   if ($format) {
-    $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <strike> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <table> <caption> <thead> <th> <td> <tr>';
+    $conf["allowed_html_{$format}"] = '<div> <span> <br> <a> <em> <strong> <cite> <code> <strike> <ul> <ol> <li> <dl> <dt> <dd> <img> <blockquote> <p> <h1> <h2> <h3> <h4> <h5> <h6> <table> <caption> <thead> <th> <td> <tr> <sup> <sub>';
     $conf['filter_default_format'] = $format;
   }
 
