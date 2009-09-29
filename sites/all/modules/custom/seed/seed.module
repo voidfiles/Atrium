@@ -336,6 +336,8 @@ function _seed_filter_form_alter(&$form) {
 function seed_link($type, $object, $teaser = FALSE) {
   $links = array();
   if ($type == 'node' && menu_get_object() === $object) {
+    // Set the canonical URL so search engines don't index the print friendlies.
+    drupal_add_link(array('rel' => 'canonical', 'href' => url($_GET['q'], array('absolute' => TRUE))));
     $links['print'] = array(
       'title' => t('Print'),
       'href' => $_GET['q'],
@@ -597,6 +599,11 @@ function seed_views_view_summary_form_submit($form, &$form_state) {
 function seed_preprocess_node_form(&$vars) {
   drupal_add_css(drupal_get_path('module', 'seed') .'/theme/seed.css');
 
+  // Init variables.
+  $vars['main'] = !isset($vars['main']) ? array() : $vars['main'];
+  $vars['sidebar'] = !isset($vars['sidebar']) ? array() : $vars['sidebar'];
+  $vars['buttons'] = !isset($vars['buttons']) ? array() : $vars['buttons'];
+
   $form = $vars['form'];
 
   context_set('theme', 'layout', 'wide');
@@ -646,6 +653,11 @@ function seed_preprocess_node_form(&$vars) {
 function seed_preprocess_user_profile_form(&$vars) {
   drupal_add_css(drupal_get_path('module', 'seed') .'/theme/seed.css');
 
+  // Init variables.
+  $vars['main'] = !isset($vars['main']) ? array() : $vars['main'];
+  $vars['sidebar'] = !isset($vars['sidebar']) ? array() : $vars['sidebar'];
+  $vars['buttons'] = !isset($vars['buttons']) ? array() : $vars['buttons'];
+
   $vars['#form'] = $vars['form']; // Preserve form for other preprocesses down the line.
   $form = $vars['form'];
 
@@ -667,9 +679,6 @@ function seed_preprocess_user_profile_form(&$vars) {
     $status['#children'] .= drupal_render($form['account']['roles']);
     $vars['sidebar']['user_admin'] = $status;
   }
-
-  // Hide theme settings
-  $vars['hidden']['theme_select'] = $form['theme_select'];
 
   foreach ($form as $id => $element) {
     if (!empty($element['#type']) && in_array($element['#type'], array('submit', 'button'))) {
@@ -717,7 +726,30 @@ function seed_preprocess_user_picture(&$vars) {
   }
 }
 
+/**
+ * Preprocessor for faux CCK field markup.
+ */
 function template_preprocess_seed_faux_field(&$vars) {
   $vars = array_merge($vars, $vars['element']);
   unset($vars['element']);
+}
+
+/**
+ * Add an href-based class to links for themers to implement icons.
+ */
+function seed_icon_links(&$links) {
+  if (!empty($links)) {
+    foreach ($links as $k => $v) {
+      if (empty($v['attributes'])) {
+        $v['attributes'] = array('class' => '');
+      }
+      else if (empty($v['attributes']['class'])) {
+        $v['attributes']['class'] = '';
+      }
+      $v['attributes']['class'] .= ' icon-'. seed_id_safe(drupal_get_path_alias($v['href']));
+      $v['title'] = "<span class='icon'></span><span class='label'>". $v['title'] ."</span>";
+      $v['html'] = true;
+      $links[$k] = $v;
+    }
+  }
 }

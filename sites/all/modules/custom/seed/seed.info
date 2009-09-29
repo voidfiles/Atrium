@@ -1,7 +1,13 @@
-name = "Seed"
-description = "Provides UI customizations and niceties."
-package = "Other"
 core = "6.x"
-version = "3.1"
 dependencies[] = "context"
 dependencies[] = "context_contrib"
+description = "Collection of useful theme overrides and alters to Drupal defaults."
+name = "Seed"
+package = "Other"
+
+; Information added by fserver
+core = "6.x"
+datestamp = "1254149921"
+project = "seed"
+project status url = "http://code.developmentseed.org/fserver"
+version = "6.x-3.3"
