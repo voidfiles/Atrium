@@ -76,7 +76,7 @@ function atrium_casetracker_strongarm() {
   $conf['comment_default_order_casetracker_basic_case'] = COMMENT_ORDER_OLDEST_FIRST;
   $conf['comment_default_per_page_casetracker_basic_case'] = 200;
   $conf['comment_controls_casetracker_basic_case'] = COMMENT_CONTROLS_HIDDEN;
-  $conf['comment_subject_field_casetracker_basic_case'] = 1;
+  $conf['comment_subject_field_casetracker_basic_case'] = 0;
   $conf['comment_preview_casetracker_basic_case'] = COMMENT_PREVIEW_OPTIONAL;
   $conf['comment_form_location_casetracker_basic_case'] = COMMENT_FORM_BELOW;
   $conf['comment_upload_casetracker_basic_case'] = TRUE;

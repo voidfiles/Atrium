@@ -142,6 +142,8 @@ function ginkgo_preprocess_node(&$vars) {
  * Preprocessor for theme_comment().
  */
 function ginkgo_preprocess_comment(&$vars) {
+  // Only show subjects if enabled.
+  $vars['title'] = variable_get("comment_subject_field_{$vars['node']->type}", 1) ? $vars['title'] : '';
   $vars['submitted'] = theme('seed_byline', $vars['comment']);
 
   // We're totally previewing a comment... set a context so others can bail.
