@@ -1,4 +1,6 @@
 <?php
+// $Id: openidadmin.drush.inc,v 1.1 2009/09/22 20:52:59 jmiccolis Exp $ 
+
 /**
  * @file
  * OpenID Admin Drush commands

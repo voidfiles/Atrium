@@ -1,5 +1,0 @@
-name = OpenID Admin
-description = "Allows bulk operations for OpenID administration."
-dependencies[] = openid
-core = 6.x
-
