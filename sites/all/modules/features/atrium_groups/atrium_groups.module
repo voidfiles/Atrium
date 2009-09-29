@@ -112,7 +112,7 @@ function atrium_groups_context_active_contexts_alter(&$contexts) {
     $breadcrumb = array(
       l(t('Home'), '<front>', array('purl' =>array('disabled' => TRUE))),
       l(t('Groups'), 'groups', array('purl' =>array('disabled' => TRUE))),
-      l(check_plain($space->title), '<front>'),
+      l($space->title, '<front>'),
     );
     drupal_set_breadcrumb($breadcrumb);
   }
