@@ -1,4 +1,9 @@
-// $Id: CHANGELOG.txt,v 1.1.2.4.2.26 2009/09/18 16:41:23 alexb Exp $
+// $Id: CHANGELOG.txt,v 1.1.2.4.2.27 2009/09/24 20:57:00 alexb Exp $
+
+FeedAPI 1.9X, XXXX-XX-XX
+------------------------
+
+- Support managing simplepie.inc with Libraries module (#583728).
 
 FeedAPI 1.9beta1, 2009-09-18
 ----------------------------

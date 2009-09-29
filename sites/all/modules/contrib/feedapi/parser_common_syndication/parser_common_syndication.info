@@ -6,9 +6,9 @@ dependencies[] = feedapi
 core = 6.x
 php = 5.0
 
-; Information added by drupal.org packaging script on 2009-09-18
-version = "6.x-1.9-beta1"
+; Information added by drupal.org packaging script on 2009-09-24
+version = "6.x-1.9-beta2"
 core = "6.x"
 project = "feedapi"
-datestamp = "1253292351"
+datestamp = "1253836531"
 

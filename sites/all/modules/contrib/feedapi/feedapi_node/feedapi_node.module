@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi_node.module,v 1.1.2.18.2.42 2009/09/18 07:57:45 aronnovak Exp $
+// $Id: feedapi_node.module,v 1.1.2.18.2.43 2009/09/23 14:14:03 aronnovak Exp $
 
 /**
  * @file
@@ -95,7 +95,7 @@ function feedapi_node_link($type, $node = NULL) {
       }
     }
     if (isset($node->feedapi_node)) {
-      $result = db_query("SELECT n.title, n.nid FROM {node} n WHERE n.nid IN (%s) ORDER BY title DESC", implode(', ', $node->feedapi_node->feed_nids));
+      $result = db_query("SELECT n.title, n.nid FROM {node} n WHERE n.nid IN (". db_placeholders($node->feedapi_node->feed_nids, 'int') .") ORDER BY title DESC",  $node->feedapi_node->feed_nids);
       $owner_feeds_num = count($node->feedapi_node->feed_nids);
       while ($feed = db_fetch_object($result)) {
         $links['feedapi_feed'. ($owner_feeds_num == 1 ? '' : '_'. $feed->nid)] = array(

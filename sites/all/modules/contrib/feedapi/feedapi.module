@@ -1,5 +1,5 @@
 <?php
-// $Id: feedapi.module,v 1.23.2.119.2.79 2009/09/18 16:34:12 alexb Exp $
+// $Id: feedapi.module,v 1.23.2.119.2.80 2009/09/24 22:54:44 alexb Exp $
 
 /**
  * @file
@@ -600,7 +600,8 @@ function feedapi_node_validate($form, &$form_state) {
   else if (!empty($form_state['values']['feedapi']['feedapi_url']) && !$has_upload && (strpos($form_state['values']['feedapi']['feedapi_url'], 'file://') === 0) && !user_access('use local files as feeds')) {
     form_set_error('source', t('You do not have sufficient permissions to use local files as feeds.'));
   }
-  else if (strpos($form_state['values']['feedapi']['feedapi_url'], 'file://') === 0 && file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
+  else if (strpos($form_state['values']['feedapi']['feedapi_url'], 'file://') === 0 && !file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
+    drupal_set_message(file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path()));
     form_set_error('source', t('file:// is only allowed for files under the files directory.'));
   }
   else {
@@ -785,7 +786,7 @@ function feedapi_simplified_form_validate($form, &$form_state) {
   if (!empty($form_state['values']['url']) && (strpos($form_state['values']['url'], 'file://') === 0) && !user_access('use local files as feeds')) {
     form_set_error('url', t('You do not have sufficient permissions to use local files as feeds.'));
   }
-  else if (strpos($form_state['values']['url'], 'file://') === 0 && file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
+  else if (strpos($form_state['values']['url'], 'file://') === 0 && !file_check_location(substr($form_state['values']['feedapi']['feedapi_url'], 7), file_directory_path())) {
     form_set_error('url', t('file:// is only allowed for files under the files directory.'));
   }
 }

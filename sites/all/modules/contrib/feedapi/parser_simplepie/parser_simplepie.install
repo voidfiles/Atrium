@@ -1,5 +1,5 @@
 <?php
-// $Id: parser_simplepie.install,v 1.1.2.6.2.8 2009/07/02 16:25:27 aronnovak Exp $
+// $Id: parser_simplepie.install,v 1.1.2.6.2.11 2009/09/24 21:52:33 alexb Exp $
 
 /**
  * @file
@@ -16,12 +16,16 @@ function parser_simplepie_requirements($phase) {
   switch ($phase) {
     case 'install' :
     case 'runtime' :
-      $path = dirname(__FILE__) .'/simplepie.inc';
+      if (module_exists('libraries') && file_exists(libraries_get_path('simplepie') . '/simplepie.inc')) {
+        $path = libraries_get_path('simplepie') . '/simplepie.inc';
+      }
+      else {
+        $path = dirname(__FILE__) .'/simplepie.inc';
+      }
       if (!file_exists($path)) {
         $requirements['parser_simplepie'] = array(
           'title' => $t("FeedAPI SimplePie"),
-          'description' => $t("Obtain the !simplepie package and copy simplepie.inc to the parser_simplepie directory.",
-          array('!simplepie' => l('SimplePie', 'http://simplepie.org/downloads', array('absolute' => TRUE)))),
+          'description' => $t("Obtain the !simplepie package from http://simplepie.org/downloads and copy simplepie.inc to the parser_simplepie directory."),
           'severity' => $phase == 'install' ? REQUIREMENT_WARNING : REQUIREMENT_ERROR,
           'value' => $t('simplepie.inc file missing'),
         );
@@ -46,8 +50,7 @@ function parser_simplepie_requirements($phase) {
 function parser_simplepie_install() {
   $path = drupal_get_path('module', 'parser_simplepie') .'/simplepie.inc';
   if (!file_exists($path)) {
-    drupal_set_message('<b>'. t("To use SimplePie parser, obtain the !simplepie package and copy simplepie.inc to the parser_simplepie directory.",
-      array('!simplepie' => l('SimplePie', 'http://simplepie.org/downloads', array('absolute' => TRUE)))) .'</b>');
+    drupal_set_message('<strong>'. t("To use SimplePie parser, obtain the SimplePie package from http://simplepie.org/downloads and copy simplepie.inc to the parser_simplepie directory.") .'</strong>');
   }
   // Set the parser of defaultly shipped processors if it's not done previously
   $default_processors = array('feed');

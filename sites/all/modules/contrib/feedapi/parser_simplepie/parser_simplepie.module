@@ -1,5 +1,5 @@
 <?php
-// $Id: parser_simplepie.module,v 1.6.2.20.2.16 2009/07/02 16:38:16 aronnovak Exp $
+// $Id: parser_simplepie.module,v 1.6.2.20.2.17 2009/09/24 20:55:43 alexb Exp $
 
 /**
  * @file
@@ -213,7 +213,13 @@ function _parser_simplepie_sanitize_cache() {
  */
 function _parser_simplepie_get_parser($url, $enable_cache = TRUE, $settings = array()) {
   if (!class_exists('SimplePie')) {
-    require_once(drupal_get_path('module', 'parser_simplepie') .'/simplepie.inc');
+    if (module_exists('libraries') && file_exists(libraries_get_path('simplepie') . '/simplepie.inc')) {
+      $path = libraries_get_path('simplepie') . '/simplepie.inc';
+    }
+    else {
+      $path = drupal_get_path('module', 'parser_simplepie') .'/simplepie.inc';
+    }
+    require_once($path);
   }
   $parser = new SimplePie();
   $parser->set_feed_url($url);
