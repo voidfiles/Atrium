@@ -625,13 +625,6 @@ div.comment-links ul.links {
       background:transparent;
       }
 
-  /* View more link */
-  div.more-link {
-    height:30px;
-    line-height:30px;
-    font-size:11px;
-    }
-
 div.node div.field {
   margin:0px;
   padding:4px 5px 5px;

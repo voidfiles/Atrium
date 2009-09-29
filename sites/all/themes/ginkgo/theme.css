@@ -124,6 +124,7 @@ body.header-fixed #global { z-index:1000; }
 
 #header div.block-toggle div.block-content * { border-color:#444; }
 
+#header div.block-toggle div.more-link,
 #header div.block-toggle ul.links li,
 #header div.block-toggle div.item-list li {
   float:left;
@@ -135,6 +136,7 @@ body.header-fixed #global { z-index:1000; }
   border:0px;
   }
 
+#header div.block-toggle div.more-link a,
 #header div.block-toggle ul.links li a,
 #header div.block-toggle div.item-list li a {
   float:none;
@@ -144,7 +146,10 @@ body.header-fixed #global { z-index:1000; }
   padding:15px 15px 14px;
   }
 
+  #header div.block-toggle div.more-link a:hover,
   #header div.block-toggle div.block-content li a:hover { background:#222; }
+
+  #header div.block-toggle div.more-link a { font-size:inherit; }
 
 /**
  * Help text
