@@ -1,5 +1,5 @@
 <?php
-// $Id: strongarm.module,v 1.1.2.5 2009/08/03 14:06:52 yhahn Exp $
+// $Id: strongarm.module,v 1.1.2.6 2009/09/24 16:17:23 jmiccolis Exp $
 
 define('STRONGARM_PATTERN_PREFIX', 0);
 define('STRONGARM_PATTERN_SUFFIX', 1);
@@ -139,7 +139,10 @@ function strongarm_form_alter(&$form, &$form_state, $form_id) {
     module_load_include('inc', 'strongarm', 'strongarm.admin');
     drupal_add_css(drupal_get_path('module', 'strongarm') .'/strongarm.css');
     if (_strongarm_lockdown($form, $pattern, $position) && variable_get('strongarm_show_message', TRUE)) {
-      drupal_set_message(t('The hilighted fields below may need to retain their current values for your site to operate properly. Settings may be disabled or reverted automatically if they are not compatible with one or more of your site\'s modules.'), 'warning', FALSE);
+      drupal_set_message(t('The highlighted fields may need to retain their current values for your site to operate properly. Settings may be disabled or reverted automatically if they are not compatible with one or more of your site\'s modules.'), 'warning', FALSE);
+      if (user_access('administer site configuration')) {
+        drupal_set_message(t('You can change locked-in settings by switching to "Allow variable overrides" on the !admin_page.', array('!admin_page' => l(t('Strongarm admin page'), 'admin/settings/strongarm'))), 'warning', FALSE);
+      }
     }
   }
 
