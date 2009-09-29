@@ -113,7 +113,7 @@ function _atrium_groups_views_default_views() {
     'inline' => array(),
     'separator' => '',
   ));
-  $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler = $view->new_display('block', 'Block: My groups (header)', 'block_1');
   $handler->override_option('fields', array(
     'title' => array(
       'label' => '',
@@ -129,18 +129,22 @@ function _atrium_groups_views_default_views() {
     'type' => 'perm',
     'perm' => 'access content',
   ));
+  $handler->override_option('items_per_page', 15);
+  $handler->override_option('use_more', 1);
+  $handler->override_option('use_more_text', 'View more');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('block', 'Block', 'block_2');
+  $handler = $view->new_display('block', 'Block: My groups (sidebar)', 'block_2');
   $handler->override_option('access', array(
     'type' => 'perm',
     'perm' => 'access content',
   ));
   $handler->override_option('items_per_page', 15);
   $handler->override_option('use_more', 1);
+  $handler->override_option('use_more_text', 'View more');
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler = $view->new_display('page', 'Page: My groups', 'page_1');
   $handler->override_option('fields', array(
     'private' => array(
       'label' => '',
@@ -279,7 +283,7 @@ function _atrium_groups_views_default_views() {
     'description' => '',
     'weight' => '0',
   ));
-  $handler = $view->new_display('page', 'Page', 'page_2');
+  $handler = $view->new_display('page', 'Page: Group directory', 'page_2');
   $handler->override_option('fields', array(
     'private' => array(
       'label' => '',
@@ -407,23 +411,6 @@ function _atrium_groups_views_default_views() {
       'field' => 'status',
       'relationship' => 'none',
     ),
-    'directory' => array(
-      'operator' => '=',
-      'value' => 1,
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'directory',
-      'table' => 'og',
-      'field' => 'directory',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'relationship' => 'none',
-    ),
   ));
   $handler->override_option('title', 'Directory');
   $handler->override_option('items_per_page', 25);
@@ -497,7 +484,7 @@ function _atrium_groups_views_default_views() {
     'description' => '',
     'weight' => '0',
   ));
-  $handler = $view->new_display('page', 'Page', 'page_3');
+  $handler = $view->new_display('page', 'Page: Archived groups', 'page_3');
   $handler->override_option('fields', array(
     'private' => array(
       'label' => '',
@@ -725,10 +712,14 @@ function _atrium_groups_views_default_views() {
   $translatables['atrium_groups'] = array(
     t('Defaults'),
     t('My groups'),
-    t('Block'),
+    t('Block: My groups (header)'),
+    t('View more'),
+    t('Block: My groups (sidebar)'),
     t('more'),
-    t('Page'),
+    t('Page: My groups'),
+    t('Page: Group directory'),
     t('Directory'),
+    t('Page: Archived groups'),
     t('Archived groups'),
     t('No archived groups found.'),
   );
