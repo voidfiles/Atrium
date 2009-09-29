@@ -2,7 +2,10 @@
  * Ginkgo theme stylesheet.
  */
 
-body.tao { background:#eee; }
+body {
+  background:#eee;
+  font-family:Helvetica,Arial,sans-serif;
+  }
 
 .atrium-skin { background-image:url(images/sprite_skin.png); }
 
