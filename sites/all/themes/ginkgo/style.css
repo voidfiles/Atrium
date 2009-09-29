@@ -680,6 +680,16 @@ div.node div.field {
 .prose h1 { font-size:20px; }
 .prose h2 { font-size:16px; }
 
+.prose sub {
+  vertical-align:sub;
+  font-size:9px;
+  }
+
+.prose sup {
+  vertical-align:super;
+  font-size:9px;
+  }
+
 /**
  * Comment threads ====================================================
  */
