@@ -60,6 +60,7 @@ function l10n_update_admin_import_form() {
       '#title' => t('Languages'),
       '#type' => 'checkboxes',
       '#options' => $languages,
+      '#default_value' => array(language_default('language')),
       '#description' => t('Select one or more languages to download and update.'),
     );
     $form['mode'] = array('#type' => 'radios',
@@ -89,19 +90,8 @@ function l10n_update_admin_import_form_submit($form, $form_state) {
     $mode = $form_state['values']['mode'];
     
     if ($languages && $projects && $updates) {
-      foreach ($projects as $project) {
-        foreach ($languages as $lang) {
-          if (!empty($updates[$project['name']][$lang])) {
-            $release = $updates[$project['name']][$lang];
-            $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang, $mode));
-            $operations[] = array('_l10n_update_batch_history', array($project, $release));
-          }
-        }
-      }
-      if (!empty($operations)) {
-        $batch = l10n_update_create_batch($operations);
-        batch_set($batch);
-      }
+      $batch = l10n_update_batch_multiple($projects, $languages, $updates, $mode);
+      batch_set($batch);
     }
     else {
       drupal_set_message(t('No packages or languages selected.'), 'error');
