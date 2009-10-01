@@ -118,7 +118,7 @@ function l10n_update_install() {
  */
 function l10n_update_uninstall() {
   $ret = array();  
-  drupal_uninstall_schema('l10n_remote');
+  drupal_uninstall_schema('l10n_update');
   db_drop_field($ret, 'locales_target', 'status');
   return $ret;
 }

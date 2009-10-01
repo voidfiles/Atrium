@@ -25,8 +25,7 @@ function _atrium_translate_default_projects() {
     'name' => 'drupal',
     'title' => 'Drupal core',
     'info' => array(
-      // We don't add version here to fetch the latest available
-      //'version' => VERSION,
+      'version' => VERSION,
       'translate status url' => ATRIUM_L10N_SERVER,
     ),
   );

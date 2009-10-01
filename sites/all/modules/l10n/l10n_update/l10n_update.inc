@@ -231,7 +231,7 @@ function _l10n_update_build_fetch_url($project, $languages, $site_key = '') {
 function l10n_update_download_create_batch($url, $locale, $mode = LOCALE_IMPORT_OVERWRITE) {  
   $operations[] = array('_l10n_update_batch_download_import', array($url, $locale, $mode));
   //$operations[] = array('_l10n_update_batch_import', array($locale));
-  return l10n_update_create_batch($operations);
+  return _l10n_update_create_batch($operations);
 }
 
 /**
@@ -239,7 +239,7 @@ function l10n_update_download_create_batch($url, $locale, $mode = LOCALE_IMPORT_
  * 
  * @return $batch
  */
-function l10n_update_create_batch($operations = array()) {
+function _l10n_update_create_batch($operations = array()) {
   $t = get_t();
   $batch = array(
     'operations'    => $operations,
@@ -254,6 +254,13 @@ function l10n_update_create_batch($operations = array()) {
 
 /**
  * Create a big batch for multiple projects and languages
+ * 
+ * @param $projects
+ *   Array of projects
+ * @param $languages
+ *   Array of language codes
+ * @param $updates
+ *   Optional array of available updates. will be calculated if not passed
  */
 function l10n_update_batch_multiple($projects, $languages, $updates = NULL, $mode = LOCALE_IMPORT_OVERWRITE) {
   if (is_null($updates)) {
@@ -270,7 +277,7 @@ function l10n_update_batch_multiple($projects, $languages, $updates = NULL, $mod
     }
   }
   if (!empty($operations)) {
-    return l10n_update_create_batch($operations);
+    return _l10n_update_create_batch($operations);
   }
 }
 
@@ -335,7 +342,27 @@ function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
   }      
 }
 
-function _l10n_update_batch_history($project, $release) {
+function _l10n_update_batch_download($url, &$context) {
+  $t = get_t();
+  if ($file = l10n_update_download_file($url)) {
+    $context['results'][] = $file;
+  }
+  else {
+    drupal_set_message($t('Failed download of %url', array('%url' => $url)), 'error');
+  }
+}
+
+/**
+ * Batch process: Update the download history table
+ * 
+ * @param $project
+ *   Project object
+ * @param $release
+ *   Release object
+ * @param $context
+ *   Batch context
+ */
+function _l10n_update_batch_history($project, $release, &$context) {
   $save = array(
     'project' => $project['name'],
     'language' => $release['language'],
@@ -354,21 +381,48 @@ function _l10n_update_batch_history($project, $release) {
   drupal_write_record('l10n_update_download', $save, $update);
 }
 
-function _l10n_update_batch_import($locale, &$context) {
+/**
+ * Batch import translation file
+ * 
+ * This takes a file parameter or continues from previous batch which should have downloaded a file
+ * 
+ * @param $file
+ *   File to be imported. If empty, the file will be taken from $context['results']
+ * @param $locale
+ * @param $mode
+ * @param $context
+ */
+function _l10n_update_batch_import($file, $locale, $mode, &$context) {
   $t = get_t();
   
-  if (!empty($context['results'])) {
+  if (!$file && !empty($context['results'])) {
     $file = array_shift($context['results']);
-    if (l10n_update_import_file($file, $locale)) {
-      $context['message'] = $t('Imported translation file.');
+  }
+  if ($file) {
+    if (l10n_update_import_file($file, $locale, $mode)) {
+      drupal_set_message($t('Imported translation file %name.', array('%name' => $file->filepath)));
+      file_delete($file);
     }
-    file_delete($file);
+    else {
+      drupal_set_message($t('Failed import of translation file %name.', array('%name' => $file->filepath)), 'error');
+    }
   }
 }
 
+/**
+ * Batch finished callback, set result message
+ * 
+ * @param $success
+ * @param $results
+ * @return unknown_type
+ */
 function _l10n_update_batch_finished($success, $results) {
+  $t = get_t();
   if ($success) {
-    drupal_set_message(t('Successfully imported the translation file.'));
+    drupal_set_message($t('Successfully imported translations.'));
+  }
+  else {
+    drupal_set_message($t('Error importing translations.'), 'error');
   }
 }
 

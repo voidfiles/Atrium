@@ -90,15 +90,6 @@ function atrium_translate_create_batch($locale, $phase = 'runtime') {
   elseif ($projects = _atrium_translate_default_projects()) {
     return l10n_update_batch_multiple($projects, array($locale));
   }
-  /*
-  elseif ($release = _atrium_translate_default_release($locale)) {
-    $project = _l10n_update_build_project('atrium', ATRIUM_L10N_VERSION, ATRIUM_L10N_SERVER);
-    $batch = l10n_update_download_create_batch($release['download_link'], $locale);
-    // Update batch history so we are completely up to date after installing
-    $batch['operations'][] = array('_l10n_update_batch_history', array($project, $release));
-    return $batch;
-  }
-  */
 }
 
 /**
