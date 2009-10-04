@@ -156,13 +156,18 @@ function _l10n_update_project_release($project, $langcode, $version) {
  * Get remote information about releases
  * 
  * Reuse the parser from update.fetch.inc
+ * 
+ * @param $projects
+ *   Array of l10n_update projects
+ * @param $languages
+ *   Single language code or array of language codes
  */
-function _l10n_update_fetch_releases($projects, $langcode) {
+function _l10n_update_fetch_releases($projects, $languages) {
   require_once 'l10n_update.parser.inc';
   $site_key = l10n_update_get_site_key();
   $data = array();
   foreach ($projects as $project) {
-    if ($url = _l10n_update_build_fetch_url($project, $langcode, $site_key)) {
+    if ($url = _l10n_update_build_fetch_url($project, $languages, $site_key)) {
       $xml = l10n_update_http_request($url);
       if (isset($xml->data)) {
         $data[] = $xml->data;
@@ -185,13 +190,17 @@ function _l10n_update_fetch_releases($projects, $langcode) {
  *
  * @param $project
  *   The array of project information from update_get_projects().
+ * @param $languages
+ *   Single language code or array of language codes
  * @param $site_key
  *   The anonymous site key hash (optional).
  *
  * @see update_refresh()
  * @see update_get_projects()
  */
-function _l10n_update_build_fetch_url($project, $langcode, $site_key = '') {
+function _l10n_update_build_fetch_url($project, $languages, $site_key = '') {
+  // If multiple languages, langcode = es,en,..
+  $langcode = is_array($languages) ? implode(',', $languages) : $languages;
   if (!isset($project['info']['translate status url'])) {
     $project['info']['translate status url'] = variable_get('l10n_update_server', NULL);
   }
@@ -222,7 +231,7 @@ function _l10n_update_build_fetch_url($project, $langcode, $site_key = '') {
 function l10n_update_download_create_batch($url, $locale, $mode = LOCALE_IMPORT_OVERWRITE) {  
   $operations[] = array('_l10n_update_batch_download_import', array($url, $locale, $mode));
   //$operations[] = array('_l10n_update_batch_import', array($locale));
-  return l10n_update_create_batch($operations);
+  return _l10n_update_create_batch($operations);
 }
 
 /**
@@ -230,7 +239,7 @@ function l10n_update_download_create_batch($url, $locale, $mode = LOCALE_IMPORT_
  * 
  * @return $batch
  */
-function l10n_update_create_batch($operations = array()) {
+function _l10n_update_create_batch($operations = array()) {
   $t = get_t();
   $batch = array(
     'operations'    => $operations,
@@ -241,6 +250,35 @@ function l10n_update_create_batch($operations = array()) {
     'finished'      => '_l10n_update_batch_finished',
   );
   return $batch;
+}
+
+/**
+ * Create a big batch for multiple projects and languages
+ * 
+ * @param $projects
+ *   Array of projects
+ * @param $languages
+ *   Array of language codes
+ * @param $updates
+ *   Optional array of available updates. will be calculated if not passed
+ */
+function l10n_update_batch_multiple($projects, $languages, $updates = NULL, $mode = LOCALE_IMPORT_OVERWRITE) {
+  if (is_null($updates)) {
+    $available = _l10n_update_fetch_releases($projects, $languages);
+    $updates = _l10n_update_compare($projects, array(), $available);
+  }
+  foreach ($projects as $project) {
+    foreach ($languages as $lang) {
+      if (!empty($updates[$project['name']][$lang])) {
+        $release = $updates[$project['name']][$lang];
+        $operations[] = array('_l10n_update_batch_download_import', array($release['download_link'], $lang, $mode));
+        $operations[] = array('_l10n_update_batch_history', array($project, $release));
+      }
+    }
+  }
+  if (!empty($operations)) {
+    return _l10n_update_create_batch($operations);
+  }
 }
 
 /**
@@ -259,6 +297,7 @@ function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
 
   switch ($context['sandbox']['step']) {
     case 0: // Download message (for multiple downloads batch)
+      // This message may never show up if next step takes less than a second?
       $context['message'] = $t('Downloading remote file from %url', array('%url' => $url));
       $context['sandbox']['step'] = 1;
       $context['finished'] = 0.1;
@@ -266,7 +305,7 @@ function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
     case 1: // Download      
       if ($file = l10n_update_download_file($url)) {
         $context['sandbox']['file'] = $file;
-        $context['message'] = $t('Importing downloaded translation.');
+        $context['message'] = $t('Importing downloaded translation: %url.', array('%url' => $url));
         $context['sandbox']['step'] = 2;
         $context['results'][] = $url;
       }
@@ -282,6 +321,7 @@ function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
         if (l10n_update_import_file($file, $locale, $mode)) {
           $context['message'] = $t('Imported translation file.');
           $context['finished'] = 1;
+          drupal_set_message($t('Successfully downloaded and imported translation from %url', array('%url' => $url)));
         }
         else {
           $context['sandbox']['step'] = 10;
@@ -292,16 +332,37 @@ function _l10n_update_batch_download_import($url, $locale, $mode, &$context) {
         // This should not happen, just in case
         $context['sandbox']['step'] = 10;
       }
+      
       break;    
     case 10: // Error
     default: // In case something goes really wrong
       $context['finished'] = 1;
-      drupal_set_message($t('The download and import operation failed: %url', array('%url' => $url)));
+      drupal_set_message($t('The download and import operation failed: %url', array('%url' => $url)), 'error');
       break;
   }      
 }
 
-function _l10n_update_batch_history($project, $release) {
+function _l10n_update_batch_download($url, &$context) {
+  $t = get_t();
+  if ($file = l10n_update_download_file($url)) {
+    $context['results'][] = $file;
+  }
+  else {
+    drupal_set_message($t('Failed download of %url', array('%url' => $url)), 'error');
+  }
+}
+
+/**
+ * Batch process: Update the download history table
+ * 
+ * @param $project
+ *   Project object
+ * @param $release
+ *   Release object
+ * @param $context
+ *   Batch context
+ */
+function _l10n_update_batch_history($project, $release, &$context) {
   $save = array(
     'project' => $project['name'],
     'language' => $release['language'],
@@ -320,21 +381,48 @@ function _l10n_update_batch_history($project, $release) {
   drupal_write_record('l10n_update_download', $save, $update);
 }
 
-function _l10n_update_batch_import($locale, &$context) {
+/**
+ * Batch import translation file
+ * 
+ * This takes a file parameter or continues from previous batch which should have downloaded a file
+ * 
+ * @param $file
+ *   File to be imported. If empty, the file will be taken from $context['results']
+ * @param $locale
+ * @param $mode
+ * @param $context
+ */
+function _l10n_update_batch_import($file, $locale, $mode, &$context) {
   $t = get_t();
   
-  if (!empty($context['results'])) {
+  if (!$file && !empty($context['results'])) {
     $file = array_shift($context['results']);
-    if (l10n_update_import_file($file, $locale)) {
-      $context['message'] = $t('Imported translation file.');
+  }
+  if ($file) {
+    if (l10n_update_import_file($file, $locale, $mode)) {
+      drupal_set_message($t('Imported translation file %name.', array('%name' => $file->filepath)));
+      file_delete($file);
     }
-    file_delete($file);
+    else {
+      drupal_set_message($t('Failed import of translation file %name.', array('%name' => $file->filepath)), 'error');
+    }
   }
 }
 
+/**
+ * Batch finished callback, set result message
+ * 
+ * @param $success
+ * @param $results
+ * @return unknown_type
+ */
 function _l10n_update_batch_finished($success, $results) {
+  $t = get_t();
   if ($success) {
-    drupal_set_message(t('Successfully imported the translation file.'));
+    drupal_set_message($t('Successfully imported translations.'));
+  }
+  else {
+    drupal_set_message($t('Error importing translations.'), 'error');
   }
 }
 
