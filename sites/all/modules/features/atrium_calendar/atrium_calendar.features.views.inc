@@ -711,11 +711,11 @@ function _atrium_calendar_views_default_views() {
       'relationship' => 'none',
     ),
     'date_filter' => array(
-      'operator' => '>',
+      'operator' => '>=',
       'value' => array(
-        'value' => NULL,
         'min' => NULL,
         'max' => NULL,
+        'value' => NULL,
         'default_date' => 'now',
         'default_to_date' => '',
       ),
@@ -726,10 +726,10 @@ function _atrium_calendar_views_default_views() {
         'label' => '',
       ),
       'date_fields' => array(
-        'node_data_field_date.field_date_value' => 'node_data_field_date.field_date_value',
+        'node_data_field_date.field_date_value2' => 'node_data_field_date.field_date_value2',
       ),
       'date_method' => 'OR',
-      'granularity' => 'day',
+      'granularity' => 'second',
       'form_type' => 'date_select',
       'default_date' => 'now',
       'default_to_date' => '',
