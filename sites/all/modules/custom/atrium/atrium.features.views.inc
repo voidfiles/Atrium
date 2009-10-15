@@ -52,6 +52,13 @@ function _atrium_views_default_views() {
       'field' => 'weight',
       'relationship' => 'none',
     ),
+    'title' => array(
+      'order' => 'ASC',
+      'id' => 'title',
+      'table' => 'node',
+      'field' => 'title',
+      'relationship' => 'none',
+    ),
   ));
   $handler->override_option('filters', array(
     'depth' => array(
