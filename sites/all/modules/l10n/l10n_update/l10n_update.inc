@@ -354,6 +354,13 @@ function _l10n_update_batch_download($url, &$context) {
 
 /**
  * Batch process: Update the download history table
+ */
+function _l10n_update_batch_history($project, $release, &$context) {
+  l10n_update_download_history($project, $release);
+}
+
+/**
+ * Update the download history table
  * 
  * @param $project
  *   Project object
@@ -362,7 +369,7 @@ function _l10n_update_batch_download($url, &$context) {
  * @param $context
  *   Batch context
  */
-function _l10n_update_batch_history($project, $release, &$context) {
+function l10n_update_download_history($project, $release) {
   $save = array(
     'project' => $project['name'],
     'language' => $release['language'],
@@ -378,8 +385,9 @@ function _l10n_update_batch_history($project, $release, &$context) {
   else {
     $update = array();
   }
-  drupal_write_record('l10n_update_download', $save, $update);
+  return drupal_write_record('l10n_update_download', $save, $update);
 }
+
 
 /**
  * Batch import translation file

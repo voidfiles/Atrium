@@ -141,7 +141,7 @@ class AtriumWebTestCase extends DrupalWebTestCase {
         $project = _l10n_update_build_project('atrium', ATRIUM_L10N_VERSION, ATRIUM_L10N_SERVER);
         if ($file = l10n_update_download_file($release['download_link'])) {
           l10n_update_import_file($file, $langcode);
-          _l10n_update_batch_history($project, $release);
+          l10n_update_download_history($project, $release);
         }
       }
     }
@@ -176,7 +176,7 @@ class AtriumWebTestCase extends DrupalWebTestCase {
    *   A fully loaded user object with pass_raw property, or FALSE if account
    *   creation fails.
    */
-  protected function atriumCreateUser($role = 'user') {
+  function atriumCreateUser($role = 'user') {
     // Get the rid from the role
     $roles = array(
       'user' => 2,
@@ -194,7 +194,7 @@ class AtriumWebTestCase extends DrupalWebTestCase {
 
     $account = user_save('', $edit);
 
-    $this->assertTrue(!empty($account->uid), t('User created with name %name and pass %pass', array('%name' => $edit['name'], '%pass' => $edit['pass'])), t('User login'));
+    $this->assertTrue(!empty($account->uid), t('User created with name %name, pass %pass and mail %mail', array('%name' => $edit['name'], '%pass' => $edit['pass'], '%mail' => $edit['mail'])), t('User login'));
     if (empty($account->uid)) {
       return FALSE;
     }
