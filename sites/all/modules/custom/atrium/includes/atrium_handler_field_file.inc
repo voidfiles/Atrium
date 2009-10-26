@@ -3,7 +3,6 @@
 class atrium_handler_field_file extends views_handler_field_file {
   // Render a file icon/preview instead of a text mimetype
   function render_mime($data, $values) {
-    require_once(drupal_get_path('module', 'seed') . '/theme/theme.inc');
     if (!empty($this->options['link_to_file'])) {
       $file = new stdClass();
       $file->fid = 1;
