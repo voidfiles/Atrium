@@ -68,6 +68,8 @@ function atrium_installer_profile_modules() {
   // To get some modules installed properly we need to have translations loaded
   // We also use it to check connectivity with the translation server on hook_requirements()
   if (_atrium_installer_language_selected()) {
+    // We need locale before l10n_update because it adds fields to locale tables
+    $modules[] = 'locale';
     $modules[] = 'l10n_update';
     $modules[] = 'atrium_translate';
   }
