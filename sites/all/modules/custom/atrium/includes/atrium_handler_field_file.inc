@@ -8,7 +8,7 @@ class atrium_handler_field_file extends views_handler_field_file {
       $file->fid = 1;
       $file->filepath = $values->{$this->aliases['filepath']};
       $file->filemime = $data;
-      return seed_fileview($file);
+      return theme('seed_fileview', $file);
     }
     else {
       return $data;
