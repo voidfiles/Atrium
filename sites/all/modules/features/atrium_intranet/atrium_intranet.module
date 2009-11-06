@@ -343,18 +343,7 @@ function atrium_intranet_form_alter(&$form, &$form_state, $form_id) {
   // Node form customizations/niceties
   if ($form['#id'] == 'node-form') {
     // Even if you have the perms, we don't want you messing with this stuff
-    $node = $form['#node'];
     $disable = array('menu', 'comment_settings');
-
-    if (!book_type_is_allowed($node->type)) {
-      $disable[] = 'book';
-    }
-
-    $node_options = variable_get('node_options_'. $node->type, array('status', 'promote'));
-    if (!in_array('revision', $node_options)) {
-      $disable[] = 'revision_information';
-    }
-
     foreach ($disable as $key) {
       if (!empty($form[$key])) {
         $form[$key]['#access'] = FALSE;
